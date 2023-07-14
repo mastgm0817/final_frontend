@@ -61,5 +61,5 @@ jobs:
             180.150.207.73:5000/frontend:${{ github.sha }}
             180.150.207.73:5000/frontend:latest
 
-#       - name: Image digest
-#         run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
