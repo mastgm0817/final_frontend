@@ -1,5 +1,9 @@
 # final_frontend
 
+# elisnt error on package.json
+    "rules": {
+      "no-unused-vars": "off"
+    }
 
 # Axios
 npm install axios
