@@ -1,24 +1,24 @@
 # BUILD STAGE
 FROM node:18.16.0-alpine as build-step
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package.json ./
+COPY package.json .
 
 RUN npm i
 
-COPY ./ ./
+COPY . .
 
 RUN npm run build
 
-# ========================================
-# NGINX STAGE
-# ========================================
+# # ========================================
+# # NGINX STAGE
+# # ========================================
 
-FROM nginx:1.23-alpine 
+# FROM nginx:1.23-alpine 
 
-WORKDIR /usr/share/nginx/html/
+# WORKDIR /usr/share/nginx/html/
 
-COPY --from=build-step /usr/src/app/build /usr/share/nginx/html
+# COPY --from=build-step /usr/src/app/build /usr/share/nginx/html/
 
-CMD [ "nginx", "-g", "daemon off;" ]
+# CMD [ "nginx", "-g", "daemon off;" ]
