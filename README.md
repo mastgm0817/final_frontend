@@ -21,5 +21,10 @@ npm list @material-ui/core
 # Material UI 5.14.0 version
 npm i @mui/material
 npm show @mui/material
+https://github.com/mui/material-ui
+
+# Redux
+npm install react-redux
+npm install redux
 
 # 추가 라이브러리 작성
