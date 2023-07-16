@@ -8,8 +8,8 @@ import PostList from './Components/Post/PostList';
 ReactDOM.render(
   <Router>
     <Routes>
-      <Route exact path="/" element={<App />} />
-      <Route path="/posts" element={<PostList />} />
+      {/* <Route exact path="/" element={<App />} /> */}
+      <Route path="/" element={<PostList />} />
     </Routes>
   </Router>,
   document.getElementById('root')
