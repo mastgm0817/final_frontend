@@ -7,20 +7,18 @@ COPY package.json .
 
 RUN npm i
 
-COPY . .
+COPY . . 
 
-
-CMD ["npm", "start"]
-# RUN npm run build
+RUN npm run build
 
 # # ========================================
 # # NGINX STAGE
 # # ========================================
 
-# FROM nginx:1.23-alpine 
+FROM nginx:1.23-alpine 
 
-# WORKDIR /usr/share/nginx/html/
+WORKDIR /usr/share/nginx/html/
 
-# COPY --from=build-step /usr/src/app/build /usr/share/nginx/html/
+COPY --from=build-step /app/build /usr/share/nginx/html/
 
-# CMD [ "nginx", "-g", "daemon off;" ]
+CMD [ "nginx", "-g", "daemon off;" ]
