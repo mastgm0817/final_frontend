@@ -2,7 +2,7 @@ import axios from 'axios';
 import FetchPosts from './FetchPosts';
 
 
-const HandleUpdatePost = async (postId, updatedPost) => {
+const HandleUpdatePost = async (postId, updatedPost, refreshPosts) => {
     try {
         const response = await axios.put(`/api/posts/${postId}`, updatedPost, {
             headers: {
@@ -10,6 +10,7 @@ const HandleUpdatePost = async (postId, updatedPost) => {
             }
         });
         console.log('Post updated:', response.data);
+        refreshPosts();
     } catch (error) {
         console.error('Error updating post:', error);
         throw error;

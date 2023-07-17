@@ -3,14 +3,15 @@ import HandleCreatePost from './../api/HandleCreatePost';
 import './../App.css';
 
 
-const AddPostForm = ({ toggleForm }) => {
+const AddPostForm = ({ toggleForm, refreshPosts }) => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
 
   const createPost = async () => {
     try {
-      await HandleCreatePost(newPost, toggleForm);
+      await HandleCreatePost(newPost, toggleForm, refreshPosts);
       console.log('Post created:', newPost);
       toggleForm();
+      refreshPosts();
     } catch (error) {
       console.error('Error creating post:', error);
     }

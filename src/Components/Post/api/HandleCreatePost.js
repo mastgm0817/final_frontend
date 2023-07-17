@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const HandleCreatePost = async (newPost, callback) => {
+const HandleCreatePost = async (newPost, callback, refreshPosts) => {
   try {
       const response = await axios.post('/api/posts', newPost, {
           headers: {
@@ -8,6 +8,7 @@ const HandleCreatePost = async (newPost, callback) => {
           }
       });
       console.log('Post created:', response.data);
+      refreshPosts();
       callback();
   } catch (error) {
       console.error('Error creating post:', error);

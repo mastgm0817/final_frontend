@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import HandleUpdatePost from './../api/HandleUpdatePost';
 import './../App.css';
 
-const UpdatePostForm = ({ post, toggleForm }) => {
+const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
 
   const [updatedPost, setUpdatedPost] = useState(post?{ 
     title: post.title, 
@@ -12,9 +12,10 @@ const UpdatePostForm = ({ post, toggleForm }) => {
 
   const updatingPost = async () => {
     try {
-      await HandleUpdatePost(post.pid, updatedPost);
+      await HandleUpdatePost(post.pid, updatedPost, refreshPosts);
       console.log('Post updated:', updatedPost);
       toggleForm();
+      refreshPosts();
     } catch (error) {
       console.error('Error updating post:', error);
     }

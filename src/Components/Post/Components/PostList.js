@@ -25,17 +25,20 @@ const PostList = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectUpdate, setUpdatePost] = useState(null);
 
+  const fetchData = async () => {
+    try {
+      const response = await FetchPosts();
+      setPosts(response);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await FetchPosts();
-        setPosts(response);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
     fetchData();
   }, []);
+
+
   
 
   const handlePostClick = (post) => {
@@ -107,14 +110,14 @@ const PostList = () => {
                 </TableRow>
               ))}
             </TableBody>
-            {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} />}
+            {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
 
           </Table>
         </TableContainer>
       </div>
 
       <button onClick={toggleAddForm}>게시글 작성하기</button>
-      {showAddForm && <AddPostForm toggleForm={toggleAddForm} />}
+      {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
     </>
   );
 }
