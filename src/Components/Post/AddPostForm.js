@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import HandleCreatePost from './../api/HandleCreatePost';
-import './../App.css';
+import HandleCreatePost from './api/HandleCreatePost';
+import './App.css';
 import TablePagination from '@mui/material/TablePagination';
 
 
@@ -33,7 +33,7 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
           onChange={e => setNewPost({ ...newPost, title: e.target.value })}
         />
       </div>
-
+  
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <textarea
           placeholder="내용"

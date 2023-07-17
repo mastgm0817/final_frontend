@@ -1,5 +1,5 @@
 import React from 'react';
-import './../App.css';
+import './App.css';
 import { Box, ThemeProvider, createTheme } from '@mui/system';
 
 const PostDetail = ({ post }) => {
@@ -15,6 +15,6 @@ const PostDetail = ({ post }) => {
             <p style={{ marginBottom: '1em' }}>{post.recommendations}</p>
         </div>
     );
-};
+};  
 
 export default PostDetail;

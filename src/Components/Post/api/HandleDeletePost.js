@@ -1,5 +1,4 @@
 import axios from 'axios';
-import FetchPosts from './FetchPosts';
 
 const HandleDeletePost = async (postId) => {
     try {
@@ -15,4 +14,4 @@ const HandleDeletePost = async (postId) => {
     }
 };
 
-export default HandleDeletePost;
+export default HandleDeletePost;  

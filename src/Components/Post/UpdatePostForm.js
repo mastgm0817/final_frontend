@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import HandleUpdatePost from './../api/HandleUpdatePost';
-import './../App.css';
+import HandleUpdatePost from './api/HandleUpdatePost';
+import './App.css';
 
 const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
 
@@ -9,7 +9,7 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
     content: post.content, 
     updatedAt: new Date().toISOString()
   } : null);
-
+  
   const updatingPost = async () => {
     try {
       await HandleUpdatePost(post.pid, updatedPost, refreshPosts);

@@ -1,6 +1,4 @@
 import axios from 'axios';
-import FetchPosts from './FetchPosts';
-
 
 const HandleUpdatePost = async (postId, updatedPost, refreshPosts) => {
     try {
@@ -15,6 +13,6 @@ const HandleUpdatePost = async (postId, updatedPost, refreshPosts) => {
         console.error('Error updating post:', error);
         throw error;
     }
-};
+};  
 
 export default HandleUpdatePost;

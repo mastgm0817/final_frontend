@@ -9,5 +9,5 @@ const FetchPosts = async () => {
         throw error;
     }
 };
-
+  
 export default FetchPosts;
