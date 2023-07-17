@@ -15,10 +15,16 @@ RUN npm run build
 # # NGINX STAGE
 # # ========================================
 
-FROM nginx:1.23-alpine 
+FROM nginx:latest
 
-WORKDIR /usr/share/nginx/html/
+RUN rm /etc/nginx/conf.d/*
 
-COPY --from=build-step /app/build /usr/share/nginx/html/
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-CMD [ "nginx", "-g", "daemon off;" ]
+WORKDIR /usr/share/nginx/html
+
+COPY --from=build-step /app/build .
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

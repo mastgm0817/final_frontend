@@ -1,75 +1,136 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper
+} from '@mui/material'
+import Collapse from '@mui/material/Collapse';
+
+import AddPostForm from './AddPostForm';
+import UpdatePostForm from './UpdatePostForm';
+import PostDetail from './PostDetail';
+import FetchPosts from './api/FetchPosts';
+import HandleDeletePost from './api/HandleDeletePost';
+import HandleUpdatePost from './api/HandleUpdatePost';
+import './App.css';
+
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [selectUpdate, setUpdatePost] = useState(null);
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get('/api/posts');
-      setPosts(response.data);
+      const response = await FetchPosts();
+      setPosts(response);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
   };
 
-  const deletePost = async (pid) => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+  
+
+  const handlePostClick = (post) => {
+    if (selectedPost && selectedPost.pid === post.pid) {
+      setSelectedPost(null);
+    } else {
+      setSelectedPost(post);
+    }
+  };
+  
+
+  const handleUpdateForm = (post) => {
+    setUpdatePost(post);
+  };
+
+  const handleDeleteClick = async (post) => {
     try {
-      await axios.delete(`/api/posts/${pid}`);
-      fetchPosts(); // Refresh the post list after deletion
+      await HandleDeletePost(post.pid);
+      const updatedPosts = posts.filter(p => p.pid !== post.pid);
+      setPosts(updatedPosts);
+      console.log('Post deleted:', post);
     } catch (error) {
       console.error('Error deleting post:', error);
     }
   };
 
-  const createPost = async (event) => {
-    event.preventDefault(); // 페이지 리로드 방지
-  
-    try {
-      const response = await axios.post('/api/posts', newPost);
-      setNewPost({ title: '', content: '' }); // 폼 필드 초기화
-      fetchPosts(); // 생성 후 게시물 목록 새로고침
-    } catch (error) {
-      console.error('게시물 생성 오류:', error);
-    }
+  const toggleAddForm = () => {
+    setShowAddForm(!showAddForm);
   };
-  
+
+  const toggleUpdateForm = () => {
+    // setShowUpdateForm(!showUpdateForm);
+    setShowUpdateForm(prevState => !prevState);
+  };
+
 
   return (
-    <div>
-      <h1>Post List</h1>
+    <>
+      <div>
+        <h1 style={{ textAlign: 'center' }}>게시판</h1>
+      </div>
 
-      {/* Create Post Form */}
-      <form onSubmit={createPost}>
-        <input
-          type="text"
-          placeholder="Title"
-          value={newPost.title}
-          onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-        />
-        <textarea
-          placeholder="Content"
-          value={newPost.content}
-          onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-        />
-        <button type="submit">Create Post</button>
-      </form>
+      <div>
+        <TableContainer sx={{ maxHeight: '400px' }} component={Paper}>
+          <Table stickyHeader aria-label='simple table'>
 
-      {/* Existing Posts */}
-      {posts.map((post) => (
-        <div key={post.pid}>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
-          <button onClick={() => deletePost(post.pid)}>Delete</button>
-        </div>
-      ))}
-    </div>
+            <TableHead>
+              <TableRow>
+                <TableCell>No</TableCell>
+                <TableCell>제목</TableCell>
+                <TableCell>작성일자</TableCell>
+                <TableCell>추천수</TableCell>
+                <TableCell>조회수</TableCell>
+                <TableCell>      </TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {posts.map(post => (
+                  <React.Fragment key={post.pid}>
+                      <TableRow onClick={() => handlePostClick(post)}>
+                          <TableCell>{post.pid}</TableCell>
+                          <TableCell>{post.title}</TableCell>
+                          <TableCell>{post.createdAt}</TableCell>
+                          <TableCell>{post.recommendations}</TableCell>
+                          <TableCell>{post.views}</TableCell>
+                          <TableCell>
+                          <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
+                          <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
+                          </TableCell>
+                      </TableRow>
+                      <TableRow>
+                          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                              <Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit>
+                                  <PostDetail post={selectedPost} />
+                              </Collapse>
+                          </TableCell>
+                      </TableRow>
+                  </React.Fragment>
+              ))}
+          </TableBody>
+
+          </Table>
+        </TableContainer>
+      </div>
+
+      <button onClick={toggleAddForm}>게시글 작성하기</button>
+      {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
+    </>
   );
-};
+}
 
 export default PostList;
