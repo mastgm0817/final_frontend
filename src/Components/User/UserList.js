@@ -11,7 +11,7 @@ const UserList = () => {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get("http://192.168.0.221:3334/api/users");
+      const response = await axios.get("http://192.168.0.221:8080/api/users");
       setUsers(response.data);
     } catch (error) {
       console.log(error);
@@ -20,7 +20,7 @@ const UserList = () => {
 
   const createUser = async () => {
     try {
-      await axios.post("http://192.168.0.221:3334/api/users", newUser);
+      await axios.post("http://192.168.0.221:8080/api/users", newUser);
       getUsers();
       setNewUser([]);
     } catch (error) {
@@ -30,7 +30,7 @@ const UserList = () => {
 
   const deleteUser = async (uid) => {
     try {
-      await axios.delete(`http://192.168.0.221:3334/api/users/${uid}`);
+      await axios.delete(`http://192.168.0.221:8080/api/users/${uid}`);
       setUsers((prevUsers) => prevUsers.filter((user) => user.uid !== uid));
     } catch (error) {
       console.log(error);
@@ -39,7 +39,7 @@ const UserList = () => {
   
   const updateUser = async (uid, updatedUser) => {
     try {
-      await axios.put(`http://192.168.0.221:3334/api/users/${uid}`, updatedUser);
+      await axios.put(`http://192.168.0.221:8080/api/users/${uid}`, updatedUser);
       getUsers();
     } catch (error) {
       console.log(error);
