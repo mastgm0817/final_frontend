@@ -17,10 +17,9 @@ RUN npm run build
 
 FROM nginx:latest
 
-RUN rm /etc/nginx/sites-available/default \
-    && rm /etc/nginx/sites-enabled/default
+RUN rm /etc/nginx/conf.d/*
 
-COPY nginx/default.conf /etc/nginx/sites-available/default.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
