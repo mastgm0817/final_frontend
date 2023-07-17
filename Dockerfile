@@ -15,9 +15,12 @@ RUN npm run build
 # # NGINX STAGE
 # # ========================================
 
-FROM nginx:1.23-alpine
+FROM nginx:latest
 
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+RUN rm /etc/nginx/sites-available/default \
+    && rm /etc/nginx/sites-enabled/default
+
+COPY nginx/default.conf /etc/nginx/sites-available/default.conf
 
 WORKDIR /usr/share/nginx/html
 
