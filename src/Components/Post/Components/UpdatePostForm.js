@@ -20,10 +20,9 @@ const UpdatePostForm = ({ post, toggleForm }) => {
     }
   };
 
-  if(!updatedPost){
+  if (!updatedPost) {
     return null;
   }
-    
 
   return (
     <div id="post-form" className='form-open'>

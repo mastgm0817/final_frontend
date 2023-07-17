@@ -102,12 +102,12 @@ const PostList = () => {
                   <TableCell>{post.views}</TableCell>
                   <TableCell>
                     <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
-                      {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} />}
-                      <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
+                    <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
+            {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} />}
 
           </Table>
         </TableContainer>
@@ -115,7 +115,6 @@ const PostList = () => {
 
       <button onClick={toggleAddForm}>게시글 작성하기</button>
       {showAddForm && <AddPostForm toggleForm={toggleAddForm} />}
-      {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} />}
     </>
   );
 }
