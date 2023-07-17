@@ -9,6 +9,8 @@ import {
   TableCell,
   Paper
 } from '@mui/material'
+import Collapse from '@mui/material/Collapse';
+
 import AddPostForm from './AddPostForm';
 import UpdatePostForm from './UpdatePostForm';
 import PostDetail from './PostDetail';
@@ -42,8 +44,13 @@ const PostList = () => {
   
 
   const handlePostClick = (post) => {
-    setSelectedPost(post);
+    if (selectedPost && selectedPost.pid === post.pid) {
+      setSelectedPost(null);
+    } else {
+      setSelectedPost(post);
+    }
   };
+  
 
   const handleUpdateForm = (post) => {
     setUpdatePost(post);
@@ -93,24 +100,28 @@ const PostList = () => {
 
             <TableBody>
               {posts.map(post => (
-                <TableRow key={post.pid} onClick={() => handlePostClick(post)}>
-                  <TableCell>{post.pid}</TableCell>
-                  <TableCell>
-                    {selectedPost && selectedPost.pid === post.pid ? (
-                      <PostDetail post={selectedPost} />
-                    ) : post.title}
-                  </TableCell>
-                  <TableCell>{post.createdAt}</TableCell>
-                  <TableCell>{post.recommendations}</TableCell>
-                  <TableCell>{post.views}</TableCell>
-                  <TableCell>
-                    <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
-                    <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
-                  </TableCell>
-                </TableRow>
+                  <React.Fragment key={post.pid}>
+                      <TableRow onClick={() => handlePostClick(post)}>
+                          <TableCell>{post.pid}</TableCell>
+                          <TableCell>{post.title}</TableCell>
+                          <TableCell>{post.createdAt}</TableCell>
+                          <TableCell>{post.recommendations}</TableCell>
+                          <TableCell>{post.views}</TableCell>
+                          <TableCell>
+                              <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
+                              <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
+                          </TableCell>
+                      </TableRow>
+                      <TableRow>
+                          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                              <Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit>
+                                  <PostDetail post={selectedPost} />
+                              </Collapse>
+                          </TableCell>
+                      </TableRow>
+                  </React.Fragment>
               ))}
-            </TableBody>
-            {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
+          </TableBody>
 
           </Table>
         </TableContainer>
