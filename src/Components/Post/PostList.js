@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function PostList()  {
+const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: '', content: '' });
 
+  // 게시글 목록 불러오기
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -18,56 +19,54 @@ function PostList()  {
     }
   };
 
-  const deletePost = async (pid) => {
+  // 새로운 게시글 생성
+  const createPost = async () => {
     try {
-      await axios.delete(`/api/posts/${pid}`);
-      fetchPosts(); // Refresh the post list after deletion
+      const response = await axios.post('/api/posts', newPost);
+      setPosts([...posts, response.data]);
+      setNewPost({ title: '', content: '' });
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
+  };
+
+  // 게시글 삭제
+  const deletePost = async (postId) => {
+    try {
+      await axios.delete(`/api/posts/${postId}`);
+      setPosts(posts.filter((post) => post.pid !== postId));
     } catch (error) {
       console.error('Error deleting post:', error);
     }
   };
 
-  const createPost = async (event) => {
-    event.preventDefault(); // 페이지 리로드 방지
-  
-    try {
-      const response = await axios.post('/api/posts', newPost);
-      setNewPost({ title: '', content: '' }); // 폼 필드 초기화
-      fetchPosts(); // 생성 후 게시물 목록 새로고침
-    } catch (error) {
-      console.error('게시물 생성 오류:', error);
-    }
-  };
-  
-
   return (
     <div>
       <h1>Post List</h1>
-
-      {/* Create Post Form */}
-      <form onSubmit={createPost}>
+      <div>
         <input
           type="text"
           placeholder="Title"
           value={newPost.title}
           onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
         />
-        <textarea
+        <input
+          type="text"
           placeholder="Content"
           value={newPost.content}
           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
         />
-        <button type="submit">Create Post</button>
-      </form>
-
-      {/* Existing Posts */}
-      {posts.map((post) => (
-        <div key={post.pid}>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
-          <button onClick={() => deletePost(post.pid)}>Delete</button>
-        </div>
-      ))}
+        <button onClick={createPost}>Create</button>
+      </div>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.pid}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+            <button onClick={() => deletePost(post.pid)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
