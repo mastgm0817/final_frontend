@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const PostList = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState("");
   const [newPost, setNewPost] = useState({ title: '', content: '' });
 
   // 게시글 목록 불러오기
@@ -12,12 +12,22 @@ const PostList = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('/api/posts');
-      setPosts(response.data);
+      const response = await axios.get('http://127.0.0.1:8080/api/posts');
+      const info = response.data.map((posts) => {
+        return {
+          id : posts.id,
+          title: posts.title,
+          content: posts.content,
+        };
+      });
+      setPosts(info);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
   };
+  
+  
+  
 
   // 새로운 게시글 생성
   const createPost = async () => {
@@ -59,7 +69,7 @@ const PostList = () => {
         <button onClick={createPost}>Create</button>
       </div>
       <ul>
-        {posts.map((post) => (
+        {posts.post.map((post) => (
           <li key={post.pid}>
             <h3>{post.title}</h3>
             <p>{post.content}</p>
