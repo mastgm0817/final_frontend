@@ -101,9 +101,9 @@ const PostList = () => {
                   <TableCell>{post.recommendations}</TableCell>
                   <TableCell>{post.views}</TableCell>
                   <TableCell>
-                    <button onClick={() => setShowUpdateForm(true)}>수정</button>
+                    <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
                       {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} />}
-                    <button onClick={() => handleDeleteClick(post)}>삭제</button>
+                      <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
                   </TableCell>
                 </TableRow>
               ))}

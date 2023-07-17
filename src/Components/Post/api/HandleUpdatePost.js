@@ -2,19 +2,18 @@ import axios from 'axios';
 import FetchPosts from './FetchPosts';
 
 
-const HandleUpdatePost = (postId, updatedPost) => {
-    axios.put(`/api/posts/${postId}`, updatedPost, {
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        }
-    })
-    .then(response => {
+const HandleUpdatePost = async (postId, updatedPost) => {
+    try {
+        const response = await axios.put(`/api/posts/${postId}`, updatedPost, {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
         console.log('Post updated:', response.data);
-        FetchPosts(); // 게시글 목록 갱신
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error updating post:', error);
-    });
+        throw error;
+    }
 };
 
 export default HandleUpdatePost;

@@ -4,7 +4,11 @@ import './../App.css';
 
 const UpdatePostForm = ({ post, toggleForm }) => {
 
-  const [updatedPost, setUpdatedPost] = useState({ title: post.title, content: post.content, updatedAt: new Date().toISOString()});
+  const [updatedPost, setUpdatedPost] = useState(post?{ 
+    title: post.title, 
+    content: post.content, 
+    updatedAt: new Date().toISOString()
+  } : null);
 
   const updatingPost = async () => {
     try {
@@ -14,6 +18,11 @@ const UpdatePostForm = ({ post, toggleForm }) => {
     } catch (error) {
       console.error('Error updating post:', error);
     }
+  };
+
+  if(!updatedPost){
+    return null;
+  }
     
 
   return (
@@ -41,6 +50,6 @@ const UpdatePostForm = ({ post, toggleForm }) => {
       </div>
     </div>
   );
-};}
+};
 
 export default UpdatePostForm;

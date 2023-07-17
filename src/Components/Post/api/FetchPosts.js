@@ -1,21 +1,13 @@
 import axios from 'axios';
 
-const FetchPosts = () => {
-    return axios.get('/api/posts')
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Error fetching posts:', error);
-        });
+const FetchPosts = async () => {
+    try {
+        const response = await axios.get('/api/posts');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        throw error;
+    }
 };
-
-//   function fetchPosts(){
-//     axios.get('/api/posts')
-//       .then(response => {
-//         setPosts(response.data);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching posts:', error);
-//       });
-//   }
 
 export default FetchPosts;

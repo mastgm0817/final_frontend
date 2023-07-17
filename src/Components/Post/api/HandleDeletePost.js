@@ -1,19 +1,18 @@
 import axios from 'axios';
 import FetchPosts from './FetchPosts';
 
-const HandleDeletePost = (postId) => {
-    axios.delete(`/api/posts/${postId}`, {
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        }
-    })
-    .then(response => {
+const HandleDeletePost = async (postId) => {
+    try {
+        const response = await axios.delete(`/api/posts/${postId}`, {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
         console.log('Post deleted:', response.data);
-        FetchPosts(); // 게시글 목록 갱신
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error deleting post:', error);
-    });
+        throw error;
+    }
 };
 
 export default HandleDeletePost;
