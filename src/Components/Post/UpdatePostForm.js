@@ -53,3 +53,4 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
 };
 
 export default UpdatePostForm;
+

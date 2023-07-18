@@ -49,4 +49,6 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
   );
 };
 
+
 export default AddPostForm;
+

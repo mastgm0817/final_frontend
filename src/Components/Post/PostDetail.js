@@ -15,6 +15,7 @@ const PostDetail = ({ post }) => {
             <p style={{ marginBottom: '1em' }}>{post.recommendations}</p>
         </div>
     );
-};
+};  
 
 export default PostDetail;
+
