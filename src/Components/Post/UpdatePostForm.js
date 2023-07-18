@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import HandleUpdatePost from './api/HandleUpdatePost';
-import './App.css';
+import './PostList.css';
 
 const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
 
@@ -26,7 +26,7 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
   }
 
   return (
-    <div id="post-form" className='form-open'>
+    <div id="post-form" className={toggleForm ? 'active' : ''}>
       <h2 style={{ textAlign: 'center' }}>게시글 수정</h2>
       <div className="close-icon" onClick={toggleForm} >X</div>
       
