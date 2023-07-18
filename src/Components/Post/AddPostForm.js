@@ -3,9 +3,6 @@ import HandleCreatePost from './api/HandleCreatePost';
 import './App.css';
 import TablePagination from '@mui/material/TablePagination';
 
-
-
-
 const AddPostForm = ({ toggleForm, refreshPosts }) => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
 
