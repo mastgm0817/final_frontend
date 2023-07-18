@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend-pod
-          image: 180.150.207.73:5000/frontend@sha256:95d0bb469fba28084c8f743d03819faf650c089fd50d9cea3df7e8162c2abf23
+          image: 180.150.207.73:5000/frontend@sha256:3edd6242c05279fd7eb5a79d6bee858c5ec817a907c6e37eb7ecc2826ec99077@sha256:95d0bb469fba28084c8f743d03819faf650c089fd50d9cea3df7e8162c2abf23
           ports:
             - containerPort: 8081
 ---
