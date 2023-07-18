@@ -15,5 +15,5 @@ const HandleCreatePost = async (newPost, callback, refreshPosts) => {
       throw error;
   }
 };
-  
+
 export default HandleCreatePost;

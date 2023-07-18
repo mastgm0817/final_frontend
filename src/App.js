@@ -11,6 +11,9 @@ function App() {
         <li>
           <Link to="/posts">게시판</Link>
         </li>
+        <li>
+          <Link to="/users">사용자</Link>
+        </li>
       </ul>
       </header>
     </div>

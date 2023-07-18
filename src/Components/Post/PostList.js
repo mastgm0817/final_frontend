@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   TableContainer,
   Table,
@@ -54,6 +55,7 @@ const PostList = () => {
   const handleUpdateForm = (post) => {
     setUpdatePost(post);
   };
+
 
   const handleDeleteClick = async (post) => {
     try {
@@ -126,6 +128,7 @@ const PostList = () => {
         </TableContainer>
       </div>
       
+
       <button onClick={toggleAddForm}>게시글 작성하기</button>
       {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
     </>

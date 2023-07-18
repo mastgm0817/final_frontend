@@ -18,3 +18,4 @@ const PostDetail = ({ post }) => {
 };  
 
 export default PostDetail;
+

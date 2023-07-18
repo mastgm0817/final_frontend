@@ -9,7 +9,7 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
     content: post.content, 
     updatedAt: new Date().toISOString()
   } : null);
-  
+
   const updatingPost = async () => {
     try {
       await HandleUpdatePost(post.pid, updatedPost, refreshPosts);
@@ -53,3 +53,4 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts }) => {
 };
 
 export default UpdatePostForm;
+

@@ -33,7 +33,7 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
           onChange={e => setNewPost({ ...newPost, title: e.target.value })}
         />
       </div>
-  
+
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <textarea
           placeholder="내용"
@@ -49,4 +49,6 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
   );
 };
 
+
 export default AddPostForm;
+
