@@ -16,7 +16,7 @@ spec:
         - name: frontend-pod
           image: 180.150.207.73:5000/frontend
           ports:
-            - containerPort: 80
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -29,5 +29,5 @@ spec:
   ports:
     - port: 80
       protocol: TCP
-      targetPort: 80
+      targetPort: 3000
       nodePort: 31000
