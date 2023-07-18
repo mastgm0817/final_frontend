@@ -18,6 +18,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 
 import AddPostForm from './AddPostForm';
 import UpdatePostForm from './UpdatePostForm';
@@ -46,6 +47,7 @@ const PostList = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectUpdate, setUpdatePost] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -64,13 +66,15 @@ const PostList = () => {
   
 
   const handlePostClick = (post) => {
-    if (selectedPost && selectedPost.pid === post.pid) {
-      setSelectedPost(null);
-      
-    } else {
-      setSelectedPost(post);
-    }
+    setSelectedPost(post);
   };
+
+  
+
+  const handleCollapseToggle = () => {
+    setExpanded(!expanded);
+  };
+  
   
 
   const handleUpdateForm = (post) => {
@@ -108,7 +112,7 @@ const PostList = () => {
       </header>
 
       <main style={{padding:'50px'}}>
-      <div >
+      <Box>
         <TableContainer  component={Paper} sx={{padding:'50px', width: '95%', align:'center'}}>
           <Table stickyHeader aria-label='customized table' sx={{borderCollapse:"true"}}>
 
@@ -141,20 +145,19 @@ const PostList = () => {
                           </TableCell>
                       </TableRow>
                       <TableRow>
-                          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                              <Collapse in={selectedPost && selectedPost.pid === post.pid} 
-                                        timeout="auto" unmountOnExit >
-                                  <PostDetail post={selectedPost} />
-                              </Collapse>
-                          </TableCell>
+                        <TableCell>
+                          <Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={handleCollapseToggle}>
+                            <PostDetail post={selectedPost} />
+                          </Collapse>
+                        </TableCell>
                       </TableRow>
                   </React.Fragment>
               ))}
           </TableBody>
-            {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
           </Table>
         </TableContainer>
-      </div>
+        {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
+      </Box>
       </main>
       
       <footer sx={{ borderLeft: '20px' }}>

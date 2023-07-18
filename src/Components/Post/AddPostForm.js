@@ -3,6 +3,7 @@ import HandleCreatePost from './api/HandleCreatePost';
 import './PostList.css';
 
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const AddPostForm = ({ toggleForm, refreshPosts }) => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
@@ -19,7 +20,7 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
   };
 
   return (
-    <div id="post-form" className={toggleForm ? 'active' : ''}>
+    <Box id="post-form" className={toggleForm ? 'active' : ''}>
       <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
       <div className="close-icon" onClick={toggleForm} >X</div>
 
@@ -43,7 +44,7 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Button onClick={createPost}>게시글 작성 완료</Button>
       </div>
-    </div>
+    </Box>
   );
 };
 
