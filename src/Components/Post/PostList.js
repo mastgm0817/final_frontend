@@ -40,6 +40,10 @@ const PostList = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [window.location.pathname]);
+
 
   
 
