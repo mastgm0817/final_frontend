@@ -113,7 +113,7 @@ const PostList = () => {
 
       <main style={{padding:'50px'}}>
       <Box>
-        <TableContainer  component={Paper} sx={{padding:'50px', width: '95%', align:'center'}}>
+        <TableContainer  component={Paper} sx={{padding:'50px', width: '70%', align:'center'}}>
           <Table>
 
             <TableHead sx={{ backgroundColor: 'primary.main' }}>
@@ -146,6 +146,7 @@ const PostList = () => {
                       </TableRow>
 
                       <TableRow>
+                        <td></td>
                           <td><Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={handleCollapseToggle}>
                             <PostDetail post={selectedPost} />
                           </Collapse></td>

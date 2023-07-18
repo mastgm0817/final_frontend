@@ -4,6 +4,8 @@ import './PostList.css';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
 
 const AddPostForm = ({ toggleForm, refreshPosts }) => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
@@ -25,21 +27,20 @@ const AddPostForm = ({ toggleForm, refreshPosts }) => {
       <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
       <div className="close-icon" onClick={toggleForm} >X</div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <input
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
+        <TextField id="outlined-basic" label="제목" variant="standard"
           type="text"
-          placeholder="제목"
           value={newPost.title}
           onChange={e => setNewPost({ ...newPost, title: e.target.value })}
         />
       </div>
 
+      <br />
+
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <textarea
-          placeholder="내용"
-          value={newPost.content}
-          onChange={e => setNewPost({ ...newPost, content: e.target.value })}
-        />
+        <FormControl fullWidth variant="standard">
+        
+        </FormControl>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
