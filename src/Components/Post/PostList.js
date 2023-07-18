@@ -123,7 +123,7 @@ const PostList = () => {
                   </React.Fragment>
               ))}
           </TableBody>
-          {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />} 
+          {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
           </Table>
         </TableContainer>
       </div>
