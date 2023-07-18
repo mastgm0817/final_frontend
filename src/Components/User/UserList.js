@@ -9,10 +9,6 @@ const UserList = () => {
     getUsers();
   }, []);
 
-  useEffect(() => {
-    getUsers();
-  }, [window.location.pathname]);
-
   const getUsers = async () => {
     try {
       const response = await axios.get("http://180.150.207.73:8082/api/users");

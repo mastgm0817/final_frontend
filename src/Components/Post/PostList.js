@@ -40,13 +40,6 @@ const PostList = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, [window.location.pathname]);
-
-
-  
-
   const handlePostClick = (post) => {
     if (selectedPost && selectedPost.pid === post.pid) {
       setSelectedPost(null);

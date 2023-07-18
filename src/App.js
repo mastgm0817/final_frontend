@@ -1,5 +1,7 @@
 import './App.css';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import PostList from './Components/Post/PostList';
+import UserList from './Components/User/UserList';
 function App() {
   return (
     <div className="App">
@@ -16,6 +18,13 @@ function App() {
         </li>
       </ul>
       </header>
+      <Router>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/posts" element={<PostList />} />
+          <Route path="/users" element={<UserList />} />
+        </Routes>
+      </Router>,
     </div>
   );
 }
