@@ -4,6 +4,13 @@ import axios from 'axios';
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState([]);
+  
+  const goToHome = () => {
+    navigate('/');
+  }
+  const goToPost = () => {
+    navigate('/posts');
+  }
 
   useEffect(() => {
     getUsers();
@@ -87,6 +94,8 @@ const UserList = () => {
       </div>
       <div>
         <h2>User List</h2>
+        <button onClick={goToHome}>Go Home </button>
+        <button onClick={goToPost}>Go to Post page</button>
         {users.map((user) => (
           <div key={user.uid}>
             <div>
