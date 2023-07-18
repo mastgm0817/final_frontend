@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
+import { styled } from '@mui/material/styles';
 import {
   TableContainer,
   Table,
   TableHead,
   TableBody,
-  TableRow,
+  TableRow, tableRowClasses,
   TableCell,
   Paper
 } from '@mui/material'
 import Collapse from '@mui/material/Collapse';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditIcon from '@mui/icons-material/Edit';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 import AddPostForm from './AddPostForm';
 import UpdatePostForm from './UpdatePostForm';
@@ -17,7 +25,19 @@ import PostDetail from './PostDetail';
 import FetchPosts from './api/FetchPosts';
 import HandleDeletePost from './api/HandleDeletePost';
 import HandleUpdatePost from './api/HandleUpdatePost';
-import './App.css';
+import './PostList.css';
+
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  [`&.${tableRowClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableRowClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
 
 
 const PostList = () => {
@@ -46,6 +66,7 @@ const PostList = () => {
   const handlePostClick = (post) => {
     if (selectedPost && selectedPost.pid === post.pid) {
       setSelectedPost(null);
+      
     } else {
       setSelectedPost(post);
     }
@@ -80,42 +101,49 @@ const PostList = () => {
 
   return (
     <>
+      <header>
       <div>
         <h1 style={{ textAlign: 'center' }}>게시판</h1>
       </div>
+      </header>
 
-      <div>
-        <TableContainer sx={{ maxHeight: '400px' }} component={Paper}>
-          <Table stickyHeader aria-label='simple table'>
+      <main style={{padding:'50px'}}>
+      <div >
+        <TableContainer  component={Paper} sx={{padding:'50px', width: '95%', align:'center'}}>
+          <Table stickyHeader aria-label='customized table' sx={{borderCollapse:"true"}}>
 
-            <TableHead>
-              <TableRow>
+            <TableHead sx={{ backgroundColor: 'primary.main' }}>
+              <StyledTableRow>
                 <TableCell>No</TableCell>
                 <TableCell>제목</TableCell>
                 <TableCell>작성일자</TableCell>
                 <TableCell>추천수</TableCell>
                 <TableCell>조회수</TableCell>
                 <TableCell>      </TableCell>
-              </TableRow>
+              </StyledTableRow>
             </TableHead>
 
             <TableBody>
               {posts.map(post => (
                   <React.Fragment key={post.pid}>
-                      <TableRow onClick={() => handlePostClick(post)}>
+                      <TableRow className='tablerow'
+                        onClick={() => handlePostClick(post)}>
                           <TableCell>{post.pid}</TableCell>
                           <TableCell>{post.title}</TableCell>
                           <TableCell>{post.createdAt}</TableCell>
                           <TableCell>{post.recommendations}</TableCell>
                           <TableCell>{post.views}</TableCell>
                           <TableCell>
-                              <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
-                              <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
+                            {/* 수정 */}
+                              <EditIcon onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}></EditIcon>
+                            {/* 삭제 */}
+                              <DeleteIcon onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}/>
                           </TableCell>
                       </TableRow>
-                      <TableRow>  
+                      <TableRow>
                           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                              <Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit>
+                              <Collapse in={selectedPost && selectedPost.pid === post.pid} 
+                                        timeout="auto" unmountOnExit >
                                   <PostDetail post={selectedPost} />
                               </Collapse>
                           </TableCell>
@@ -123,14 +151,19 @@ const PostList = () => {
                   </React.Fragment>
               ))}
           </TableBody>
-          {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
+            {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
           </Table>
         </TableContainer>
       </div>
+      </main>
       
-
-      <button onClick={toggleAddForm}>게시글 작성하기</button>
+      <footer sx={{ borderLeft: '20px' }}>
+          <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
+          <AddIcon sx={{ marginRight: '0.5em' }} />
+          게시글 작성하기
+          </Fab>
       {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
+      </footer>
     </>
   );
 }
