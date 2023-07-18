@@ -101,11 +101,11 @@
 .detail-additional {
   font-size: 12px; /* 글씨 크기 조절 */
   color: gray; /* 회색으로 설정 */
-  text-align: 'left'
+  text-align: left;
 }
 
 .post-detail-title{
-  text-align: 'left'
+  text-align: left;
 }
 
 .tablerow{

@@ -31,7 +31,7 @@ import './PostList.css';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   [`&.${tableRowClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: theme.palette.common.skyblue,
     color: theme.palette.common.white,
   },
   [`&.${tableRowClasses.body}`]: {
@@ -114,7 +114,7 @@ const PostList = () => {
       <main style={{padding:'50px'}}>
       <Box>
         <TableContainer  component={Paper} sx={{padding:'50px', width: '95%', align:'center'}}>
-          <Table stickyHeader aria-label='customized table' sx={{borderCollapse:"true"}}>
+          <Table>
 
             <TableHead sx={{ backgroundColor: 'primary.main' }}>
               <StyledTableRow>
@@ -129,9 +129,9 @@ const PostList = () => {
 
             <TableBody>
               {posts.map(post => (
-                  <React.Fragment key={post.pid}>
-                      <TableRow className='tablerow'
-                        onClick={() => handlePostClick(post)}>
+
+                <React.Fragment key={post.pid}>
+                      <TableRow onClick={() => handlePostClick(post)} className='tablerow' key={post.pid}>
                           <TableCell>{post.pid}</TableCell>
                           <TableCell>{post.title}</TableCell>
                           <TableCell>{post.createdAt}</TableCell>
@@ -144,14 +144,13 @@ const PostList = () => {
                               <DeleteIcon onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}/>
                           </TableCell>
                       </TableRow>
+
                       <TableRow>
-                        <TableCell>
-                          <Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={handleCollapseToggle}>
+                          <td><Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={handleCollapseToggle}>
                             <PostDetail post={selectedPost} />
-                          </Collapse>
-                        </TableCell>
+                          </Collapse></td>
                       </TableRow>
-                  </React.Fragment>
+                      </React.Fragment>
               ))}
           </TableBody>
           </Table>
