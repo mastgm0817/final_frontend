@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const HandleUpdatePost = async (postId, updatedPost, refreshPosts) => {
     try {
-        const response = await axios.put(`http://180.150.207.73:8080/api/posts/${postId}`, updatedPost, {
+        const response = await axios.put(`http://180.150.207.73:8082/api/posts/${postId}`, updatedPost, {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
