@@ -7,6 +7,7 @@ import Calendar from "./components/calendar/Calendar";
 import TodoList from "./components/TodoList/TodoList";
 import './App.css';
 import { Link } from 'react-router-dom';
+
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
 function App() {
