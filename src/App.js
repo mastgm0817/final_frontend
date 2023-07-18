@@ -1,24 +1,27 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import PostList from './Components/Post/PostList';
-import UserList from './Components/User/UserList';
-
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  const navigate = useNavigate();
+
+  const goToHome = () => {
+    navigate('/');
+  }
+  const goToPost = () => {
+    navigate('/posts');
+  }
+  const goToUser = () => {
+    navigate('/users');
+  }
+    
   return (
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">홈</Link>
-          </li>
-          <li>
-            <Link to="/posts">게시판</Link>
-          </li>
-          <li>
-            <Link to="/users">사용자</Link>
-          </li>
-        </ul>
-      </nav>
+    <div className="App">
+      <header className="App-header">
+      <button onClick={goToHome}>Go Home </button>
+      <button onClick={goToPost}>Go to Post page</button>
+      <button onClick={goToUser}>Go to User page</button>
+      </header>
+    </div>
   );
 }
 
