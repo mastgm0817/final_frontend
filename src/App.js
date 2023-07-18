@@ -5,15 +5,31 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from './store/rootReducer';
 import Calendar from "./components/calendar/Calendar";
 import TodoList from "./components/TodoList/TodoList";
-
+import './App.css';
+import { Link } from 'react-router-dom';
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
 function App() {
   return (
-    <Provider store={store}>
-      <Calendar></Calendar>
-      <TodoList></TodoList>
-    </Provider>
+    <div className="App">
+      <header className="App-header">
+          <Provider store={store}>
+            <Calendar></Calendar>
+            <TodoList></TodoList>
+          </Provider>
+      <ul>
+        <li>
+          <Link to="/">홈</Link>
+        </li>
+        <li>
+          <Link to="/posts">게시판</Link>
+        </li>
+        <li>
+          <Link to="/users">사용자</Link>
+        </li>
+      </ul>
+      </header>
+    </div>
   );
 }
 
