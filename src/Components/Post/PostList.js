@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+
 import {
   TableContainer,
   Table,
@@ -56,6 +56,7 @@ const PostList = () => {
     setUpdatePost(post);
   };
 
+
   const handleDeleteClick = async (post) => {
     try {
       await HandleDeletePost(post.pid);
@@ -108,11 +109,11 @@ const PostList = () => {
                           <TableCell>{post.recommendations}</TableCell>
                           <TableCell>{post.views}</TableCell>
                           <TableCell>
-                          <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
-                          <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
+                              <button onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}>수정</button>
+                              <button onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}>삭제</button>
                           </TableCell>
                       </TableRow>
-                      <TableRow>
+                      <TableRow>  
                           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                               <Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit>
                                   <PostDetail post={selectedPost} />
@@ -122,10 +123,11 @@ const PostList = () => {
                   </React.Fragment>
               ))}
           </TableBody>
-
+          {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />} 
           </Table>
         </TableContainer>
       </div>
+      
 
       <button onClick={toggleAddForm}>게시글 작성하기</button>
       {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
