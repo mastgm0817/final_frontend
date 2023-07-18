@@ -1,4 +1,4 @@
-name: Node.js CI
+name: frontend CICD
 
 on:
   push:
@@ -81,4 +81,6 @@ jobs:
           git config --local user.name "mastgm0817"
           git add deploy/deployment.yml
           git commit -m "Update image in Kubernetes manifest"
-          git push
+          git push origin HEAD:main
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
