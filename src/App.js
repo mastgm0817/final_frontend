@@ -3,8 +3,6 @@ import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from './store/rootReducer';
-import Calendar from "./components/calendar/Calendar";
-import TodoList from "./components/TodoList/TodoList";
 import './App.css';
 import { Link } from 'react-router-dom';
 
@@ -14,10 +12,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-          <Provider store={store}>
-            <Calendar></Calendar>
-            <TodoList></TodoList>
-          </Provider>
       <ul>
         <li>
           <Link to="/">홈</Link>
@@ -27,6 +21,9 @@ function App() {
         </li>
         <li>
           <Link to="/users">사용자</Link>
+        </li>
+        <li>
+          <Link to="/calendar">캘린더</Link>
         </li>
       </ul>
       </header>
