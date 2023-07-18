@@ -53,12 +53,15 @@ jobs:
             180.150.207.73:5000/frontend:${{ github.sha }}
             180.150.207.73:5000/frontend:latest
       - name: Save image digest
-        run: echo "${{ steps.docker_build.outputs.digest }}" > image-digest.txt
+        run: |
+          echo "${{ steps.docker_build.outputs.digest }}" > image-digest.txt
+          IMAGE_DIGEST_SHORT=$(cat image-digest.txt | cut -c 1-5)
+          echo $IMAGE_DIGEST_SHORT > image-digest-short.txt
       - name: Upload image digest as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: image-digest
-          path: image-digest.txt
+          name: image-digest-short
+          path: image-digest-short.txt
 
   update-manifest:
     name: Update Kubernetes manifest
@@ -70,11 +73,11 @@ jobs:
       - name: Download image digest artifact
         uses: actions/download-artifact@v2
         with:
-          name: image-digest
+          name: image-digest-short
       - name: Update image in Kubernetes manifest
         run: |
-          IMAGE_DIGEST=$(cat image-digest.txt)
-          sed -i "s|image: 180.150.207.73:5000/frontend|image: 180.150.207.73:5000/frontend@$IMAGE_DIGEST|g" deploy/deployment.yml
+          IMAGE_DIGEST_SHORT=$(cat image-digest-short.txt)
+          sed -i "s|image: 180.150.207.73:5000/frontend|image: 180.150.207.73:5000/frontend@$IMAGE_DIGEST_SHORT|g" deploy/deployment.yml
       - name: Commit and push changes
         run: |
           git config --local user.email "mastgm0817@gmail.com"
