@@ -62,9 +62,6 @@ const PostList = () => {
     fetchData();
   }, []);
 
-
-  
-
   const handlePostClick = (post) => {
     setSelectedPost(post);
   };
