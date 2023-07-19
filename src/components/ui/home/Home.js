@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+import Calender from '../../calendar/Calendar';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -23,7 +24,9 @@ function Home() {
       <Box sx={{ bgcolor: '#E3F4F4', height: '50vh' }}>
         <Grid container spacing={2}>
             <Grid item xs={6} md={8}>
-            <Item>캘린더 들어갈곳</Item>
+            <Item>
+              캘린더
+            </Item>
             </Grid>
             <Grid item xs={6} md={4}>
             <Item>Todo 들어갈곳</Item>
