@@ -44,7 +44,7 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
     <Grid container spacing={50}>
       <div id="post-form" className={formUpDown}>
         <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
-        <ITEM><div className="close-icon" onClick={handleXButton}>X</div></ITEM>
+        <div className="close-icon" onClick={handleXButton}>X</div>
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
           <TextField
