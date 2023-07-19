@@ -4,28 +4,34 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from './store/rootReducer';
 import './App.css';
-import { Link } from 'react-router-dom';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
+import { useNavigate } from 'react-router-dom';
+
+
 function App() {
+  const navigate = useNavigate();
+
+  const goToHome = () => {
+    navigate('/');
+  }
+  const goToPost = () => {
+    navigate('/posts');
+  }
+  const goToUser = () => {
+    navigate('/calenders');
+  }
+    
   return (
     <div className="App">
       <header className="App-header">
-      <ul>
-        <li>
-          <Link to="/">홈</Link>
-        </li>
-        <li>
-          <Link to="/posts">게시판</Link>
-        </li>
-        <li>g
-          <Link to="/users">사용자</Link>
-        </li>
-        <li>
-          <Link to="/calendar">캘린더</Link>
-        </li>
-      </ul>
+
+      <button onClick={goToHome}>Go Home </button>
+      <button onClick={goToPost}>Go to Post page</button>
+      <button onClick={goToUser}>Go to User page</button>
+      <button onClick={goToCalender}>Go to Calender</button>
+
       </header>
     </div>
   );
