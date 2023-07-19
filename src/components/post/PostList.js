@@ -19,7 +19,6 @@ import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-
 import AddPostForm from './AddPostForm';
 import UpdatePostForm from './UpdatePostForm';
 import PostDetail from './PostDetail';
@@ -27,8 +26,6 @@ import FetchPosts from './api/FetchPosts';
 import HandleDeletePost from './api/HandleDeletePost';
 import HandleUpdatePost from './api/HandleUpdatePost';
 import './PostList.css';
-// import HandleView from './api/HandleView';
-
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   [`&.${tableRowClasses.head}`]: {
@@ -64,7 +61,6 @@ const PostList = () => {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
-    // HandleView(post);
   };
 
 
@@ -104,11 +100,12 @@ const PostList = () => {
       <div>
         <h1 style={{ textAlign: 'center' }}>게시판</h1>
       </div>
+
       </header>
 
       <main style={{padding:'50px'}}>
       <Box>
-        <TableContainer  component={Paper} sx={{padding:'50px', width: '70%', align:'center'}}>
+        <TableContainer  component={Paper} sx={{padding:'50px', width: '100%', align:'center'}}>
           <Table>
 
             <TableHead sx={{ backgroundColor: 'primary.main' }}>
