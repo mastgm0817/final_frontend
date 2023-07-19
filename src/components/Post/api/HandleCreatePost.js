@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const HandleCreatePost = async (newPost, refreshPosts) => {
   try {
-      const response = await axios.post('http://180.150.207.73:8082/api/posts', newPost, {
+      const response = await axios.post('/api/posts', newPost, {
           headers: {
               'Content-Type': 'application/json; charset=utf-8'
           }

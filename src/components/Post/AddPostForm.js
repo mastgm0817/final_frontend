@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import HandleCreatePost from './api/HandleCreatePost';
-
 import './PostList.css';
 
 import Button from '@mui/material/Button';
@@ -9,9 +8,7 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 
-
 const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
-
   const [newPost, setNewPost] = useState({ title: '', content: '' });
   const [formUpDown, setclass] = useState(classname);
   

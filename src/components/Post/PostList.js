@@ -27,6 +27,7 @@ import FetchPosts from './api/FetchPosts';
 import HandleDeletePost from './api/HandleDeletePost';
 import HandleUpdatePost from './api/HandleUpdatePost';
 import './PostList.css';
+// import HandleView from './api/HandleView';
 
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -63,13 +64,13 @@ const PostList = () => {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
+    HandleView(post);
   };
 
 
   const handleCollapseToggle = () => {
     setSelectedPost(!selectedPost);
   };
-  
   
 
   const handleUpdateForm = (post) => {
