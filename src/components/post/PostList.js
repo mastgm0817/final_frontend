@@ -27,7 +27,6 @@ import HandleDeletePost from './api/HandleDeletePost';
 import HandleUpdatePost from './api/HandleUpdatePost';
 import './PostList.css';
 
-
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   [`&.${tableRowClasses.head}`]: {
     backgroundColor: theme.palette.common.skyblue,
@@ -46,7 +45,6 @@ const PostList = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectUpdate, setUpdatePost] = useState(null);
-  const [expanded, setExpanded] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -65,12 +63,10 @@ const PostList = () => {
     setSelectedPost(post);
   };
 
-  
 
   const handleCollapseToggle = () => {
-    setExpanded(!expanded);
+    setSelectedPost(!selectedPost);
   };
-  
   
 
   const handleUpdateForm = (post) => {
@@ -94,14 +90,17 @@ const PostList = () => {
   };
 
   const toggleUpdateForm = () => {
-    // setShowUpdateForm(!showUpdateForm);
-    setShowUpdateForm(prevState => !prevState);
+    setShowUpdateForm(!showUpdateForm);
   };
 
 
   return (
     <>
       <header>
+      <div>
+        <h1 style={{ textAlign: 'center' }}>게시판</h1>
+      </div>
+
       </header>
 
       <main style={{padding:'50px'}}>
@@ -111,12 +110,12 @@ const PostList = () => {
 
             <TableHead sx={{ backgroundColor: 'primary.main' }}>
               <StyledTableRow>
-                <TableCell>No</TableCell>
-                <TableCell>제목</TableCell>
-                <TableCell>작성일자</TableCell>
-                <TableCell>추천수</TableCell>
-                <TableCell>조회수</TableCell>
-                <TableCell>      </TableCell>
+                <TableCell style={{textAlign:"center"}}>No</TableCell>
+                <TableCell style={{textAlign:"center"}}>제목</TableCell>
+                <TableCell style={{textAlign:"center"}}>작성일자</TableCell>
+                <TableCell style={{textAlign:"center"}}>추천수</TableCell>
+                <TableCell style={{textAlign:"center"}}>조회수</TableCell>
+                <TableCell style={{textAlign:"center"}}>      </TableCell>
               </StyledTableRow>
             </TableHead>
 
@@ -125,11 +124,11 @@ const PostList = () => {
 
                 <React.Fragment key={post.pid}>
                       <TableRow onClick={() => handlePostClick(post)} className='tablerow' key={post.pid}>
-                          <TableCell>{post.pid}</TableCell>
-                          <TableCell>{post.title}</TableCell>
-                          <TableCell>{post.createdAt}</TableCell>
-                          <TableCell>{post.recommendations}</TableCell>
-                          <TableCell>{post.views}</TableCell>
+                          <TableCell style={{ width: '10%', textAlign:"center"}}>{post.pid}</TableCell>
+                          <TableCell style={{ width: '20%', textAlign:"center" }}>{post.title}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.createdAt}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.recommendations}</TableCell>
+                          <TableCell style={{ width: '20%', textAlign:"center" }}>{post.views}</TableCell>
                           <TableCell>
                             {/* 수정 */}
                               <EditIcon onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}></EditIcon>
@@ -149,16 +148,18 @@ const PostList = () => {
           </TableBody>
           </Table>
         </TableContainer>
-        {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
+        {/* {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>} */}
+        {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData} classname={'slideUp'}/>}
       </Box>
       </main>
       
       <footer sx={{ borderLeft: '20px' }}>
-          <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
+        <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
           <AddIcon sx={{ marginRight: '0.5em' }} />
           게시글 작성하기
-          </Fab>
-      {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
+        </Fab>
+        {showAddForm && <AddPostForm refreshPosts={fetchData} classname={'slideUp'} toggleForm={toggleAddForm} />}
+
       </footer>
     </>
   );

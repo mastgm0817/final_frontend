@@ -1,4 +1,10 @@
-import * as React from 'react';
+
+import React from "react";
+import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from './store/rootReducer';
+import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -8,8 +14,10 @@ import UserList from './components/user/UserList';
 import PostList from './components/post/PostList';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
+
 function App() {
-    
   return (
     <React.Fragment>
       <CssBaseline />

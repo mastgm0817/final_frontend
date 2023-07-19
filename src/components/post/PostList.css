@@ -59,10 +59,6 @@
   transition: transform 0.3s ease-in-out;
 }
 
-#post-form.active {
-  transform: translateY(0);
-  transition: transform 0.3s ease-in-out;
-}
 
 .close-icon {
   position: absolute;
@@ -72,22 +68,75 @@
   font-weight: bold;
 }
 
-@keyframes form-slideout {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
+/* 수정/작성폼 움직이기 */
+.slideUp{
+	animation-name: slideUp;
+	-webkit-animation-name: slideUp;	
+
+	animation-duration: 1s;	
+	-webkit-animation-duration: 0.7s;
+  animation-fill-mode: forwards;
+
+	animation-timing-function: ease;	
+	-webkit-animation-timing-function: ease;
+
+	visibility: visible !important;			
 }
 
-@keyframes form-slidein {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
+@keyframes slideUp {
+	0% {
+		transform: translateY(100%);
+	}
+	50%{
+		transform: translateY(-8%);
+	}
+	65%{
+		transform: translateY(2%);
+	}
+	80%{
+		transform: translateY(0%);
+	}
+	95%{
+		transform: translateY(0%);
+	}			
+	100% {
+		transform: translateY(0%);
+	}	
+}
+
+.slideDown{
+	animation-name: slideDown;
+	-webkit-animation-name: slideDown;	
+
+	animation-duration: 1s;	
+	-webkit-animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+	animation-timing-function: ease;	
+	-webkit-animation-timing-function: ease;	
+
+	visibility: visible !important;						
+}
+
+@keyframes slideDown {
+	0% {
+		transform: translateY(0%);
+	}
+	5%{
+		transform: translateY(2%);
+	}
+	15%{
+		transform: translateY(-8%);
+	}
+	30%{
+		transform: translateY(100%);
+	}
+	95%{
+		transform: translateY(100%);
+	}			
+	100% {
+		transform: translateY(100%);
+	}		
 }
 
 
