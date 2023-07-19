@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
 
 const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
@@ -40,10 +41,10 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
 
 
   return (
-    <Box sx={{ border: 'none' }}>
+    <Grid container spacing={50}>
       <div id="post-form" className={formUpDown}>
         <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
-        <div className="close-icon" onClick={handleXButton}>X</div>
+        <ITEM><div className="close-icon" onClick={handleXButton}>X</div></ITEM>
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
           <TextField
@@ -80,7 +81,7 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
         <Button onClick={createPost}>게시글 작성 완료</Button>
       </div>
       </div>
-    </Box>
+    </Grid>
   );
 };
 
