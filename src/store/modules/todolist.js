@@ -39,7 +39,37 @@ const initialState = {
   dayTodos: [
     { start: 0 },
     { to: 0, do: 0 },
-    // ...
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+    { to: 0, do: 0 },
+
   ],
   shared: false, // 공유 여부
   userId: "SW", // 사용자 ID,
@@ -65,7 +95,7 @@ export default handleActions(
       return {
         ...state,
         todos: state.todos.concat(action.payload.todo),
-        id: state.id + 1,
+        id: state.id+1,
       };
     },
     [TOGGLE_TODO]: (state, action) => {
