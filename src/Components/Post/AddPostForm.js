@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
-const AddPostForm = ({ toggleForm, refreshPosts, classname }) => {
+const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
   const [formUpDown, setclass] = useState(classname);
   
@@ -23,9 +23,12 @@ const AddPostForm = ({ toggleForm, refreshPosts, classname }) => {
     }
   };
 
-  const handleClick = () => {
+  const handleXButton=()=>{
+    setClassName();
+    refreshPosts();
+    // setTimeout(1000);
     toggleForm();
-  };
+  }
 
   const setClassName = () =>{
     if(formUpDown==='slideDown'){
@@ -40,7 +43,7 @@ const AddPostForm = ({ toggleForm, refreshPosts, classname }) => {
     <Box sx={{ border: 'none' }}>
       <div id="post-form" className={formUpDown}>
         <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
-        <div className="close-icon" onClick={setClassName}>X</div>
+        <div className="close-icon" onClick={handleXButton}>X</div>
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
           <TextField

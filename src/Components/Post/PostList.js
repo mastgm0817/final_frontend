@@ -47,7 +47,6 @@ const PostList = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectUpdate, setUpdatePost] = useState(null);
-  const [expanded, setExpanded] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -64,13 +63,6 @@ const PostList = () => {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
-    // try {
-    //     await IncreaseViewCount(post.pid); 
-    //     const updatedPosts = await FetchPosts(); 
-    //     setPosts(updatedPosts); 
-    // } catch (error) {
-    //     console.error('Error increasing view count:', error);
-    // }
   };
 
 
@@ -101,8 +93,7 @@ const PostList = () => {
   };
 
   const toggleUpdateForm = () => {
-    // setShowUpdateForm(!showUpdateForm);
-    setShowUpdateForm(prevState => !prevState);
+    setShowUpdateForm(!showUpdateForm);
   };
 
 
@@ -159,7 +150,8 @@ const PostList = () => {
           </TableBody>
           </Table>
         </TableContainer>
-        {showUpdateForm && selectUpdate && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>}
+        {/* {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>} */}
+        {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData} classname={'slideUp'}/>}
       </Box>
       </main>
       
@@ -169,7 +161,6 @@ const PostList = () => {
           게시글 작성하기
         </Fab>
         {showAddForm && <AddPostForm refreshPosts={fetchData} classname={'slideUp'} toggleForm={toggleAddForm} />}
-        {/* <AddPostForm className={showAddForm ? 'slideUp' : 'slideDown'}  refreshPosts={fetchData} /> */}
 
       </footer>
     </>
