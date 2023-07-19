@@ -4,10 +4,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from './store/rootReducer';
 import './App.css';
+import { useNavigate } from 'react-router-dom';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
-import { useNavigate } from 'react-router-dom';
+
 
 
 function App() {
@@ -16,11 +17,15 @@ function App() {
   const goToHome = () => {
     navigate('/');
   }
+
+  const goToCalender = () => {
+    navigate('/calenders');
+  }
   const goToPost = () => {
     navigate('/posts');
   }
   const goToUser = () => {
-    navigate('/calenders');
+    navigate('/users');
   }
     
   return (

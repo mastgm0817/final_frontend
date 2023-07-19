@@ -69,7 +69,7 @@ const TodoList = () => {
               shared: item.shared,
               text: item.myScheduleContent,
               writer: item.writerId,
-
+  
             };
             dispatch(createTodo({ todo }));
           } else {
