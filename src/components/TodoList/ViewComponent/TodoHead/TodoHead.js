@@ -56,7 +56,7 @@ TodoHead.propTypes = {
   currentMonth: PropTypes.number,
   currentWeek: PropTypes.number,
   currentYear: PropTypes.number,
-  filteredTodos: PropTypes.object
+  filteredTodos: PropTypes.array
 };
 
 TodoHead.defaultProps = {
@@ -64,7 +64,7 @@ TodoHead.defaultProps = {
   currentMonth: -1,
   currentWeek: -1,
   currentYear: -1,
-  filteredTodos: {}
+  filteredTodos: []
 };
 
 export default TodoHead;

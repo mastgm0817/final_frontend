@@ -13,13 +13,13 @@ const TodoListBlock = styled.div`
 const TodoItemList = ({ todos, handleToggle, handleRemove }) => {
   return (
     <TodoListBlock>
-      {todos.length > 0 ? (
+      {todos.length >0  ? (
         todos.map((todo) => (
           <TodoItem
-            key={todo.id}
-            id={todo.id}
-            done={todo.done}
-            text={todo.text}
+            key={todo.id+`-${todo.shared}`}
+            id={todo.id || 0}
+            done={todo.done || false}
+            text={todo.text || ""}
             handleRemove={handleRemove}
             handleToggle={handleToggle}
           />
@@ -34,9 +34,9 @@ const TodoItemList = ({ todos, handleToggle, handleRemove }) => {
 TodoItemList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      done: PropTypes.bool.isRequired,
-      text: PropTypes.string.isRequired
+      id: PropTypes.number,
+      done: PropTypes.bool,
+      text: PropTypes.string
     })
   ).isRequired,
   handleToggle: PropTypes.func.isRequired,

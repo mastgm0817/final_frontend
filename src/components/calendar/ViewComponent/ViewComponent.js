@@ -187,7 +187,7 @@ const ViewComponent = ({
         did = true;
         weekly.push(
           <StyledTd onClick={() => innerSelect()}>
-            <StyledDay today={check}>
+            <StyledDay today={check?1:0}>
               <div>{date}</div>
             </StyledDay>
             {dayTodos[innerDate] && dayTodos[innerDate].to + dayTodos[innerDate].do !== 0 && (
@@ -204,7 +204,7 @@ const ViewComponent = ({
     if (end && did === false) {
       break;
     }
-    items.push(<tr valign="top">{weekly}</tr>);
+    items.push(<tr key={date} valign="top">{weekly}</tr>);
   }
 
   return (
@@ -219,16 +219,18 @@ const ViewComponent = ({
       </StyledDate>
 
       <StyledTable>
-        <tr>
-          <StyledTh>일요일</StyledTh>
-          <StyledTh>월요일</StyledTh>
-          <StyledTh>화요일</StyledTh>
-          <StyledTh>수요일</StyledTh>
-          <StyledTh>목요일</StyledTh>
-          <StyledTh>금요일</StyledTh>
-          <StyledTh>토요일</StyledTh>
-        </tr>
+        <tbody>
+          <tr>
+            <StyledTh>일요일</StyledTh>
+            <StyledTh>월요일</StyledTh>
+            <StyledTh>화요일</StyledTh>
+            <StyledTh>수요일</StyledTh>
+            <StyledTh>목요일</StyledTh>
+            <StyledTh>금요일</StyledTh>
+            <StyledTh>토요일</StyledTh>
+          </tr>
         {items}
+        </tbody>
       </StyledTable>
     </StyledCalendar>
   );

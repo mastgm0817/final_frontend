@@ -69,6 +69,7 @@ const TodoList = () => {
               shared: item.shared,
               text: item.myScheduleContent,
               writer: item.writerId,
+
             };
             dispatch(createTodo({ todo }));
           } else {
@@ -164,27 +165,6 @@ const TodoList = () => {
         share: shared,
       });  
 
-      const todo = {
-        id,
-        year: currentYear,
-        month: currentMonth,
-        day: currentDay,
-        text: value,
-      };
-      dispatch(createTodo({ todo }));
-      dispatch(
-        actionTodos({
-          currentDay,
-          currentMonth,
-          currentYear,
-        })
-      );
-      dispatch(
-        dayTodolist({
-          currentMonth: currentMonth - 1,
-          currentYear,
-        })
-      );
       setValue("");
       setOpen(false);
       console.log(response.data); // Schedule create successfully

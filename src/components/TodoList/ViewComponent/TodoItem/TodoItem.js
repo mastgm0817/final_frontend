@@ -58,13 +58,13 @@ const Text = styled.div`
     `}
 `;
 
-const TodoItem = ({ id, done, text, handleRemove, handleToggle }) => {
+const TodoItem = ({ id=0, done, text = "", handleRemove, handleToggle }) => {
   return (
     <TodoItemBlock>
-      <CheckCircle onClick={() => handleToggle(id)} done={done}>
+      <CheckCircle done={done.toString()} onClick={() => handleToggle(id)}>
         {done && <DoneIcon fontSize="small" />}
       </CheckCircle>
-      <Text done={done}>{text}</Text>
+      <Text done={done? 1:0}>{text}</Text>
       <Remove onClick={() => handleRemove(id)}>
         <DeleteIcon fontSize="small" />
       </Remove>
@@ -79,5 +79,4 @@ TodoItem.propTypes = {
   handleRemove: PropTypes.func.isRequired,
   handleToggle: PropTypes.func.isRequired
 };
-
 export default TodoItem;

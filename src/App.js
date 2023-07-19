@@ -19,7 +19,7 @@ function App() {
         <li>
           <Link to="/posts">게시판</Link>
         </li>
-        <li>
+        <li>g
           <Link to="/users">사용자</Link>
         </li>
         <li>
