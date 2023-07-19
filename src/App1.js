@@ -6,7 +6,7 @@ import rootReducer from './store/rootReducer';
 import './App.css';
 import { Link } from 'react-router-dom';
 import Calendar from "./components/calendar/Calendar";
-import TodoList from "./components/TodoList/TodoList";
+import TodoList from "./components/todolist/TodoList";
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
