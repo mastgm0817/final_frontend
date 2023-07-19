@@ -62,17 +62,20 @@ const PostList = () => {
     fetchData();
   }, []);
 
-
-  
-
   const handlePostClick = (post) => {
     setSelectedPost(post);
+    // try {
+    //     await IncreaseViewCount(post.pid); 
+    //     const updatedPosts = await FetchPosts(); 
+    //     setPosts(updatedPosts); 
+    // } catch (error) {
+    //     console.error('Error increasing view count:', error);
+    // }
   };
 
-  
 
   const handleCollapseToggle = () => {
-    setExpanded(!expanded);
+    setSelectedPost(!selectedPost);
   };
   
   
@@ -118,12 +121,12 @@ const PostList = () => {
 
             <TableHead sx={{ backgroundColor: 'primary.main' }}>
               <StyledTableRow>
-                <TableCell>No</TableCell>
-                <TableCell>제목</TableCell>
-                <TableCell>작성일자</TableCell>
-                <TableCell>추천수</TableCell>
-                <TableCell>조회수</TableCell>
-                <TableCell>      </TableCell>
+                <TableCell style={{textAlign:"center"}}>No</TableCell>
+                <TableCell style={{textAlign:"center"}}>제목</TableCell>
+                <TableCell style={{textAlign:"center"}}>작성일자</TableCell>
+                <TableCell style={{textAlign:"center"}}>추천수</TableCell>
+                <TableCell style={{textAlign:"center"}}>조회수</TableCell>
+                <TableCell style={{textAlign:"center"}}>      </TableCell>
               </StyledTableRow>
             </TableHead>
 
@@ -132,11 +135,11 @@ const PostList = () => {
 
                 <React.Fragment key={post.pid}>
                       <TableRow onClick={() => handlePostClick(post)} className='tablerow' key={post.pid}>
-                          <TableCell>{post.pid}</TableCell>
-                          <TableCell>{post.title}</TableCell>
-                          <TableCell>{post.createdAt}</TableCell>
-                          <TableCell>{post.recommendations}</TableCell>
-                          <TableCell>{post.views}</TableCell>
+                          <TableCell style={{ width: '10%', textAlign:"center"}}>{post.pid}</TableCell>
+                          <TableCell style={{ width: '20%', textAlign:"center" }}>{post.title}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.createdAt}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.recommendations}</TableCell>
+                          <TableCell style={{ width: '20%', textAlign:"center" }}>{post.views}</TableCell>
                           <TableCell>
                             {/* 수정 */}
                               <EditIcon onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}></EditIcon>
@@ -161,11 +164,13 @@ const PostList = () => {
       </main>
       
       <footer sx={{ borderLeft: '20px' }}>
-          <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
+        <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
           <AddIcon sx={{ marginRight: '0.5em' }} />
           게시글 작성하기
-          </Fab>
-      {showAddForm && <AddPostForm toggleForm={toggleAddForm} refreshPosts={fetchData} />}
+        </Fab>
+        {showAddForm && <AddPostForm refreshPosts={fetchData} classname={'slideUp'} toggleForm={toggleAddForm} />}
+        {/* <AddPostForm className={showAddForm ? 'slideUp' : 'slideDown'}  refreshPosts={fetchData} /> */}
+
       </footer>
     </>
   );
