@@ -51,7 +51,7 @@ const TodoList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://180.150.207.73:8082/calendar/getSchedule/userId=SW");
+        const response = await axios.get("/calendar/getSchedule/userId=SW");
         const data = response.data;
 
         // 기존의 todos 상태 초기화
@@ -159,7 +159,7 @@ const TodoList = () => {
     e.preventDefault();
   
     try {
-      const response = await axios.post(`http://180.150.207.73:8082/calendar/setSchedule/userId=SW`, {
+      const response = await axios.post(`/calendar/setSchedule/userId=SW`, {
         schedule: value,
         date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')}`,
         share: shared,
