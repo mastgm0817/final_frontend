@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import TodoHead from "./ViewComponent/TodoHead/TodoHead";
-import TodoCreate from "./ViewComponent/TodoCreate/TodoCreate";
-import TodoItemList from "./ViewComponent/TodoItemList/TodoItemList";
+import TodoHead from "./viewcomponent/todohead/TodoHead";
+import TodoCreate from "./viewcomponent/todocreate/TodoCreate";
+import TodoItemList from "./viewcomponent/todoitemlist/TodoItemList";
 import {
   todos as actionTodos,
   createTodo,
