@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-import { styled } from '@mui/material/styles';
 import {
   TableContainer,
   Table,
@@ -24,8 +22,7 @@ import UpdatePostForm from './UpdatePostForm';
 import PostDetail from './PostDetail';
 import FetchPosts from './api/FetchPosts';
 import HandleDeletePost from './api/HandleDeletePost';
-import HandleUpdatePost from './api/HandleUpdatePost';
-import HandleView from './api/HandleView';
+import IncreaseViewCount from './api/IncreaseViewCount';
 import './PostList.css';
 
 
@@ -52,15 +49,20 @@ const PostList = () => {
     fetchData();
   }, []);
 
-  const handlePostClick = (post) => {
-    setSelectedPost(post)
+
+  const handlePostClick = async (post) => {
+
+    setSelectedPost(post);
+    
+    try {
+      await IncreaseViewCount(post.pid);
+      const updatedPosts = await FetchPosts();
+      setPosts(updatedPosts);
+    } catch(error) {
+      console.error("Error increasing view count:", error);
+    }
+    FetchPosts();
     setExtendedPost(!extendedPost);
-    // HandleView(post);
-  };
-
-
-  const handleCollapseToggle = () => {
-    setSelectedPost(!selectedPost);
   };
   
 
@@ -130,7 +132,7 @@ const PostList = () => {
 
                       <TableRow>
                         <td></td>
-                          <td><Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={handlePostClick}>
+                          <td><Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={setSelectedPost}>
                             <PostDetail post={selectedPost} />
                           </Collapse></td>
                       </TableRow>

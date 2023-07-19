@@ -5,6 +5,8 @@ import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
 const PostDetail = ({ post }) => {
+
+    // const [newComment, setcomment]
     return (
         <Box sx={{align:"center"}}>
             <div style={{marginLeft:"30"}}>
@@ -16,10 +18,24 @@ const PostDetail = ({ post }) => {
                 <tr></tr>
                 <tr></tr>
                 <tr><td><p style={{ marginBottom: '1em' }}>{post.content}</p></td></tr>
-                <tr><td><p style={{ wordBreak: 'break-all' }}>{post.comments}</p></td></tr>
+                {/* <tr><td><p style={{ wordBreak: 'break-all' }}>{post.comments}</p></td></tr> */}
                 </tbody>
             </table>
             </div>
+
+             <h4>댓글 목록</h4>
+            {/*<div>{post.comments}</div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
+                <TextField
+                    id="outlined-basic"
+                    label="내용"
+                    variant="standard"
+                    type="text"
+                    value={post.comments}
+                    onChange={e => setNewPost({ ...newPost, comments: e.target.value })}
+                />
+            </div> */}
         </Box>
     );
 };  
