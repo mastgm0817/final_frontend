@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import TodoItem from "../TodoItem/TodoItem";
+import TodoItem from "../todoitem/TodoItem";
 
 const TodoListBlock = styled.div`
   flex: 1;

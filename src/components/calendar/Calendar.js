@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { select } from "../../store/modules/date";
 import { dayTodolist } from "../../store/modules/todolist";
-import ViewComponent from "./ViewComponent";
+import ViewComponent from "./viewcomponent/ViewComponent";
 
 const Calendar = () => {
   let date = new Date();
