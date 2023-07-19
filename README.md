@@ -22,7 +22,8 @@ npm list @material-ui/core
 npm i @mui/material
 npm show @mui/material
 https://github.com/mui/material-ui
-npm install @mui/icons-material@5.14.0 @emotion/react @emotion/styled
+npm install @mui/icons-material@5.14.0 @emotion/react @emotion/styled 
+
 
 # Redux
 npm install react-redux

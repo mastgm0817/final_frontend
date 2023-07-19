@@ -19,7 +19,6 @@ import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import { useNavigate } from 'react-router-dom';
 import AddPostForm from './AddPostForm';
 import UpdatePostForm from './UpdatePostForm';
 import PostDetail from './PostDetail';
@@ -48,14 +47,6 @@ const PostList = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectUpdate, setUpdatePost] = useState(null);
   const [expanded, setExpanded] = useState(false);
-  const navigate = useNavigate();
-
-  const goToHome = () => {
-    navigate('/');
-  }
-  const goToUser = () => {
-    navigate('/users');
-  }
 
   const fetchData = async () => {
     try {
@@ -113,8 +104,6 @@ const PostList = () => {
       <header>
       <div>
         <h1 style={{ textAlign: 'center' }}>게시판</h1>
-        <button onClick={goToHome}>Go Home </button>
-        <button onClick={goToUser}>Go to User page</button>
       </div>
       </header>
 

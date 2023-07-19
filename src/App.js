@@ -1,27 +1,26 @@
-import './App.css';
-import { useNavigate } from 'react-router-dom';
-
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import NavAppBar from './components/UI/Nav/Nav';
+import Home from './components/UI/Home/Home';
 function App() {
-  const navigate = useNavigate();
-
-  const goToHome = () => {
-    navigate('/');
-  }
-  const goToPost = () => {
-    navigate('/posts');
-  }
-  const goToUser = () => {
-    navigate('/users');
-  }
     
   return (
-    <div className="App">
-      <header className="App-header">
-      <button onClick={goToHome}>Go Home </button>
-      <button onClick={goToPost}>Go to Post page</button>
-      <button onClick={goToUser}>Go to User page</button>
-      </header>
-    </div>
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="xl">
+        <Container maxWidth="xl">
+          <Box sx={{ bgcolor: '#C4DFDF', height: '7vh' }} >
+            <NavAppBar/>
+          </Box>
+          <Home/>
+          <Box sx={{ bgcolor: '#F8F6F4', height: '7vh' }} >
+            footer
+          </Box>
+        </Container>
+      </Container>
+    </React.Fragment>
   );
 }
 
