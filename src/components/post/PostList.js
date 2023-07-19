@@ -64,7 +64,7 @@ const PostList = () => {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
-    HandleView(post);
+    // HandleView(post);
   };
 
 
