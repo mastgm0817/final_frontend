@@ -102,14 +102,11 @@ const PostList = () => {
   return (
     <>
       <header>
-      <div>
-        <h1 style={{ textAlign: 'center' }}>게시판</h1>
-      </div>
       </header>
 
       <main style={{padding:'50px'}}>
       <Box>
-        <TableContainer  component={Paper} sx={{padding:'50px', width: '70%', align:'center'}}>
+        <TableContainer  component={Paper} sx={{padding:'50px', width: '100%', align:'center'}}>
           <Table>
 
             <TableHead sx={{ backgroundColor: 'primary.main' }}>
