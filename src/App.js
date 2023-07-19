@@ -2,7 +2,7 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import NavAppBar from './components/UI/Navigation/Nav';
+import NavAppBar from './components/UI/Navigation/NavAppBar'
 import Home from './components/UI/Home/Home';
 function App() {
     
