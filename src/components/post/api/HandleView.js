@@ -1,14 +1,54 @@
+import axios from "axios";
+import FetchPosts from "./FetchPosts";
+import { useEffect } from "react";
 
-// const HandlePostClick = async (post) => {
-//     setSelectedPost(post);
+
+
+const HandleView = async (post, setPosts) => {
+
+    const IncreaseViewCount = async (pid) => {
+        try {
+          const response = await axios.put(`https://your-api-url/posts/${pid}/increase-view`);
+          return response.data;
+        } catch (error) {
+          console.error('Failed to increase view count:', error);
+          throw error;
+        }
+      };
+
+
+    useEffect(() => {
+    const increasementView = async () =>{
+        try{
+            await IncreaseViewCount(post.pid);
+            const updatedPosts = await FetchPosts();
+            setPosts(updatedPosts);
+        }catch(error){
+            console.error("Error increasing view count:", error);
+        }
+    };
+    
+    increasementView();
+}, [post,setPosts]);
+
+return null;
+}
+
+
+export default HandleView;
+
+
+// const HandleUpdatePost = async (postId, updatedPost, refreshPosts) => {
 //     try {
-//         await IncreaseViewCount(post.pid);  // API 호출로 조회수 증가
-//         const updatedPosts = await FetchPosts();  // 업데이트된 게시글 목록 불러오기
-//         setPosts(updatedPosts);  // 상태 업데이트
+//         const response = await axios.put(`/api/posts/${postId}`, updatedPost, {
+//             headers: {
+//                 'Content-Type': 'application/json; charset=utf-8'
+//             }
+//         });
+//         console.log('Post updated:', response.data);
+//         refreshPosts();
 //     } catch (error) {
-//         console.error('Error increasing view count:', error);
+//         console.error('Error updating post:', error);
+//         throw error;
 //     }
-// };
-
-// export default HandlePostClick;
-
+// };  
