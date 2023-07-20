@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const TodoHeadBlock = styled.div`
-  padding: 12px 32px 24px 32px;
+  padding: 0px 30px 20px 30px;
   border-bottom: 1px solid #e9ecef;
   h1 {
     margin: 0;
@@ -18,7 +18,7 @@ const TodoHeadBlock = styled.div`
   .tasks-left {
     color: #20c997;
     font-size: 14px;
-    margin-top: 40px;
+    margin-top: 30px;
     font-weight: bold;
   }
 `;
@@ -42,11 +42,11 @@ const TodoHead = ({
   const rest = filteredTodos.filter(todo => todo.done === false).length;
   return (
     <TodoHeadBlock>
-      <h1>
-        {currentYear}년{currentMonth}월{currentDay}일
-      </h1>
+      <h2>
+        {currentYear}년 {currentMonth}월 {currentDay}일
+      </h2>
       <div className="day">{week[currentWeek]}</div>
-      <div className="tasks-left">할 일 {rest}개 남음</div>
+      <div className="tasks-left">일정이 {rest}개 남아 있어요.</div>
     </TodoHeadBlock>
   );
 };
