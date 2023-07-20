@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { select } from "../../store/modules/date";
 import { dayTodolist } from "../../store/modules/todolist";
-import ViewComponent from "./viewcomponent/ViewComponent";
+import ViewComponent from "./CalendarView";
 
-const Calendar = () => {
+export const Calendar = () => {
   let date = new Date();
   let today = date.getDate();
   let [currentMonth, setCurrentMonth] = useState(date.getMonth());

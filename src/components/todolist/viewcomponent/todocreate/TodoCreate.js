@@ -101,7 +101,7 @@ const TodoCreate = ({
           <InsertForm onSubmit={handleSubmit}>
             <Input
               autoFocus
-              placeholder="할 일을 입력 후, Enter 를 누르세요"
+              placeholder="일정을 등록한 후, Enter를 누르세요"
               onChange={handleChange}
               value={value}
             />
@@ -111,7 +111,7 @@ const TodoCreate = ({
                 checked={shared}
                 onChange={handleShareToggle} // Use the handleCheckboxChange prop
               />
-              <CheckboxLabel>Share</CheckboxLabel>
+              <CheckboxLabel>연인과 공유</CheckboxLabel>
             </CheckboxWrapper>
           </InsertForm>
         </InsertFormPositioner>
