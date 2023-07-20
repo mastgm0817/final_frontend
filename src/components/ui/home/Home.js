@@ -4,12 +4,14 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import rootReducer from '../../../store/rootReducer'; // 리듀서를 정의한 파일의 위치
 import Calendar from '../../calendar/Calendar'; // Calendar 컴포넌트의 위치
 import TodoList from '../../todolist/TodoList'; // TodoList 컴포넌트의 위치
+import { composeWithDevTools } from "redux-devtools-extension";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from '../../../store/rootReducer';
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
-const store = createStore(rootReducer);
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,8 +35,10 @@ function Home() {
             <Item>
             <Provider store={store}>
               <Calendar></Calendar>
-
             </Provider>
+              <Provider store={store}>
+                <ToDoList></ToDoList>
+              </Provider>
             </Item>
             </Grid>
             <Grid item xs={6} md={4}>
