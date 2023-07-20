@@ -13,13 +13,15 @@ import {
   todos,
   clearTodos
 } from "../../store/modules/todolist";
+import '../../style/util/ScrollBar.css';
+
+// TodoList 영역
 import axios from 'axios';
-import { useInsertionEffect } from "react";
 const TodoTemplateBlock = styled.div`
   display: flex;
   position: relative;
-  width: 25%;
-  height: 82vh;
+  width: 90%;
+  height: 350px;
   margin: 20px;
   padding: 20px;
   background-color: white;
@@ -27,6 +29,8 @@ const TodoTemplateBlock = styled.div`
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
   flex-direction: column;
 `;
+
+
 
 const TodoList = () => {
   const [value, setValue] = useState("");
