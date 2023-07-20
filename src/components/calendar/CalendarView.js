@@ -228,7 +228,7 @@ const CalendarView = ({
         <tbody>
           <tr>
             <StyledTh>일요일</StyledTh>
-            <StyledTh>월요일</StyledTh>
+            <StyledTh>일요일</StyledTh>
             <StyledTh>화요일</StyledTh>
             <StyledTh>수요일</StyledTh>
             <StyledTh>목요일</StyledTh>
