@@ -9,7 +9,6 @@ import Calendar from '../../calendar/Calendar'; // Calendar 컴포넌트의 위�
 import TodoList from '../../todolist/TodoList'; // TodoList 컴포넌트의 위치
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
-import rootReducer from '../../../store/rootReducer';
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
 
@@ -37,7 +36,7 @@ function Home() {
               <Calendar></Calendar>
             </Provider>
               <Provider store={store}>
-                <ToDoList></ToDoList>
+                <TodoList></TodoList>
               </Provider>
             </Item>
             </Grid>
