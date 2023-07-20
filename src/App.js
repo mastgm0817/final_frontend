@@ -32,7 +32,7 @@ function App() {
             <Route path="/users" element={<UserList />} />
           </Routes>
           <Box sx={{ bgcolor: '#F8F6F4', height: '7vh' }} >
-            footer1234
+            footer
           </Box>
         </Container>
       </Container>
