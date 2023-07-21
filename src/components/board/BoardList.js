@@ -9,10 +9,6 @@ import {
   Paper
 } from '@mui/material'
 import Collapse from '@mui/material/Collapse';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EditIcon from '@mui/icons-material/Edit';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -30,8 +26,8 @@ const BoardList = () => {
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [extendedBoard, setExtendedBoard] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [selectUpdate, setUpdateBoard] = useState(null);
+  // const [showUpdateForm, setShowUpdateForm] = useState(false);
+
 
   const fetchData = async () => {
     try {
@@ -61,35 +57,17 @@ const BoardList = () => {
     FetchBoards();
     setExtendedBoard(!extendedBoard);
   };
-  
-
-  const handleUpdateForm = (board) => {
-    setUpdateBoard(board);
-  };
-
-
-  const handleDeleteClick = async (board) => {
-    try {
-      await HandleDeleteBoard(board.bid);
-      const updatedBoards = boards.filter(p => p.bid !== board.bid);
-      setBoards(updatedBoards);
-      console.log('Board deleted:', board);
-    } catch (error) {
-      console.error('Error deleting board:', error);
-    }
-  };
 
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
   };
 
-  const toggleUpdateForm = () => {
-    setShowUpdateForm(!showUpdateForm);
-  };
+  
 
 
   return (
-    <>
+    <div>
+
       <div>
         <h1 style={{ textAlign: 'center' }}>게시판</h1>
       </div>
@@ -119,12 +97,7 @@ const BoardList = () => {
                           <TableCell style={{ width: '15%', textAlign:"center" }}>{board.b_createdAt}</TableCell>
                           <TableCell style={{ width: '15%', textAlign:"center" }}>{board.b_recommendations}</TableCell>
                           <TableCell style={{ width: '15%', textAlign:"center" }}>{board.b_views}</TableCell>
-                          <TableCell>
-                            {/* 수정 */}
-                              <EditIcon onClick={(event) => {event.stopPropagation(); handleUpdateForm(board); setShowUpdateForm(true);}}></EditIcon>
-                            {/* 삭제 */}
-                              <DeleteIcon onClick={(event) => {event.stopPropagation(); handleDeleteClick(board);}}/>
-                          </TableCell>
+
                       </TableRow>
 
                       <TableRow>
@@ -139,16 +112,18 @@ const BoardList = () => {
           </Table>
         </TableContainer>
         {/* {showUpdateForm && <UpdateBoardForm Board={selectUpdate} toggleForm={toggleUpdateForm} refreshBoards={fetchData}/>} */}
-        {showUpdateForm && <UpdateBoardForm board={selectUpdate} toggleForm={toggleUpdateForm} refreshBoards={fetchData} classname={'slideUp'}/>}
+        
       </Box>
       
         <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
           <AddIcon sx={{ marginRight: '0.5em' }} />
           게시글 작성하기
         </Fab>
-        {showAddForm && <AddBoardForm refreshBoards={fetchData} classname={'slideUp'} toggleForm={toggleAddForm} />}
-    </>
+        {showAddForm && <AddBoardForm refreshBoards={fetchData} classname={"slideUp"} toggleForm={toggleAddForm}/>}
+        </div>
+
   );
+
 }
 
 export default BoardList;
