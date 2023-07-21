@@ -47,7 +47,7 @@
   to {bottom:-100%;}
 }
 
-#post-form {
+#board-form {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -188,7 +188,7 @@
   text-align: left;
 }
 
-.post-detail-title{
+.board-detail-title{
   text-align: left;
 }
 

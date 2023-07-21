@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const pages = [
   { name: 'Home', path: '/' },
-  { name: 'Board', path: '/posts' },
+  { name: 'Board', path: '/boards' },
   { name: 'Test', path: '/users' },
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

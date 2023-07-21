@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import HandleUpdatePost from './api/HandleUpdatePost';
-import './PostList.css';
+import HandleUpdateBoard from './api/HandleUpdateBoard';
+import './BoardList.css';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const UpdatePostForm = ({ post, toggleForm, refreshPosts, classname }) => {
+const UpdateBoardForm = ({ board, toggleForm, refreshBoards, classname }) => {
 
-  const [updatedPost, setUpdatedPost] = useState(post?{ 
-    title: post.title, 
-    content: post.content, 
+  const [updatedBoard, setUpdatedBoard] = useState(board?{ 
+    title: board.b_title, 
+    content: board.b_content, 
     updatedAt: new Date().toISOString()
   } : null);
 
@@ -24,43 +24,43 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts, classname }) => {
   }}
   
 
-  const updatingPost = async () => {
+  const updatingBoard = async () => {
     try {
-      await HandleUpdatePost(post.pid, updatedPost, refreshPosts);
-      console.log('Post updated:', updatedPost);
-      refreshPosts();
+      await HandleUpdateBoard(board.b_bid, updatedBoard, refreshBoards);
+      console.log('Board updated:', updatedBoard);
+      refreshBoards();
       setClassName();
       setcloseed(true);
       toggleForm();
     } catch (error) {
-      console.error('Error updating post:', error);
+      console.error('Error updating board:', error);
     }
   };
 
 
   
 
-  if (!updatedPost) {
+  if (!updatedBoard) {
     return null;
   }
 
   const handleXButton=()=>{
     setclass("slideDown");
-    setUpdatedPost(null);
-    refreshPosts();
+    setUpdatedBoard(null);
+    refreshBoards();
     toggleForm();
   }
 
   return (
-    <div id="post-form" className={formUpDown}>
+    <div id="board-form" className={formUpDown}>
       <h2 style={{ textAlign: 'center' }}>게시글 수정</h2>
       <div className="close-icon" onClick={handleXButton} >X</div>
       
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <TextField id="outlined-basic" label="제목" variant="standard"
           type="text"
-          value={updatedPost.title}
-          onChange={e => setUpdatedPost({ ...updatedPost, title: e.target.value })}
+          value={updatedBoard.b_title}
+          onChange={e => setUpdatedBoard({ ...updatedBoard, title: e.target.value })}
         />
       </div>
 
@@ -68,18 +68,18 @@ const UpdatePostForm = ({ post, toggleForm, refreshPosts, classname }) => {
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <TextField id="outlined-basic" label="제목" variant="standard"
-          value={updatedPost.content}
-          onChange={e => setUpdatedPost({ ...updatedPost, content: e.target.value })}
+          value={updatedBoard.b_content}
+          onChange={e => setUpdatedBoard({ ...updatedBoard, content: e.target.value })}
         />
       </div>
 
       <br />
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button onClick={updatingPost}>게시글 수정</Button>
+        <Button onClick={updatingBoard}>게시글 수정</Button>
       </div>
     </div>
   );
 };
 
-export default UpdatePostForm;
+export default UpdateBoardForm;
