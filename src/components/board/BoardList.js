@@ -17,31 +17,28 @@ import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import AddPostForm from './AddPostForm';
-import UpdatePostForm from './UpdatePostForm';
-import PostDetail from './PostDetail';
-import FetchPosts from './api/FetchPosts';
-import HandleDeletePost from './api/HandleDeletePost';
+import AddBoardForm from './AddBoardForm';
+import UpdateBoardForm from './UpdateBoardForm';
+import BoardDetail from './BoardDetail';
+import FetchBoards from './api/FetchBoards';
+import HandleDeleteBoard from './api/HandleDeleteBoard';
 import IncreaseViewCount from './api/IncreaseViewCount';
-import './PostList.css';
+import './BoardList.css';
 
-
-
-
-const PostList = () => {
-  const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [extendedPost, setExtendedPost] = useState(null);
+const BoardList = () => {
+  const [boards, setBoards] = useState([]);
+  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [extendedBoard, setExtendedBoard] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [selectUpdate, setUpdatePost] = useState(null);
+  const [selectUpdate, setUpdateBoard] = useState(null);
 
   const fetchData = async () => {
     try {
-      const response = await FetchPosts();
-      setPosts(response);
+      const response = await FetchBoards();
+      setBoards(response);
     } catch (error) {
-      console.error('Error fetching posts:', error);
+      console.error('Error fetching boards:', error);
     }
   };
 
@@ -50,35 +47,35 @@ const PostList = () => {
   }, []);
 
 
-  const handlePostClick = async (post) => {
+  const handleBoardClick = async (board) => {
 
-    setSelectedPost(post);
+    setSelectedBoard(board);
     
     try {
-      await IncreaseViewCount(post.pid);
-      const updatedPosts = await FetchPosts();
-      setPosts(updatedPosts);
+      await IncreaseViewCount(board.bid);
+      const updatedBoards = await FetchBoards();
+      setBoards(updatedBoards);
     } catch(error) {
       console.error("Error increasing view count:", error);
     }
-    FetchPosts();
-    setExtendedPost(!extendedPost);
+    FetchBoards();
+    setExtendedBoard(!extendedBoard);
   };
   
 
-  const handleUpdateForm = (post) => {
-    setUpdatePost(post);
+  const handleUpdateForm = (board) => {
+    setUpdateBoard(board);
   };
 
 
-  const handleDeleteClick = async (post) => {
+  const handleDeleteClick = async (board) => {
     try {
-      await HandleDeletePost(post.pid);
-      const updatedPosts = posts.filter(p => p.pid !== post.pid);
-      setPosts(updatedPosts);
-      console.log('Post deleted:', post);
+      await HandleDeleteBoard(board.bid);
+      const updatedBoards = boards.filter(p => p.bid !== board.bid);
+      setBoards(updatedBoards);
+      console.log('Board deleted:', board);
     } catch (error) {
-      console.error('Error deleting post:', error);
+      console.error('Error deleting board:', error);
     }
   };
 
@@ -113,27 +110,27 @@ const PostList = () => {
             </TableHead>
 
             <TableBody>
-              {posts.map(post => (
+              {boards.map(board => (
 
-                <React.Fragment key={post.pid}>
-                      <TableRow onClick={() => handlePostClick(post)} className='tablerow' key={post.pid}>
-                          <TableCell style={{ width: '10%', textAlign:"center"}}>{post.pid}</TableCell>
-                          <TableCell style={{ width: '20%', textAlign:"center" }}>{post.title}</TableCell>
-                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.createdAt}</TableCell>
-                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.recommendations}</TableCell>
-                          <TableCell style={{ width: '15%', textAlign:"center" }}>{post.views}</TableCell>
+                <React.Fragment key={board.bid}>
+                      <TableRow onClick={() => handleBoardClick(board)} className='tablerow' key={board.bid}>
+                          <TableCell style={{ width: '10%', textAlign:"center"}}>{board.bid}</TableCell>
+                          <TableCell style={{ width: '20%', textAlign:"center" }}>{board.b_title}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{board.b_createdAt}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{board.b_recommendations}</TableCell>
+                          <TableCell style={{ width: '15%', textAlign:"center" }}>{board.b_views}</TableCell>
                           <TableCell>
                             {/* 수정 */}
-                              <EditIcon onClick={(event) => {event.stopPropagation(); handleUpdateForm(post); setShowUpdateForm(true);}}></EditIcon>
+                              <EditIcon onClick={(event) => {event.stopPropagation(); handleUpdateForm(board); setShowUpdateForm(true);}}></EditIcon>
                             {/* 삭제 */}
-                              <DeleteIcon onClick={(event) => {event.stopPropagation(); handleDeleteClick(post);}}/>
+                              <DeleteIcon onClick={(event) => {event.stopPropagation(); handleDeleteClick(board);}}/>
                           </TableCell>
                       </TableRow>
 
                       <TableRow>
                         <td></td>
-                          <td><Collapse in={selectedPost && selectedPost.pid === post.pid} timeout="auto" unmountOnExit onClick={setSelectedPost}>
-                            <PostDetail post={selectedPost} />
+                          <td><Collapse in={selectedBoard && selectedBoard.bid === board.bid} timeout="auto" unmountOnExit onClick={setSelectedBoard}>
+                            <BoardDetail board={selectedBoard} />
                           </Collapse></td>
                       </TableRow>
                       </React.Fragment>
@@ -141,17 +138,17 @@ const PostList = () => {
           </TableBody>
           </Table>
         </TableContainer>
-        {/* {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData}/>} */}
-        {showUpdateForm && <UpdatePostForm post={selectUpdate} toggleForm={toggleUpdateForm} refreshPosts={fetchData} classname={'slideUp'}/>}
+        {/* {showUpdateForm && <UpdateBoardForm Board={selectUpdate} toggleForm={toggleUpdateForm} refreshBoards={fetchData}/>} */}
+        {showUpdateForm && <UpdateBoardForm board={selectUpdate} toggleForm={toggleUpdateForm} refreshBoards={fetchData} classname={'slideUp'}/>}
       </Box>
       
         <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
           <AddIcon sx={{ marginRight: '0.5em' }} />
           게시글 작성하기
         </Fab>
-        {showAddForm && <AddPostForm refreshPosts={fetchData} classname={'slideUp'} toggleForm={toggleAddForm} />}
+        {showAddForm && <AddBoardForm refreshBoards={fetchData} classname={'slideUp'} toggleForm={toggleAddForm} />}
     </>
   );
 }
 
-export default PostList;
+export default BoardList;

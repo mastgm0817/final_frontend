@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import HandleCreatePost from './api/HandleCreatePost';
+import HandleCreateBoard from './api/HandleCreateBoard';
 
-import './PostList.css';
+import './BoardList.css';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -10,26 +10,26 @@ import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 
 
-const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
+const AddBoardForm = ({refreshBoards, classname, toggleForm }) => {
 
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
+  const [newBoard, setNewBoard] = useState({ title: '', content: '' });
   const [formUpDown, setclass] = useState(classname);
   
 
-  const createPost = async () => {
+  const createBoard = async () => {
     try {
-      await HandleCreatePost(newPost, refreshPosts);
-      console.log('Post created:', newPost);
-      refreshPosts();
+      await HandleCreateBoard(newBoard, refreshBoards);
+      console.log('Board created:', newBoard);
+      refreshBoards();
       setClassName();
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('Error creating Board:', error);
     }
   };
 
   const handleXButton=()=>{
     setClassName();
-    refreshPosts();
+    refreshBoards();
     // setTimeout(1000);
     toggleForm();
   }
@@ -45,7 +45,7 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
 
   return (
     <Grid container spacing={50}>
-      <div id="post-form" className={formUpDown}>
+      <div id="board-form" className={formUpDown}>
         <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
         <div className="close-icon" onClick={handleXButton}>X</div>
 
@@ -55,8 +55,8 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
             label="제목"
             variant="standard"
             type="text"
-            value={newPost.title}
-            onChange={e => setNewPost({ ...newPost, title: e.target.value })}
+            value={newBoard.b_title}
+            onChange={e => setNewBoard({ ...newBoard, title: e.target.value })}
           />
         </div>
 
@@ -71,8 +71,8 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
             label="내용"
             variant="standard"
             type="text"
-            value={newPost.content}
-            onChange={e => setNewPost({ ...newPost, content: e.target.value })}
+            value={newBoard.b_content}
+            onChange={e => setNewBoard({ ...newBoard, content: e.target.value })}
           />
         </div>
         </FormControl>
@@ -81,7 +81,7 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
       <br />
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Button onClick={createPost}>게시글 작성 완료</Button>
+        <Button onClick={createBoard}>게시글 작성 완료</Button>
       </div>
       </div>
     </Grid>
@@ -89,4 +89,4 @@ const AddPostForm = ({refreshPosts, classname, toggleForm }) => {
 };
 
 
-export default AddPostForm;
+export default AddBoardForm;

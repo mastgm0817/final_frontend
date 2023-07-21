@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const Handlerecommendations = async (postId) => {
-  const postIdString = postId.toString();
+const Handlerecommendations = async (BoardId) => {
+  const BoardIdString = BoardId.toString();
     try {
-      const response = await axios.get(`/api/posts/${postIdString}/Recommend`, {
+      const response = await axios.get(`/api/boards/${BoardIdString}/recommend`, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8'
         }
