@@ -12,7 +12,8 @@ import NavAppBar from './components/ui/navigation/NavAppBar'
 import Home from './components/ui/home/Home';
 import UserList from './components/user/UserList';
 import PostList from './components/post/PostList';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import LoginPage from "./components/login/LoginPage";
+import { Routes, Route } from 'react-router-dom';
 
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
@@ -30,6 +31,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/posts" element={<PostList />} />
             <Route path="/users" element={<UserList />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
           <Box sx={{ bgcolor: '#F8F6F4', height: '7vh' }} >
             footer
