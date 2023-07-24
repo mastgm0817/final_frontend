@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import HandleKakaoLoginOut from './KakaoLogout';
 function Redirection() {
   const [userInfo, setUserInfo] = useState(null);
   const code = new URL(document.location.toString()).searchParams.get('code');
@@ -30,8 +30,9 @@ function Redirection() {
   // UI to show when user information has been successfully received
   return (
     <div>
-      <h1>Welcome, {userInfo.kakao_account.profile.nickname}!</h1>
-      <p>Email: {userInfo.kakao_account.email}</p>
+      <h1>Welcome, {userInfo.user.nickName}!</h1>
+      <p>Email: {userInfo.user.email}</p>
+      <button onClick={ HandleKakaoLoginOut }>로그아웃</button>
     </div>
   );
 };
