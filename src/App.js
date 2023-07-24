@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import NavAppBar from './components/ui/navigation/NavAppBar'
+import NavAppBar from './components/ui/navigation/NavAppBar';
 import Home from './components/ui/home/Home';
-import UserList from './components/user/UserList';
 import BoardList from './components/board/BoardList';
+import UserList from "./components/user/UserList";
 import LoginPage from "./components/login/LoginPage";
+import Redirection from "./components/login/api/Redirection";
+
 import {Routes, Route } from 'react-router-dom';
 
 
@@ -32,6 +34,7 @@ function App() {
             <Route path="/boards" element={<BoardList />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/oauth/kakao" element={<Redirection />} />
           </Routes>
           <Box sx={{ bgcolor: '#F8F6F4', height: '7vh' }} >
             footer
