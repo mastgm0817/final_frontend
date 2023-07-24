@@ -14,7 +14,7 @@ import BoardList from './components/board/BoardList';
 import UserList from "./components/user/UserList";
 import LoginPage from "./components/login/LoginPage";
 import Redirection from "./components/login/api/Redirection";
-
+import JoinForm from "./components/ui/register/JoinForm";
 import {Routes, Route } from 'react-router-dom';
 
 
@@ -35,6 +35,7 @@ function App() {
             <Route path="/users" element={<UserList />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/oauth/kakao" element={<Redirection />} />
+            <Route path="/join" element={<JoinForm />} />
           </Routes>
           <Box sx={{ bgcolor: '#F8F6F4', height: '7vh' }} >
             footer
