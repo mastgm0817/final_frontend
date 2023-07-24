@@ -15,7 +15,7 @@ import HandleDeleteBoard from './api/HandleDeleteBoard';
 import UpdateBoardForm from './UpdateBoardForm';
 
 
-const BoardDetail = ({ board }) => {
+const BoardDetail = ({ board, refreshBoards }) => {
 
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectUpdate, setUpdateBoard] = useState(null);
@@ -30,27 +30,28 @@ const BoardDetail = ({ board }) => {
     }
   };
 
-  const handleUpdateForm = (board,) => {
-    // event.stopPropagation();
+  const handleUpdateForm = (event, board) => {
+    event.stopPropagation();
     setUpdateBoard(board);
     setShowUpdateForm(true);
+    console.log(board);
+
   };
 
   const toggleUpdateForm = () => {
-    // setShowUpdateForm(!showUpdateForm);
-    // // console.log("토글됨")
+    setShowUpdateForm(true);
+    // console.log("토글됨")
   };
 
-  const HandlerecommendButton = async (board) => {
+  const HandleRecommendButton = async (board) => {
         
     try {
-      await Handlerecommendations(board.bid);
-      const updatedBoards = await FetchBoards();
-        //   setBoards(updatedBoards);
+      await Handlerecommendations(board);
+      refreshBoards();
       } catch(error) {
           console.error("Error increasing view count:", error);
         }
-        FetchBoards();
+        refreshBoards();
       };
 
   const handleDeleteClick = async (board) => {
@@ -59,7 +60,7 @@ const BoardDetail = ({ board }) => {
       // const updatedBoards = boards.filter(p => p.bid !== board.bid);
       // setBoards(updatedBoards);
       console.log('Board deleted:', board);
-      FetchBoards();
+      refreshBoards();
 
     } catch (error) {
         console.error('Error deleting board:', error);
@@ -74,11 +75,11 @@ const BoardDetail = ({ board }) => {
             {/* <p style={{ marginBottom: '1em' }}>{Board.author}</p><br /> */}
             <table style={{ borderCollapse: 'collapse' }}>
                 <tbody><tr className="detail-additional"><td style={{ width: '10%' }}>작성일&nbsp; {board.b_createdAt}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>최근 수정&nbsp; {board.b_updatedAt}</td></tr>
-                <tr className="detail-additional"><td>조회수&nbsp; {board.b_views}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>추천수&nbsp; {board.b_recommendations}</td></tr>
+                <tr className="detail-additional"><td>조회수&nbsp; {board.b_views+1}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
                 <tr></tr>
 
                 {/* 수정 */}
-                <tr><td><EditIcon onClick={handleUpdateForm}></EditIcon></td>
+                <tr><td><EditIcon onClick={(event) => {handleUpdateForm(event, board);}}></EditIcon></td>
                 {}
                 {/* 삭제 */}
                     <td><DeleteIcon onClick={(event) => {event.stopPropagation(); handleDeleteClick(board);}}/></td>
@@ -86,7 +87,8 @@ const BoardDetail = ({ board }) => {
 
                 <tr><td><p style={{ marginBottom: '1em' }}>{board.b_content}</p></td></tr>
                 
-                <tr><td><Button onClick={(event) => {event.stopPropagation(); HandlerecommendButton(board.bid)}}>추천</Button></td></tr>
+                {/* 추천 */}
+                <tr><td><Button onClick={(event) => {event.stopPropagation(); HandleRecommendButton(board.bid)}}>추천 {board.b_recommendations}</Button></td></tr>
                 {/* <tr><td><p style={{ wordBreak: 'break-all' }}>{Board.comments}</p></td></tr> */}
                 </tbody>
             </table>
@@ -95,7 +97,7 @@ const BoardDetail = ({ board }) => {
 
              <h4>댓글 목록</h4>
 
-             {showUpdateForm && <UpdateBoardForm/>}
+             {showUpdateForm && <UpdateBoardForm refreshBoards={refreshBoards} toggleForm={toggleUpdateForm} classname="slideUp" board={board} />}
 
         </Box>
     );

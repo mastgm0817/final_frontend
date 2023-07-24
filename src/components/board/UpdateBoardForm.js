@@ -12,16 +12,16 @@ const UpdateBoardForm = ({ board, toggleForm, refreshBoards, classname }) => {
     content: board.b_content, 
     updatedAt: new Date().toISOString()
   } : null);
-
   const [formUpDown, setclass] = useState(classname);
-  const [isclosed, setcloseed] = useState(false)
+  const [isclosed, setcloseed] = useState(false);
+
 
   const setClassName = () =>{
     if(formUpDown==='slideDown'){
       setclass("slideUp");
     }
-    else {setclass("slideDown")
-  }}
+    // else {setclass("slideDown")
+  }
   
 
   const updatingBoard = async () => {
@@ -37,30 +37,24 @@ const UpdateBoardForm = ({ board, toggleForm, refreshBoards, classname }) => {
     }
   };
 
-
-  
-
-  if (!updatedBoard) {
-    return null;
-  }
-
-  const handleXButton=()=>{
+  const handleXButton=(event)=>{
+    event.stopPropagation();
     setclass("slideDown");
     setUpdatedBoard(null);
     refreshBoards();
-    toggleForm();
   }
 
   return (
-    <div id="board-form" className={formUpDown}>
+    <div>
+      <div id="board-form" className={formUpDown}>
       <h2 style={{ textAlign: 'center' }}>게시글 수정</h2>
       <div className="close-icon" onClick={handleXButton} >X</div>
       
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <TextField id="outlined-basic" label="제목" variant="standard"
           type="text"
-          value={updatedBoard.b_title}
-          onChange={e => setUpdatedBoard({ ...updatedBoard, title: e.target.value })}
+          value={board.b_title}
+          onChange={e => setUpdatedBoard({ ...updatedBoard, b_title: e.target.value })}
         />
       </div>
 
@@ -68,8 +62,8 @@ const UpdateBoardForm = ({ board, toggleForm, refreshBoards, classname }) => {
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <TextField id="outlined-basic" label="제목" variant="standard"
-          value={updatedBoard.b_content}
-          onChange={e => setUpdatedBoard({ ...updatedBoard, content: e.target.value })}
+          value={board.b_content}
+          onChange={e => setUpdatedBoard({ ...updatedBoard, b_content: e.target.value })}
         />
       </div>
 
@@ -78,8 +72,10 @@ const UpdateBoardForm = ({ board, toggleForm, refreshBoards, classname }) => {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Button onClick={updatingBoard}>게시글 수정</Button>
       </div>
+
+      </div>
     </div>
   );
-};
+  }
 
 export default UpdateBoardForm;

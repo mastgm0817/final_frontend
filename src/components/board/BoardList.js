@@ -4,7 +4,7 @@ import {
   Table,
   TableHead,
   TableBody,
-  TableRow, tableRowClasses,
+  TableRow,
   TableCell,
   Paper
 } from '@mui/material'
@@ -62,18 +62,22 @@ const BoardList = () => {
     setShowAddForm(!showAddForm);
   };
 
-  
+const showMyBoard = () => {
 
+  
+}
+
+  
+//================================================================
 
   return (
     <div>
-
       <div>
         <h1 style={{ textAlign: 'center' }}>게시판</h1>
       </div>
 
       <Box>
-        <TableContainer   sx={{padding:'50px', width: '70%', align:'center'}}>
+        <TableContainer sx={{padding:'50px', width: '70%', align:'center'}}>
           <Table sx={{align:'center'}}>
 
             <TableHead sx={{ backgroundColor: '#1976D2' }}>
@@ -103,7 +107,7 @@ const BoardList = () => {
                       <TableRow>
                         <td></td>
                           <td><Collapse in={selectedBoard && selectedBoard.bid === board.bid} timeout="auto" unmountOnExit onClick={setSelectedBoard}>
-                            <BoardDetail board={selectedBoard} />
+                            <BoardDetail board={selectedBoard} refreshBoards={fetchData} />
                           </Collapse></td>
                       </TableRow>
                       </React.Fragment>
@@ -115,11 +119,16 @@ const BoardList = () => {
         
       </Box>
       
-        <Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
+        <p><Fab variant="extended" onClick={toggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
           <AddIcon sx={{ marginRight: '0.5em' }} />
           게시글 작성하기
-        </Fab>
+        </Fab></p>
         {showAddForm && <AddBoardForm refreshBoards={fetchData} classname={"slideUp"} toggleForm={toggleAddForm}/>}
+
+        <p><Fab variant="extended" onClick={showMyBoard} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
+          내글보기
+        </Fab></p>
+
         </div>
 
   );

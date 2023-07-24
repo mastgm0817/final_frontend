@@ -7,8 +7,8 @@ const HandleUpdateBoard = async (BoardId, updatedBoard, refreshBoards) => {
                 'Content-Type': 'application/json; charset=utf-8'
             }
         });
-        console.log('Board updated:', response.data);
         refreshBoards();
+        console.log('Board updated:', response.data);
     } catch (error) {
         console.error('Error updating Board:', error);
         throw error;

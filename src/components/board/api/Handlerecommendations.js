@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const Handlerecommendations = async (BoardId) => {
-  const BoardIdString = BoardId.toString();
+const HandleRecommendations = async (board) => {
+    // const BoardId=Board.bid;
+    // console.log(board);
     try {
-      const response = await axios.get(`/api/boards/${BoardIdString}/recommend`, {
+      const response = await axios.put(`/api/boards/${board}/recommend`, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8'
         }
@@ -15,4 +16,4 @@ const Handlerecommendations = async (BoardId) => {
     }
   };
 
-export default Handlerecommendations;
+export default HandleRecommendations;

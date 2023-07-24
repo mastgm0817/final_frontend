@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 
 const AddBoardForm = ({refreshBoards, classname, toggleForm }) => {
 
-  const [newBoard, setNewBoard] = useState({ title: '', content: '' });
+  const [newBoard, setNewBoard] = useState({ b_title: '', b_content: '' });
   const [formUpDown, setclass] = useState(classname);
   
 
@@ -21,7 +21,7 @@ const AddBoardForm = ({refreshBoards, classname, toggleForm }) => {
       await HandleCreateBoard(newBoard, refreshBoards);
       console.log('Board created:', newBoard);
       refreshBoards();
-      setClassName();
+      setClassName("slideDown");
     } catch (error) {
       console.error('Error creating Board:', error);
     }
@@ -48,7 +48,7 @@ const AddBoardForm = ({refreshBoards, classname, toggleForm }) => {
       <div id="board-form" className={formUpDown}>
         <h2 style={{ textAlign: 'center' }}>새로운 게시글 작성</h2>
         <div className="close-icon" onClick={handleXButton}>X</div>
-
+        <form></form>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
           <TextField
             id="outlined-basic"
@@ -56,7 +56,7 @@ const AddBoardForm = ({refreshBoards, classname, toggleForm }) => {
             variant="standard"
             type="text"
             value={newBoard.b_title}
-            onChange={e => setNewBoard({ ...newBoard, title: e.target.value })}
+            onChange={e => setNewBoard({ ...newBoard, b_title: e.target.value })}
           />
         </div>
 
@@ -72,7 +72,7 @@ const AddBoardForm = ({refreshBoards, classname, toggleForm }) => {
             variant="standard"
             type="text"
             value={newBoard.b_content}
-            onChange={e => setNewBoard({ ...newBoard, content: e.target.value })}
+            onChange={e => setNewBoard({ ...newBoard, b_content: e.target.value })}
           />
         </div>
         </FormControl>
