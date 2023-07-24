@@ -68,15 +68,15 @@ const UserList = () => {
         />
         <input
           type="text"
-          placeholder="Picture"
-          value={newUser.picture}
-          onChange={(e) => setNewUser({ ...newUser, picture: e.target.value })}
+          placeholder="Profile"
+          value={newUser.profileImage}
+          onChange={(e) => setNewUser({ ...newUser, profileImage: e.target.value })}
         />
         <input
           type="text"
           placeholder="Role"
-          value={newUser.role}
-          onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+          value={newUser.userRole}
+          onChange={(e) => setNewUser({ ...newUser, userRole: e.target.value })}
         />
         <input
           type="text"
@@ -94,16 +94,16 @@ const UserList = () => {
               <strong>ID:</strong> {user.uid}
             </div>
             <div>
-              <strong>Name:</strong> {user.name}
+              <strong>nickName:</strong> {user.nickName}
             </div>
             <div>
               <strong>Email:</strong> {user.email}
             </div>
             <div>
-              <strong>Picture:</strong> {user.picture}
+              <strong>profileImage:</strong> {user.profileImage}
             </div>
             <div>
-              <strong>Role:</strong> {user.role}
+              <strong>Role:</strong> {user.userRole}
             </div>
             <div>
               <strong>Lover:</strong> {user.lover}
@@ -113,10 +113,8 @@ const UserList = () => {
               <button
                 onClick={() =>
                   updateUser(user.uid, {
-                    name: "Updated Name",
+                    nickName: "Updated Name",
                     email: "Updated Email",
-                    picture: "Updated Picture",
-                    role: "Updated Role",
                     lover: "Updated Lover"
                   })
                 }
