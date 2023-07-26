@@ -7,7 +7,6 @@ const nextConfig = {
         KAKAO_CLIENT_SECRET:"pcIl6N5qw8Y7s4OtUNZyVpep0xEuVmxf",
         NAVER_CLIENT_ID:"wHHdHmY9FpvrlZv21VRF",
         NAVER_CLIENT_SECRET:"74qcy3l60D"
-        
     }
 }
 
