@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,22 +11,11 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { NextPage } from 'next';
 import { Button, Container, Typography } from '@mui/material';
 import { signIn, useSession, signOut } from "next-auth/react";
 import Image from 'next/image'
 
 function Copyright(props: any) {
-  const { data: session } = useSession();
-
-  if (session) {
-    return (
-      <>
-        {session.user?.name}님 반갑습니다 <br />
-        <button onClick={() => signOut()}>로그아웃</button>
-      </>
-    );
-  }
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -136,17 +126,17 @@ export default function SignInSide() {
               </Typography>
                 <Grid container spacing={0.5} style={{marginTop:"10px"}}>
                   <Grid xs display="flex" justifyContent="center" alignItems="center">
-                    <Button onClick={() => signIn('naver')}>
+                    <Button onClick={() => signIn('naver', { callbackUrl: "http://localhost:3000/" })}>
                       <Image src="/naver.png" alt="naverbtn" width={50} height={50}></Image>
                     </Button>
                   </Grid>
                   <Grid xs display="flex" justifyContent="center" alignItems="center">
-                    <Button onClick={() => signIn('google')}>
+                    <Button onClick={() => signIn('google', { callbackUrl: "http://localhost:3000/" })}>
                     <Image src="/google.png" alt="googlebtn" width={50} height={50}></Image>
                     </Button>
                   </Grid>
                   <Grid xs display="flex" justifyContent="center" alignItems="center">
-                    <Button onClick={() => signIn('kakao')}>
+                    <Button onClick={() => signIn('kakao', { callbackUrl: "http://localhost:3000/" })}>
                     <Image src="/kakao.png" alt="kakaobtn" width={50} height={50}></Image>
                     </Button>
                   </Grid>
