@@ -21,7 +21,6 @@ const nextAuthOptions = (req, res) => {
       }),
 
       CredentialsProvider({
-        id : 'telephone',
           name: 'Credentials',
           credentials: {
             email: { label: "Email", type: "text", placeholder: "jsmith" },
