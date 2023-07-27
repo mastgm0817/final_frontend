@@ -125,17 +125,17 @@ export default function SignInSide() {
               Or sign in with
               </Typography>
                 <Grid container spacing={0.5} style={{marginTop:"10px"}}>
-                  <Grid xs display="flex" justifyContent="center" alignItems="center">
+                  <Grid xs item display="flex" justifyContent="center" alignItems="center">
                     <Button onClick={() => signIn('naver', { callbackUrl: "http://localhost:3000/" })}>
                       <Image src="/naver.png" alt="naverbtn" width={50} height={50}></Image>
                     </Button>
                   </Grid>
-                  <Grid xs display="flex" justifyContent="center" alignItems="center">
+                  <Grid xs item display="flex" justifyContent="center" alignItems="center">
                     <Button onClick={() => signIn('google', { callbackUrl: "http://localhost:3000/" })}>
                     <Image src="/google.png" alt="googlebtn" width={50} height={50}></Image>
                     </Button>
                   </Grid>
-                  <Grid xs display="flex" justifyContent="center" alignItems="center">
+                  <Grid xs item display="flex" justifyContent="center" alignItems="center">
                     <Button onClick={() => signIn('kakao', { callbackUrl: "http://localhost:3000/" })}>
                     <Image src="/kakao.png" alt="kakaobtn" width={50} height={50}></Image>
                     </Button>
