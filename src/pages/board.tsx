@@ -9,7 +9,7 @@ import RootLayout from '../app/layout';
 
 import CreateBoard from './api/board/HandleCreateBoard';
 import WriteBoard from '../components/WriteBoard';
-import HandleUpdateBoard from './api/board/HandleUpdateForm';
+import HandleUpdateBoard from './api/board/HandleUpdateBoard';
 import HandleCreateBoard from './api/board/HandleCreateBoard';
 import HandleDeleteBoard from './api/board/HandleDeleteBoard';
 import FetchBoards from './api/test/fetchPost';
@@ -24,6 +24,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import TextField from '@mui/material';
 
   
 //   import UpdateBoardForm from './UpdateBoardForm';
@@ -48,6 +49,8 @@ const defaultBoard:Board={
     nickName : " ",
     b_title : " ",
     b_content : " ",
+    b_createdAt:" ",
+    b_updatedAt:"",
     b_views : 0,
     comments : 0,
     b_recommendations : 0
@@ -62,27 +65,39 @@ function BoardDetail(props:any){
 
                 <table style={{ borderCollapse: 'collapse' }}>
                 <tbody><tr className="detail-additional"><td style={{ width: '10%' }}>작성자&nbsp; {props.selectedBoard.nickName}</td></tr>
-                    <tr className="detail-additional"><td style={{ width: '10%' }}>작성일&nbsp; {props.selectedBoard.b_createdAt}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>최근 수정&nbsp; {props.selectedBoard.b_updatedAt}</td></tr>
+                    <tr className="detail-additional"><td style={{ width: '10%' }}>작성일&nbsp; {props.selectedBoard.b_createdAt}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>최근 수정&nbsp; {props.selectedBoard.b_updatedAt}</td></tr>
                     <tr className="detail-additional"><td>조회수&nbsp; {props.selectedBoard.b_views+1}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
                     <tr></tr>
 
                     {/* 수정 */}
-                    <tr><td><EditIcon onClick={(event) => {props.ToggleUpdateForm(event, props.selectedBoard);}}></EditIcon></td>
+                    <tr><td><EditIcon onClick={() => {props.ToggleUpdateForm(props.selectedBoard);}}></EditIcon></td>
                     {}
                     {/* 삭제 */}
-                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.DeleteBoard(props.selectedBoard);}}/></td>
+                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.DeleteBoard(props.selectedBoard); }}/></td>
                     </tr>
 
                     <tr><td><p style={{ marginBottom: '1em' }}>{props.selectedBoard.b_content}</p></td></tr>
                     
                     {/* 추천 */}
-                    {/* <tr><td><Button onClick={(event) => {event.stopPropagation(); props.HandleRecommendButton(props.board.bid)}}>추천 {props.board.b_recommendations}</Button></td></tr> */}
+                    <tr><td><Button onClick={(event) => {event.stopPropagation(); props.HandleRecommendButton(props.selectedBoard.bid)}}>추천 {props.selectedBoard.b_recommendations}</Button></td></tr>
                     <tr><td><Button></Button></td></tr>
-                    {/* <tr><td><p style={{ wordBreak: 'break-all' }}>{Board.comments}</p></td></tr> */}
+                
                 </tbody>
                 </table>
             </div>
-             <h4>댓글 목록</h4>
+            <h4>댓글 목록</h4>
+            <br></br>
+            {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'left' }}>
+                <TextField
+                    id="outlined-basic"
+                    label="댓글"
+                    variant="standard"
+                    type="text"
+                    value=" "
+                    onChange={ (event:React.ChangeEvent<HTMLInputElement>) => setNewBoard({ ...newBoard, b_title: event.target.value })}
+                />
+            </div> */}
         </Box>
     );
 }
@@ -95,8 +110,8 @@ function Logined(props:any):any{
     const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
     const [newBoard, CreateNewBoard] = useState<Board>({...defaultBoard});//새로운 board
     const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);//선택된 board
-    // const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);//보여지는 board
-
+    const [boardToUpdate, setBoardToUpdate] = useState<Board>(defaultBoard);//수정할Board...
+    // const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard)
 
     
     const fetchData = async () => {
@@ -111,15 +126,12 @@ function Logined(props:any):any{
     useEffect(() => {
         fetchData();
     }, []);
-
     
     function HandleBoardClick(event:any, clickedBoard:Board):any {   //게시글 클릭 시 게시글은 clicked
         if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid){
-            setSelectedBoard(clickedBoard);       //보여줄 게시글로 설정
             setSelectedBoard(clickedBoard);     //게시글을 활성화상태로
-            console.log(clickedBoard);
+            console.log(clickedBoard.bid + "번 게시글 조회됨");
         }else if(selectedBoard !== null && selectedBoard.bid === clickedBoard.bid){
-            setSelectedBoard(defaultBoard);
             setSelectedBoard(defaultBoard);
         }
     }
@@ -133,36 +145,57 @@ function Logined(props:any):any{
         } else {setAddFormClass("formOn");}
     }
 
-    function ToggleUpdateForm():any{
-        if (UpdateFormClass==="formOn") {
-            setSelectedBoard(defaultBoard);
+    // async function ToggleUpdateForm(board:Board){
+    //     if (UpdateFormClass==="formOn") {
+    //         setSelectedBoard(defaultBoard);
+    //         setUpdateFormClass("formOff");
+    //     } else if (UpdateFormClass==="formOff") {
+    //         setSelectedBoard(board);
+    //         console.log("수정:",board)
+    //         setUpdateFormClass("formOn");
+    //     } else {
+    //         setSelectedBoard(board);
+    //         setUpdateFormClass("formOn");}
+    // }
+    async function ToggleUpdateForm(board: Board) {
+        setSelectedBoard(prevState => {
+          if (UpdateFormClass === "formOn") {
             setUpdateFormClass("formOff");
-        } else if (UpdateFormClass==="formOff") {
-            setSelectedBoard(selectedBoard);
-            console.log("수정:",selectedBoard)
+            return defaultBoard;
+          } else {
             setUpdateFormClass("formOn");
-        } else {setUpdateFormClass("formOn");}
-    }
+            return board;
+          }
+        });
+      }
 
     function handleAddXButton(){    
         setAddFormClass("formOff");
     }
     function handelUpdateXButton(){     
-        setUpdateFormClass("formOff");
         setSelectedBoard(defaultBoard);
-        setSelectedBoard(defaultBoard)
+        setUpdateFormClass("formOff");
     }
-    function UpdateBoard(UpdateBoard:Board){
-        HandleUpdateBoard(UpdateBoard);    
+    async function UpdateBoard(UpdateBoard:Board){
+        await HandleUpdateBoard(UpdateBoard);
+        setSelectedBoard(defaultBoard);
+        setUpdateFormClass("formOff");
+        fetchData();   
     }
-    function CreateBoard(newBoard:Board){
-        newBoard.nickName=`${session.user?.name}`
-        HandleCreateBoard(newBoard);
+    async function CreateBoard(newBoard:Board){
+        newBoard.nickName=`${session?session.user?.name:null}`
+        await HandleCreateBoard(newBoard);
         ToggleAddForm();
         fetchData();
     }
-    function DeleteBoard(board:Board){
-        HandleDeleteBoard(board);
+    async function DeleteBoard(board:Board) {
+        await HandleDeleteBoard(board, fetchData);
+        fetchData();
+    }
+
+    async function HandleRecommendButton(){
+        console.log(selectedBoard.bid+"번 게시글 추천댐")
+        fetchData();
     }
     
 
@@ -202,9 +235,11 @@ function Logined(props:any):any{
 
                             <br></br>
                             <Collapse in={selectedBoard && selectedBoard.bid === board.bid}>
-                                <BoardDetail selectedBoard={selectedBoard} ToggleUpdateForm={() => ToggleUpdateForm()} DeleteBoard={DeleteBoard}/>
+                                <BoardDetail selectedBoard={board} ToggleUpdateForm={() => ToggleUpdateForm(board)} DeleteBoard={DeleteBoard} HandleRecommendButton={HandleRecommendButton}/>
                             </Collapse>
                         </React.Fragment>
+
+                        
                         ))}
                 </Box>
 
@@ -234,15 +269,10 @@ function Logined(props:any):any{
 }
 
 
-
-
-//========================================================================
-
  export default function BoardList(props:any):any{
 
-    //=====================================================================================================
-
     return (
+        
         <RootLayout>
                <Logined />
         </RootLayout>

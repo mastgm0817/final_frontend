@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Board from '@/types/board';
 
-const HandleDeleteBoard = async (board:Board) => {
+const HandleDeleteBoard = async (board:Board, fetchData:any) => {
     const BoardId=board.bid;
     // console.log(BoardId)
     try {

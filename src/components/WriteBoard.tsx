@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Grid,
         TextField,
         FormControl,
@@ -10,7 +10,11 @@ import Board from "@/types/board"
 export default function WriteBoard(props:any){
 
     const [newBoard, setNewBoard] = useState<Board>(props.board)
-    // console.log(newBoard)
+
+    useEffect(() => {
+        setNewBoard(props.board);
+      }, [props.board]);
+
     return(
         <Grid container spacing={50}>
         <div id="board-form" className={props.formClass}>
