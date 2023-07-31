@@ -58,6 +58,11 @@ const defaultBoard:Board={
 }
 
 function BoardDetail(props:any){
+    const [comment, setComment] = useState<string>('');
+    const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setComment(e.target.value);
+    };
+
     return(
         <Box sx={{align:"center"}} className={"Board-to-show"}>
             <div style={{marginLeft:"30"}}>
@@ -89,8 +94,11 @@ function BoardDetail(props:any){
                             id="outlined-basic"
                             label="댓글"
                             variant="standard"
-                            type="text"></TextField></div></td> 
-                            <Button onClick={(event) => {}}>제출</Button></tr>
+                            type="text"
+                            value={comment}
+                            onChange={handleCommentChange}
+                            ></TextField></div></td> 
+                            <Button onClick={(event) => {props.handleCommentSubmit(event, comment);}}>제출</Button></tr>
                     </tbody>
                     </table>
                      
@@ -176,8 +184,14 @@ function Logined(props:any):any{
         console.log(selectedBoard.bid+"번 게시글 추천댐")
         fetchData();
     }
-    async function SubmitComment(board:Board, comment:Comment) {
-        HandleCreateComment(board, comment);
+    async function SubmitComment(board:Board, commentText: string) {
+        const comment: Comment = {
+            id: Date.now(),
+            content: commentText,
+            createdAt: new Date().toISOString(),
+            author: session ? session.user?.name : 'Anonymous'
+        };
+        await HandleCreateComment(board, comment);
     }
     
 
@@ -219,7 +233,11 @@ function Logined(props:any):any{
 
                             <br></br>
                             <Collapse in={selectedBoard && selectedBoard.bid === board.bid}>
-                                <BoardDetail selectedBoard={board} ToggleUpdateForm={() => ToggleUpdateForm(board)} DeleteBoard={DeleteBoard} HandleRecommendButton={HandleRecommendButton}/>
+                                <BoardDetail selectedBoard={board} 
+                                             ToggleUpdateForm={() => ToggleUpdateForm(board)} 
+                                             DeleteBoard={DeleteBoard} 
+                                             HandleRecommendButton={HandleRecommendButton} 
+                                             handleCommentSubmit={SubmitComment}/>
                             </Collapse>
                         </React.Fragment>
 
