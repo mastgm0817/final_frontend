@@ -18,13 +18,15 @@ interface IProps {
 
 export default function RootLayout({ children } : IProps) {
   return (
-    <html lang="ko">
-      <body className={inter.className}>
+
+    // <html lang="ko">
+    //   <body className={inter.className}>
         <Provider>
           <PrimarySearchAppBar/>
           {children}
         </Provider>
-      </body>
-    </html>
+    //   </body>
+    // </html>
+
   )
 }
