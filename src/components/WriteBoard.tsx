@@ -10,10 +10,10 @@ import Board from "@/types/board"
 export default function WriteBoard(props:any){
 
     const [newBoard, setNewBoard] = useState<Board>(props.board)
-    console.log(props.board)
+    // console.log(newBoard)
     return(
         <Grid container spacing={50}>
-        {/* <div id="board-form" className={props.formClass}>
+        <div id="board-form" className={props.formClass}>
             <h2 style={{ textAlign: 'center' }}>{props.FormTitle}</h2>
             <div className="close-icon" onClick={props.handleXButton}>X</div>
 
@@ -24,7 +24,7 @@ export default function WriteBoard(props:any){
                         label="제목"
                         variant="standard"
                         type="text"
-                        value={newBoard.b_title===""?"":props.boardToShow.b_title}
+                        value={props.board.b_title===""?"":newBoard.b_title}
                         onChange={ (event:React.ChangeEvent<HTMLInputElement>) => setNewBoard({ ...newBoard, b_title: event.target.value })}
                     />
                     </div>
@@ -37,7 +37,7 @@ export default function WriteBoard(props:any){
                                 label="내용"
                                 variant="standard"
                                 type="text"
-                                value={newBoard.b_content===""?"":props.boardToShow.b_content}
+                                value={props.board.b_content===""?"":newBoard.b_content}
                                 onChange={(event:React.ChangeEvent<HTMLInputElement>) => setNewBoard({ ...newBoard, b_content: event.target.value })}/>
                             </div>
                         </FormControl>
@@ -49,7 +49,7 @@ export default function WriteBoard(props:any){
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Button onClick={() => props.BoardComplete(newBoard)}>게시글 작성 완료</Button>
                 </div>
-            </div> */}
+            </div>
         </Grid>
     )
 }

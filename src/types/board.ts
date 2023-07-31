@@ -5,7 +5,7 @@ type Board = {
     nickName : String,
     b_title : String,
     b_content : String,
-    b_createdAt : String,
+    b_createdAt : ,
     b_updatedAt : String,
     b_views : Number,
     comments : Number,

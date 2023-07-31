@@ -10,7 +10,7 @@ const HandleDeleteBoard = async (board:Board) => {
                 'Content-Type': 'application/json; charset=utf-8'
             }
         });
-        console.log('Board deleted:', response.data);
+        console.log(`Board deleted:${BoardId}`, response.data);
     } catch (error) {
         console.error('Error deleting Board:', error);
         throw error;

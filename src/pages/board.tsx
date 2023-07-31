@@ -43,64 +43,37 @@ const Item = styled(Paper)(({ theme }) => ({
     // display: 'inline-flex'
   }));
 
-const board1:Board = {
-    bid : 1,
-    nickName : "lin",
-    b_title : "Hello",
-    b_content : "World",
-    b_createdAt : new Date().toLocaleDateString(),
-    b_updatedAt : new Date().toLocaleDateString(),
-    b_views : 10,
-    comments : 0,
-    b_recommendations : 0,
-};
-const board2:Board = {
-    bid : 10,
-    nickName : "lin2",
-    b_title : "world",
-    b_content : "HEllo",
-    b_createdAt : new Date().toLocaleDateString(),
-    b_updatedAt : new Date().toLocaleDateString(),
-    b_views : 13,
-    comments : 0,
-    b_recommendations : 0,
-};
-
 const defaultBoard:Board={
     bid : 0,
     nickName : " ",
     b_title : " ",
     b_content : " ",
-    // b_createdAt : " ",
-    // b_updatedAt : " ",
     b_views : 0,
     comments : 0,
     b_recommendations : 0
 }
 
 function BoardDetail(props:any){
-    // console.log(props.boardToShow)
-    console.log(props.boardToShow.b_title)
     return(
         <Box sx={{align:"center"}} className={"Board-to-show"}>
             <div style={{marginLeft:"30"}}>
 
-                <h2>{props.boardToShow.b_title}</h2>
+                <h2>{props.selectedBoard.b_title}</h2>
 
                 <table style={{ borderCollapse: 'collapse' }}>
-                <tbody><tr className="detail-additional"><td style={{ width: '10%' }}>작성자&nbsp; {props.boardToShow.nickName}</td></tr>
-                    <tr className="detail-additional"><td style={{ width: '10%' }}>작성일&nbsp; {props.boardToShow.b_createdAt}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>최근 수정&nbsp; {props.boardToShow.b_updatedAt}</td></tr>
-                    <tr className="detail-additional"><td>조회수&nbsp; {props.boardToShow.b_views+1}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+                <tbody><tr className="detail-additional"><td style={{ width: '10%' }}>작성자&nbsp; {props.selectedBoard.nickName}</td></tr>
+                    <tr className="detail-additional"><td style={{ width: '10%' }}>작성일&nbsp; {props.selectedBoard.b_createdAt}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>최근 수정&nbsp; {props.selectedBoard.b_updatedAt}</td></tr>
+                    <tr className="detail-additional"><td>조회수&nbsp; {props.selectedBoard.b_views+1}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
                     <tr></tr>
 
                     {/* 수정 */}
-                    <tr><td><EditIcon onClick={(event) => {props.ToggleUpdateForm(event, props.boardToShow);}}></EditIcon></td>
+                    <tr><td><EditIcon onClick={(event) => {props.ToggleUpdateForm(event, props.selectedBoard);}}></EditIcon></td>
                     {}
                     {/* 삭제 */}
-                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.DeleteBoard(props.boardToShow);}}/></td>
+                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.DeleteBoard(props.selectedBoard);}}/></td>
                     </tr>
 
-                    <tr><td><p style={{ marginBottom: '1em' }}>{props.boardToShow.b_content}</p></td></tr>
+                    <tr><td><p style={{ marginBottom: '1em' }}>{props.selectedBoard.b_content}</p></td></tr>
                     
                     {/* 추천 */}
                     {/* <tr><td><Button onClick={(event) => {event.stopPropagation(); props.HandleRecommendButton(props.board.bid)}}>추천 {props.board.b_recommendations}</Button></td></tr> */}
@@ -117,12 +90,12 @@ function BoardDetail(props:any){
 function Logined(props:any):any{
 
     const {data: session} = useSession();
-    const [boards, setBoards] = useState<Board[]>([]);
-    const [boardToShow, setBoardToShow] = useState<Board>(defaultBoard);
-    const [AddFormClass, setAddFormClass] = useState<String | null>(null);
-    const [newBoard, CreateNewBoard] = useState<Board>({...defaultBoard});
-    const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);
+    const [boards, setBoards] = useState<Board[]>([]);//board목록
+    const [AddFormClass, setAddFormClass] = useState<String | null>(null);//글추가폼의 class
     const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
+    const [newBoard, CreateNewBoard] = useState<Board>({...defaultBoard});//새로운 board
+    const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);//선택된 board
+    // const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);//보여지는 board
 
 
     
@@ -140,12 +113,14 @@ function Logined(props:any):any{
     }, []);
 
     
-    function HandleBoardClick(event:any, clickedBoard:Board):any {   //게시글 클릭 시
-        if (boardToShow === null || boardToShow.bid !== clickedBoard.bid){
-            setBoardToShow(clickedBoard);
-            console.log(boardToShow);
-        }else if(boardToShow !== null && boardToShow.bid === clickedBoard.bid){
-            setBoardToShow(defaultBoard);
+    function HandleBoardClick(event:any, clickedBoard:Board):any {   //게시글 클릭 시 게시글은 clicked
+        if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid){
+            setSelectedBoard(clickedBoard);       //보여줄 게시글로 설정
+            setSelectedBoard(clickedBoard);     //게시글을 활성화상태로
+            console.log(clickedBoard);
+        }else if(selectedBoard !== null && selectedBoard.bid === clickedBoard.bid){
+            setSelectedBoard(defaultBoard);
+            setSelectedBoard(defaultBoard);
         }
     }
 
@@ -158,12 +133,13 @@ function Logined(props:any):any{
         } else {setAddFormClass("formOn");}
     }
 
-    function ToggleUpdateForm(board:Board):any{
+    function ToggleUpdateForm():any{
         if (UpdateFormClass==="formOn") {
             setSelectedBoard(defaultBoard);
             setUpdateFormClass("formOff");
         } else if (UpdateFormClass==="formOff") {
-            setSelectedBoard(board)
+            setSelectedBoard(selectedBoard);
+            console.log("수정:",selectedBoard)
             setUpdateFormClass("formOn");
         } else {setUpdateFormClass("formOn");}
     }
@@ -173,14 +149,14 @@ function Logined(props:any):any{
     }
     function handelUpdateXButton(){     
         setUpdateFormClass("formOff");
+        setSelectedBoard(defaultBoard);
+        setSelectedBoard(defaultBoard)
     }
     function UpdateBoard(UpdateBoard:Board){
         HandleUpdateBoard(UpdateBoard);    
     }
     function CreateBoard(newBoard:Board){
         newBoard.nickName=`${session.user?.name}`
-        // newBoard.b_createdAt=new Date().toLocaleDateString();
-        // newBoard.b_updatedAt=new Date().toLocaleDateString();
         HandleCreateBoard(newBoard);
         ToggleAddForm();
         fetchData();
@@ -225,8 +201,8 @@ function Logined(props:any):any{
                             </Item>
 
                             <br></br>
-                            <Collapse in={boardToShow && boardToShow.bid === board.bid}>
-                                <BoardDetail boardToShow={boardToShow} ToggleUpdateForm={() => ToggleUpdateForm(selectedBoard)} DeleteBoard={DeleteBoard}/>
+                            <Collapse in={selectedBoard && selectedBoard.bid === board.bid}>
+                                <BoardDetail selectedBoard={selectedBoard} ToggleUpdateForm={() => ToggleUpdateForm()} DeleteBoard={DeleteBoard}/>
                             </Collapse>
                         </React.Fragment>
                         ))}
