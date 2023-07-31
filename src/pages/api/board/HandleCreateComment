@@ -1,0 +1,8 @@
+import Board from '../../../types/board';
+import Comment from '../../../types/comment';
+
+async function HandleCreateComment(board:Board, comments:Comment){
+
+};
+
+export default HandleCreateComment;
