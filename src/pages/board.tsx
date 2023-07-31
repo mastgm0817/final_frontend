@@ -11,6 +11,8 @@ import CreateBoard from './api/board/HandleCreateBoard';
 import WriteBoard from '../components/WriteBoard';
 import HandleUpdateBoard from './api/board/HandleUpdateForm';
 import HandleCreateBoard from './api/board/HandleCreateBoard';
+import HandleDeleteBoard from './api/board/HandleDeleteBoard';
+import FetchBoards from './api/test/fetchPost';
 // import BoardDetail from '@/components/BoardDetail';
 
 import {Paper, Box} from '@mui/material';
@@ -66,11 +68,11 @@ const board2:Board = {
 
 const defaultBoard:Board={
     bid : 0,
-    nickName : "",
-    b_title : "",
-    b_content : "",
-    b_createdAt : "",
-    b_updatedAt : "",
+    nickName : " ",
+    b_title : " ",
+    b_content : " ",
+    // b_createdAt : " ",
+    // b_updatedAt : " ",
     b_views : 0,
     comments : 0,
     b_recommendations : 0
@@ -95,7 +97,7 @@ function BoardDetail(props:any){
                     <tr><td><EditIcon onClick={(event) => {props.ToggleUpdateForm(event, props.boardToShow);}}></EditIcon></td>
                     {}
                     {/* 삭제 */}
-                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.handleDeleteClick(props.board);}}/></td>
+                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.DeleteBoard(props.boardToShow);}}/></td>
                     </tr>
 
                     <tr><td><p style={{ marginBottom: '1em' }}>{props.boardToShow.b_content}</p></td></tr>
@@ -112,46 +114,38 @@ function BoardDetail(props:any){
     );
 }
 
-function Logined(props:any){
-    const { data: session } = useSession();
-    if (session){
-        return (      
-            
-            <Fab variant="extended" onClick={props.ToggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
-            {/* <AddIcon sx={{ marginRight: '0.5em' }} /> */}
-            게시글 작성하기
-            </Fab>
-            
-        )
-    }
-}
+function Logined(props:any):any{
 
-
-
-
-//========================================================================
-
- export default function BoardList():any{
-
+    const {data: session} = useSession();
     const [boards, setBoards] = useState<Board[]>([]);
-    const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);
-    // const [AddButtonClass, setAddButtonClass] = useState<any | null>(null);
-    const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
+    const [boardToShow, setBoardToShow] = useState<Board>(defaultBoard);
     const [AddFormClass, setAddFormClass] = useState<String | null>(null);
-    const [newBoard, CreateNewBoard] = useState<Board>(defaultBoard);
+    const [newBoard, CreateNewBoard] = useState<Board>({...defaultBoard});
+    const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);
+    const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
 
-    // const { data: session } = useSession();
+
+    
+    const fetchData = async () => {
+        try {
+            const response = await FetchBoards();
+            setBoards(response);
+        } catch (error) {
+            console.error('Error fetching boards:', error);
+        }
+    };
 
     useEffect(() => {
-        setBoards([board1, board2]);
-      }, []);
+        fetchData();
+    }, []);
 
+    
     function HandleBoardClick(event:any, clickedBoard:Board):any {   //게시글 클릭 시
-        if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid){
-            setSelectedBoard(clickedBoard);
-            console.log(selectedBoard);
-        }else if(selectedBoard !== null && selectedBoard.bid === clickedBoard.bid){
-            setSelectedBoard(defaultBoard);
+        if (boardToShow === null || boardToShow.bid !== clickedBoard.bid){
+            setBoardToShow(clickedBoard);
+            console.log(boardToShow);
+        }else if(boardToShow !== null && boardToShow.bid === clickedBoard.bid){
+            setBoardToShow(defaultBoard);
         }
     }
 
@@ -160,42 +154,48 @@ function Logined(props:any){
             setAddFormClass("formOff");
         } else if (AddFormClass==="formOff") {
             setAddFormClass("formOn");
+            CreateNewBoard(newBoard);
         } else {setAddFormClass("formOn");}
     }
 
-    function ToggleUpdateForm():any{
+    function ToggleUpdateForm(board:Board):any{
         if (UpdateFormClass==="formOn") {
+            setSelectedBoard(defaultBoard);
             setUpdateFormClass("formOff");
         } else if (UpdateFormClass==="formOff") {
+            setSelectedBoard(board)
             setUpdateFormClass("formOn");
         } else {setUpdateFormClass("formOn");}
     }
 
-    function handleAddXButton(){       //일단 Add만
+    function handleAddXButton(){    
         setAddFormClass("formOff");
     }
-    function handelUpdateXButton(){       //일단 Add만
+    function handelUpdateXButton(){     
         setUpdateFormClass("formOff");
     }
-
-    function CreateBoard(newBoard:Board){
-        setBoards([...boards, newBoard]);
-        // newBoard.nickName=`${session.user?.name}`
-        HandleCreateBoard(newBoard);
-    }
-
     function UpdateBoard(UpdateBoard:Board){
-        HandleUpdateBoard();      // TODO: update 개발 - backend
+        HandleUpdateBoard(UpdateBoard);    
     }
+    function CreateBoard(newBoard:Board){
+        newBoard.nickName=`${session.user?.name}`
+        // newBoard.b_createdAt=new Date().toLocaleDateString();
+        // newBoard.b_updatedAt=new Date().toLocaleDateString();
+        HandleCreateBoard(newBoard);
+        ToggleAddForm();
+        fetchData();
+    }
+    function DeleteBoard(board:Board){
+        HandleDeleteBoard(board);
+    }
+    
 
+    if (session){
+        const userName=session.user?.name;
+        return session ? (
 
-
-    //=====================================================================================================
-
-    return (
-               
-        <RootLayout>
-            <Logined ToggleAddForm={ToggleAddForm} />
+            <>
+            {/* <Logined /> */}
 
             <div>
                 <h1 style={{ textAlign: 'center' }}>게시판</h1><br></br>
@@ -225,33 +225,52 @@ function Logined(props:any){
                             </Item>
 
                             <br></br>
-                            <Collapse in={selectedBoard && selectedBoard.bid === board.bid}>
-                                <BoardDetail boardToShow={selectedBoard} ToggleUpdateForm={ToggleUpdateForm}/>
+                            <Collapse in={boardToShow && boardToShow.bid === board.bid}>
+                                <BoardDetail boardToShow={boardToShow} ToggleUpdateForm={() => ToggleUpdateForm(selectedBoard)} DeleteBoard={DeleteBoard}/>
                             </Collapse>
                         </React.Fragment>
                         ))}
                 </Box>
+
             </div>
 
-        {AddFormClass && 
+            <Fab variant="extended" onClick={ToggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
+            게시글 작성하기
+            </Fab>
+            
+            {AddFormClass && 
                 <WriteBoard 
-                            b_title={newBoard.b_title} 
-                            b_content={newBoard.b_content} 
+                            board={{...defaultBoard}}
                             FormTitle="새로운 게시글 작성" 
                             handleXButton={handleAddXButton} 
                             formClass={AddFormClass}
-                            BoardComplete={CreateBoard}/>}
-        {UpdateFormClass && 
+                            BoardComplete={CreateBoard} />}
+
+            {UpdateFormClass && 
                 <WriteBoard 
-                            b_title={selectedBoard.b_title} 
-                            b_content={selectedBoard.b_content} 
+                            board={{...selectedBoard}}
                             FormTitle="게시글 수정"  
                             handleXButton={handelUpdateXButton} 
                             formClass={UpdateFormClass}
                             BoardComplete={UpdateBoard} />}
-        
+            </>
+        ):<div>로그인해주세용</div>}
+}
+
+
+
+
+//========================================================================
+
+ export default function BoardList(props:any):any{
+
+    //=====================================================================================================
+
+    return (
+        <RootLayout>
+               <Logined />
         </RootLayout>
-      
     );
+
   }
   

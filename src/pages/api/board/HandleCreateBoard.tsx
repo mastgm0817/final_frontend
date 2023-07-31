@@ -3,14 +3,9 @@ import Board from '../../../types/board';
 import { SessionProvider } from "next-auth/react"
 
 const HandleCreateBoard = async (newBoard:Board) => {
-
-    newBoard.b_createdAt=new Date().toLocaleDateString();
-    newBoard.b_updatedAt=new Date().toLocaleDateString();
-    newBoard.b_recommendations=0;
-    newBoard.b_views=0;
-    newBoard.bid=0;
+    // console.log(newBoard);
     try {
-        const response = await axios.post('https://localhost:8080/api/boards', newBoard, {
+        const response = await axios.post('http://localhost:8080/api/boards', newBoard, {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }

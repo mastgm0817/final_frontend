@@ -5,14 +5,15 @@ import { Grid,
         Button } from "@mui/material"
 import "./../app/board.css"
 import React from "react"
+import Board from "@/types/board"
 
 export default function WriteBoard(props:any){
 
-    const [newBoard, setNewBoard] = useState({b_title: props.b_title, b_content: props.b_content})
-
+    const [newBoard, setNewBoard] = useState<Board>(props.board)
+    console.log(props.board)
     return(
         <Grid container spacing={50}>
-        <div id="board-form" className={props.formClass}>
+        {/* <div id="board-form" className={props.formClass}>
             <h2 style={{ textAlign: 'center' }}>{props.FormTitle}</h2>
             <div className="close-icon" onClick={props.handleXButton}>X</div>
 
@@ -23,7 +24,7 @@ export default function WriteBoard(props:any){
                         label="제목"
                         variant="standard"
                         type="text"
-                        // value={props.b_title===""?"":props.b_title}
+                        value={newBoard.b_title===""?"":props.boardToShow.b_title}
                         onChange={ (event:React.ChangeEvent<HTMLInputElement>) => setNewBoard({ ...newBoard, b_title: event.target.value })}
                     />
                     </div>
@@ -36,7 +37,7 @@ export default function WriteBoard(props:any){
                                 label="내용"
                                 variant="standard"
                                 type="text"
-                                // value={props.b_content}
+                                value={newBoard.b_content===""?"":props.boardToShow.b_content}
                                 onChange={(event:React.ChangeEvent<HTMLInputElement>) => setNewBoard({ ...newBoard, b_content: event.target.value })}/>
                             </div>
                         </FormControl>
@@ -46,9 +47,9 @@ export default function WriteBoard(props:any){
                 <br></br>
 
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Button onClick={props.BoardComplete}>게시글 작성 완료</Button>
+                    <Button onClick={() => props.BoardComplete(newBoard)}>게시글 작성 완료</Button>
                 </div>
-            </div>
+            </div> */}
         </Grid>
     )
 }
