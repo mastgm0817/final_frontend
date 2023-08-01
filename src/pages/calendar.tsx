@@ -6,6 +6,7 @@ import { IconButton, Card, CardContent } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Weather from './weather';
+import RootLayout from '@/app/layout';
 
 
 interface DateProps {
@@ -83,6 +84,7 @@ export default function Calendar() {
   const selectedDayOfWeek = daysOfWeek[new Date(selectedDate.year, selectedDate.month - 1, selectedDate.day).getDay()];
 
   return (
+    <RootLayout>
     <div className="container">
       <div className="calendar">
         <h2>Luvoost</h2>
@@ -113,6 +115,7 @@ export default function Calendar() {
         <Weather />
       </div>
     </div>
+    </RootLayout>
   );
 };
 
