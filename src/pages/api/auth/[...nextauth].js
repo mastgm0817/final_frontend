@@ -21,47 +21,53 @@ const nextAuthOptions = (req, res) => {
       }),
 
       CredentialsProvider({
+        id: 'email-Credentials',
           name: 'Credentials',
           credentials: {
-            email: { label: "Email", type: "text", placeholder: "jsmith" },
+            email: { label: "Email", type: "text", placeholder: "email" },
             password: {  label: "Password", type: "password" }
           },
           async authorize(credentials, req) {
+              console.log(credentials);
+              const email = credentials.email;
+              const password = credentials.password;
+                if(email === "mastgm0817@gmail.com" && password === "1234"){
+                    return credentials;
+                }
+                throw new Error("아이디 혹은 패스워드가 틀립니다.");
 
-            const res = await fetch("http://localhost:8080/auth/login", {
-              method: 'POST',
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email : credentials?.email,
-                password : credentials?.password,
-              }),
-            })
-            const user = await res.json()
+          //   const res = await fetch("http://localhost:8080/api/login", {
+          //     method: 'POST',
+          //     headers: { "Content-Type": "application/json" },
+          //     body: JSON.stringify({
+          //       email : credentials?.email,
+          //       password : credentials?.password,
+          //     }),
+          //   })
+          //   const user = await res.json()
       
-            // 인증되었음
-            if (user) {
-              return user
-            }
-            // 인증되지 않음
-            return null
+          //   // 인증되었음
+          //   if (user) {
+          //     return user
+          //   }
+          //   // 인증되지 않음
+          //   return null
           }
         })
     ],
     callbacks:{
-      // async profile(profile) {
-      //   // 사용자 정보 가공
-      //   return {
-      //     ...profile,
-      //     userName: profile.name, // name 키를 userName으로 변경
-      //   };
-      // },
-      async jwt({token, user}){
-        return { ...token, ...user};
-      },
-      // async session({ session, token, user}){
-      //   session.user = token as any;
-      //   return session;
-      // },
+      callbacks: {
+        async jwt(token, user, account, profile, isNewUser) {
+            token.userId = 123;
+            token.test = "test";
+            return token;
+        },
+        async session(session, userOrToken) {
+            session.user.userId = userOrToken.userId;
+            session.user.test = userOrToken.test;
+            return session
+        }
+    }
     }
   };
 };
