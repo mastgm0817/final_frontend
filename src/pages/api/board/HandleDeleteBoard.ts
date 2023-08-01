@@ -3,7 +3,6 @@ import Board from '@/types/board';
 
 const HandleDeleteBoard = async (board:Board, fetchData:any) => {
     const BoardId=board.bid;
-    // console.log(BoardId)
     try {
         const response = await axios.delete(`http://localhost:8080/api/boards/${BoardId}`, {
             headers: {

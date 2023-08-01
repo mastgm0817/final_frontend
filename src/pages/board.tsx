@@ -5,28 +5,26 @@ import { useSession } from "next-auth/react"
 import Link from "next/link";
 import PrimarySearchAppBar from './navbar';
 import Board from './../types/board'
+import Comment from '@/types/comment';
 import RootLayout from '../app/layout';
 
-import CreateBoard from './api/board/HandleCreateBoard';
 import WriteBoard from '../components/WriteBoard';
 import HandleUpdateBoard from './api/board/HandleUpdateBoard';
 import HandleCreateBoard from './api/board/HandleCreateBoard';
 import HandleDeleteBoard from './api/board/HandleDeleteBoard';
-import HandleCreateComment from './api/board/HandleCreateComment'
 import IncreaseViewCount from './api/board/IncreaseViewCount';
+import IncreaseRecommentCount from './api/board/IncreaseRecommendCount';
+import HandleFilterBoard from './api/board/HandleFilterBoard';
 import FetchBoards from './api/test/fetchPost';
-
-// import BoardDetail from '@/components/BoardDetail';
+import BoardDetail from '@/components/BoardDetail';
 
 import {Paper, Box, TextField} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { Preahvihear } from 'next/font/google';
 
 //   import UpdateBoardForm from './UpdateBoardForm';
 //   import FetchBoards from './api/FetchBoards';
@@ -57,57 +55,6 @@ const defaultBoard:Board={
     b_recommendations : 0
 }
 
-function BoardDetail(props:any){
-    const [comment, setComment] = useState<string>('');
-    const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setComment(e.target.value);
-    };
-
-    return(
-        <Box sx={{align:"center"}} className={"Board-to-show"}>
-            <div style={{marginLeft:"30"}}>
-
-                <h2>{props.selectedBoard.b_title}</h2>
-
-                <table style={{ borderCollapse: 'collapse' }}>
-                <tbody><tr className="detail-additional"><td style={{ width: '10%' }}>작성자&nbsp; {props.selectedBoard.nickName}</td></tr>
-                    <tr className="detail-additional"><td style={{ width: '10%' }}>작성일&nbsp; {props.selectedBoard.b_createdAt}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>최근 수정&nbsp; {props.selectedBoard.b_updatedAt}</td></tr>
-                    <tr className="detail-additional"><td>조회수&nbsp; {props.selectedBoard.b_views+1}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-                    <tr></tr>
-
-                    {/* 수정 */}
-                    <tr><td><EditIcon onClick={() => {props.ToggleUpdateForm(props.selectedBoard);}}></EditIcon></td>
-                    {}
-                    {/* 삭제 */}
-                        <td><DeleteIcon onClick={(event) => {event.stopPropagation(); props.DeleteBoard(props.selectedBoard); }}/></td>
-                    </tr>
-                    <tr><td><p style={{ marginBottom: '1em' }}>{props.selectedBoard.b_content}</p></td></tr>
-                    {/* 추천 */}
-                    <tr><td><Button onClick={(event) => {event.stopPropagation(); props.HandleRecommendButton(props.selectedBoard.bid)}}>추천 {props.selectedBoard.b_recommendations}</Button></td></tr>
-                    <tr><td><Button></Button></td></tr>
-                    
-                    
-                    <tr><td><h4>댓글 목록</h4></td></tr>
-                    <tr></tr>
-                    <tr><td><div><TextField
-                            id="outlined-basic"
-                            label="댓글"
-                            variant="standard"
-                            type="text"
-                            value={comment}
-                            onChange={handleCommentChange}
-                            ></TextField></div></td> 
-                            <Button onClick={(event) => {props.handleCommentSubmit(event, comment);}}>제출</Button></tr>
-                    </tbody>
-                    </table>
-                     
-                    
-                    </div>
-        </Box>
-    );
-}
-
 function Logined(props:any):any{
 
     const {data: session} = useSession();
@@ -116,7 +63,7 @@ function Logined(props:any):any{
     const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
     const [newBoard, CreateNewBoard] = useState<Board>({...defaultBoard});//새로운 board
     const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);//선택된 board
-
+    const [showMyBoard, setShowMyBoard] = useState<Boolean>(false);
     
     const fetchData = async () => {
         try {
@@ -129,10 +76,12 @@ function Logined(props:any):any{
     useEffect(() => {
         fetchData();
     }, []);
+
     function HandleBoardClick(event:any, clickedBoard:Board):any {   //게시글 클릭 시 게시글은 clicked
         if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid){
             setSelectedBoard(clickedBoard);     //게시글을 활성화상태로
             IncreaseViewCount(clickedBoard);
+            fetchData();
             console.log(clickedBoard.bid + "번 게시글 조회됨");
         }else if(selectedBoard !== null && selectedBoard.bid === clickedBoard.bid){
             setSelectedBoard(defaultBoard);
@@ -181,17 +130,23 @@ function Logined(props:any):any{
         fetchData();
     }
     async function HandleRecommendButton(){
-        console.log(selectedBoard.bid+"번 게시글 추천댐")
+        IncreaseRecommentCount(selectedBoard);
         fetchData();
     }
     async function SubmitComment(board:Board, commentText: string) {
-        const comment: Comment = {
-            id: Date.now(),
-            content: commentText,
-            createdAt: new Date().toISOString(),
-            author: session ? session.user?.name : 'Anonymous'
-        };
-        await HandleCreateComment(board, comment);
+        
+        // await HandleCreateComment(comment,board);
+    }
+    function FilterBoard(){
+        setShowMyBoard(!showMyBoard);
+        if (showMyBoard){
+            const reqName = session?session.user.name:" ";
+            HandleFilterBoard(reqName);
+        }else {
+        }
+        // setBoards();
+        // 내글보기 - 1. 사용자 닉네임을 서버로 보냄 2.서버에서는 사용자 닉네임으로 게시글 목록 만들어 전송 3. boards를 받은 게시물 목록으로 설정
+        // 전체글보기 - 전체글가져오기, boards를 전체글로 설정
     }
     
 
@@ -200,8 +155,6 @@ function Logined(props:any):any{
         return session ? (
 
             <>
-            {/* <Logined /> */}
-
             <div>
                 <h1 style={{ textAlign: 'center' }}>게시판</h1><br></br>
             </div>
@@ -249,6 +202,10 @@ function Logined(props:any):any{
 
             <Fab variant="extended" onClick={ToggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
             게시글 작성하기
+            </Fab>
+
+            <Fab variant="extended" onClick={FilterBoard} sx={{ position: 'fixed', bottom: '10em', right: '5em' }}>
+            {showMyBoard?"전체 글 보기":"내 글 보기"}
             </Fab>
             
             {AddFormClass && 

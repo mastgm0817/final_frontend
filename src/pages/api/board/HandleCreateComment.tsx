@@ -3,9 +3,11 @@ import Comment from '@/types/comment';
 import axios from 'axios';
 
 
-const HandleCreateComment = async (newComment:Comment) => {
+const HandleCreateComment = async (newComment:Comment, board:Board) => {
+    const boardId=board.bid;
     try {
-        const response = await axios.post('http://localhost:8080/api/comments', newComment, {
+    
+        const response = await axios.post(`http://localhost:8080/api/boards/${boardId}/comments`, newComment, {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }

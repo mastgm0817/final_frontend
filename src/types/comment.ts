@@ -1,11 +1,9 @@
 import { Key } from "react";
-import { ISODateString } from "next-auth";
 
 type Comment ={
-  id: Number,
+  cid: Key,
   content: String,
-  createdAt: String,
-  author: String
+  nickName: String
 }
 
 export default Comment;
