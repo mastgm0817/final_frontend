@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,6 +7,8 @@ import {Paper, Box, TextField, Button} from '@mui/material';
 
 import Board from '@/types/board';
 import Comment from '@/types/comment';
+import HandleCreateComment from '@/pages/api/board/HandleCreateComment';
+// import FetchComments from '@/pages/api/board/fetchComments';
 
 
 const defaultBoard:Board={
@@ -31,9 +33,18 @@ function BoardDetail(props:any){
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState<Comment>({...defaultComment})
 
-    // function CommentComplete(props){
-        
-    // }
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await FetchComments(props.selectedBoard.bid);
+    //         setComments(response);
+    //     } catch (error) {
+    //         console.error('Error fetching boards:', error);
+    //     }
+    // };
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+
     return(
         <Box sx={{align:"center"}} className={"Board-to-show"}>
             <div style={{marginLeft:"30"}}>
@@ -99,7 +110,7 @@ function BoardDetail(props:any){
                                 onChange={ (event:React.ChangeEvent<HTMLInputElement>) => setNewComment({ ...newComment, content: event.target.value })}
                                 ></TextField>
                         </div> 
-                        <Button>제출</Button>
+                        <Button onClick={()=>HandleCreateComment(newComment,props.selectedBoard.bid)}>제출</Button>
                     </Grid>
 
                 </Grid>
