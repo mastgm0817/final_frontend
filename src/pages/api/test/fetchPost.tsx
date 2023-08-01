@@ -1,6 +1,7 @@
-// import { useSession } from "next-auth/react"
-
-// import { useState } from "react";
+import { useSession } from "next-auth/react"
+import { useState } from "react";
+import Board from "../../../types/board";
+import axios from "axios";
 
 // const FetchPost = () => 
 // {
@@ -10,7 +11,7 @@
 //         const res = await fetch("http://localhost:8080/api/boards/1", {
 //             method: "Get",
 //             headers: {
-//                 authorization : `bearer ${session?user.accessToken}`,
+//                 authorization : `bearer ${session?user.accessToken:""}`,
 //             }
 //         });
     
@@ -27,3 +28,18 @@
 // }
 
 // export default FetchPost
+
+// import axios from 'axios';
+
+const FetchBoards = async () => {
+    try {
+        const response = await axios.get('http://localhost:8080/api/boards');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching boards:', error);
+        throw error;
+    }
+};
+
+export default FetchBoards;
+
