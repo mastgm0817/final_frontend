@@ -1,4 +1,3 @@
-
 "use client"
 import React, { useState, useEffect } from 'react';
 import { useSession } from "next-auth/react"
@@ -25,7 +24,6 @@ import Grid from '@mui/material/Grid';
 import { Preahvihear } from 'next/font/google';
 
 
-
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     padding: theme.spacing(1),
@@ -45,66 +43,67 @@ const defaultBoard:Board={
     b_recommendations : 0
 }
 
-const defaultBoard: Board = {
-  bid: 0,
-  nickName: " ",
-  b_title: " ",
-  b_content: " ",
-  b_createdAt: " ",
-  b_updatedAt: "",
-  b_views: 0,
-  comments: 0,
-  b_recommendations: 0,
-};
+function Logined(props:any):any{
 
-function Logined(props: any): any {
-  const { data: session } = useSession();
-  const [boards, setBoards] = useState<Board[]>([]); //board목록
-  const [AddFormClass, setAddFormClass] = useState<String | null>(null); //글추가폼의 class
-  const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
-  const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
-  const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard); //선택된 board
-  const [showMyBoard, setShowMyBoard] = useState<Boolean>(false);
+    const {data: session} = useSession();
+    const [boards, setBoards] = useState<Board[]>([]);//board목록
+    const [AddFormClass, setAddFormClass] = useState<String | null>(null);//글추가폼의 class
+    const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
+    const [newBoard, CreateNewBoard] = useState<Board>({...defaultBoard});//새로운 board
+    const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard);//선택된 board
+    const [showMyBoard, setShowMyBoard] = useState<Boolean>(false);
+    
+    const fetchData = async () => {
+        try {
+            const response = await FetchBoards();
+            setBoards(response);
+        } catch (error) {
+            console.error('Error fetching boards:', error);
+        }
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await FetchBoards();
-      setBoards(response);
-    } catch (error) {
-      console.error("Error fetching boards:", error);
+    function HandleBoardClick(event:any, clickedBoard:Board):any {   //게시글 클릭 시 게시글은 clicked
+        if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid){
+            setSelectedBoard(clickedBoard);     //게시글을 활성화상태로
+            IncreaseViewCount(clickedBoard);
+            fetchData();
+            console.log(clickedBoard.bid + "번 게시글 조회됨");
+        }else if(selectedBoard !== null && selectedBoard.bid === clickedBoard.bid){
+            setSelectedBoard(defaultBoard);
+        }
     }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  function HandleBoardClick(event: any, clickedBoard: Board): any {
-    //게시글 클릭 시 게시글은 clicked
-    if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid) {
-      setSelectedBoard(clickedBoard); //게시글을 활성화상태로
-      IncreaseViewCount(clickedBoard);
-      fetchData();
-      console.log(clickedBoard.bid + "번 게시글 조회됨");
-    } else if (
-      selectedBoard !== null &&
-      selectedBoard.bid === clickedBoard.bid
-    ) {
-      setSelectedBoard(defaultBoard);
+    function ToggleAddForm():any{
+        if (AddFormClass==="formOn") {
+            setAddFormClass("formOff");
+        } else if (AddFormClass==="formOff") {
+            setAddFormClass("formOn");
+            CreateNewBoard(newBoard);
+        } else {setAddFormClass("formOn");}
     }
-  }
-  function ToggleAddForm(): any {
-    if (AddFormClass === "formOn") {
-      setAddFormClass("formOff");
-    } else if (AddFormClass === "formOff") {
-      setAddFormClass("formOn");
-      CreateNewBoard(newBoard);
-    } else {
-      setAddFormClass("formOn");
+    async function ToggleUpdateForm(board: Board) {
+        setSelectedBoard(prevState => {
+          if (UpdateFormClass === "formOn") {
+            setUpdateFormClass("formOff");
+            return defaultBoard;
+          } else {
+            setUpdateFormClass("formOn");
+            return board;
+          }
+        });
     }
-  }
-  async function ToggleUpdateForm(board: Board) {
-    setSelectedBoard((prevState) => {
-      if (UpdateFormClass === "formOn") {
+    function handleAddXButton(){    
+        setAddFormClass("formOff");
+    }
+    function handelUpdateXButton(){     
+        setSelectedBoard(defaultBoard);
+        setUpdateFormClass("formOff");
+    }
+    async function UpdateBoard(UpdateBoard:Board){
+        await HandleUpdateBoard(UpdateBoard);
+        setSelectedBoard(defaultBoard);
         setUpdateFormClass("formOff");
         fetchData();   
     }
@@ -213,72 +212,19 @@ function Logined(props: any): any {
                             formClass={UpdateFormClass}
                             BoardComplete={UpdateBoard} />}
             </>
-        ):<div>로그인해주세용</div>}
+        )
+        :<div>로그인해주세용</div>}
 }
 
-                  <br></br>
-                  <Collapse
-                    in={selectedBoard && selectedBoard.bid === board.bid}
-                  >
-                    <BoardDetail
-                      selectedBoard={board}
-                      ToggleUpdateForm={() => ToggleUpdateForm(board)}
-                      DeleteBoard={DeleteBoard}
-                      HandleRecommendButton={HandleRecommendButton}
-                      handleCommentSubmit={SubmitComment}
-                    />
-                  </Collapse>
-                </React.Fragment>
-              ))}
-          </Box>
-        </div>
 
-        <Fab
-          variant="extended"
-          onClick={ToggleAddForm}
-          sx={{ position: "fixed", bottom: "5em", right: "5em" }}
-        >
-          게시글 작성하기
-        </Fab>
+ export default function BoardList(props:any):any{
 
-        <Fab
-          variant="extended"
-          onClick={FilterBoard}
-          sx={{ position: "fixed", bottom: "10em", right: "5em" }}
-        >
-          {showMyBoard ? "전체 글 보기" : "내 글 보기"}
-        </Fab>
-
-        {AddFormClass && (
-          <WriteBoard
-            board={{ ...defaultBoard }}
-            FormTitle="새로운 게시글 작성"
-            handleXButton={handleAddXButton}
-            formClass={AddFormClass}
-            BoardComplete={CreateBoard}
-          />
-        )}
-
-        {UpdateFormClass && (
-          <WriteBoard
-            board={{ ...selectedBoard }}
-            FormTitle="게시글 수정"
-            handleXButton={handelUpdateXButton}
-            formClass={UpdateFormClass}
-            BoardComplete={UpdateBoard}
-          />
-        )}
-      </>
-    ) : (
-      <div>로그인해주세용</div>
+    return (
+        
+        <RootLayout>
+               <Logined />
+        </RootLayout>
     );
-  }
-}
 
-export default function BoardList(props: any): any {
-  return (
-    <RootLayout>
-      <Logined />
-    </RootLayout>
-  );
-}
+  }
+  
