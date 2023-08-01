@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
