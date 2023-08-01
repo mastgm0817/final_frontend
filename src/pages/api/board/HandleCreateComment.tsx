@@ -1,10 +1,11 @@
 import Board from '@/types/board';
 import Comment from '@/types/comment';
 import axios from 'axios';
+import { SessionProvider } from "next-auth/react"
 
 
-const HandleCreateComment = async (newComment:Comment, board:Board) => {
-    const boardId=board.bid;
+const HandleCreateComment = async (newComment:Comment, boardId:Number) => {
+
     try {
     
         const response = await axios.post(`http://localhost:8080/api/boards/${boardId}/comments`, newComment, {

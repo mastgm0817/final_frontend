@@ -1,11 +1,8 @@
-'use client'
-
+"use client"
 import React, { useState, useEffect } from 'react';
 import { useSession } from "next-auth/react"
 import Link from "next/link";
-import PrimarySearchAppBar from './navbar';
 import Board from './../types/board'
-import Comment from '@/types/comment';
 import RootLayout from '../app/layout';
 
 import WriteBoard from '../components/WriteBoard';
@@ -14,33 +11,24 @@ import HandleCreateBoard from './api/board/HandleCreateBoard';
 import HandleDeleteBoard from './api/board/HandleDeleteBoard';
 import IncreaseViewCount from './api/board/IncreaseViewCount';
 import IncreaseRecommentCount from './api/board/IncreaseRecommendCount';
-import HandleFilterBoard from './api/board/HandleFilterBoard';
+// import HandleFilterBoard from './api/board/HandleFilterBoard';
 import FetchBoards from './api/test/fetchPost';
 import BoardDetail from '@/components/BoardDetail';
 
 import {Paper, Box, TextField} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Collapse from '@mui/material/Collapse';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import { Preahvihear } from 'next/font/google';
 
-//   import UpdateBoardForm from './UpdateBoardForm';
-//   import FetchBoards from './api/FetchBoards';
-//   import HandleDeleteBoard from './api/HandleDeleteBoard';
-//   import IncreaseViewCount from './api/IncreaseViewCount';
-//   import './BoardList.css';
-// import ""
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    // ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     width:'1200px'
-    // color: theme.palette.text.secondary,
-    // display: 'inline-flex'
   }));
 
 const defaultBoard:Board={
@@ -135,19 +123,19 @@ function Logined(props:any):any{
     }
     async function SubmitComment(board:Board, commentText: string) {
         
-        // await HandleCreateComment(comment,board);
     }
-    function FilterBoard(){
-        setShowMyBoard(!showMyBoard);
-        if (showMyBoard){
-            const reqName = session?session.user.name:" ";
-            HandleFilterBoard(reqName);
-        }else {
-        }
+    // function FilterBoard(){
+    //     setShowMyBoard(!showMyBoard);
+    //     if (showMyBoard){
+    //         const reqName = session?session.user.name:" ";
+    //         HandleFilterBoard(reqName);
+    //         fetchData();
+    //     }else {
+    //     }
         // setBoards();
         // 내글보기 - 1. 사용자 닉네임을 서버로 보냄 2.서버에서는 사용자 닉네임으로 게시글 목록 만들어 전송 3. boards를 받은 게시물 목록으로 설정
         // 전체글보기 - 전체글가져오기, boards를 전체글로 설정
-    }
+    
     
 
     if (session){
@@ -203,9 +191,9 @@ function Logined(props:any):any{
             <Fab variant="extended" onClick={ToggleAddForm} sx={{ position: 'fixed', bottom: '5em', right: '5em' }}>
             게시글 작성하기
             </Fab>
-
-            <Fab variant="extended" onClick={FilterBoard} sx={{ position: 'fixed', bottom: '10em', right: '5em' }}>
-            {showMyBoard?"전체 글 보기":"내 글 보기"}
+                            
+            <Fab variant="extended" sx={{ position: 'fixed', bottom: '10em', right: '5em' }}>
+            내 글 보기
             </Fab>
             
             {AddFormClass && 
