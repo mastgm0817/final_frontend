@@ -18,6 +18,7 @@ interface IProps {
 
 export default function RootLayout({ children }: IProps) {
   return (
+
     <html lang="ko">
       <body className={inter.className}>
         <Provider>
@@ -27,4 +28,5 @@ export default function RootLayout({ children }: IProps) {
       </body>
     </html>
   );
+
 }
