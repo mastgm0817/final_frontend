@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+
 
 function Copyright(props: any) {
   return (
@@ -30,13 +32,26 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+      const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const email = data.get('email') as string;
+      const password = data.get('password') as string;
+      const nickName = data.get('nickName') as string;
+
+      try {
+          const response = await axios.post('http://localhost:8080/api/users', {
+              nickName: nickName,
+              email: email,
+              password: password,
+          });
+
+          if (response.status === 201) {
+              console.log('User created successfully!');
+          }
+      } catch (err) {
+          console.error(err);
+      }
   };
 
   return (
@@ -59,25 +74,15 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
+                  autoComplete="nickname"
+                  name="nickName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="이름"
+                  id="nickName"
+                  label="닉네임"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="성"
-                  name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>

@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Container, Typography } from '@mui/material';
-import { signIn, useSession, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from 'next/image'
 
 function Copyright(props: any) {
@@ -32,14 +32,19 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  const handleLoginBtn = async (e: any) => {
+    // 원래 실행되는 이벤트 취소
+    e.preventDefault();
+    // Form 안에서 이메일, 패스워드 가져오기
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const response = await signIn("email-Credentials", {
+        email,
+        password,
+        redirect: true,
+        callbackUrl: "http://localhost:3000/"
     });
-  };
+}
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -75,7 +80,7 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={(ele) => handleLoginBtn(ele)} >
               <TextField
                 margin="normal"
                 required
