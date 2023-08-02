@@ -1,9 +1,6 @@
-import { useSession } from "next-auth/react"
-import { useState } from "react";
-import Board from "../../../types/board";
 import axios from "axios";
 
-// const FetchPost = () => 
+// const FetchPost = () =>
 // {
 //     const { data: session } = useSession();
 //     const [post, setPosts] = useState();
@@ -14,14 +11,13 @@ import axios from "axios";
 //                 authorization : `bearer ${session?user.accessToken:""}`,
 //             }
 //         });
-    
-    
+
 //     const response = await res.json();
 //     setPosts(response)
 //     };
-    
+
 //     return (
-//         <div> 
+//         <div>
 //             {post && JSON.stringify(post)}
 //         </div>
 //     )
@@ -32,14 +28,13 @@ import axios from "axios";
 // import axios from 'axios';
 
 const FetchBoards = async () => {
-    try {
-        const response = await axios.get('http://localhost:8080/api/boards');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching boards:', error);
-        throw error;
-    }
+  try {
+    const response = await axios.get("http://localhost:8080/api/boards");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching boards:", error);
+    throw error;
+  }
 };
 
 export default FetchBoards;
-

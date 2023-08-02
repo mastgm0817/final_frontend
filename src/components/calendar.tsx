@@ -1,38 +1,51 @@
-'use client'
-import { useState } from 'react';
-import './calendar.css';
-import Schedule from './schedule';
-import { IconButton, Card, CardContent } from '@mui/material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Weather from './weather';
-import RootLayout from '@/app/layout';
-
-
+"use client";
+import { useState } from "react";
+import "../css/calendar.css";
+import Schedule from "./schedule";
+import { IconButton, Card, CardContent } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Weather from "./weather";
 interface DateProps {
   month: number;
   day: number;
   year: number;
 }
 
-const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
 export default function Calendar() {
   const date = new Date();
-  const [selectedDate, setSelectedDate] = useState<DateProps>({ 
-    month: date.getMonth() + 1, 
-    day: date.getDate(), 
-    year: date.getFullYear() 
+  const [selectedDate, setSelectedDate] = useState<DateProps>({
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+    year: date.getFullYear(),
   });
 
   const renderCalendar = () => {
-    const daysInMonth = new Date(selectedDate.year, selectedDate.month, 0).getDate();
-    const firstDayOfMonth = new Date(selectedDate.year, selectedDate.month - 1, 1).getDay();
-    const lastDayOfMonth = new Date(selectedDate.year, selectedDate.month, 0).getDay();
+    const daysInMonth = new Date(
+      selectedDate.year,
+      selectedDate.month,
+      0
+    ).getDate();
+    const firstDayOfMonth = new Date(
+      selectedDate.year,
+      selectedDate.month - 1,
+      1
+    ).getDay();
+    const lastDayOfMonth = new Date(
+      selectedDate.year,
+      selectedDate.month,
+      0
+    ).getDay();
     const calendarDays = [];
 
     for (let i = firstDayOfMonth; i > 0; i--) {
-      const day = new Date(selectedDate.year, selectedDate.month - 1, -i + 1).getDate();
+      const day = new Date(
+        selectedDate.year,
+        selectedDate.month - 1,
+        -i + 1
+      ).getDate();
       calendarDays.push(
         <div key={`prev-month-${i}`} className="day empty prev-month-day">
           {day}
@@ -42,14 +55,12 @@ export default function Calendar() {
 
     for (let i = 1; i <= daysInMonth; i++) {
       calendarDays.push(
-        <Card 
+        <Card
           key={i}
           onClick={() => setSelectedDate({ ...selectedDate, day: i })}
-          className={`day ${selectedDate.day === i ? 'selected' : ''}`}
+          className={`day ${selectedDate.day === i ? "selected" : ""}`}
         >
-          <CardContent>
-            {i}
-          </CardContent>
+          <CardContent>{i}</CardContent>
         </Card>
       );
     }
@@ -69,22 +80,36 @@ export default function Calendar() {
     if (selectedDate.month === 12) {
       setSelectedDate({ month: 1, day: 1, year: selectedDate.year + 1 });
     } else {
-      setSelectedDate({ ...selectedDate, month: selectedDate.month + 1, day: 1 });
+      setSelectedDate({
+        ...selectedDate,
+        month: selectedDate.month + 1,
+        day: 1,
+      });
     }
-  }
+  };
 
   const goToPrevMonth = () => {
     if (selectedDate.month === 1) {
       setSelectedDate({ month: 12, day: 1, year: selectedDate.year - 1 });
     } else {
-      setSelectedDate({ ...selectedDate, month: selectedDate.month - 1, day: 1 });
+      setSelectedDate({
+        ...selectedDate,
+        month: selectedDate.month - 1,
+        day: 1,
+      });
     }
-  }
+  };
 
-  const selectedDayOfWeek = daysOfWeek[new Date(selectedDate.year, selectedDate.month - 1, selectedDate.day).getDay()];
+  const selectedDayOfWeek =
+    daysOfWeek[
+      new Date(
+        selectedDate.year,
+        selectedDate.month - 1,
+        selectedDate.day
+      ).getDay()
+    ];
 
   return (
-    <RootLayout>
     <div className="container">
       <div className="calendar">
         <h2>Luvoost</h2>
@@ -115,7 +140,5 @@ export default function Calendar() {
         <Weather />
       </div>
     </div>
-    </RootLayout>
   );
-};
-
+}

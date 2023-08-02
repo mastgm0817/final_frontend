@@ -2,24 +2,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 const URL = "http://localhost:8080";
 
-interface ICoupon {
-  cpid: number;
-  couponContent: string;
-  code: string;
-  discountType: string;
-  discountValue: number;
-  createdAt: Date;
-  updatedAt: Date;
-  endAt: Date;
-}
-
 const today = new Date();
 const oneMonthLater = new Date(today);
 oneMonthLater.setMonth(today.getMonth() + 1);
 
 const Coupons = () => {
-  const [couponCount, setCouponCount] = useState<number>(1); // 쿠폰 갯수를 관리할 state
-  const [coupons, setCoupons] = useState<ICoupon[]>([]);
+  const [couponCount, setCouponCount] = useState(1); // 쿠폰 갯수를 관리할 state
+  const [coupons, setCoupons] = useState([]);
   const [coupon, setCoupon] = useState({
     couponContent: "",
     code: "",
@@ -32,7 +21,7 @@ const Coupons = () => {
   console.log(coupons);
   console.log(today);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const couponNum = couponCount;
@@ -53,7 +42,7 @@ const Coupons = () => {
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await axios.get<ICoupon[]>(`${URL}/api/coupon`);
+        const response = await axios.get(`${URL}/api/coupon`);
         setCoupons(response.data);
       } catch (error) {
         console.error("Error fetching coupons:", error);
