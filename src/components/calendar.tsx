@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import "../css/calendar.css";
+import '../../public/css/calendar.css';
 import Schedule from "./schedule";
 import { IconButton, Card, CardContent } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
