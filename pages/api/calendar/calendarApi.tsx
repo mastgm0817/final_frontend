@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/calendar"; // Change with your actual server API URL
+const API_URL = "http://localhost:8080/calendar";
 
 export const createSchedule = async (nickName: string, requestDTO: any) => {
   const response = await axios.post(`${API_URL}/${nickName}`, requestDTO);
@@ -21,5 +21,16 @@ export const updateSchedule = async (
     `${API_URL}/${nickName}/${scheduleId}`,
     requestDTO
   );
+  return response.data;
+};
+
+export const deleteSchedule = async (
+  nickName: string,
+  scheduleId: number,
+  shared: boolean
+) => {
+  const response = await axios.delete(`${API_URL}/${nickName}/${scheduleId}`, {
+    params: { shared: shared },
+  });
   return response.data;
 };
