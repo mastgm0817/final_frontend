@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createSchedule } from "../../pages/api/calendar/calendarApi";
-import "../css/schedule.css";
+import '../../public/css/schedule.css';
 interface ScheduleProps {
   nickName: string;
   date: string;
