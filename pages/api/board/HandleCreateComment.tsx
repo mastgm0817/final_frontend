@@ -1,7 +1,5 @@
-import Board from '@/types/board';
-import Comment from '@/types/comment';
+import Comment from '@/app/comment';
 import axios from 'axios';
-import { SessionProvider } from "next-auth/react"
 
 
 const HandleCreateComment = async (newComment:Comment, boardId:Number) => {

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Grid, TextField, FormControl, Button } from "@mui/material";
-import "../css/board.css";
+import { TextField, FormControl } from "@mui/material";
+import "./../../public/css/board.css";
 import React from "react";
 import Board from "../app/board";
+import 'semantic-ui-css/semantic.min.css';
 
 export default function WriteBoard(props: any) {
   const [newBoard, setNewBoard] = useState<Board>(props.board);
@@ -12,9 +13,9 @@ export default function WriteBoard(props: any) {
   }, [props.board]);
 
   return (
-    <Grid container spacing={50}>
+    <div>
       <div id="board-form" className={props.formClass}>
-        <h2 style={{ textAlign: "center" }}>{props.FormTitle}</h2>
+        <h2 style={{textAlign:"center"}}>{props.FormTitle}</h2>
         <div className="close-icon" onClick={props.handleXButton}>
           X
         </div>
@@ -78,11 +79,11 @@ export default function WriteBoard(props: any) {
             alignItems: "center",
           }}
         >
-          <Button onClick={() => props.BoardComplete(newBoard)}>
+          <button className="ui primary button" onClick={() => props.BoardComplete(newBoard)}>
             게시글 작성 완료
-          </Button>
+          </button>
         </div>
       </div>
-    </Grid>
+    </div>
   );
 }
