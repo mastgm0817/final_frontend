@@ -28,6 +28,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm ./*
 
 COPY --from=build-step /app/out .
+COPY --from=build-step /app/out/*.png ./.next/image/
 
 EXPOSE 80
 
