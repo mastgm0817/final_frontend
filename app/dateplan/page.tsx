@@ -1,27 +1,18 @@
-"use client";
+"use client"
 import React from 'react';
-import { useState } from 'react';
 import KakaoMap from '../../components/Kakaomap';
+
 import { useSelector } from 'react-redux';
-import { PositionState } from '../../store/position';
-import { createPosition } from '../../store/position';
-
+import { RootState } from '../../store';
 const Home: React.FC = () => {
-  const { latitude, longitude } = useSelector((state) => state.position);
-  
-
-
-  // 이제 이 컴포넌트에서 Redux 스토어의 latitude와 longitude를 사용할 수 있습니다.
-
+  const { latitude, longitude } = useSelector((state:RootState) => state.position);
   return (
     <div>
       <p>Latitude: {latitude}</p>
       <p>Longitude: {longitude}</p>
     
-      <KakaoMap userPosition={{ latitude, longitude }} /> 
+      <KakaoMap /> 
     </div>
   );
-
-};
-
+  };
 export default Home;

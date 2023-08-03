@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Image from "next/image";
 import tempImg from "../public/temporary.png";
-import 'semantic-ui-css/semantic.min.css';
 
 export default function Home() {
   return (

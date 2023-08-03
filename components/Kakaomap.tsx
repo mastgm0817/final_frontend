@@ -1,15 +1,16 @@
-'use client'
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createPosition } from '../store/position';
 import '../public/css/kakaomap.css';
 
-const Map: React.FC = () => {
+declare const window: typeof globalThis & {
+  kakao: any;
+}
+const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(null);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     const mapScript = document.createElement('script');
     mapScript.async = true;
@@ -56,9 +57,9 @@ const Map: React.FC = () => {
 
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+      map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
       var zoomControl = new window.kakao.maps.ZoomControl();
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
       var markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
       var marker = new window.kakao.maps.Marker({
         position: markerPosition,
@@ -72,9 +73,8 @@ const Map: React.FC = () => {
       <div id="map-container">
         <div id="map" className="map"></div>
       </div>
-
     </div>
   );
 };
 
-export default Map;
+export default KakaoMap;
