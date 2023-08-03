@@ -1,0 +1,26 @@
+/* kakaomap.css */
+
+/* 페이지 스타일
+body {
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+   /* height: 100vh; Set the body height to full viewport height */
+  /* margin: 0; */
+  /* padding: 0; */
+/* } */
+
+/* 맵 컨테이너 스타일 */
+#map-container {
+  width: 100%; /* Set the desired width of the map */
+  height: 300px; /* Set the desired height of the map */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+
+/* 맵 스타일 */
+#map {
+  width: 100%; /* Set the map width to 100% to fill the container */
+  height: 100%; /* Set the map height to 100% to fill the container */
+}
