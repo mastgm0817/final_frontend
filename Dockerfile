@@ -1,32 +1,32 @@
-# Build Stage
-FROM node:18.16.0-alpine as base
+# BUILD STAGE
+FROM node:18.16.0-alpine as build-step
 
-FROM base as deps
-RUN apk add --no-cache libc6-compat
-
-RUN mkdir /app
 WORKDIR /app
+
 COPY package.json .
+
 RUN npm install --production
 
-FROM base AS builder
-RUN mkdir /app
-WORKDIR /app
-COPY . .
+COPY . . 
+
 COPY .env.production .env.production
+
 RUN npm run build
 
-# Nginx Stage
+# # ========================================
+# # NGINX STAGE !
+# # ========================================
+
 FROM nginx:latest
 
-# Copy Nginx configuration
+RUN rm /etc/nginx/conf.d/*
+
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Copy built files from builder stage
-COPY --from=builder /app/.next /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
 
-# Expose port 80
+COPY --from=build-step /app/.next/standalone .
+
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
