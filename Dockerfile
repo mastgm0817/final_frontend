@@ -25,7 +25,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
-COPY --from=build-step /app/build .
+COPY --from=build-step /app/.next .
 
 EXPOSE 80
 
