@@ -1,12 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Board from "../src/app/board";
-import Comment from "@/app/comment";
-import FetchBoards from "../pages/api/board/fetchPost";
-import WriteBoard from "../src/components/WriteBoard";
-import SendData from "./api/board/SendData";
-import BoardDetail from "@/components/BoardDetail";
+import Board from "../board";
+import FetchBoards from "../api/board/fetchPost";
+import WriteBoard from "../../components/WriteBoard";
+import SendData from "../api/board/SendData";
+import BoardDetail from "../../components/BoardDetail";
 // import 'semantic-ui-css/semantic.min.css';
 
 

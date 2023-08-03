@@ -3,9 +3,23 @@ import React, { useState, useEffect } from "react";
 import { TextField} from "@mui/material";
 
 import Comment from "../app/comment";
-import SendData from "../../pages/api/board/SendData";
-import FetchComments from "../../pages/api/board/FetchComments";
+import Board from "../app/board";
+import SendData from "../app/api/board/SendData";
+import FetchComments from "../app/api/board/FetchComments";
 import "./../../public/css/board.css"
+
+
+const defaultBoard: Board = {
+  bid: 0,
+  nickName: " ",
+  b_title: " ",
+  b_content: " ",
+  b_createdAt: " ",
+  b_updatedAt: "",
+  b_views: 0,
+  comments: 0,
+  b_recommendations: 0,
+};
 
 const defaultComment: Comment = {
   cid: 0,
