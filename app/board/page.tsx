@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Board from "../src/app/board";
-import FetchBoards from "../pages/api/board/fetchPost";
-import WriteBoard from "../src/components/WriteBoard";
-import HandleUpdateBoard from "./api/board/HandleUpdateBoard";
-import HandleCreateBoard from "./api/board/HandleCreateBoard";
-import HandleDeleteBoard from "./api/board/HandleDeleteBoard";
-import IncreaseViewCount from "./api/board/IncreaseViewCount";
-import IncreaseRecommentCount from "./api/board/IncreaseRecommendCount";
+import Board from "../board";
+import FetchBoards from "../api/board/fetchPost";
+import WriteBoard from "../../components/WriteBoard";
+import HandleUpdateBoard from "../api/board/HandleUpdateBoard";
+import HandleCreateBoard from "../api/board/HandleCreateBoard";
+import HandleDeleteBoard from "../api/board/HandleDeleteBoard";
+import IncreaseViewCount from "../api/board/IncreaseViewCount";
+import IncreaseRecommentCount from "../api/board/IncreaseRecommendCount";
 // import HandleFilterBoard from './api/board/HandleFilterBoard';
-import BoardDetail from "@/components/BoardDetail";
+import BoardDetail from "../../components/BoardDetail";
 
 import { Paper, Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";

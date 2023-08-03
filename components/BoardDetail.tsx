@@ -7,7 +7,7 @@ import { Paper, Box, TextField, Button } from "@mui/material";
 
 import Board from "../app/board";
 import Comment from "../app/comment";
-import HandleCreateComment from "../../pages/api/board/HandleCreateComment";
+import HandleCreateComment from "../app/api/board/HandleCreateComment";
 // import FetchComments from '@/pages/api/board/fetchComments';
 
 const defaultBoard: Board = {
