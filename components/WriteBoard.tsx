@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Grid, TextField, FormControl, Button } from "@mui/material";
 import "./../public/css/board.css";
 import React from "react";
 import Board from "../app/board";
@@ -12,7 +11,7 @@ export default function WriteBoard(props: any) {
   }, [props.board]);
 
   return (
-    <Grid container spacing={50}>
+    <div>
       <div id="board-form" className={props.formClass}>
         <h2 style={{ textAlign: "center" }}>{props.FormTitle}</h2>
         <div className="close-icon" onClick={props.handleXButton}>
@@ -27,10 +26,9 @@ export default function WriteBoard(props: any) {
               alignItems: "left",
             }}
           >
-            <TextField
+            <input
               id="outlined-basic"
               label="제목"
-              variant="standard"
               type="text"
               value={props.board.b_title === "" ? "" : newBoard.b_title}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -46,7 +44,7 @@ export default function WriteBoard(props: any) {
               alignItems: "center",
             }}
           >
-            <FormControl fullWidth variant="standard">
+
               <div
                 style={{
                   display: "flex",
@@ -54,10 +52,9 @@ export default function WriteBoard(props: any) {
                   alignItems: "left",
                 }}
               >
-                <TextField
+                <input
                   id="outlined-basic"
                   label="내용"
-                  variant="standard"
                   type="text"
                   value={props.board.b_content === "" ? "" : newBoard.b_content}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -65,7 +62,7 @@ export default function WriteBoard(props: any) {
                   }
                 />
               </div>
-            </FormControl>
+
           </div>
         </form>
 
@@ -78,11 +75,11 @@ export default function WriteBoard(props: any) {
             alignItems: "center",
           }}
         >
-          <Button onClick={() => props.BoardComplete(newBoard)}>
+          <button onClick={() => props.BoardComplete(newBoard)}>
             게시글 작성 완료
-          </Button>
+          </button>
         </div>
       </div>
-    </Grid>
+    </div>
   );
 }
