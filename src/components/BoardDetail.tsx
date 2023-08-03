@@ -1,171 +1,201 @@
 import React, { useState, useEffect } from "react";
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import Grid from "@mui/material/Grid";
-import { Paper, Box, TextField, Button } from "@mui/material";
+import { TextField} from "@mui/material";
 
-import Board from "../app/board";
 import Comment from "../app/comment";
-import HandleCreateComment from "../../pages/api/board/HandleCreateComment";
-
-
-const defaultBoard: Board = {
-  bid: 0,
-  nickName: " ",
-  b_title: " ",
-  b_content: " ",
-  b_createdAt: " ",
-  b_updatedAt: "",
-  b_views: 0,
-  comments: 0,
-  b_recommendations: 0,
-};
+import SendData from "../../pages/api/board/SendData";
+import FetchComments from "../../pages/api/board/FetchComments";
+import "./../../public/css/board.css"
 
 const defaultComment: Comment = {
   cid: 0,
-  nickName: " ",
-  content: " ",
+  cContent: " ",
+  cCreatedAt:" ",
+  nickName: " "
 };
 
-function BoardDetail(props: any) {
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
+const CommentForm = (props:any) => {
 
-  // const fetchData = async () => {
-  //     try {
-  //         const response = await FetchComments(props.selectedBoard.bid);
-  //         setComments(response);
-  //     } catch (error) {
-  //         console.error('Error fetching boards:', error);
-  //     }
-  // };
-  // useEffect(() => {
-  //     fetchData();
-  // }, []);
+  const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
+  
+  return(
+    <>
+    <form>
+      <div className={props.formClass}>
+        <TextField
+              id="outlined-basic"
+              label="댓글"
+              variant="standard"
+              type="text"
+              value={props.comment.cContent === "" ? "" : newComment.cContent}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                {setNewComment({ ...newComment, cContent: event.target.value })}
+                }
+        />
+      </div>
+    </form>
+      <button onClick={() => {newComment.nickName=props.nickName;
+        props.CommetComplete(newComment, props.selectedBoard.bid);}}>
+      제출
+          </button>
+            
+    
+    </>
+  );
+}
+
+
+function BoardDetail(props: any) {
+
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [AddCommentFormClass, setAddCommentFormCClass] = useState<String | null | boolean>(false)
+  const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
+  newComment.nickName=props.nickName;
+  async function CreateComment(newComment:Comment, bid:Number){
+    console.log(newComment);
+    await SendData("POST", `/api/boards/${bid}/comments`,newComment,"create comment");
+    fetchData();
+  }
+  const fetchData = async () => {
+      try {
+          const response = await FetchComments(props.selectedBoard.bid);
+          setComments(response);
+      } catch (error) {
+          console.error('Error fetching boards:', error);
+      }
+  };
+
+  useEffect(() => {
+      fetchData();
+  }, []);
+
+  function ToggleAddComment(){
+    if (AddCommentFormClass === true) {
+      setAddCommentFormCClass(false);
+    } else if (AddCommentFormClass === false) {
+      setAddCommentFormCClass(true);
+      setNewComment(newComment);
+    } else {
+      setAddCommentFormCClass(true);
+    }
+
+  }
+
 
   return (
-    <Box sx={{ align: "center" }} className={"Board-to-show"}>
+    <div className={"Board-to-show"}>
       <div style={{ marginLeft: "30" }}>
-        <Grid sx={{ padding: "5px" }}>
-          <Grid>
+        <div style={{ padding: "5px" }}>
+          <div>
             <h2>
               <b>{props.selectedBoard.b_title}</b>
             </h2>
-          </Grid>
+          </div>
           <br></br>
 
-          <Grid>
-            <Grid className="detail-additional">
+          <div>
+            <div className="detail-additional">
               {props.selectedBoard.nickName}
-            </Grid>
-          </Grid>
+            </div>
+          </div>
 
-          <Grid>
-            <Grid className="detail-additional">
+          <div>
+            <div className="detail-additional">
               작성일&nbsp; {props.selectedBoard.b_createdAt}
-            </Grid>
-            <Grid className="detail-additional">
+            </div>
+            <div className="detail-additional">
               최근 수정&nbsp; {props.selectedBoard.b_updatedAt}
-            </Grid>
-          </Grid>
-          <Grid>
-            <Grid className="detail-additional">
+            </div>
+          </div>
+          <div>
+            <div className="detail-additional">
               조회수&nbsp; {props.selectedBoard.b_views}
-            </Grid>
-          </Grid>
+            </div>
+          </div>
           <br></br>
-          <Grid>
-            <Grid>
+          <div>
+            <div>
               {/* 수정 */}
-              <EditIcon
+              <button
                 onClick={() => {
                   props.ToggleUpdateForm(props.selectedBoard);
                 }}
               />
               {/* 삭제 */}
-              <DeleteIcon
+              <button
                 onClick={(event) => {
                   event.stopPropagation();
                   props.DeleteBoard(props.selectedBoard);
                 }}
               />
               <br></br>
-            </Grid>
-          </Grid>
+            </div>
+          </div>
           <br></br>
 
           {/* 내용 */}
-          <Grid>
+          <div>
             <p style={{ marginBottom: "1em" }}>
               {props.selectedBoard.b_content}
             </p>
-          </Grid>
+          </div>
           <br></br>
 
           {/* 추천 */}
-          <Grid>
-            <Button
+          <div>
+            <button
               onClick={(event) => {
                 event.stopPropagation();
-                props.HandleRecommendButton(props.selectedBoard.bid);
+                props.HandleRecommendbutton(props.selectedBoard.bid);
               }}
             >
               추천 {props.selectedBoard.b_recommendations}
-            </Button>
-          </Grid>
-          <Grid>
-            <Button></Button>
-          </Grid>
-          <br></br>
-          <Grid>
-            <h4>댓글 목록</h4>
-          </Grid>
+            </button>
+          </div>
+          <div>
 
-          <Grid>
+          </div>
+          <br></br>
+          <div>
+            <h4>댓글 목록</h4>
+          </div>
+
+          <div>
             {comments &&
               comments.map((comment) => (
                 <React.Fragment key={comment.cid}>
-                  <Grid container spacing={5} style={{ textAlign: "center" }}>
-                    <Grid item xs={0.3}>
+                  <div style={{ textAlign: "center" }}>
+                    <div >
                       {comment.cid}
-                    </Grid>
-                    <Grid item xs={2}>
+                    </div>
+                    <div >
                       {comment.nickName}
-                    </Grid>
-                    <Grid item xs={2}>
-                      {comment.content}
-                    </Grid>
-                  </Grid>
+                    </div>
+                    <div >
+                      {comment.cContent}
+                    </div>
+                  </div>
                 </React.Fragment>
               ))}
-          </Grid>
+          </div>
           <hr></hr>
-          <br></br>
 
-          <Grid>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="댓글"
-                variant="standard"
-                type="text"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewComment({ ...newComment, content: event.target.value })
-                }
-              ></TextField>
-            </div>
-            <Button
-              onClick={() =>
-                HandleCreateComment(newComment, props.selectedBoard.bid)
-              }
-            >
-              제출
-            </Button>
-          </Grid>
-        </Grid>
+          <button onClick={ToggleAddComment}>댓글작성</button>
+
+          {AddCommentFormClass && (
+            <CommentForm
+              selectedBoard={props.selectedBoard}
+              comment={{ ...defaultComment }}
+              formClass={AddCommentFormClass}
+              CommetComplete={CreateComment}
+            />
+        )}
+          
+
+          
+        </div>
       </div>
-    </Box>
+    </div>
   );
 }
 

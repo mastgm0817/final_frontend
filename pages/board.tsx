@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Board from "../src/app/board";
-
+import Comment from "@/app/comment";
 import FetchBoards from "../pages/api/board/fetchPost";
 import WriteBoard from "../src/components/WriteBoard";
 import SendData from "./api/board/SendData";
@@ -45,7 +45,7 @@ function Logined(props: any): any {
     fetchData();
   }, []);
 
-  async function HandleBoardClick(event: any, clickedBoard: Board): any {
+  async function HandleBoardClick(event: any, clickedBoard: Board) {
     //게시글 클릭 시 게시글은 clicked
     if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid) {
       setSelectedBoard(clickedBoard); //게시글을 활성화상태로
@@ -158,11 +158,12 @@ function Logined(props: any): any {
                   <br></br>
                   <div className={selectedBoard && selectedBoard.bid === board.bid ? "active" : ""}>
                     <BoardDetail
+                      userName={userName}
                       selectedBoard={board}
                       ToggleUpdateForm={() => ToggleUpdateForm(board)}
                       DeleteBoard={DeleteBoard}
                       HandleRecommendButton={HandleRecommendButton}
-                      handleCommentSubmit={SubmitComment}
+
                     />
                   </div>
                 </React.Fragment>
