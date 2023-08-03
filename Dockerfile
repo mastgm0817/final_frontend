@@ -25,7 +25,9 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
-COPY --from=build-step --chown=nextjs:nodejs /app/.next/standalone ./
+RUN rm ./*
+
+COPY --from=build-step /app/out .
 
 EXPOSE 80
 
