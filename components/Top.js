@@ -82,7 +82,7 @@ export default function Top() {
                 textDecoration: "none",
               }}
             >
-              <img src="/logo.svg" alt="Logo" />
+              LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -120,8 +120,7 @@ export default function Top() {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-            <Typography
+             <Typography
               variant="h5"
               noWrap
               component="a"

@@ -1,9 +1,10 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { createSchedule, getAllScheduleByName,
   updateSchedule,
   deleteSchedule, } from "../app/api/calendar/calendarApi";
 import "/public/css/schedule.css";
+import DateProps from "../types/calendar";
 
 interface ScheduleProps {
   nickName: string;
@@ -102,18 +103,18 @@ const Schedule: React.FC<ScheduleProps> = ({
   // 생성된 일정 조회
   const [schedules, setSchedules] = useState<any[]>([]);
 
-  const loadSchedules = async () => {
+  const loadSchedules = useCallback(async () => {
     try {
       const response = await getAllScheduleByName(nickName);
       setSchedules(response);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [nickName]);
 
   useEffect(() => {
     loadSchedules();
-  }, [nickName]);
+  }, [nickName, loadSchedules]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
