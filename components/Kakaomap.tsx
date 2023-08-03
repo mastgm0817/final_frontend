@@ -1,7 +1,8 @@
+'use client'
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createPosition } from '../store/position';
-import '../../public/css/kakaomap.css';
+import '../public/css/kakaomap.css';
 
 const Map: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);

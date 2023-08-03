@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import WeatherData from "../types/weather";
 
-function useWeather() {
-  const [weather, setWeather] = useState(null);
+export default function useWeather() {
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
   useEffect(() => {
@@ -22,5 +23,3 @@ function useWeather() {
 
   return weather;
 }
-
-export default useWeather;

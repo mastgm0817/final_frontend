@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-
-import Comment from "../app/comment";
-import Board from "../app/board";
+import Comment from "../types/comment";
+import Board from "../types/board";
 import SendData from "../app/api/board/SendData";
 import FetchComments from "../app/api/board/FetchComments";
 import "./../public/css/board.css"
-
 
 const defaultComment: Comment = {
   cid: 0,
@@ -13,12 +11,8 @@ const defaultComment: Comment = {
   ccreatedAt:" ",
   nickName: " "
 };
-
-
 const CommentForm = (props:any) => {
-
   const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
-  
   return (
     <>
       <form>
@@ -45,20 +39,14 @@ const CommentForm = (props:any) => {
     </>
   );
 }
-
 // =======================================================================
-
-
 function BoardDetail(props: any) {
-
   const [comments, setComments] = useState<Comment[]>([]);
   const [AddCommentFormClass, setAddCommentFormClass] = useState<String | null | boolean>(false)
   const [UpdateCommentFormClass, setUpdateCommentFormClass] = useState<String | null | boolean>(false)
   const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
   const [selectedComment, setSelectedComment] = useState<Comment>({...defaultComment});
-  
   newComment.nickName=props.nickName;
-
   const fetchData = async () => {
       try {
           const response = await FetchComments(props.selectedBoard.bid);
@@ -67,15 +55,12 @@ function BoardDetail(props: any) {
           console.error('Error fetching boards:', error);
       }
   };
-
   useEffect(() => {
       fetchData();
   }, []);
-
   function ToggleAddComment(){
     if (AddCommentFormClass === true) {
       setAddCommentFormClass(false);
-      
     } else if (AddCommentFormClass === false) {
       setNewComment(defaultComment);
       setAddCommentFormClass(true);
@@ -100,24 +85,18 @@ function BoardDetail(props: any) {
     ToggleAddComment();
     fetchData();
   }
-
   async function DeleteComment(cid:any, bid:any){
     await SendData("DELETE", `/api/boards/${bid}/comments/${cid}`,null,"delete comment");
     fetchData();
   }
-
   async function UpdateComment(updatedComment:Comment, bid:any){
     const cid=updatedComment.cid;
     await SendData("PUT",  `/api/boards/${bid}/comments/${cid}/update` , updatedComment, "update comment");
     ToggleUpdateComment();
     fetchData();
   }
-
-
   return (
-
     // =============================================board
-
     <div className={"Board-to-show"}>
       <div style={{ marginLeft: "30" }}>
         <div style={{ padding: "5px" }}>
@@ -127,13 +106,11 @@ function BoardDetail(props: any) {
             </h2>
           </div>
           <br></br>
-
           <div>
             <div className="detail-additional">
               {props.selectedBoard.nickName}
             </div>
           </div>
-
           <div>
             <div className="detail-additional">
               작성일&nbsp; {props.selectedBoard.b_createdAt}
@@ -155,19 +132,16 @@ function BoardDetail(props: any) {
                 onClick={() => {
                   props.ToggleUpdateForm(props.selectedBoard);
                 }}>수정</button>
-
               {/* 삭제 */}
               <button
                 onClick={(event) => {
                   event.stopPropagation();
                   props.DeleteBoard(props.selectedBoard);
                 }}>삭제</button>
-
               <br></br>
             </div>
           </div>
           <br></br>
-
           {/* 내용 */}
           <div>
             <p style={{ marginBottom: "1em" }}>
@@ -175,7 +149,6 @@ function BoardDetail(props: any) {
             </p>
           </div>
           <br></br>
-
           {/* 추천 */}
           <div>
             <button
@@ -188,18 +161,12 @@ function BoardDetail(props: any) {
             </button>
           </div>
           <div>
-
           </div>
           <br></br>
-
-
-
           {/* ===================================================comment */}
-
           <div>
             <h4>댓글 목록</h4>
           </div>
-
           <div>
             {comments &&
               comments.map((comment) => (
@@ -217,7 +184,6 @@ function BoardDetail(props: any) {
                     <button onClick={() => DeleteComment(comment.cid, props.selectedBoard.bid)}>삭제</button>
                     <button onClick={() => {(ToggleUpdateComment()); setSelectedComment(comment);}}>수정</button>
                   </div>
-
                   {/* 수정폼 */}
                     {UpdateCommentFormClass && comment.cid===selectedComment.cid &&
                       <CommentForm
@@ -230,7 +196,6 @@ function BoardDetail(props: any) {
               ))}
           </div>
           <hr></hr>
-
           <button onClick={ToggleAddComment}>댓글작성</button>
           {/* 댓글작성폼 */}
           {AddCommentFormClass && (
@@ -241,16 +206,10 @@ function BoardDetail(props: any) {
               nickName={props.userName}
               CommetComplete={CreateComment}
             />
-
-          
         )}
-          
-
-          
         </div>
       </div>
     </div>
   );
 }
-
 export default BoardDetail;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./../public/css/board.css";
 import React from "react";
-import Board from "../app/board";
+import Board from "../types/board";
 
 export default function WriteBoard(props: any) {
   const [newBoard, setNewBoard] = useState<Board>(props.board);
