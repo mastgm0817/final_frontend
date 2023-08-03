@@ -3,8 +3,8 @@ import { ISODateString } from "next-auth";
 
 type Comment ={
   cid:Key;
-  cContent:string;
-  cCreatedAt:ISODateString;
+  ccontent:string;
+  ccreatedAt:ISODateString;
   uid:String;
   nickName:String;
 }

@@ -4,6 +4,7 @@ import Board from "../types/board";
 import SendData from "../app/api/board/SendData";
 import FetchComments from "../app/api/board/FetchComments";
 import "./../public/css/board.css"
+
 const defaultComment: Comment = {
   cid: 0,
   ccontent: " ",
