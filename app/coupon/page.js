@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 const URL = "http://localhost:8080";
@@ -6,7 +8,7 @@ const today = new Date();
 const oneMonthLater = new Date(today);
 oneMonthLater.setMonth(today.getMonth() + 1);
 
-const Coupons = () => {
+export default function Coupon() {
   const [couponCount, setCouponCount] = useState(1); // 쿠폰 갯수를 관리할 state
   const [coupons, setCoupons] = useState([]);
   const [coupon, setCoupon] = useState({
@@ -140,6 +142,4 @@ const Coupons = () => {
       </table>
     </div>
   );
-};
-
-export default Coupons;
+}

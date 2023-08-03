@@ -1,11 +1,10 @@
-import Calendar from "../src/components/calendar";
+import Calendar from "../../components/calendar";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Margin } from "@mui/icons-material";
 import Image from "next/image";
-import tempImg from "../public/temporary.png";
 export default function Home() {
   return (
     <>
@@ -21,9 +20,10 @@ export default function Home() {
                 paddingLeft: 0,
                 borderRadius: 20,
               }}
+              width={500}
               height={500}
               layout="responsive"
-              src={tempImg}
+              src="/temporary.png"
               alt="tempImage"
             />
           </Box>
