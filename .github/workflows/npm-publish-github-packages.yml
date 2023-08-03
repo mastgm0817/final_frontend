@@ -1,0 +1,87 @@
+name: frontend CICD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.16.1]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm run export
+
+  test-stage:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Running Tests
+        uses: actions/checkout@v3
+      - run: echo "running"
+
+  build-and-push-docker-image:
+    name: Build Docker image and push to repositories
+    runs-on: ubuntu-latest
+    needs: ['build', 'test-stage']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Configure Docker daemon
+        run: |
+          echo '{ "insecure-registries": ["180.150.207.73:5000"] }' | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+      - name: Login to Docker registry
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 180.150.207.73:5000
+      - name: Build and Push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+            180.150.207.73:5000/frontend:${{ github.sha }}
+            180.150.207.73:5000/frontend:latest
+      - name: Save image digest
+        run: echo "${{ steps.docker_build.outputs.digest }}" > image-digest.txt
+      - name: Upload image digest as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: image-digest
+          path: image-digest.txt
+
+  update-manifest:
+    name: Update Kubernetes manifest
+    runs-on: ubuntu-latest
+    needs: ['build-and-push-docker-image']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Download image digest artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: image-digest
+      - name: Update image in Kubernetes manifest
+        run: |
+          IMAGE_DIGEST=$(cat image-digest.txt)
+          sed -i "s|image: 180.150.207.73:5000/frontend@sha256:[a-zA-Z0-9]*|image: 180.150.207.73:5000/frontend@$IMAGE_DIGEST|g" deploy/deployment.yml
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "mastgm0817@gmail.com"
+          git config --local user.name "mastgm0817"
+          git add deploy/deployment.yml
+          git commit -m "Update image in Kubernetes manifest"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/mastgm0817/final_frontend.git HEAD:main
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
