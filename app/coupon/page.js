@@ -2,10 +2,10 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-const URL = "http://localhost:8080";
 
 const today = new Date();
 const oneMonthLater = new Date(today);
+const API_URL = process.env.NEXT_PUBLIC_URL;
 oneMonthLater.setMonth(today.getMonth() + 1);
 
 export default function Coupon() {
@@ -29,7 +29,7 @@ export default function Coupon() {
       const couponNum = couponCount;
 
       const response = await axios.post(
-        `${URL}/api/coupon?countNum=${couponNum}`,
+        `${API_URL}/api/coupon?countNum=${couponNum}`,
         coupon
       );
       console.log("Coupon created:", response.data);
@@ -44,7 +44,7 @@ export default function Coupon() {
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await axios.get(`${URL}/api/coupon`);
+        const response = await axios.get(`${API_URL}/api/coupon`);
         setCoupons(response.data);
       } catch (error) {
         console.error("Error fetching coupons:", error);

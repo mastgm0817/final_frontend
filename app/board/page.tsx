@@ -21,8 +21,8 @@ const defaultBoard: Board = {
 function Logined(props: any): any {
   const { data: session } = useSession();
   const [boards, setBoards] = useState<Board[]>([]); //board목록
-  const [AddFormClass, setAddFormClass] = useState<String | null>(null); //글추가폼의 class
-  const [UpdateFormClass, setUpdateFormClass] = useState<String | null>(null);
+  const [AddFormClass, setAddFormClass] = useState<string | null>(null); //글추가폼의 class
+  const [UpdateFormClass, setUpdateFormClass] = useState<string | null>(null);
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard); //선택된 board
   const [showMyBoard, setShowMyBoard] = useState<Boolean>(false);
@@ -41,7 +41,7 @@ function Logined(props: any): any {
     //게시글 클릭 시 게시글은 clicked
     if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid) {
       setSelectedBoard(clickedBoard); //게시글을 활성화상태로
-      await SendData("GET", `/api/boards/${clickedBoard.bid}`,null,"view");
+      await SendData("GET", `/api/boards/${clickedBoard.bid}`, null, "view");
       fetchData();
       console.log(clickedBoard.bid + "번 게시글 조회됨");
     } else if (
@@ -81,68 +81,106 @@ function Logined(props: any): any {
   }
   async function CreateBoard(newBoard: Board) {
     newBoard.nickName = `${session ? session.user?.name : null}`;
-    await SendData("POST", `/api/boards`,newBoard,"create");
+    await SendData("POST", `/api/boards`, newBoard, "create");
     ToggleAddForm();
     fetchData();
   }
   async function UpdateBoard(UpdateBoard: Board) {
     UpdateBoard.b_updatedAt = new Date().toISOString();
-    await SendData("PUT", `/api/boards/${UpdateBoard.bid}`,UpdateBoard,"update");
+    await SendData(
+      "PUT",
+      `/api/boards/${UpdateBoard.bid}`,
+      UpdateBoard,
+      "update"
+    );
     setSelectedBoard(defaultBoard);
     setUpdateFormClass("formOff");
     fetchData();
   }
   async function DeleteBoard(board: Board) {
-    await SendData("DELETE", `/api/boards/${board.bid}`,board,"delete");
+    await SendData("DELETE", `/api/boards/${board.bid}`, board, "delete");
     fetchData();
   }
-  async function HandleRecommendButton(bid:any) {
-    await SendData("PUT", `/api/boards/${bid}/recommend`,null,"recommend");
+  async function HandleRecommendButton(bid: any) {
+    await SendData("PUT", `/api/boards/${bid}/recommend`, null, "recommend");
     fetchData();
   }
   async function SubmitComment(board: Board, commentText: string) {}
-  function FilterBoard(){
-  //     setShowMyBoard(!showMyBoard);
-  //     if (showMyBoard){
-  //         const reqName = session?session.user.name:" ";
-  //         HandleFilterBoard(reqName);
-  //         fetchData();
-  //     }else {
+  function FilterBoard() {
+    //     setShowMyBoard(!showMyBoard);
+    //     if (showMyBoard){
+    //         const reqName = session?session.user.name:" ";
+    //         HandleFilterBoard(reqName);
+    //         fetchData();
+    //     }else {
     // 내글보기 - 1. 사용자 닉네임을 서버로 보냄 2.서버에서는 사용자 닉네임으로 게시글 목록 만들어 전송 3. boards를 받은 게시물 목록으로 설정
     // 전체글보기 - 전체글가져오기, boards를 전체글로 설정
-      }
+  }
   if (session) {
     const userName = session.user?.name;
     return session ? (
       <div className="ui container">
-          <h1 style={{ textAlign: "center" }}>게시판</h1>
-          <br></br>
-          <p>내글보기</p>
-        <div className="ui grid"
-          style={{position: "absolute", left: "0%", transform: "translate(20%)", }}>
+        <h1 style={{ textAlign: "center" }}>게시판</h1>
+        <br></br>
+        <p>내글보기</p>
+        <div
+          className="ui grid"
+          style={{
+            position: "absolute",
+            left: "0%",
+            transform: "translate(20%)",
+          }}
+        >
           <div className="ui ten column grid">
-              <div className="three wide column"><b>No</b></div>
-              <div className="two wide column"><b>제목</b></div>
-              <div className="four wide column"><b>작성일자</b></div>
-              <div className="two wide column"><b>작성자</b></div>
-              <div className="two wide column"><b>추천수</b></div>
-              <div className="two wide column"><b>조회수</b></div>
+            <div className="three wide column">
+              <b>No</b>
+            </div>
+            <div className="two wide column">
+              <b>제목</b>
+            </div>
+            <div className="four wide column">
+              <b>작성일자</b>
+            </div>
+            <div className="two wide column">
+              <b>작성자</b>
+            </div>
+            <div className="two wide column">
+              <b>추천수</b>
+            </div>
+            <div className="two wide column">
+              <b>조회수</b>
+            </div>
             <br></br>
             {boards &&
               boards.map((board) => (
-                <React.Fragment key={board.bid} >
-                  <div className="ui fluid segment" onClick={(event) => HandleBoardClick(event, board)}>
+                <React.Fragment key={board.bid}>
+                  <div
+                    className="ui fluid segment"
+                    onClick={(event) => HandleBoardClick(event, board)}
+                  >
                     <div className="ui ten column grid">
                       <div className="three wide column">{board.bid}</div>
                       <div className="two wide column">{board.b_title}</div>
-                      <div className="four wide column">{board.b_createdAt.toLocaleString()}</div>
+                      <div className="four wide column">
+                        {board.b_createdAt.toLocaleString()}
+                      </div>
                       <div className="two wide column">{board.nickName}</div>
-                      <div className="two wide column">{board.b_recommendations.toLocaleString()}</div>
-                      <div className="two wide column">{board.b_views.toLocaleString()}</div>
+                      <div className="two wide column">
+                        {board.b_recommendations.toLocaleString()}
+                      </div>
+                      <div className="two wide column">
+                        {board.b_views.toLocaleString()}
+                      </div>
                     </div>
                   </div>
                   <br></br>
-                  <div className={selectedBoard && selectedBoard.bid === board.bid ? "active" : ""}>
+                  <div
+                    className={
+                      selectedBoard && selectedBoard.bid === board.bid
+                        ? "active"
+                        : ""
+                    }
+                  >
                     <BoardDetail
                       userName={userName}
                       selectedBoard={board}
@@ -155,7 +193,8 @@ function Logined(props: any): any {
               ))}
           </div>
         </div>
-        <div className="ui right floated button"
+        <div
+          className="ui right floated button"
           onClick={ToggleAddForm}
           style={{ position: "fixed", bottom: "5em", right: "5em" }}
         >

@@ -43,9 +43,10 @@ export default function SignUp() {
     const email = data.get("email");
     const password = data.get("password");
     const nickName = data.get("nickName");
+    const API_URL = process.env.URL;
 
     try {
-      const response = await axios.post("http://localhost:8080/api/users", {
+      const response = await axios.post(`${API_URL}/api/users`, {
         nickName: nickName,
         email: email,
         password: password,
