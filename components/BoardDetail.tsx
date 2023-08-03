@@ -6,7 +6,7 @@ import Comment from "../app/comment";
 import Board from "../app/board";
 import SendData from "../app/api/board/SendData";
 import FetchComments from "../app/api/board/FetchComments";
-import "./../../public/css/board.css"
+import "./../public/css/board.css"
 
 
 const defaultBoard: Board = {
@@ -64,12 +64,9 @@ function BoardDetail(props: any) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [AddCommentFormClass, setAddCommentFormCClass] = useState<String | null | boolean>(false)
   const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
+  
   newComment.nickName=props.nickName;
-  async function CreateComment(newComment:Comment, bid:Number){
-    console.log(newComment);
-    await SendData("POST", `/api/boards/${bid}/comments`,newComment,"create comment");
-    fetchData();
-  }
+
   const fetchData = async () => {
       try {
           const response = await FetchComments(props.selectedBoard.bid);
@@ -93,6 +90,17 @@ function BoardDetail(props: any) {
       setAddCommentFormCClass(true);
     }
 
+  }
+
+  async function CreateComment(newComment:Comment, bid:Number){
+    console.log(newComment);
+    await SendData("POST", `/api/boards/${bid}/comments`,newComment,"create comment");
+    fetchData();
+  }
+
+  async function DeleteComment(cid:any, bid:any){
+    await SendData("DELETE", `/api/boards/${bid}/comments/${cid}`,null,"delete comment");
+    fetchData();
   }
 
 
@@ -188,6 +196,7 @@ function BoardDetail(props: any) {
                     <div >
                       {comment.cContent}
                     </div>
+                    <button onClick={() => DeleteComment(comment.cid, props.selectedBoard.bid)}>삭제</button>
                   </div>
                 </React.Fragment>
               ))}
