@@ -6,7 +6,7 @@ import Comment from "../app/comment";
 import Board from "../app/board";
 import SendData from "../app/api/board/SendData";
 import FetchComments from "../app/api/board/FetchComments";
-import "./../../public/css/board.css"
+import "./../public/css/board.css"
 
 
 const defaultBoard: Board = {

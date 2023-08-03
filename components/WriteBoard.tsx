@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid, TextField, FormControl, Button } from "@mui/material";
-import "../css/board.css";
+import "../public/css/board.css";
 import React from "react";
 import Board from "../app/board";
 
