@@ -1,16 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Board from "../board";
+import Board from "../../types/board";
 import FetchBoards from "../api/board/fetchPost";
 import WriteBoard from "../../components/WriteBoard";
 import SendData from "../api/board/SendData";
 import BoardDetail from "../../components/BoardDetail";
 // import 'semantic-ui-css/semantic.min.css';
-
-
-
-
 const defaultBoard: Board = {
   bid: 0,
   nickName: " ",
@@ -22,7 +18,6 @@ const defaultBoard: Board = {
   comments: 0,
   b_recommendations: 0,
 };
-
 function Logined(props: any): any {
   const { data: session } = useSession();
   const [boards, setBoards] = useState<Board[]>([]); //board목록
@@ -31,7 +26,6 @@ function Logined(props: any): any {
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard); //선택된 board
   const [showMyBoard, setShowMyBoard] = useState<Boolean>(false);
-
   const fetchData = async () => {
     try {
       const response = await FetchBoards();
@@ -43,7 +37,6 @@ function Logined(props: any): any {
   useEffect(() => {
     fetchData();
   }, []);
-
   async function HandleBoardClick(event: any, clickedBoard: Board) {
     //게시글 클릭 시 게시글은 clicked
     if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid) {
@@ -103,8 +96,8 @@ function Logined(props: any): any {
     await SendData("DELETE", `/api/boards/${board.bid}`,board,"delete");
     fetchData();
   }
-  async function HandleRecommendButton() {
-    await SendData("PUT", `/api/boards/${selectedBoard.bid}/recommend`,null,"recommend");
+  async function HandleRecommendButton(bid:any) {
+    await SendData("PUT", `/api/boards/${bid}/recommend`,null,"recommend");
     fetchData();
   }
   async function SubmitComment(board: Board, commentText: string) {}
@@ -118,17 +111,13 @@ function Logined(props: any): any {
     // 내글보기 - 1. 사용자 닉네임을 서버로 보냄 2.서버에서는 사용자 닉네임으로 게시글 목록 만들어 전송 3. boards를 받은 게시물 목록으로 설정
     // 전체글보기 - 전체글가져오기, boards를 전체글로 설정
       }
-
-
   if (session) {
     const userName = session.user?.name;
     return session ? (
-      
       <div className="ui container">
           <h1 style={{ textAlign: "center" }}>게시판</h1>
           <br></br>
           <p>내글보기</p>
-
         <div className="ui grid"
           style={{position: "absolute", left: "0%", transform: "translate(20%)", }}>
           <div className="ui ten column grid">
@@ -139,7 +128,6 @@ function Logined(props: any): any {
               <div className="two wide column"><b>추천수</b></div>
               <div className="two wide column"><b>조회수</b></div>
             <br></br>
-
             {boards &&
               boards.map((board) => (
                 <React.Fragment key={board.bid} >
@@ -153,7 +141,6 @@ function Logined(props: any): any {
                       <div className="two wide column">{board.b_views.toLocaleString()}</div>
                     </div>
                   </div>
-
                   <br></br>
                   <div className={selectedBoard && selectedBoard.bid === board.bid ? "active" : ""}>
                     <BoardDetail
@@ -162,22 +149,18 @@ function Logined(props: any): any {
                       ToggleUpdateForm={() => ToggleUpdateForm(board)}
                       DeleteBoard={DeleteBoard}
                       HandleRecommendButton={HandleRecommendButton}
-
                     />
                   </div>
                 </React.Fragment>
               ))}
           </div>
         </div>
-
         <div className="ui right floated button"
           onClick={ToggleAddForm}
           style={{ position: "fixed", bottom: "5em", right: "5em" }}
         >
           게시글 작성하기
         </div>
-
-
         {AddFormClass && (
           <WriteBoard
             board={{ ...defaultBoard }}
@@ -187,7 +170,6 @@ function Logined(props: any): any {
             BoardComplete={CreateBoard}
           />
         )}
-
         {UpdateFormClass && (
           <WriteBoard
             board={{ ...selectedBoard }}
@@ -203,7 +185,6 @@ function Logined(props: any): any {
     );
   }
 }
-
 export default function BoardList(props: any): any {
   return <Logined />;
 }

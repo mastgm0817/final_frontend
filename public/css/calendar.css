@@ -5,7 +5,7 @@
 }
 
 .calendar {
-  flex: 2;
+  flex: 1.8;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@
 }
 
 .schedule {
-  flex: 1;
+  flex: 1.2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,13 +36,13 @@
 }
 
 .day {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ced4da;
+  border: 1px solid #9da3a8;
   border-radius: 5px;
   transition: all 0.3s ease;
 }
@@ -60,12 +60,16 @@
 }
 
 .day.selected {
-  background-color: #ffa8a8;
+  background-color: #FF5B5B;
   color: #fff;
 }
 
 .day:hover {
   transform: scale(1.1);
+}
+
+.month-selector {
+  font-size: 20px;
 }
 
 .month-selector button {
@@ -83,7 +87,8 @@
 .days-of-week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
+  gap: 2.5rem;
+  font-size: 13px;
 }
 
 .day-of-week {

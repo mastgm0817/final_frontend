@@ -6,6 +6,12 @@ import { IconButton, Card, CardContent } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Weather from "./weather";
+// import RootLayout from '@/app/layout';
+
+interface ScheduleProps {
+  nickName: string;
+  selectedDate: DateProps;
+}
 
 interface DateProps {
   month: number;
@@ -15,13 +21,17 @@ interface DateProps {
 
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
-export default function Calendar() {
+function Calendar() {
   const date = new Date();
+  const [scheduleData, setScheduleData] = useState<any[]>([]);
+  const [shareData, setShareData] = useState<any>(null);
   const [selectedDate, setSelectedDate] = useState<DateProps>({
     month: date.getMonth() + 1,
     day: date.getDate(),
     year: date.getFullYear(),
   });
+
+  const [nickName, setNickName] = useState("");
 
   const renderCalendar = () => {
     const daysInMonth = new Date(
@@ -111,9 +121,9 @@ export default function Calendar() {
     ];
 
   return (
+    // <RootLayout>
     <div className="container">
       <div className="calendar">
-        <h2>Luvoost</h2>
         <div className="month-selector">
           <IconButton onClick={goToPrevMonth}>
             <ArrowBackIosIcon />
@@ -134,12 +144,25 @@ export default function Calendar() {
       </div>
       <div className="schedule">
         <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 (
+          {selectedDayOfWeek})
         </h2>
-        <p>{selectedDayOfWeek}요일</p>
-        <Schedule selectedDate={selectedDate} />
+        <input
+          type="text"
+          value={nickName}
+          onChange={(e) => setNickName(e.target.value)}
+        />
+        <Schedule
+          nickName={nickName}
+          date={scheduleData.length > 0 ? scheduleData[0].date : ""}
+          schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
+          share={shareData}
+          selectedDate={selectedDate}
+        />
         <Weather />
       </div>
     </div>
   );
 }
+
+export default Calendar;
