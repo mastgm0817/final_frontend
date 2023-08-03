@@ -60,11 +60,11 @@ export default function Top() {
   };
 
   return (
-    <Box
-      sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
-    >
-      <Box sx={{ width: "15%" }} />
-      <AppBar sx={{ bgcolor: "#e393b9", width: "70%" }} position="static">
+    // <Box
+    //   sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
+    // >
+    //   <Box sx={{ width: "15%" }} />
+      <AppBar sx={{ bgcolor: "#e393b9", width: "100%" }} position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -157,7 +157,7 @@ export default function Top() {
           </Toolbar>
         </Container>
       </AppBar>
-      <Box sx={{ width: "15%" }} />
-    </Box>
+    //   <Box sx={{ width: "15%" }} />
+    // </Box>
   );
 }

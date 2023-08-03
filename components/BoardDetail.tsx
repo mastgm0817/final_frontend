@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 
 import Comment from "../app/comment";
-import Board from "../app/board";
+import Board from "../types/board";
 import SendData from "../app/api/board/SendData";
 import FetchComments from "../app/api/board/FetchComments";
 import "./../public/css/board.css";

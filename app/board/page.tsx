@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Board from "../board";
+import Board from "../../types/board";
 import FetchBoards from "../api/board/fetchPost";
 import WriteBoard from "../../components/WriteBoard";
 import SendData from "../api/board/SendData";
