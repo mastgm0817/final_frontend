@@ -9,6 +9,8 @@ RUN npm i
 
 COPY . . 
 
+COPY .env.production .env.production
+
 RUN npm run build
 
 # # ========================================
