@@ -28,18 +28,22 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 USER nextjs
-EXPOSE 3000
-ENV PORT 3000
-CMD ["node", "server.js"]
+
 
 
 # # ========================================
 # # NGINX STAGE
 # # ========================================
-	@@ -23,7 +42,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+FROM nginx:latest
+
+RUN rm /etc/nginx/conf.d/*
+
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
 COPY --from=runner ./* .
 
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
