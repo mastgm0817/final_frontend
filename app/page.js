@@ -20,6 +20,7 @@ export default function Home() {
                 paddingLeft: 0,
                 borderRadius: 20,
               }}
+              width={500}
               height={500}
               layout="responsive"
               src="/image/temporary.png"
