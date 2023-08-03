@@ -14,7 +14,7 @@ COPY .env.production .env.production
 RUN npm run build
 
 # # ========================================
-# # NGINX STAGE
+# # NGINX STAGE !
 # # ========================================
 
 FROM nginx:latest
