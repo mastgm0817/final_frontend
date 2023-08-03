@@ -8,9 +8,6 @@ import SendData from "../api/board/SendData";
 import BoardDetail from "../../components/BoardDetail";
 // import 'semantic-ui-css/semantic.min.css';
 
-
-
-
 const defaultBoard: Board = {
   bid: 0,
   nickName: " ",
@@ -103,8 +100,8 @@ function Logined(props: any): any {
     await SendData("DELETE", `/api/boards/${board.bid}`,board,"delete");
     fetchData();
   }
-  async function HandleRecommendButton() {
-    await SendData("PUT", `/api/boards/${selectedBoard.bid}/recommend`,null,"recommend");
+  async function HandleRecommendButton(bid:any) {
+    await SendData("PUT", `/api/boards/${bid}/recommend`,null,"recommend");
     fetchData();
   }
   async function SubmitComment(board: Board, commentText: string) {}

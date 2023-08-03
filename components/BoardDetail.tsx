@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import { TextField} from "@mui/material";
-
 import Comment from "../app/comment";
 import Board from "../app/board";
 import SendData from "../app/api/board/SendData";
@@ -9,61 +7,55 @@ import FetchComments from "../app/api/board/FetchComments";
 import "./../public/css/board.css"
 
 
-const defaultBoard: Board = {
-  bid: 0,
-  nickName: " ",
-  b_title: " ",
-  b_content: " ",
-  b_createdAt: " ",
-  b_updatedAt: "",
-  b_views: 0,
-  comments: 0,
-  b_recommendations: 0,
-};
-
 const defaultComment: Comment = {
   cid: 0,
-  cContent: " ",
-  cCreatedAt:" ",
+  ccontent: " ",
+  ccreatedAt:" ",
   nickName: " "
 };
 
+
 const CommentForm = (props:any) => {
 
-  const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
+  const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
   
-  return(
+  return (
     <>
-    <form>
-      <div className={props.formClass}>
-        <TextField
-              id="outlined-basic"
-              label="댓글"
-              variant="standard"
-              type="text"
-              value={props.comment.cContent === "" ? "" : newComment.cContent}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                {setNewComment({ ...newComment, cContent: event.target.value })}
-                }
-        />
-      </div>
-    </form>
-      <button onClick={() => {newComment.nickName=props.nickName;
-        props.CommetComplete(newComment, props.selectedBoard.bid);}}>
-      제출
-          </button>
-            
-    
+      <form>
+        <div>
+          <input
+            id="outlined-basic"
+            type="text"
+            value={props.comment.ccontent === "" ? "" : newComment.ccontent}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setNewComment({ ...newComment, ccontent: event.target.value });
+            }}
+          />
+        </div>
+      </form>
+      <button
+        onClick={() => {
+          newComment.nickName = props.nickName;
+          console.log(newComment.nickName);
+          props.CommetComplete(newComment, props.selectedBoard.bid);
+        }}
+      >
+        제출
+      </button>
     </>
   );
 }
+
+// =======================================================================
 
 
 function BoardDetail(props: any) {
 
   const [comments, setComments] = useState<Comment[]>([]);
-  const [AddCommentFormClass, setAddCommentFormCClass] = useState<String | null | boolean>(false)
+  const [AddCommentFormClass, setAddCommentFormClass] = useState<String | null | boolean>(false)
+  const [UpdateCommentFormClass, setUpdateCommentFormClass] = useState<String | null | boolean>(false)
   const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
+  const [selectedComment, setSelectedComment] = useState<Comment>({...defaultComment});
   
   newComment.nickName=props.nickName;
 
@@ -82,19 +74,30 @@ function BoardDetail(props: any) {
 
   function ToggleAddComment(){
     if (AddCommentFormClass === true) {
-      setAddCommentFormCClass(false);
+      setAddCommentFormClass(false);
+      
     } else if (AddCommentFormClass === false) {
-      setAddCommentFormCClass(true);
+      setNewComment(defaultComment);
+      setAddCommentFormClass(true);
+    } else {
+      setAddCommentFormClass(true);
+    }
+  }
+  function ToggleUpdateComment(){
+    if (UpdateCommentFormClass === true) {
+      setUpdateCommentFormClass(false);
+    } else if (UpdateCommentFormClass === false) {
+      setUpdateCommentFormClass(true);
       setNewComment(newComment);
     } else {
-      setAddCommentFormCClass(true);
+      setUpdateCommentFormClass(true);
     }
-
   }
-
+// (newComment, props.selectedBoard.bid)
   async function CreateComment(newComment:Comment, bid:Number){
     console.log(newComment);
     await SendData("POST", `/api/boards/${bid}/comments`,newComment,"create comment");
+    ToggleAddComment();
     fetchData();
   }
 
@@ -103,8 +106,18 @@ function BoardDetail(props: any) {
     fetchData();
   }
 
+  async function UpdateComment(updatedComment:Comment, bid:any){
+    const cid=updatedComment.cid;
+    await SendData("PUT",  `/api/boards/${bid}/comments/${cid}/update` , updatedComment, "update comment");
+    ToggleUpdateComment();
+    fetchData();
+  }
+
 
   return (
+
+    // =============================================board
+
     <div className={"Board-to-show"}>
       <div style={{ marginLeft: "30" }}>
         <div style={{ padding: "5px" }}>
@@ -141,15 +154,15 @@ function BoardDetail(props: any) {
               <button
                 onClick={() => {
                   props.ToggleUpdateForm(props.selectedBoard);
-                }}
-              />
+                }}>수정</button>
+
               {/* 삭제 */}
               <button
                 onClick={(event) => {
                   event.stopPropagation();
                   props.DeleteBoard(props.selectedBoard);
-                }}
-              />
+                }}>삭제</button>
+
               <br></br>
             </div>
           </div>
@@ -168,7 +181,7 @@ function BoardDetail(props: any) {
             <button
               onClick={(event) => {
                 event.stopPropagation();
-                props.HandleRecommendbutton(props.selectedBoard.bid);
+                props.HandleRecommendButton(props.selectedBoard.bid);
               }}
             >
               추천 {props.selectedBoard.b_recommendations}
@@ -178,6 +191,11 @@ function BoardDetail(props: any) {
 
           </div>
           <br></br>
+
+
+
+          {/* ===================================================comment */}
+
           <div>
             <h4>댓글 목록</h4>
           </div>
@@ -194,24 +212,37 @@ function BoardDetail(props: any) {
                       {comment.nickName}
                     </div>
                     <div >
-                      {comment.cContent}
+                      {comment.ccontent}
                     </div>
                     <button onClick={() => DeleteComment(comment.cid, props.selectedBoard.bid)}>삭제</button>
+                    <button onClick={() => {(ToggleUpdateComment()); setSelectedComment(comment);}}>수정</button>
                   </div>
+
+                  {/* 수정폼 */}
+                    {UpdateCommentFormClass && comment.cid===selectedComment.cid &&
+                      <CommentForm
+                        selectedBoard={props.selectedBoard}
+                        comment={{ ...comment }}
+                        formClass={UpdateCommentFormClass}
+                        CommetComplete={UpdateComment}
+                      />}
                 </React.Fragment>
               ))}
           </div>
           <hr></hr>
 
           <button onClick={ToggleAddComment}>댓글작성</button>
-
+          {/* 댓글작성폼 */}
           {AddCommentFormClass && (
             <CommentForm
               selectedBoard={props.selectedBoard}
-              comment={{ ...defaultComment }}
+              comment={{ ...selectedComment }}
               formClass={AddCommentFormClass}
+              nickName={props.userName}
               CommetComplete={CreateComment}
             />
+
+          
         )}
           
 
