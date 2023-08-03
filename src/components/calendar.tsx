@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
-import '../../public/css/calendar.css';
-import Schedule from "./schedule";
+import { useEffect, useState } from "react";
+import "../../public/css/calendar.css";
 import { IconButton, Card, CardContent } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Weather from "./weather";
+import Schedule from "./schedule";
+// import RootLayout from '@/app/layout';
 
 interface DateProps {
   month: number;
@@ -22,6 +23,8 @@ export default function Calendar() {
     day: date.getDate(),
     year: date.getFullYear(),
   });
+
+  const [nickName, setNickName] = useState("");
 
   const renderCalendar = () => {
     const daysInMonth = new Date(
@@ -111,9 +114,9 @@ export default function Calendar() {
     ];
 
   return (
+    // <RootLayout>
     <div className="container">
       <div className="calendar">
-        <h2>Luvoost</h2>
         <div className="month-selector">
           <IconButton onClick={goToPrevMonth}>
             <ArrowBackIosIcon />
@@ -134,12 +137,18 @@ export default function Calendar() {
       </div>
       <div className="schedule">
         <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
         </h2>
-        <p>{selectedDayOfWeek}요일</p>
-        <Schedule selectedDate={selectedDate} />
+        <input
+          type="text"
+          value={nickName}
+          onChange={(e) => setNickName(e.target.value)}
+        />
+
+        <Schedule nickName={nickName} selectedDate={selectedDate} />
         <Weather />
       </div>
     </div>
+    // </RootLayout>
   );
 }

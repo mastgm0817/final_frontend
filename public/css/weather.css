@@ -1,0 +1,12 @@
+.weather-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  
+  /* Weather icon image */
+  .weather-icon {
+    width: auto;
+    height: 100px;
+  }
+  
