@@ -1,5 +1,3 @@
-// C:\final\final_frontend\src\store\position.ts
-
 export const CREATE_POSITION = "position/CREATE_POSITION";
 
 interface CreatePositionParams {
