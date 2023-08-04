@@ -1,34 +1,39 @@
-# BUILD STAGE
-FROM node:18.16.0-alpine as build-step
+FROM node:18-alpine AS base
 
-WORKDIR /app
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /usr/src/app
 
-COPY package.json .
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock ./
+RUN yarn --frozen-lockfile --production;
+RUN rm -rf ./.next/cache
 
-RUN npm install --production
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /usr/src/app
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY . .
+RUN yarn build
 
-COPY . . 
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /usr/src/app
 
-COPY .env.production .env.production
+ENV NODE_ENV=production
 
-RUN npm run build
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# # ========================================
-# # NGINX STAGE !
-# # ========================================
+COPY --from=builder /usr/src/app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/static
 
-FROM nginx:latest
+USER nextjs
 
-RUN rm /etc/nginx/conf.d/*
+EXPOSE 3000
 
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+ENV PORT 3000
 
-WORKDIR /usr/share/nginx/html
-
-RUN rm ./*
-
-COPY --from=build-step /app/out .
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]
