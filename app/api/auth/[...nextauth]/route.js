@@ -8,7 +8,7 @@ const nextAuthOptions = (req, res) => {
   return {
     providers: [
       GoogleProvider({
-        clientId: process.env.NEXT_PUBLIC_OOGLE_ID,
+        clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
         clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
       }),
       KakaoProvider({

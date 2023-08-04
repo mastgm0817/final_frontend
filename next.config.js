@@ -3,7 +3,7 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  output: "export",
+  output: "standalone",
   env: {
     GOOGLE_ID: process.env.NEXT_PUBLIC_GOOGLE_ID,
     GOOGLE_SECRET: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
