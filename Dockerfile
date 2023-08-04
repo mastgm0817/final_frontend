@@ -15,6 +15,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
+COPY .env .env.production
 RUN npm run build
 
 # Production image, copy all the files and run next
@@ -25,6 +26,7 @@ ENV NODE_ENV=production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
 
 RUN cp /usr/src/app/.env /usr/src/app/.env.production
 COPY --from=builder /usr/src/app/public ./public
