@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createPosition } from '../store/position';
