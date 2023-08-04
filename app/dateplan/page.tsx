@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useSession } from 'next-auth/react';
 import RecommendForm from '../../components/RecommendForm';
-import predict from '../api/dateplan/predictApi';
+import predict from '../api/dateplan/dateplanApi';
 import { json } from 'stream/consumers';
 
 interface RecommendFormData {
