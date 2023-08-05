@@ -15,7 +15,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
-COPY .env .env.production
+COPY .env /usr/src/app/.env
 RUN npm run build
 
 # Production image, copy all the files and run next
