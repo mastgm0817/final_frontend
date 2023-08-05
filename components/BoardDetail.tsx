@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Comment from "../app/comment";
-import Board from "../app/board";
 import SendData from "../app/api/board/SendData";
-import FetchComments from "../app/api/board/FetchComments";
 import "./../public/css/board.css"
 
 
@@ -56,12 +54,13 @@ function BoardDetail(props: any) {
   const [UpdateCommentFormClass, setUpdateCommentFormClass] = useState<String | null | boolean>(false)
   const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
   const [selectedComment, setSelectedComment] = useState<Comment>({...defaultComment});
+  const [commentListShow,setCommentListShow] = useState<boolean>(false)
   
   newComment.nickName=props.nickName;
 
   const fetchData = async () => {
       try {
-          const response = await FetchComments(props.selectedBoard.bid);
+          const response = await SendData("GET", `/api/boards/${props.selectedBoard.bid}/comments`,null,"fetch comment");
           setComments(response);
       } catch (error) {
           console.error('Error fetching boards:', error);
@@ -93,7 +92,6 @@ function BoardDetail(props: any) {
       setUpdateCommentFormClass(true);
     }
   }
-// (newComment, props.selectedBoard.bid)
   async function CreateComment(newComment:Comment, bid:Number){
     console.log(newComment);
     await SendData("POST", `/api/boards/${bid}/comments`,newComment,"create comment");
@@ -192,30 +190,27 @@ function BoardDetail(props: any) {
           </div>
           <br></br>
 
+          <button onClick={() => setCommentListShow(!commentListShow)}>{commentListShow?"댓글 닫기":`댓글 ${comments.length}`}</button>
+
 
 
           {/* ===================================================comment */}
-
-          <div>
-            <h4>댓글 목록</h4>
-          </div>
+          {commentListShow &&
+          <>
 
           <div>
             {comments &&
               comments.map((comment) => (
                 <React.Fragment key={comment.cid}>
-                  <div style={{ textAlign: "center" }}>
-                    <div >
-                      {comment.cid}
-                    </div>
-                    <div >
-                      {comment.nickName}
+                  <div style={{padding:'10px'}}>
+                    <div>
+                      {comment.nickName}  {comment.ccreatedAt}
+                    <button onClick={() => DeleteComment(comment.cid, props.selectedBoard.bid)}>삭제</button>
+                    <button onClick={() => {(ToggleUpdateComment()); setSelectedComment(comment);}}>수정</button>
                     </div>
                     <div >
                       {comment.ccontent}
                     </div>
-                    <button onClick={() => DeleteComment(comment.cid, props.selectedBoard.bid)}>삭제</button>
-                    <button onClick={() => {(ToggleUpdateComment()); setSelectedComment(comment);}}>수정</button>
                   </div>
 
                   {/* 수정폼 */}
@@ -231,19 +226,19 @@ function BoardDetail(props: any) {
           </div>
           <hr></hr>
 
-          <button onClick={ToggleAddComment}>댓글작성</button>
           {/* 댓글작성폼 */}
           {AddCommentFormClass && (
             <CommentForm
-              selectedBoard={props.selectedBoard}
-              comment={{ ...selectedComment }}
-              formClass={AddCommentFormClass}
-              nickName={props.userName}
-              CommetComplete={CreateComment}
+            selectedBoard={props.selectedBoard}
+            comment={{ ...selectedComment }}
+            formClass={AddCommentFormClass}
+            nickName={props.userName}
+            CommetComplete={CreateComment}
             />
-
-          
-        )}
+            )}
+          <button onClick={ToggleAddComment}>{AddCommentFormClass?"취소":"댓글쓰기"}</button>
+        </>
+        }
           
 
           
