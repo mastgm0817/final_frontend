@@ -161,7 +161,7 @@ export default function SignInSide() {
                     }
                   >
                     <Image
-                      src="/naver.png"
+                      src="/image/naver.png"
                       alt="naverbtn"
                       width={50}
                       height={50}
@@ -183,7 +183,7 @@ export default function SignInSide() {
                     }
                   >
                     <Image
-                      src="/google.png"
+                      src="/image/google.png"
                       alt="googlebtn"
                       width={50}
                       height={50}
@@ -203,7 +203,7 @@ export default function SignInSide() {
                     }
                   >
                     <Image
-                      src="/kakao.png"
+                      src="/image/kakao.png"
                       alt="kakaobtn"
                       width={50}
                       height={50}

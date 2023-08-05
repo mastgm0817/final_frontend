@@ -4,19 +4,14 @@ import Comment from "../app/comment";
 import SendData from "../app/api/board/SendData";
 import "./../public/css/board.css"
 
-
 const defaultComment: Comment = {
   cid: 0,
   ccontent: " ",
   ccreatedAt:" ",
   nickName: " "
 };
-
-
 const CommentForm = (props:any) => {
-
   const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
-  
   return (
     <>
       <form>
@@ -43,21 +38,15 @@ const CommentForm = (props:any) => {
     </>
   );
 }
-
 // =======================================================================
-
-
 function BoardDetail(props: any) {
-
   const [comments, setComments] = useState<Comment[]>([]);
   const [AddCommentFormClass, setAddCommentFormClass] = useState<String | null | boolean>(false)
   const [UpdateCommentFormClass, setUpdateCommentFormClass] = useState<String | null | boolean>(false)
   const [newComment, setNewComment] = useState<Comment>({ ...defaultComment });
   const [selectedComment, setSelectedComment] = useState<Comment>({...defaultComment});
-  const [commentListShow,setCommentListShow] = useState<boolean>(false)
   
   newComment.nickName=props.nickName;
-
   const fetchData = async () => {
       try {
           const response = await SendData("GET", `/api/boards/${props.selectedBoard.bid}/comments`,null,"fetch comment");
@@ -66,15 +55,12 @@ function BoardDetail(props: any) {
           console.error('Error fetching boards:', error);
       }
   };
-
   useEffect(() => {
       fetchData();
   }, []);
-
   function ToggleAddComment(){
     if (AddCommentFormClass === true) {
       setAddCommentFormClass(false);
-      
     } else if (AddCommentFormClass === false) {
       setNewComment(defaultComment);
       setAddCommentFormClass(true);
@@ -98,24 +84,18 @@ function BoardDetail(props: any) {
     ToggleAddComment();
     fetchData();
   }
-
   async function DeleteComment(cid:any, bid:any){
     await SendData("DELETE", `/api/boards/${bid}/comments/${cid}`,null,"delete comment");
     fetchData();
   }
-
   async function UpdateComment(updatedComment:Comment, bid:any){
     const cid=updatedComment.cid;
     await SendData("PUT",  `/api/boards/${bid}/comments/${cid}/update` , updatedComment, "update comment");
     ToggleUpdateComment();
     fetchData();
   }
-
-
   return (
-
     // =============================================board
-
     <div className={"Board-to-show"}>
       <div style={{ marginLeft: "30" }}>
         <div style={{ padding: "5px" }}>
@@ -125,13 +105,11 @@ function BoardDetail(props: any) {
             </h2>
           </div>
           <br></br>
-
           <div>
             <div className="detail-additional">
               {props.selectedBoard.nickName}
             </div>
           </div>
-
           <div>
             <div className="detail-additional">
               작성일&nbsp; {props.selectedBoard.b_createdAt}
@@ -153,19 +131,16 @@ function BoardDetail(props: any) {
                 onClick={() => {
                   props.ToggleUpdateForm(props.selectedBoard);
                 }}>수정</button>
-
               {/* 삭제 */}
               <button
                 onClick={(event) => {
                   event.stopPropagation();
                   props.DeleteBoard(props.selectedBoard);
                 }}>삭제</button>
-
               <br></br>
             </div>
           </div>
           <br></br>
-
           {/* 내용 */}
           <div>
             <p style={{ marginBottom: "1em" }}>
@@ -173,7 +148,6 @@ function BoardDetail(props: any) {
             </p>
           </div>
           <br></br>
-
           {/* 추천 */}
           <div>
             <button
@@ -186,11 +160,8 @@ function BoardDetail(props: any) {
             </button>
           </div>
           <div>
-
           </div>
           <br></br>
-
-          <button onClick={() => setCommentListShow(!commentListShow)}>{commentListShow?"댓글 닫기":`댓글 ${comments.length}`}</button>
 
 
 
@@ -212,7 +183,6 @@ function BoardDetail(props: any) {
                       {comment.ccontent}
                     </div>
                   </div>
-
                   {/* 수정폼 */}
                     {UpdateCommentFormClass && comment.cid===selectedComment.cid &&
                       <CommentForm
@@ -235,10 +205,9 @@ function BoardDetail(props: any) {
             nickName={props.userName}
             CommetComplete={CreateComment}
             />
-            )}
-          <button onClick={ToggleAddComment}>{AddCommentFormClass?"취소":"댓글쓰기"}</button>
-        </>
-        }
+
+          
+        )}
           
 
           
@@ -247,5 +216,4 @@ function BoardDetail(props: any) {
     </div>
   );
 }
-
 export default BoardDetail;

@@ -19,7 +19,6 @@ const defaultBoard: Board = {
   comments: 0,
   b_recommendations: 0,
 };
-
 function Logined(props: any): any {
 
   const param=1;
@@ -117,7 +116,6 @@ function Logined(props: any): any {
     );
   }
 }
-
 export default function BoardList(props: any): any {
   return <Logined />;
 }
