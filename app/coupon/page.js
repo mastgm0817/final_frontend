@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 
 const today = new Date();
 const oneMonthLater = new Date(today);
-const API_URL = "http://luvoost.co.kr";
+const API_URL = process.env.NEXT_PUBLIC_URL;
+// const API_URL = "http://luvoost.co.kr";
 // const API_URL = "http://localhost:8082";
 oneMonthLater.setMonth(today.getMonth() + 1);
 export default function Coupon() {
