@@ -202,7 +202,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("kakao", {
-                        callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
+                        callbackUrl: "http://luvoost.co.kr",
                       })
                     }
                   >
