@@ -17,6 +17,8 @@ const defaultBoard: Board = {
   comments: 0,
   b_recommendations: 0,
 };
+
+
 function Logined(props: any): any {
 
   const { data: session } = useSession();
@@ -58,20 +60,22 @@ function Logined(props: any): any {
     ToggleAddForm();
     fetchData();
   }
-
+  
 
   if (session) {
+    
     const userName = session.user?.name;
     return session ? (
       
-      <div>
+      <div className="w-96 bg-white shadow rounded">
           <h1 style={{ textAlign: "center" }} onClick={() => setPages(0)}>게시판</h1>
           <br></br>
-          <button>내글보기</button>
+          {/* <button>내글보기</button> */}
 
         <div>
-          <div>
-              <p><b>No 제목 작성일자 작성자 추천수 조회수</b></p>
+          <div className="space-y-4">
+              <p><div className="w-96 bg-white shadow rounded" style={{padding:"10px"}}>
+                No 제목 작성일자 작성자 추천수 조회수</div></p>
             <br></br>
           </div>
           <Page params={{ pagenum: pages }} />
