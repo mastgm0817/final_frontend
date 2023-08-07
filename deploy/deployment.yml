@@ -16,7 +16,7 @@ spec:
         - name: frontend-pod
           image: 180.150.207.73:5000/frontend@sha256:e8c292200def210009cd16c5cee0d56eb427bbe8ee612fc1bdf501ff9c133c4f
           ports:
-            - containerPort: 3000
+            - containerPort: 3001
 ---
 apiVersion: v1
 kind: Service
@@ -29,5 +29,5 @@ spec:
   ports:
     - port: 3000
       protocol: TCP
-      targetPort: 3000
+      targetPort: 3001
       nodePort: 31000
