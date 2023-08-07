@@ -47,7 +47,7 @@ const board2:Board = {
 }
 
 
-const boards:Board[]=[board1,board2]
+// const boards:Board[]=[board1,board2]
 
 interface pageProps{
   params:{pagenum:number}
@@ -55,27 +55,27 @@ interface pageProps{
 
 const Page:FC<pageProps> = ({params}, props:any) => {
 
-  // const [boards, setBoards] = useState<Board[]|any>([]);
+  const [boards, setBoards] = useState<Board[]|any>([]);
   const [UpdateFormClass, setUpdateFormClass] = useState<string | null>(null);
   const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard); //선택된 board
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // const fetchData = async () => {
-  //   setIsLoading(true)
-  //   try {
-  //     const response = await SendData("GET", `/api/boards/page/${params.pagenum}`,null,"fetch boards");
-  //     setBoards(response);
-  //     setIsLoading(false);
-  //     console.log(response)
-  //   } catch (error) {
-  //     console.error("Error fetching boards:", error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, [params.pagenum]);
+  const fetchData = async () => {
+    setIsLoading(true)
+    try {
+      const response = await SendData("GET", `/api/boards/page/${params.pagenum}`,null,"fetch boards");
+      setBoards(response);
+      setIsLoading(false);
+      console.log(response)
+    } catch (error) {
+      console.error("Error fetching boards:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [params.pagenum]);
 
-  const boards=[board1,board2];
+  // const boards=[board1,board2];
   console.log(selectedBoard)
 
   async function HandleBoardClick(event: any, clickedBoard: Board) {
@@ -122,19 +122,19 @@ const Page:FC<pageProps> = ({params}, props:any) => {
   
 
   return (
-    <div>
+    <div className="flex flex-col items-center space-y-4">
       
       {boards &&
         boards.map((board:Board) => (
           <React.Fragment key={board.bid}>
-            <div onClick={(event) => HandleBoardClick(event, board)}>
-              <div className="w-96 bg-white shadow rounded">
-                <div>{board.bid} {board.b_title} {board.b_createdAt.toLocaleString()} {board.nickName} {board.b_recommendations.toLocaleString()} {board.b_views.toLocaleString()}</div>
+            <div onClick={(event) => HandleBoardClick(event, board)} className="cursor-pointer w-full">
+              <div className={`w-96 bg-white shadow-md rounded p-4 font-bold ${selectedBoard && selectedBoard.bid === board.bid ? 'text-pink-500' : ''}`}>
+                <div >{board.bid} {board.b_title} {board.b_createdAt.toLocaleString()} {board.nickName} {board.b_recommendations.toLocaleString()} {board.b_views.toLocaleString()}</div>
               </div>
             </div>
   
             <br></br>
-            <div className={selectedBoard && selectedBoard.bid === board.bid ? "active" : ""}>
+            <div className={`transition ${selectedBoard && selectedBoard.bid === board.bid ? "max-h-screen" : "max-h-0"}`}>
               {selectedBoard && selectedBoard.bid === board.bid && <BoardDetail
                 userName={props.userName}
                 selectedBoard={board}

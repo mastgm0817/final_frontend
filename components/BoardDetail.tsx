@@ -16,28 +16,27 @@ const CommentForm = (props:any) => {
   newComment.nickName=props.nickName;
   return (
     <>
-      <form>
-        <div>
-          <input
-            id="outlined-basic"
-            type="text"
-            value={props.comment.ccontent === "" ? "" : newComment.ccontent}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setNewComment({ ...newComment, ccontent: event.target.value });
-            }}
-          />
-        </div>
-      </form>
+      <form className="mb-4">
+        <input
+          type="text"
+          value={props.comment.ccontent === "" ? "" : newComment.ccontent}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setNewComment({ ...newComment, ccontent: event.target.value });
+          }}
+          className="border rounded w-full py-2 px-3"
+          placeholder="Enter comment..."
+        />
+      
       <button
         onClick={() => {
           newComment.nickName = props.nickName;
           console.log(newComment.nickName);
           props.CommetComplete(newComment, props.selectedBoard.bid);
         }}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         제출
-      </button>
-      <br></br>
+      </button></form>
     </>
   );
 }
@@ -100,11 +99,11 @@ function BoardDetail(props: any) {
   }
   return (
     // =============================================board
-    <div className={"Board-to-show"}>
-      <div style={{ marginLeft: "30" }}>
-        <div style={{ padding: "5px" }}>
+    <div className={"Board-to-show bg-white p-4 shadow-lg rounded-md"}>
+      <div className="ml-8">
+        <div className="p-4">
           <div>
-            <h2>
+            <h2 className="text-xl font-bold mb-4">
               <b>{props.selectedBoard.b_title}</b>
             </h2>
           </div>
