@@ -44,7 +44,7 @@ export default function SignInSide() {
       email,
       password,
       redirect: true,
-      callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
+      callbackUrl: process.env.CALLBACKURL,
     });
   };
 
@@ -158,7 +158,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("naver", {
-                        callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
+                        callbackUrl: process.env.CALLBACKURL,
                       })
                     }
                   >
@@ -180,7 +180,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("google", {
-                        callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
+                        callbackUrl: process.env.CALLBACKURL,
                       })
                     }
                   >
@@ -202,7 +202,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("kakao", {
-                        callbackUrl: "http://luvoost.co.kr",
+                        callbackUrl: process.env.CALLBACKURL,
                       })
                     }
                   >
