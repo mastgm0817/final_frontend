@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json ./
-RUN npm ci --production
-RUN rm -rf ./.next/cache
+RUN npm i
+# RUN rm -rf ./.next/cache
 
 # Rebuild the source code only when needed
 FROM base AS builder
