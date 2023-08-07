@@ -15,6 +15,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
+COPY .env /usr/src/app/.env
 RUN npm run build
 
 # Production image, copy all the files and run next
@@ -32,8 +33,8 @@ COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/stat
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 3001
 
-ENV PORT 3000
+ENV PORT 3001
 
 CMD ["node", "server.js"]

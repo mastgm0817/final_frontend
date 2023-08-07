@@ -8,16 +8,17 @@ const nextAuthOptions = (req, res) => {
   return {
     providers: [
       GoogleProvider({
-        clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
-        clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
+        clientId:
+          "348049863995-rmkmgpkp5qvtiggpuc162e1hakjs5mo4.apps.googleusercontent.com",
+        clientSecret: "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",
       }),
       KakaoProvider({
-        clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
-        clientSecret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
+        clientId: "25edd438130f1d799655087b02557293",
+        clientSecret: "pcIl6N5qw8Y7s4OtUNZyVpep0xEuVmxf",
       }),
       NaverProvider({
-        clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
-        clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
+        clientId: "wHHdHmY9FpvrlZv21VRF",
+        clientSecret: "74qcy3l60D",
       }),
 
       CredentialsProvider({

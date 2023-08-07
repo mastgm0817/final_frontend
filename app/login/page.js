@@ -44,7 +44,7 @@ export default function SignInSide() {
       email,
       password,
       redirect: true,
-      callbackUrl: "http://localhost:3000/",
+      callbackUrl: process.env.CALLBACKURL,
     });
   };
 
@@ -157,7 +157,9 @@ export default function SignInSide() {
                 >
                   <Button
                     onClick={() =>
-                      signIn("naver", { callbackUrl: "http://localhost:3000/" })
+                      signIn("naver", {
+                        callbackUrl: process.env.CALLBACKURL,
+                      })
                     }
                   >
                     <Image
@@ -178,7 +180,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("google", {
-                        callbackUrl: "http://localhost:3000/",
+                        callbackUrl: process.env.CALLBACKURL,
                       })
                     }
                   >
@@ -199,7 +201,9 @@ export default function SignInSide() {
                 >
                   <Button
                     onClick={() =>
-                      signIn("kakao", { callbackUrl: "http://localhost:3000/" })
+                      signIn("kakao", {
+                        callbackUrl: process.env.CALLBACKURL,
+                      })
                     }
                   >
                     <Image
