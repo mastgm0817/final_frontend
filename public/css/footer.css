@@ -1,0 +1,30 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+.footer-container {
+    background-color: #f6f7f9;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  /* Define styles for the footer links */
+  .footer-link {
+    color: #3b82f6;
+  }
+  
+  .footer-link:hover {
+    color: #1d4ed8;
+  }
+  
+  /* Additional styles for the footer items */
+  .footer-item {
+    margin-bottom: 1rem;
+  }
+  
+  /* Styling for the italic text */
+  .italic {
+    font-style: italic;
+  }
+  
