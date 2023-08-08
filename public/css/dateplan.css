@@ -1,0 +1,28 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.button-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+  background-color: #FF5B5B;
+  border-radius: 50%;
+}
+
+.form-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 150px;
+  padding: 10px;
+  transform: translateX(100%); /* 폼을 오른쪽으로 숨김 */
+  transition: transform 0.3s ease; /* 슬라이드 애니메이션 효과 지정 */
+  z-index: 0;
+}
+
+.form-container.open {
+  transform: translateX(0); /* 폼을 원래 위치로 복원 */
+  z-index: 1;
+}
