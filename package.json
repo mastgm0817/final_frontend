@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "proxy": "http://localhost:8082",
-  "dependencies": {
+  "dependencinpes": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.16",
@@ -21,14 +21,12 @@
     "@types/node": "20.4.4",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
     "next": "^13.4.12",
     "next-auth": "^4.22.3",
     "next-redux-wrapper": "^8.1.0",
-    "postcss": "8.4.27",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
@@ -37,7 +35,11 @@
     "redux-actions": "^3.0.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
-    "styled-components": "^6.0.5",
+    "styled-components": "^6.0.5"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
     "typescript": "5.1.6"
   }

@@ -20,7 +20,7 @@ export default function WriteBoard(props: WriteBoardProps) {
   return (
     <div>
       <div id="board-form" className={props.formClass}>
-        <h2 style={{ textAlign: "center" }}>{props.FormTitle}</h2>
+        <div className="w-96 bg-white shadow rounded" style={{ textAlign: "center" }}>{props.FormTitle}</div>
         <div className="close-icon" onClick={props.handleXButton}>
           X
         </div>

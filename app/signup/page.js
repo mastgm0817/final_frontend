@@ -46,11 +46,14 @@ export default function SignUp() {
     const API_URL = process.env.NEXT_PUBLIC_URL;
 
     try {
-      const response = await axios.post(`${API_URL}/api/users`, {
-        nickName: nickName,
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_URL + `/api/users`,
+        {
+          nickName: nickName,
+          email: email,
+          password: password,
+        }
+      );
 
       if (response.status === 201) {
         console.log("User created successfully!");
