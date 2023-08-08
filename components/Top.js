@@ -10,10 +10,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+
 const pages = ["Board", "Coupon", "Dateplan", "Profile"];
 function LoginedRightSideNav() {
   const session = useSession();
@@ -158,5 +158,7 @@ export default function Top() {
     </AppBar>
     //   <Box sx={{ width: "15%" }} />
     // </Box>
+
+    
   );
 }
