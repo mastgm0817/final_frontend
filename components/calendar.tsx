@@ -1,12 +1,11 @@
 "use client";
 import { useState } from "react";
 import "/public/css/calendar.css";
-import Schedule from "./schedule";
+import Schedule from "./Schedule";
 import { IconButton, Card, CardContent } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Weather from "./weather";
-// import RootLayout from '@/app/layout';
+import Weather from "./Weather";
 
 interface ScheduleProps {
   nickName: string;
