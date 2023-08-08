@@ -20,7 +20,7 @@ function LoginedRightSideNav() {
   if (session.status === "authenticated") {
     return (
       <>
-        <img
+        <Image
           src={session.data.user?.image}
           width="25"
           height="25"
@@ -136,7 +136,9 @@ export default function Top() {
               textDecoration: "none",
             }}
           >
+
             <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
