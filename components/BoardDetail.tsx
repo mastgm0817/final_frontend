@@ -8,10 +8,10 @@ import { CommonExecOptions } from "child_process";
 const defaultComment: Comment = {
   cid: 0,
   ccontent: " ",
-  ccreatedAt:" ",
-  nickName: " "
+  ccreatedAt: " ",
+  nickName: " ",
 };
-const CommentForm = (props:any) => {
+const CommentForm = (props: any) => {
   const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
   newComment.nickName=props.nickName;
   return (
@@ -26,7 +26,7 @@ const CommentForm = (props:any) => {
           className="border rounded w-full py-2 px-3"
           placeholder="Enter comment..."
         />
-      
+
       <button
         onClick={() => {
           newComment.nickName = props.nickName;
@@ -39,7 +39,7 @@ const CommentForm = (props:any) => {
       </button></form>
     </>
   );
-}
+};
 // =======================================================================
 function BoardDetail(props: any) {
   const [comments, setComments] = useState<Comment[] | any>([]);
@@ -57,11 +57,12 @@ function BoardDetail(props: any) {
       } catch (error) {
           console.error('Error fetching boards:', error);
       }
+
   };
   useEffect(() => {
-      fetchData();
+    fetchData();
   }, []);
-  function ToggleAddComment(){
+  function ToggleAddComment() {
     if (AddCommentFormClass === true) {
       setAddCommentFormClass(false);
     } else if (AddCommentFormClass === false) {
@@ -71,7 +72,7 @@ function BoardDetail(props: any) {
       setAddCommentFormClass(true);
     }
   }
-  function ToggleUpdateComment(){
+  function ToggleUpdateComment() {
     if (UpdateCommentFormClass === true) {
       setUpdateCommentFormClass(false);
     } else if (UpdateCommentFormClass === false) {
@@ -82,18 +83,34 @@ function BoardDetail(props: any) {
     }
   }
   async function CreateComment(newComment:Comment, bid:Number){
+
     console.log(newComment);
-    await SendData("POST", `/api/boards/${bid}/comments`,newComment,"create comment");
+    await SendData(
+      "POST",
+      `/api/boards/${bid}/comments`,
+      newComment,
+      "create comment"
+    );
     ToggleAddComment();
     fetchData();
   }
-  async function DeleteComment(cid:any, bid:any){
-    await SendData("DELETE", `/api/boards/${bid}/comments/${cid}`,null,"delete comment");
+  async function DeleteComment(cid: any, bid: any) {
+    await SendData(
+      "DELETE",
+      `/api/boards/${bid}/comments/${cid}`,
+      null,
+      "delete comment"
+    );
     fetchData();
   }
-  async function UpdateComment(updatedComment:Comment, bid:any){
-    const cid=updatedComment.cid;
-    await SendData("PUT",  `/api/boards/${bid}/comments/${cid}/update` , updatedComment, "update comment");
+  async function UpdateComment(updatedComment: Comment, bid: any) {
+    const cid = updatedComment.cid;
+    await SendData(
+      "PUT",
+      `/api/boards/${bid}/comments/${cid}/update`,
+      updatedComment,
+      "update comment"
+    );
     ToggleUpdateComment();
     fetchData();
   }
@@ -205,4 +222,6 @@ function BoardDetail(props: any) {
   );
 }
 
+
 export default BoardDetail;
+
