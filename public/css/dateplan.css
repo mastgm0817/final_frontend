@@ -29,7 +29,7 @@
 .form-container {
   position: absolute;
   bottom: 0;
-  right: 0; /* 지도 컨테이너와 동일한 오른쪽 패딩 */
+  right: 30px; /* 지도 컨테이너와 동일한 오른쪽 패딩 */
   width: 150px;
   height: 450px;
   padding: 10px;

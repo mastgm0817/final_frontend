@@ -6,6 +6,7 @@ import '../public/css/dateplan.css';
 import predict from '../app/api/dateplan/dateplanApi';
 import RecommendForm from './RecommendForm';
 import RecommendResult from './RecommendResult';
+import { useRef } from 'react';
 
 interface RecommendFormData {
   user_latitude: string;
@@ -31,7 +32,7 @@ const KakaoMap: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [resultMarkers, setResultMarkers] = useState<any[]>([]);
-
+  const resultMarkersRef = useRef<any[]>([]);
 
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
@@ -111,10 +112,11 @@ const KakaoMap: React.FC = () => {
     }
   }, [ kakaoMapLoaded, userPosition ]);
 
+
   useEffect(() => {
     if (map && result) {
       // 기존 마커 제거
-      resultMarkers.forEach(marker => marker.setMap(null));
+      resultMarkersRef.current.forEach(marker => marker.setMap(null));
 
       // 결과 마커 배열 초기화
       const newResultMarkers: typeof window.kakao.maps.Marker[] = [];
@@ -129,7 +131,7 @@ const KakaoMap: React.FC = () => {
         newResultMarkers.push(resultMarker);
       });
 
-      setResultMarkers(newResultMarkers); // 새 결과 마커 배열 저장
+      resultMarkersRef.current = newResultMarkers; // 새 결과 마커 배열 저장
     }
   }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
 
@@ -150,9 +152,9 @@ const KakaoMap: React.FC = () => {
             <RecommendForm onSubmit={handleSubmitForm} />
           </div>
       )}
+       </div>
         <div id="result-container" className="flex w-full h-300px">
           <RecommendResult results={result} />
-      </div> {/* 이 부분에서 닫는 태그 수정 */}
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import "/public/css/calendar.css";
-import Schedule from "./Schedule";
-import Weather from "./Weather";
+import Schedule from "./schedule";
+import Weather from "./weather";
 import Image from "next/image";
 
 interface ScheduleProps {
