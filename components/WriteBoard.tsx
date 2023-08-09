@@ -18,6 +18,7 @@ export default function WriteBoard(props: WriteBoardProps) {
   }, [props.board]);
 
   return (
+
     <div className="max-w-5xl justify-center items-center bg-gray-100">
       <div className={props.formClass}>
         <div className={"max-w-5xl bg-white p-6 shadow-lg rounded-md border"}>
@@ -30,7 +31,6 @@ export default function WriteBoard(props: WriteBoardProps) {
             X
           </div>
         </div>
-
         <form>
           <div className="mb-4">
             <input

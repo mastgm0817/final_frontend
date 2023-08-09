@@ -25,6 +25,7 @@ function Logined(props: any): any {
   const [boards, setBoards] = useState<Board[] | any>([]); //board목록
   const [AddFormClass, setAddFormClass] = useState<string | null>(null); //글추가폼의 class
   const [showAddForm, setShowAddForm] = useState<boolean>(false); //글추가폼 켜고끄기
+
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [pages, setPages] = useState<number>(0)
   
@@ -40,7 +41,8 @@ function Logined(props: any): any {
     fetchData();
   }, []);
 
-function ToggleAddForm(){
+
+  function ToggleAddForm(): any {
     if (AddFormClass === "formOn") {
       setAddFormClass("formOff");
       setTimeout(()=>{setShowAddForm(false)}, 290);
@@ -55,7 +57,8 @@ function ToggleAddForm(){
     }
   }
   
-  async function handleAddXButton() {
+
+  function handleAddXButton() {
     setAddFormClass("formOff");
     setTimeout(()=>{setShowAddForm(false)}, 290);
   }
@@ -72,9 +75,11 @@ function ToggleAddForm(){
     const userName = session.user?.name;
     return (
       <>
+
       <div className="font-sans items-center max-w-6xl mx-auto flex-col justify-center min-h-screen bg-gray-100">
       <br /><br />
         <div className="flex justify-center items-center"><h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}>게시판</h1></div>
+
           <br></br>
           {/* <button>내글보기</button> */}
 
@@ -108,13 +113,13 @@ function ToggleAddForm(){
           <button onClick={() => setPages(pages+2)}
                         className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages+3}</button>
         </div>
-
         <div className="fixed bottom-5 right-5 bg-pink-500 hover:bg-black text-white font-bold py-2 px-4 rounded-full"
           onClick={ToggleAddForm}
           style={{ position: "fixed", bottom: "5em", right: "5em" }}>
           게시글 작성하기
         </div>
         
+
 
 
         {AddFormClass && showAddForm && (

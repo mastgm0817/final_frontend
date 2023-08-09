@@ -8,6 +8,7 @@ import BoardDetail from '../../../components/BoardDetail';
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 
+
 const defaultBoard: Board = {
   bid: 0,
   nickName: " ",
@@ -48,8 +49,6 @@ const board2:Board = {
 
 }
 
-
-// const boards:Board[]=[board1,board2]
 
 interface pageProps{
   params:{pagenum:number}
@@ -92,6 +91,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
     } else if ( selectedBoard !== null && selectedBoard.bid === clickedBoard.bid ) {
       setSelectedBoard(defaultBoard);
       setCommentListShow(false);
+
     }
   }
   async function UpdateBoard(UpdateBoard: Board) {
@@ -164,6 +164,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
   
     </div>
       {UpdateFormClass && showUpdateForm &&(
+
         <WriteBoard
           board={{ ...selectedBoard }}
           FormTitle="게시글 수정"
@@ -173,6 +174,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
         />
       )}
     </>
+
 
   );
 }

@@ -4,8 +4,7 @@ const headers = {
   "Content-Type": "application/json; charset=utf-8",
 };
 
-// const API_URL = process.env.NEXT_PUBLIC_URL;
-const API_URL = "http://luvoost.co.kr/boards";
+const API_URL = process.env.NEXT_PUBLIC_URL;
 
 const SendData = async (
   method: string,
