@@ -5,6 +5,7 @@ import { createPosition } from '../store/position';
 import '../public/css/dateplan.css';
 import predict from '../app/api/dateplan/dateplanApi';
 import RecommendForm from './RecommendForm';
+import RecommendResult from './RecommendResult';
 
 interface RecommendFormData {
   user_latitude: string;
@@ -32,6 +33,7 @@ const KakaoMap: React.FC = () => {
 
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
+    console.log("Toggling form:", !showForm); // 상태 변경 로그
   };
 
   const handleSubmitForm = async (formData: RecommendFormData) => {
@@ -90,7 +92,7 @@ const KakaoMap: React.FC = () => {
 
       const mapOption = {
         center: new window.kakao.maps.LatLng(latitude, longitude),
-        level: 5,
+        level: 3,
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
@@ -103,29 +105,42 @@ const KakaoMap: React.FC = () => {
         position: markerPosition,
       });
       marker.setMap(map);
+      if (result) {
+        result.forEach((item: any) => {
+          const resultMarkerPosition = new window.kakao.maps.LatLng(item.latitude, item.longitude);
+          const resultMarker = new window.kakao.maps.Marker({
+            position: resultMarkerPosition,
+          });
+          resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
+       });
+      }
     }
-  }, [kakaoMapLoaded, userPosition]);
-  
+  }, [kakaoMapLoaded, userPosition]); // kakaoMapLoaded, userPosition, result가 변경될 때마다 실행됩니다.
+
   return (
     <div className="flex justify-center items-center h-full w-full">
-      <div id="map-container" className="relative" style={{ height: '700px', width: '90%' }}>
-        <div id="map" className="w-full h-full" style={{ height: '100%', width: '100%' }}></div>
+      <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
+        <div id="map" className="flex w-full h-700px" style={{ height: '600px', width: '100%' }}>
+        </div>
         <div className="button-container absolute bottom-0 right-0">
           <button
             onClick={handleToggleForm}
-            className="bg-pink-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl"
+            className="bg-pink-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-2xl" // text 크기 조절
           >
             {showForm ? '-' : '+'}
           </button>
         </div>
-        <div className={`form-container ${showForm ? 'open' : ''}`}>
-          <RecommendForm onSubmit={handleSubmitForm} />
-        </div>
-      </div>
+        {showForm && (
+          <div className={`form-container ${showForm ? 'open' : ''}`}>
+            <RecommendForm onSubmit={handleSubmitForm} />
+          </div>
+      )}
+        <div id="result-container" className="flex w-full h-300px">
+          <RecommendResult results={result} />
+      </div> {/* 이 부분에서 닫는 태그 수정 */}
+    </div>
     </div>
   );
-  
-
 };
 
 export default KakaoMap;

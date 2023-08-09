@@ -2,27 +2,53 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.button-container {
+.button-container button {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 10;
+  bottom: 30vh;
+  right: 30px;
+  z-index: 3;
   background-color: #FF5B5B;
-  border-radius: 50%;
+  width: 30px; /* 너비와 높이를 동일하게 설정 */
+  height: 30px; /* 너비와 높이를 동일하게 설정 */
+  border-radius: 50%; /* 완벽한 원 형태를 만들기 위해 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px; /* 글자 크기 조절 */
+  color: #ffffff;
+}
+
+.result-container {
+  display:absolute;
+  bottom: 0;
+  height: 200px;
+  width: 100%;
 }
 
 .form-container {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 30%;
+  right: 30px; /* 지도 컨테이너와 동일한 오른쪽 패딩 */
   width: 150px;
+  height: 50vh;
   padding: 10px;
-  transform: translateX(100%); /* 폼을 오른쪽으로 숨김 */
-  transition: transform 0.3s ease; /* 슬라이드 애니메이션 효과 지정 */
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
   z-index: 0;
 }
 
 .form-container.open {
-  transform: translateX(0); /* 폼을 원래 위치로 복원 */
-  z-index: 1;
+  transform: translateX(0%); /* 폼을 원래 위치로 복원 */ 
+  transition: transform 0.3s ease;
+  z-index: 2;
 }
+
+#map-container {
+  margin-top: 10px;
+  position: relative; /* 상대 위치 설정 */
+  padding: 30px;
+  overflow: hidden; /* 지도 컨테이너 내의 요소가 넘치지 않도록 함 */
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+} 
