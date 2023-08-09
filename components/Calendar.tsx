@@ -2,8 +2,8 @@
 import { useState } from "react";
 import "/public/css/calendar.css";
 import Image from "next/image";
-import Schedule from "./Schedule";
-import Weather from "./Weather";
+import Schedule from "./Schedule1";
+import Weather from "./Weather1";
 
 interface ScheduleProps {
   nickName: string;
@@ -159,5 +159,6 @@ function Calendar() {
     </div>
   );
 }
+// 캘린더 대문자
 
 export default Calendar;
