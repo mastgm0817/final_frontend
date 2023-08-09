@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, useCallback, FC } from 'react';
 
 import Board from '../../../types/board';
 import SendData from '../../api/board/SendData';
@@ -63,20 +63,20 @@ const Page:FC<pageProps> = ({params}, props:any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [commentListShow, setCommentListShow] = useState<boolean>(false)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await SendData("GET", `/api/boards/page/${params.pagenum}`,null,"fetch boards");
+      const response = await SendData("GET", `/api/boards/page/${params.pagenum}`, null, "fetch boards");
       setBoards(response);
       setIsLoading(false);
       console.log(response)
     } catch (error) {
       console.error("Error fetching boards:", error);
     }
-  };
+  }, [params.pagenum]);
   useEffect(() => {
     fetchData();
-  }, [params.pagenum]);
+  }, [fetchData]);
 
   // const boards=[board1,board2];
   console.log(selectedBoard)

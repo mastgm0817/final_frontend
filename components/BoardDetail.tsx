@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Comment from "../types/comment";
 import SendData from "../app/api/board/SendData";
@@ -83,18 +83,17 @@ function BoardDetail(props: any) {
   newComment.nickName=props.userName;
   // const comments=[comment1, comment2];
 
-  const fetchData = async () => {
-      try {
-          const response = await SendData("GET", `/api/boards/${props.selectedBoard.bid}/comments`,null,"fetch comment");
-          setComments(response);
-      } catch (error) {
-          console.error('Error fetching boards:', error);
-      }
-
-  };
+  const fetchData = useCallback(async () => {
+    try {
+        const response = await SendData("GET", `/api/boards/${props.selectedBoard.bid}/comments`, null, "fetch comment");
+        setComments(response);
+    } catch (error) {
+        console.error('Error fetching boards:', error);
+    }
+  }, [props.selectedBoard.bid]);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
   function ToggleAddComment() {
     if (AddCommentFormClass === true) {
       setAddCommentFormClass(false);

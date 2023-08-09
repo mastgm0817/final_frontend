@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Board from "../../types/board";
 import WriteBoard from "../../components/WriteBoard";
@@ -29,17 +29,20 @@ function Logined(props: any): any {
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [pages, setPages] = useState<number>(0)
   
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await SendData("GET", `/api/boards/page/0`,null,"fetch boards");
-      setBoards(response);
+        const response = await SendData("GET", `/api/boards/page/0`, null, "fetch boards");
+        setBoards(response);
     } catch (error) {
-      console.error("Error fetching boards:", error);
+        console.error("Error fetching boards:", error);
     }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+  
 
 
   function ToggleAddForm(): any {
