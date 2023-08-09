@@ -16,6 +16,7 @@ const SendData = async (
   try {
     const response = await axios({ method, url: targetURL, data, headers });
     console.log(method, response.data);
+    return response.data;
   } catch (error) {
     console.error("Error:", error);
     throw error;
