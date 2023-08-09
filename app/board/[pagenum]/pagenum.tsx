@@ -5,6 +5,8 @@ import Board from '../../../types/board';
 import SendData from '../../api/board/SendData';
 import WriteBoard from '../../../components/WriteBoard';
 import BoardDetail from '../../../components/BoardDetail';
+import { Menu, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 
 const defaultBoard: Board = {
   bid: 0,
@@ -23,7 +25,7 @@ const board1:Board = {
   bid: 3,
   nickName: " dafsdf",
   b_title: " weaff",
-  b_content: " wefasd",
+  b_content: " wefakidhfieorpfoaeirhpoiqerhkjadfnhligserhpgsuidfgosdjbgo;eir;sgoidhfrgosiehrosidhfogihae;roisghpdofighspdiorfhsdoihrfgos;dirh;sgdosd",
   b_createdAt: " fasdfas",
   b_updatedAt: "",
   b_views: 0,
@@ -57,8 +59,10 @@ const Page:FC<pageProps> = ({params}, props:any) => {
 
   const [boards, setBoards] = useState<Board[]|any>([]);
   const [UpdateFormClass, setUpdateFormClass] = useState<string | null>(null);
+  const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false);
   const [selectedBoard, setSelectedBoard] = useState<Board>(defaultBoard); //선택된 board
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [commentListShow, setCommentListShow] = useState<boolean>(false)
 
   const fetchData = async () => {
     setIsLoading(true)
@@ -87,6 +91,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
       console.log(clickedBoard.bid + "번 게시글 조회됨");
     } else if ( selectedBoard !== null && selectedBoard.bid === clickedBoard.bid ) {
       setSelectedBoard(defaultBoard);
+      setCommentListShow(false);
     }
   }
   async function UpdateBoard(UpdateBoard: Board) {
@@ -103,13 +108,16 @@ const Page:FC<pageProps> = ({params}, props:any) => {
   function handelUpdateXButton() {
     setSelectedBoard(defaultBoard);
     setUpdateFormClass("formOff");
+    setTimeout(()=>{setShowUpdateForm(false)}, 290);
   }
   function ToggleUpdateForm(board: Board) {
     setSelectedBoard((prevState) => {
       if (UpdateFormClass === "formOn") {
         setUpdateFormClass("formOff");
+        setTimeout(()=>{setShowUpdateForm(false)}, 290);
         return defaultBoard;
       } else {
+        setShowUpdateForm(true);
         setUpdateFormClass("formOn");
         return board;
       }
@@ -122,31 +130,40 @@ const Page:FC<pageProps> = ({params}, props:any) => {
   
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      
-      {boards &&
-        boards.map((board:Board) => (
-          <React.Fragment key={board.bid}>
-            <div onClick={(event) => HandleBoardClick(event, board)} className="cursor-pointer w-full">
-              <div className={`w-96 bg-white shadow-md rounded p-4 font-bold ${selectedBoard && selectedBoard.bid === board.bid ? 'text-pink-500' : ''}`}>
-                <div >{board.bid} {board.b_title} {board.b_createdAt.toLocaleString()} {board.nickName} {board.b_recommendations.toLocaleString()} {board.b_views.toLocaleString()}</div>
-              </div>
-            </div>
+    <>
+    <div className="flex flex-col space-y-0">
+      {boards && boards.map((board: Board) => (
+        <React.Fragment key={board.bid}>
+          <div 
+            onClick={(event) => HandleBoardClick(event, board)} 
+            className={`cursor-pointer max-w-4xl w-full bg-white rounded-lg p-4 flex items-center justify-between ${selectedBoard && selectedBoard.bid === board.bid ? 'text-pink-500' : ''}`}>
+            
+            <div className="w-1/12 text-center">{board.bid}</div>
+            <div className="w-4/12 text-center">{board.b_title}</div>
+            <div className="w-2/12 text-center">{board.b_createdAt.toLocaleString()}</div>
+            <div className="w-2/12 text-center">{board.nickName}</div>
+            <div className="w-1/12 text-center">{board.b_recommendations}</div>
+            <div className="w-1/12 text-center">{board.b_views}</div>
+          </div>
+          <div 
+            className={`board-detail flex ${selectedBoard && selectedBoard.bid === board.bid ? 'active' : ''}`}>
+            <BoardDetail
+              userName={props.userName}
+              selectedBoard={board}
+              ToggleUpdateForm={() => ToggleUpdateForm(board)}
+              DeleteBoard={DeleteBoard}
+              HandleRecommendButton={HandleRecommendButton}
+              commentListShow={false}
+              setCommentListShow={setCommentListShow}
+            />
+          </div>
+
+          
+        </React.Fragment>
+      ))}
   
-            <br></br>
-            <div className={`transition ${selectedBoard && selectedBoard.bid === board.bid ? "max-h-screen" : "max-h-0"}`}>
-              {selectedBoard && selectedBoard.bid === board.bid && <BoardDetail
-                userName={props.userName}
-                selectedBoard={board}
-                ToggleUpdateForm={() => ToggleUpdateForm(board)}
-                DeleteBoard={DeleteBoard}
-                HandleRecommendButton={HandleRecommendButton}
-              />}
-            </div>
-          </React.Fragment>
-        ))}
-  
-      {UpdateFormClass && (
+    </div>
+      {UpdateFormClass && showUpdateForm &&(
         <WriteBoard
           board={{ ...selectedBoard }}
           FormTitle="게시글 수정"
@@ -155,7 +172,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
           BoardComplete={UpdateBoard}
         />
       )}
-    </div>
+    </>
 
   );
 }

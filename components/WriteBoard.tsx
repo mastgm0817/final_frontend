@@ -18,21 +18,21 @@ export default function WriteBoard(props: WriteBoardProps) {
   }, [props.board]);
 
   return (
-    <div>
-      <div id="board-form" className={props.formClass}>
-        <div className="w-96 bg-white shadow rounded" style={{ textAlign: "center" }}>{props.FormTitle}</div>
-        <div className="close-icon" onClick={props.handleXButton}>
-          X
+    <div className="max-w-5xl justify-center items-center bg-gray-100">
+      <div className={props.formClass}>
+        <div className={"max-w-5xl bg-white p-6 shadow-lg rounded-md border"}>
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-lg font-bold">{props.FormTitle}</div>
+          <div 
+            className="cursor-pointer text-red-500"
+            onClick={props.handleXButton}
+          >
+            X
+          </div>
         </div>
 
         <form>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "left",
-            }}
-          >
+          <div className="mb-4">
             <input
               placeholder="제목"
               type="text"
@@ -40,49 +40,32 @@ export default function WriteBoard(props: WriteBoardProps) {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 setNewBoard({ ...newBoard, b_title: event.target.value })
               }
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
           </div>
-          <br />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "left",
-              }}
-            >
-              <input
-                placeholder="내용"
-                type="text"
-                value={newBoard.b_content}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewBoard({ ...newBoard, b_content: event.target.value })
-                }
-              />
-            </div>
+          <div className="mb-4">
+            <textarea
+              placeholder="내용"
+              rows={4}
+              value={newBoard.b_content}
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setNewBoard({ ...newBoard, b_content: event.target.value })
+              }
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
+            ></textarea>
           </div>
         </form>
 
-        <br></br>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <button onClick={() => props.BoardComplete(newBoard)}>
+        <div className="flex justify-center mt-6">
+          <button 
+            onClick={() => props.BoardComplete(newBoard)}
+            className="bg-pink-500 hover:bg-black text-white px-4 py-2 rounded focus:outline-none"
+          >
             게시글 작성 완료
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }
