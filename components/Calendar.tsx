@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import "/public/css/calendar.css";
+import Image from "next/image";
 import Schedule from "./Schedule";
 import Weather from "./Weather";
-import Image from "next/image";
 
 interface ScheduleProps {
   nickName: string;
