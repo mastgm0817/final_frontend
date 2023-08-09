@@ -136,8 +136,7 @@ function Calendar() {
       </div>
       <div className="schedule">
         <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 (
-          {selectedDayOfWeek})
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
         </h2>
         <input
           type="text"

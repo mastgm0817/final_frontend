@@ -136,7 +136,9 @@ export default function Top() {
               textDecoration: "none",
             }}
           >
+
             <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -158,5 +160,7 @@ export default function Top() {
     </AppBar>
     //   <Box sx={{ width: "15%" }} />
     // </Box>
+
+    
   );
 }

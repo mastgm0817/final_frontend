@@ -1,18 +1,18 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import KakaoMap from '../../components/Kakaomap';
+import { useSession } from 'next-auth/react';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 const Home: React.FC = () => {
-  const { latitude, longitude } = useSelector((state:RootState) => state.position);
-  return (
-    <div>
-      <p>Latitude: {latitude}</p>
-      <p>Longitude: {longitude}</p>
+  const { data: session } = useSession();
+  const userName = `${session ? session.user?.name : null}`;
+
+return (
+  <div>
     
-      <KakaoMap /> 
-    </div>
+    <KakaoMap />
+  </div>
   );
-  };
+};
+
 export default Home;
