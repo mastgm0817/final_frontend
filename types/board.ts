@@ -8,9 +8,9 @@ type Board = {
   b_content: string;
   b_createdAt: ISODateString;
   b_updatedAt: ISODateString;
-  b_views: Number;
-  comments: Number;
-  b_recommendations: Number;
+  b_views: number;
+  comments: number;
+  b_recommendations: number;
 };
 
 export default Board;
