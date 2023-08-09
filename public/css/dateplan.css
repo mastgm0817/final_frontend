@@ -4,8 +4,8 @@
 
 .button-container button {
   position: absolute;
-  bottom: 30vh;
-  right: 30px;
+  bottom: 15px;
+  right: 5px;
   z-index: 3;
   background-color: #FF5B5B;
   width: 30px; /* 너비와 높이를 동일하게 설정 */
@@ -19,28 +19,30 @@
 }
 
 .result-container {
-  display:absolute;
+  position: absolute;
   bottom: 0;
-  height: 200px;
+  display: flex;
+  height: 300px;
   width: 100%;
 }
 
 .form-container {
   position: absolute;
-  bottom: 30%;
-  right: 30px; /* 지도 컨테이너와 동일한 오른쪽 패딩 */
+  bottom: 0;
+  right: 0; /* 지도 컨테이너와 동일한 오른쪽 패딩 */
   width: 150px;
-  height: 50vh;
+  height: 450px;
   padding: 10px;
   transform: translateX(100%);
   transition: transform 0.3s ease;
-  z-index: 0;
+  z-index: 2;
 }
 
 .form-container.open {
   transform: translateX(0%); /* 폼을 원래 위치로 복원 */ 
   transition: transform 0.3s ease;
-  z-index: 2;
+  z-index: 1000;
+  right: 30px;
 }
 
 #map-container {

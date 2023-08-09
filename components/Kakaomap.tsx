@@ -137,7 +137,6 @@ const KakaoMap: React.FC = () => {
     <div className="flex justify-center items-center h-full w-full">
       <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
         <div id="map" className="flex w-full h-700px" style={{ height: '600px', width: '100%' }}>
-        </div>
         <div className="button-container absolute bottom-0 right-0">
           <button
             onClick={handleToggleForm}
@@ -154,8 +153,9 @@ const KakaoMap: React.FC = () => {
         <div id="result-container" className="flex w-full h-300px">
           <RecommendResult results={result} />
       </div> {/* 이 부분에서 닫는 태그 수정 */}
+      </div>
     </div>
-    </div>
+  </div>
   );
 };
 
