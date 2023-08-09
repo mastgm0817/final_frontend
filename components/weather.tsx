@@ -8,7 +8,7 @@ export default function Weather() {
   const currentWeather = useWeather();
 
   return (
-    <div className="weather-container"> 
+    <div className="weather-container">
       <h3>오늘 데이트 할 날씨는요 🤔</h3>
       {currentWeather && (
         <WeatherIcon
