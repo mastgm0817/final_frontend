@@ -69,7 +69,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
       const response = await SendData("GET", `/api/boards/page/${params.pagenum}`, null, "fetch boards");
       setBoards(response);
       setIsLoading(false);
-      console.log(response)
+      // console.log(response)
     } catch (error) {
       console.error("Error fetching boards:", error);
     }
@@ -79,7 +79,7 @@ const Page:FC<pageProps> = ({params}, props:any) => {
   }, [fetchData]);
 
   // const boards=[board1,board2];
-  console.log(selectedBoard)
+  // console.log(selectedBoard)
 
   async function HandleBoardClick(event: any, clickedBoard: Board) {
 
