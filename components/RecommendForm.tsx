@@ -77,8 +77,8 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   return (
     
     <form onSubmit={handleSubmit}  style={{ width:'15vh',backgroundColor: '#ffd4c9', border: '1px solid #e393b9' , borderRadius: '15px', textAlign: 'center'}}>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
-        <select name="food" value={formData.food} onChange={handleChange}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' , fontSize:'15px'}}>
+        <select name="food" value={formData.food} onChange={handleChange} >
           <option value="" disabled>음식 종류 선택</option> {/* 초기 선택 값 */}
           <option value="한식">한식</option>
           <option value="양식">양식</option>
@@ -87,31 +87,31 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
           <option value="기타">기타</option>
         </select>
       </div>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' }}>
           <label>맛</label>
           {renderStars('taste', formData.taste)}
       </div>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' }}>
         <label>서비스</label>
         {renderStars('service', formData.service)}
       </div>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' }}>
         <label>분위기</label>
         {renderStars('ambiance', formData.ambiance)}
       </div>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' }}>
         <label>매장상태</label>
         {renderStars('storeCondition', formData.storeCondition)}
       </div>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' }}>
         <label>친절함</label>
         {renderStars('kindness', formData.kindness)}
       </div>
-      <div style={{ borderBottom: '1px solid #e393b9', padding: '7px' }}>
+      <div style={{ borderBottom: '1px solid #e393b9', padding: '6px' }}>
         <label>양</label>
         {renderStars('quantity', formData.quantity)}
       </div>
-      <div style={{ padding: '7px' }}>
+      <div style={{ padding: '6px' }}>
         <button type="submit">Submit</button>
       </div>
   </form>

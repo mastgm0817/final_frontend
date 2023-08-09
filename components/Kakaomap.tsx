@@ -5,6 +5,7 @@ import { createPosition } from '../store/position';
 import '../public/css/dateplan.css';
 import predict from '../app/api/dateplan/dateplanApi';
 import RecommendForm from './RecommendForm';
+import RecommendResult from './RecommendResult';
 
 interface RecommendFormData {
   user_latitude: string;
@@ -26,12 +27,14 @@ declare const window: typeof globalThis & {
 const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(null);
-
+  const [map,setMap] = useState<any>(null);
   const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [resultMarkers, setResultMarkers] = useState<any[]>([]); // 결과 마커 배열 저장
 
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
+    console.log("Toggling form:", !showForm); // 상태 변경 로그
   };
 
   const handleSubmitForm = async (formData: RecommendFormData) => {
@@ -90,42 +93,63 @@ const KakaoMap: React.FC = () => {
 
       const mapOption = {
         center: new window.kakao.maps.LatLng(latitude, longitude),
-        level: 5,
+        level: 3,
       };
 
-      const map = new window.kakao.maps.Map(mapContainer, mapOption);
+      const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOption);
+      setMap(kakaoMap);
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+      kakaoMap.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
       var zoomControl = new window.kakao.maps.ZoomControl();
-      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+      kakaoMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
       var markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
       var marker = new window.kakao.maps.Marker({
         position: markerPosition,
       });
-      marker.setMap(map);
+      marker.setMap(kakaoMap);
     }
-  }, [kakaoMapLoaded, userPosition]);
+  }, [ kakaoMapLoaded, userPosition ]);
+
+  useEffect(() => {
+    if (map && result) {
+      // 기존 마커 제거 (필요한 경우)
+
+      // 결과에서 가져온 좌표를 사용하여 마커를 렌더링합니다.
+      result.forEach((item: any) => {
+        const resultMarkerPosition = new window.kakao.maps.LatLng(item.latitude, item.longitude);
+        const resultMarker = new window.kakao.maps.Marker({
+          position: resultMarkerPosition,
+        });
+        resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
+      });
+    }
+  }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
+
   
   return (
     <div className="flex justify-center items-center h-full w-full">
-      <div id="map-container" className="relative" style={{ height: '700px', width: '90%' }}>
-        <div id="map" className="w-full h-full" style={{ height: '100%', width: '100%' }}></div>
+      <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
+        <div id="map" className="flex w-full h-700px" style={{ height: '600px', width: '100%' }}>
+        </div>
         <div className="button-container absolute bottom-0 right-0">
           <button
             onClick={handleToggleForm}
-            className="bg-pink-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl"
+            className="bg-pink-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-2xl" // text 크기 조절
           >
             {showForm ? '-' : '+'}
           </button>
         </div>
-        <div className={`form-container ${showForm ? 'open' : ''}`}>
-          <RecommendForm onSubmit={handleSubmitForm} />
-        </div>
-      </div>
+        {showForm && (
+          <div className={`form-container ${showForm ? 'open' : ''}`}>
+            <RecommendForm onSubmit={handleSubmitForm} />
+          </div>
+      )}
+        <div id="result-container" className="flex w-full h-300px">
+          <RecommendResult results={result} />
+      </div> {/* 이 부분에서 닫는 태그 수정 */}
+    </div>
     </div>
   );
-  
-
 };
 
 export default KakaoMap;
