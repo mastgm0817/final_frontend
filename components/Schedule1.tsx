@@ -312,5 +312,5 @@ const Schedule: React.FC<ScheduleProps> = ({
     </div>
   );
 };
-// 대문자
+// 대문자123
 export default Schedule;

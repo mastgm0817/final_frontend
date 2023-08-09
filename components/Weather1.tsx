@@ -20,7 +20,7 @@ export default function Weather() {
     </div>
   );
 }
-// 대문자
+// 대문자123
 const WeatherIcon = styled.img`
   width: auto;
   height: 100px;
