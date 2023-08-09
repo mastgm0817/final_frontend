@@ -1,0 +1,37 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.container {
+    padding: 1rem 15%; /* Add left and right padding of 15% */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e9e9e9;
+  }
+  
+  /* Navigation Links */
+  .md\\:flex a {
+    padding: 0.5rem 1rem; /* Add padding to the navigation links */
+    color: black;
+    font-weight: bold;
+    transition: background-color 0.3s, border-radius 0.3s;
+  }
+  
+  .md\\:flex a:hover {
+    background-color: #f2f2f2; /* Change the background color on hover */
+    border-radius: 0.25rem; /* Add rounded corners on hover */
+  }
+  
+  /* LoginedRightSideNav and LogoutedRightSideNav Links */
+  .flex a {
+    color: #e91e63; /* Set the text color to a pink shade for login/logout button */
+    font-weight: bold;
+    transition: background-color 0.3s, border-radius 0.3s;
+  }
+  
+  .flex a:hover {
+    background-color: #ecbace; /* Change the background color on hover for login/logout button */
+    border-radius: 0.25rem; /* Add rounded corners on hover */
+  }
+  
