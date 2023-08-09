@@ -5,9 +5,6 @@ import Board from '../../../types/board';
 import SendData from '../../api/board/SendData';
 import WriteBoard from '../../../components/WriteBoard';
 import BoardDetail from '../../../components/BoardDetail';
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-
 
 const defaultBoard: Board = {
   bid: 0,
@@ -20,35 +17,6 @@ const defaultBoard: Board = {
   comments: 0,
   b_recommendations: 0,
 };
-
-
-const board1:Board = {
-  bid: 3,
-  nickName: " dafsdf",
-  b_title: " weaff",
-  b_content: " wefakidhfieorpfoaeirhpoiqerhkjadfnhligserhpgsuidfgosdjbgo;eir;sgoidhfrgosiehrosidhfogihae;roisghpdofighspdiorfhsdoihrfgos;dirh;sgdosd",
-  b_createdAt: " fasdfas",
-  b_updatedAt: "",
-  b_views: 0,
-  comments: 0,
-  b_recommendations: 0,
-
-}
-
-
-const board2:Board = {
-  bid: 2,
-  nickName: " dafsdf",
-  b_title: " weaff",
-  b_content: " wefasd",
-  b_createdAt: " fasdfas",
-  b_updatedAt: "",
-  b_views: 0,
-  comments: 0,
-  b_recommendations: 0,
-
-}
-
 
 interface pageProps{
   params:{pagenum:number}
