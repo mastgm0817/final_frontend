@@ -27,9 +27,10 @@ declare const window: typeof globalThis & {
 const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(null);
-
+  const [map,setMap] = useState<any>(null);
   const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [resultMarkers, setResultMarkers] = useState<any[]>([]); // 결과 마커 배열 저장
 
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
@@ -95,28 +96,36 @@ const KakaoMap: React.FC = () => {
         level: 3,
       };
 
-      const map = new window.kakao.maps.Map(mapContainer, mapOption);
+      const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOption);
+      setMap(kakaoMap);
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+      kakaoMap.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
       var zoomControl = new window.kakao.maps.ZoomControl();
-      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+      kakaoMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
       var markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
       var marker = new window.kakao.maps.Marker({
         position: markerPosition,
       });
-      marker.setMap(map);
-      if (result) {
-        result.forEach((item: any) => {
-          const resultMarkerPosition = new window.kakao.maps.LatLng(item.latitude, item.longitude);
-          const resultMarker = new window.kakao.maps.Marker({
-            position: resultMarkerPosition,
-          });
-          resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
-       });
-      }
+      marker.setMap(kakaoMap);
     }
-  }, [kakaoMapLoaded, userPosition]); // kakaoMapLoaded, userPosition, result가 변경될 때마다 실행됩니다.
+  }, [ kakaoMapLoaded, userPosition ]);
 
+  useEffect(() => {
+    if (map && result) {
+      // 기존 마커 제거 (필요한 경우)
+
+      // 결과에서 가져온 좌표를 사용하여 마커를 렌더링합니다.
+      result.forEach((item: any) => {
+        const resultMarkerPosition = new window.kakao.maps.LatLng(item.latitude, item.longitude);
+        const resultMarker = new window.kakao.maps.Marker({
+          position: resultMarkerPosition,
+        });
+        resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
+      });
+    }
+  }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
+
+  
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
