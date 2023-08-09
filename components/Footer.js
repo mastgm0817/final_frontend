@@ -1,35 +1,55 @@
 "use client";
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary">
-      {"Copyright © "}
-      <Link color="inherit" href="https://localhost:3000/">
-        Luvoost Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import "../public/css/footer.css"
+import React from "react";
 
 export default function Footer() {
   return (
-    <Container
-      maxWidth="fluid"
-      sx={{ bgcolor: "#f6f7f9", textAlign: "center", marginTop: 1 }}
-    >
-      <Typography variant="body1">Footer here</Typography>
-      <Copyright />
-    </Container>
+    <footer className="bg-gray-100 text-center py-4">
+      <div className="mb-4">
+        <a
+          href="https://localhost:3000/"
+          className="text-blue-500 hover:text-blue-700"
+        >
+          Luvoost Website
+        </a>{" "}
+        {new Date().getFullYear()}
+        {"."}
+      </div>
+      <div className="mb-4">
+        <a
+          href="https://fragrant-pincushion-ccf.notion.site/Final-891596851f8147dc8d81c82eccadcf6f"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:text-blue-700"
+        >
+          Notion
+        </a>{" "}
+        |
+        <a
+          href="https://github.com/mastgm0817/final_frontend"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:text-blue-700"
+        >
+          Frontend
+        </a>{" "}
+        |
+        <a
+          href="https://github.com/mastgm0817/final_backend"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:text-blue-700"
+        >
+          Backend
+        </a>
+      </div>
+      <div className="mb-4">팀 이름: T2F4</div>
+      <div className="mb-4">팀 메일: T2F4@gmail.com</div>
+      <div className="mb-4">팀 소개</div>
+      <div className="mb-4">고객 문의</div>
+      <div className="mb-4">
+        <span className="italic">Copyright © Luvoost Website 2023.</span>
+      </div>
+    </footer>
   );
 }

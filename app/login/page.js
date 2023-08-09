@@ -40,7 +40,7 @@ export default function SignInSide() {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const response = await signIn("email-Credentials", {
+    const response = await signIn("eail-Credemntials", {
       email,
       password,
       redirect: true,

@@ -47,16 +47,16 @@ const CommentForm = (props:any) => {
           className="border rounded p-2 focus:outline-none focus:border-pink-500 transition"
         />
       </form>
-
+      
       <div className="flex space-x-2">
-        <button
-          onClick={() => {
-            newComment.nickName = props.nickName;
-            props.CommetComplete(newComment, props.selectedBoard.bid);
-          }}
+      <button
+        onClick={() => {
+          newComment.nickName = props.nickName;
+          props.CommetComplete(newComment, props.selectedBoard.bid);
+        }}
           className="bg-pink-500 text-white p-2 rounded hover:bg-black transition"
-        >
-          제출
+      >
+        제출
         </button>
         <button 
           onClick={props.ToggleAddComment} 

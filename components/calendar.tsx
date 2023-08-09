@@ -2,11 +2,8 @@
 import { useState } from "react";
 import "/public/css/calendar.css";
 import Schedule from "./schedule";
-import { IconButton, Card, CardContent } from "@mui/material";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Weather from "./weather";
-// import RootLayout from '@/app/layout';
+import Image from "next/image";
 
 interface ScheduleProps {
   nickName: string;
@@ -66,13 +63,13 @@ function Calendar() {
 
     for (let i = 1; i <= daysInMonth; i++) {
       calendarDays.push(
-        <Card
+        <div
           key={i}
           onClick={() => setSelectedDate({ ...selectedDate, day: i })}
           className={`day ${selectedDate.day === i ? "selected" : ""}`}
         >
-          <CardContent>{i}</CardContent>
-        </Card>
+          {i}
+        </div>
       );
     }
 
@@ -121,17 +118,12 @@ function Calendar() {
     ];
 
   return (
-    // <RootLayout>
     <div className="container">
       <div className="calendar">
         <div className="month-selector">
-          <IconButton onClick={goToPrevMonth}>
-            <ArrowBackIosIcon />
-          </IconButton>
+          <button onClick={goToPrevMonth}>&lt;</button>
           {selectedDate.year}년 {selectedDate.month}월
-          <IconButton onClick={goToNextMonth}>
-            <ArrowForwardIosIcon />
-          </IconButton>
+          <button onClick={goToNextMonth}>&gt;</button>
         </div>
         <div className="days-of-week">
           {daysOfWeek.map((day) => (
@@ -144,8 +136,7 @@ function Calendar() {
       </div>
       <div className="schedule">
         <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 (
-          {selectedDayOfWeek})
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
         </h2>
         <input
           type="text"
@@ -160,6 +151,9 @@ function Calendar() {
           selectedDate={selectedDate}
         />
         <Weather />
+      </div>
+      <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
+        <Image src="./image/logo.svg" alt="Calendar" width={90} height={40} />
       </div>
     </div>
   );

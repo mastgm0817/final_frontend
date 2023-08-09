@@ -1,8 +1,10 @@
-
 import React, { useEffect, useState, useCallback } from "react";
-import { createSchedule, getAllScheduleByName,
+import {
+  createSchedule,
+  getAllScheduleByName,
   updateSchedule,
-  deleteSchedule, } from "../app/api/calendar/calendarApi";
+  deleteSchedule,
+} from "../app/api/calendar/calendarApi";
 import "/public/css/schedule.css";
 import DateProps from "../types/calendar";
 
@@ -76,9 +78,7 @@ const Schedule: React.FC<ScheduleProps> = ({
         requestDTO
       );
       console.log(response);
-      // Reload schedules after successful update
       loadSchedules();
-      // Clear update state
       setUpdateScheduleId(null);
       setUpdatedDate("");
       setUpdatedSchedule("");
@@ -230,30 +230,35 @@ const Schedule: React.FC<ScheduleProps> = ({
       ) : (
         <ul role="list" className="divide-y divide-gray-100">
           {filteredSchedules.map((schedule) => (
-            <li key={schedule.scheduleId} className="flex justify-between gap-x-6 py-5">
+            <li
+              key={schedule.scheduleId}
+              className="flex justify-between gap-x-6 py-5"
+            >
               <div className="flex gap-x-4">
-              {schedule.writerId} (공유: {schedule.shared ? "⭕" : "❌"})
+                {schedule.writerId} (공유: {schedule.shared ? "⭕" : "❌"})
                 <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">{schedule.scheduleContent}</p>
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {schedule.scheduleContent}
+                  </p>
                   <button
-                onClick={() =>
-                  handleUpdate(
-                    schedule.scheduleId,
-                    schedule.scheduleContent,
-                    schedule.scheduleDate,
-                    schedule.shared
-                  )
-                }
-              >
-                수정
-              </button>
-              <button
-                onClick={() =>
-                  handleDelete(schedule.scheduleId, schedule.shared)
-                }
-              >
-                삭제
-              </button>
+                    onClick={() =>
+                      handleUpdate(
+                        schedule.scheduleId,
+                        schedule.scheduleContent,
+                        schedule.scheduleDate,
+                        schedule.shared
+                      )
+                    }
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDelete(schedule.scheduleId, schedule.shared)
+                    }
+                  >
+                    삭제
+                  </button>
                 </div>
               </div>
             </li>

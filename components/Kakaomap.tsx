@@ -2,14 +2,55 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createPosition } from '../store/position';
-import '../public/css/kakaomap.css';
+import '../public/css/dateplan.css';
+import predict from '../app/api/dateplan/dateplanApi';
+import RecommendForm from './RecommendForm';
+import RecommendResult from './RecommendResult';
+
+interface RecommendFormData {
+  user_latitude: string;
+  user_longitude: string;
+  food: string;
+  storeCondition: number;
+  service: number;
+  ambiance: number;
+  taste: number;
+  kindness: number;
+  quantity:number;
+}
 
 declare const window: typeof globalThis & {
   kakao: any;
 }
+
+
 const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(null);
+  const [map,setMap] = useState<any>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [resultMarkers, setResultMarkers] = useState<any[]>([]);
+
+
+  const handleToggleForm = () => {
+    setShowForm((prevShowForm) => !prevShowForm);
+    console.log("Toggling form:", !showForm); // 상태 변경 로그
+  };
+
+  const handleSubmitForm = async (formData: RecommendFormData) => {
+    try {
+      const predictionResult = await predict(formData);
+      console.log('Prediction result:', result);
+
+      setResult(predictionResult);
+      // Now you have the prediction result, you can update the UI or take any other actions based on the result.
+    } catch (error) {
+      console.error('Error while predicting:', error);
+      // Handle the error if the prediction fails.
+    }
+  };
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -53,27 +94,67 @@ const KakaoMap: React.FC = () => {
 
       const mapOption = {
         center: new window.kakao.maps.LatLng(latitude, longitude),
-        level: 5,
+        level: 3,
       };
 
-      const map = new window.kakao.maps.Map(mapContainer, mapOption);
+      const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOption);
+      setMap(kakaoMap);
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+      kakaoMap.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
       var zoomControl = new window.kakao.maps.ZoomControl();
-      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+      kakaoMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
       var markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
       var marker = new window.kakao.maps.Marker({
         position: markerPosition,
       });
-      marker.setMap(map);
+      marker.setMap(kakaoMap);
     }
-  }, [kakaoMapLoaded, userPosition]);
+  }, [ kakaoMapLoaded, userPosition ]);
+
+  useEffect(() => {
+    if (map && result) {
+      // 기존 마커 제거
+      resultMarkers.forEach(marker => marker.setMap(null));
+
+      // 결과 마커 배열 초기화
+      const newResultMarkers: typeof window.kakao.maps.Marker[] = [];
+
+      // 결과에서 가져온 좌표를 사용하여 마커를 렌더링합니다.
+      result.forEach((item: any) => {
+        const resultMarkerPosition = new window.kakao.maps.LatLng(item.latitude, item.longitude);
+        const resultMarker = new window.kakao.maps.Marker({
+          position: resultMarkerPosition,
+        });
+        resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
+        newResultMarkers.push(resultMarker);
+      });
+
+      setResultMarkers(newResultMarkers); // 새 결과 마커 배열 저장
+    }
+  }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
 
   return (
-    <div>
-      <div id="map-container">
-        <div id="map" className="map"></div>
-      </div>
+    <div className="flex justify-center items-center h-full w-full">
+      <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
+        <div id="map" className="flex w-full h-700px" style={{ height: '600px', width: '100%' }}>
+        </div>
+        <div className="button-container absolute bottom-0 right-0">
+          <button
+            onClick={handleToggleForm}
+            className="bg-pink-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-2xl" // text 크기 조절
+          >
+            {showForm ? '-' : '+'}
+          </button>
+        </div>
+        {showForm && (
+          <div className={`form-container ${showForm ? 'open' : ''}`}>
+            <RecommendForm onSubmit={handleSubmitForm} />
+          </div>
+      )}
+        <div id="result-container" className="flex w-full h-300px">
+          <RecommendResult results={result} />
+      </div> {/* 이 부분에서 닫는 태그 수정 */}
+    </div>
     </div>
   );
 };

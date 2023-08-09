@@ -13,6 +13,7 @@ const nextConfig = {
     NAVER_CLIENT_ID: "wHHdHmY9FpvrlZv21VRF",
     NAVER_CLIENT_SECRET: "74qcy3l60D",
     CALLBACKURL: process.env.CALLBACKURL,
+    NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
   },
   images: { unoptimized: true },
 };
