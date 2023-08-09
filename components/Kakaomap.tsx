@@ -30,7 +30,8 @@ const KakaoMap: React.FC = () => {
   const [map,setMap] = useState<any>(null);
   const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [resultMarkers, setResultMarkers] = useState<any[]>([]); // 결과 마커 배열 저장
+  const [resultMarkers, setResultMarkers] = useState<any[]>([]);
+
 
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
@@ -112,7 +113,11 @@ const KakaoMap: React.FC = () => {
 
   useEffect(() => {
     if (map && result) {
-      // 기존 마커 제거 (필요한 경우)
+      // 기존 마커 제거
+      resultMarkers.forEach(marker => marker.setMap(null));
+
+      // 결과 마커 배열 초기화
+      const newResultMarkers: typeof window.kakao.maps.Marker[] = [];
 
       // 결과에서 가져온 좌표를 사용하여 마커를 렌더링합니다.
       result.forEach((item: any) => {
@@ -121,11 +126,13 @@ const KakaoMap: React.FC = () => {
           position: resultMarkerPosition,
         });
         resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
+        newResultMarkers.push(resultMarker);
       });
+
+      setResultMarkers(newResultMarkers); // 새 결과 마커 배열 저장
     }
   }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
 
-  
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
