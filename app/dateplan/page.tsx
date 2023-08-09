@@ -8,9 +8,6 @@ const Home: React.FC = () => {
   const { latitude, longitude } = useSelector((state:RootState) => state.position);
   return (
     <div>
-      <p>Latitude: {latitude}</p>
-      <p>Longitude: {longitude}</p>
-    
       <KakaoMap /> 
     </div>
   );

@@ -6,6 +6,7 @@ import { RootState } from '../store';
 interface RecommendFormProps {
   onSubmit: (formData: RecommendFormData) => void;
 }
+
 interface RecommendFormData {
   user_latitude: string;
   user_longitude: string;
@@ -24,8 +25,8 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   const position = useSelector((state: RootState) => state.position);
 
   const [formData, setFormData] = useState<RecommendFormData>({
-    user_latitude: '',
-    user_longitude: '',
+    user_latitude: position.latitude?.toString() || '',
+    user_longitude: position.longitude?.toString() || '',
     food: '',
     storeCondition: 0,
     service: 0,
@@ -34,17 +35,6 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
     kindness: 0,
     quantity:0
   });
-
-
-  useEffect(() => {
-    if (position.latitude && position.longitude) {
-      setFormData({
-        ...formData,
-        user_latitude: position.latitude.toString(),
-        user_longitude: position.longitude.toString(),
-      });
-    }
-  }, [position]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

@@ -6,6 +6,7 @@ import '../public/css/dateplan.css';
 import predict from '../app/api/dateplan/dateplanApi';
 import RecommendForm from './RecommendForm';
 import RecommendResult from './RecommendResult';
+import { useRef } from 'react';
 
 interface RecommendFormData {
   user_latitude: string;
@@ -31,8 +32,10 @@ const KakaoMap: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [resultMarkers, setResultMarkers] = useState<any[]>([]);
+  const resultMarkersRef = useRef<any[]>([]);
 
 
+  //===================================================
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
     console.log("Toggling form:", !showForm); // 상태 변경 로그
@@ -51,7 +54,8 @@ const KakaoMap: React.FC = () => {
     }
   };
 
-
+  //===================================================
+  // LOAD KAKAOMAP
   const dispatch = useDispatch();
   useEffect(() => {
     const mapScript = document.createElement('script');
@@ -87,6 +91,8 @@ const KakaoMap: React.FC = () => {
     };
   }, [dispatch]);
 
+  //===================================================
+  // 유저의 위치에 마커
   useEffect(() => {
     if (kakaoMapLoaded && userPosition) {
       const { latitude, longitude } = userPosition.coords;
@@ -111,10 +117,13 @@ const KakaoMap: React.FC = () => {
     }
   }, [ kakaoMapLoaded, userPosition ]);
 
+
+  //===================================================
+  // 추천장소에 마커 찍기
   useEffect(() => {
     if (map && result) {
       // 기존 마커 제거
-      resultMarkers.forEach(marker => marker.setMap(null));
+      resultMarkersRef.current.forEach(marker => marker.setMap(null));
 
       // 결과 마커 배열 초기화
       const newResultMarkers: typeof window.kakao.maps.Marker[] = [];
@@ -129,9 +138,10 @@ const KakaoMap: React.FC = () => {
         newResultMarkers.push(resultMarker);
       });
 
-      setResultMarkers(newResultMarkers); // 새 결과 마커 배열 저장
+      resultMarkersRef.current = newResultMarkers; // 새 결과 마커 배열 저장
     }
   }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
+
 
   return (
     <div className="flex justify-center items-center h-full w-full">
