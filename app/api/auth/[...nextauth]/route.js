@@ -57,17 +57,18 @@ const nextAuthOptions = (req, res) => {
       }),
     ],
     callbacks: {
-      callbacks: {
-        async jwt(token, user, account, profile, isNewUser) {
-          token.userId = 123;
-          token.test = "test";
-          return token;
-        },
-        async session(session, userOrToken) {
-          session.user.userId = userOrToken.userId;
-          session.user.test = userOrToken.test;
-          return session;
-        },
+      redirect: async (url) => {
+        return url.startsWith("https://") ? url : null;
+      },
+      async jwt(token, user, account, profile, isNewUser) {
+        token.userId = 123;
+        token.test = "test";
+        return token;
+      },
+      async session(session, userOrToken) {
+        session.user.userId = userOrToken.userId;
+        session.user.test = userOrToken.test;
+        return session;
       },
     },
     secret: process.env.NEXT_PUBLIC_SECRET,
