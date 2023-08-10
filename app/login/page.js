@@ -35,6 +35,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
+console.log(CALLBACKURL);
 
 export default function SignInSide() {
   const handleLoginBtn = async (e) => {
@@ -157,7 +158,7 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={(event) =>
+                    onClick={() =>
                       signIn("naver", {
                         callbackUrl: CALLBACKURL,
                       })
@@ -179,7 +180,7 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={(event) =>
+                    onClick={() =>
                       signIn("google", {
                         callbackUrl: CALLBACKURL,
                       })
@@ -201,7 +202,7 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={(event) =>
+                    onClick={() =>
                       signIn("kakao", {
                         callbackUrl: CALLBACKURL,
                       })
