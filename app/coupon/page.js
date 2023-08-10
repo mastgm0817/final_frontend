@@ -46,7 +46,7 @@ export default function Coupon() {
     const fetchCoupons = async () => {
       try {
         const response = await axios.get(
-          "http://180.150.207.73:31500/api/coupon"
+          "https://180.150.207.73:31500/api/coupon"
         );
         setCoupons(response.data);
       } catch (error) {
