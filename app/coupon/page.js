@@ -45,7 +45,9 @@ export default function Coupon() {
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await axios.get(`${API_URL}/coupon`);
+        const response = await axios.get(
+          "https://180.150.207.73:31500/api/coupon"
+        );
         setCoupons(response.data);
       } catch (error) {
         console.error("Error fetching coupons:", error);

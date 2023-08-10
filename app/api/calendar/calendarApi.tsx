@@ -1,6 +1,6 @@
 import axios from "axios";
 // const URLS = process.env.NEXT_PUBLIC_URL;
-const API_URL = "http://180.150.207.73:31500/calendar";
+const API_URL = "https://180.150.207.73:31500/calendar";
 // const API_URL = "http://luvoost.co.kr/calendar";
 export const createSchedule = async (nickName: string, requestDTO: any) => {
   const response = await axios.post(`${API_URL}/${nickName}`, requestDTO);
