@@ -34,6 +34,7 @@ function Copyright(props) {
 }
 
 const defaultTheme = createTheme();
+const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
 
 export default function SignInSide() {
   const handleLoginBtn = async (e) => {
@@ -44,7 +45,7 @@ export default function SignInSide() {
       email,
       password,
       redirect: true,
-      callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
+      callbackUrl: CALLBACKURL,
     });
   };
 
@@ -156,12 +157,11 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={(event) => {
-                      event.preventDefault();
+                    onClick={(event) =>
                       signIn("naver", {
-                        callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
-                      });
-                    }}
+                        callbackUrl: CALLBACKURL,
+                      })
+                    }
                   >
                     <Image
                       src="/image/naver.png"
@@ -179,12 +179,11 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={(event) => {
-                      event.preventDefault();
+                    onClick={(event) =>
                       signIn("google", {
-                        callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
-                      });
-                    }}
+                        callbackUrl: CALLBACKURL,
+                      })
+                    }
                   >
                     <Image
                       src="/image/google.png"
@@ -202,12 +201,11 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={(event) => {
-                      event.preventDefault();
+                    onClick={(event) =>
                       signIn("kakao", {
-                        callbackUrl: "https://luvoost.co.kr",
-                      });
-                    }}
+                        callbackUrl: CALLBACKURL,
+                      })
+                    }
                   >
                     <Image
                       src="/image/kakao.png"
