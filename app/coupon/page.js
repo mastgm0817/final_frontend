@@ -30,7 +30,7 @@ export default function Coupon() {
       const couponNum = couponCount;
 
       const response = await axios.post(
-        `${API_URL}/api/coupon?countNum=${couponNum}`,
+        `${API_URL}/coupon?countNum=${couponNum}`,
         coupon
       );
       console.log("Coupon created:", response.data);
@@ -45,7 +45,7 @@ export default function Coupon() {
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/coupon`);
+        const response = await axios.get(`${API_URL}/coupon`);
         setCoupons(response.data);
       } catch (error) {
         console.error("Error fetching coupons:", error);
