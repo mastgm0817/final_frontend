@@ -14,6 +14,7 @@ const nextConfig = {
     NAVER_CLIENT_SECRET: "74qcy3l60D",
     CALLBACKURL: process.env.CALLBACKURL,
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
   images: { unoptimized: true },
 };
