@@ -11,7 +11,7 @@ const nextAuthOptions = (req, res) => {
         clientId:
           "348049863995-rmkmgpkp5qvtiggpuc162e1hakjs5mo4.apps.googleusercontent.com",
         clientSecret: "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",
-        redirectUri: process.env.NEXT_PUBLIC_CALLBACKURL,
+        redirectUri: "https://luvoost.co.kr/api/auth/callback/google",
       }),
       KakaoProvider({
         clientId: "25edd438130f1d799655087b02557293",
