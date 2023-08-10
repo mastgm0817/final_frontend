@@ -156,11 +156,12 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() =>
+                    onClick={(event) => {
+                      event.preventDefault();
                       signIn("naver", {
                         callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
-                      })
-                    }
+                      });
+                    }}
                   >
                     <Image
                       src="/image/naver.png"
@@ -178,11 +179,12 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() =>
+                    onClick={(event) => {
+                      event.preventDefault();
                       signIn("google", {
                         callbackUrl: process.env.NEXT_PUBLIC_CALLBACKURL,
-                      })
-                    }
+                      });
+                    }}
                   >
                     <Image
                       src="/image/google.png"
@@ -200,11 +202,12 @@ export default function SignInSide() {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() =>
+                    onClick={(event) => {
+                      event.preventDefault();
                       signIn("kakao", {
-                        callbackUrl: "http://luvoost.co.kr",
-                      })
-                    }
+                        callbackUrl: "https://luvoost.co.kr",
+                      });
+                    }}
                   >
                     <Image
                       src="/image/kakao.png"
