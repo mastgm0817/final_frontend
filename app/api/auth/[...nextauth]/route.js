@@ -63,15 +63,14 @@ const nextAuthOptions = (req, res) => {
         return token;
       },
       async session(session, userOrToken) {
+        console.log(session);
+        console.log(userOrToken);
         session.user.userId = userOrToken.userId;
         session.user.test = userOrToken.test;
         return session;
       },
     },
     secret: process.env.NEXTAUTH_SECRET,
-    session: {
-      strategy: "jwt",
-    },
   };
 };
 

@@ -2,6 +2,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const today = new Date();
 const oneMonthLater = new Date(today);
@@ -10,6 +11,12 @@ const API_URL = process.env.NEXT_PUBLIC_URL;
 // const API_URL = "http://localhost:8082";
 oneMonthLater.setMonth(today.getMonth() + 1);
 export default function Coupon() {
+  const session = useSession();
+  if (session) {
+    console.log(session);
+  } else {
+    console.log("xx");
+  }
   const [couponCount, setCouponCount] = useState(1); // 쿠폰 갯수를 관리할 state
   const [coupons, setCoupons] = useState([]);
   const [coupon, setCoupon] = useState({
@@ -21,8 +28,6 @@ export default function Coupon() {
     updatedAt: today,
     endAt: oneMonthLater,
   });
-  console.log(coupons);
-  console.log(today);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
