@@ -199,8 +199,8 @@
 }
 
 .detail-additional {
-  font-size: 12px; /* 글씨 크기 조절 */
-  color: gray; /* 회색으로 설정 */
+  font-size: 12px;
+  color: gray;
   text-align: left;
 }
 
@@ -216,11 +216,45 @@
   text-align: "center";
 }
 
-
-
-.slide-enter-active, .slide-leave-active {
-  transition: max-height 0.5s;
+.board-detail {
+  margin-left: 10px;
+  height: 0px;
+  overflow-y: hidden;
+  transition: all 0.5s;
 }
-.slide-enter, .slide-leave-to /* .slide-leave-active in <2.6 */ {
-  max-height: 0;
+
+.board-detail.active {
+  margin-left: 105px;
+  margin-top: 50px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+/* .comment-list {
+  margin-left: 10px;
+  height: 0px;
+  overflow-y: hidden;
+  transition: all 0.5s;
+}
+
+.comment-list.active {
+  margin-left: 105px;
+  margin-top: 50px;
+  height: 400px;
+  overflow-y: auto;
+} */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height:10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fafafafa;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f6ced8;
+  border-radius: 10px;
 }
