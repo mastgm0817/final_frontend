@@ -136,8 +136,7 @@ function Calendar() {
       </div>
       <div className="schedule">
         <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 (
-          {selectedDayOfWeek})
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
         </h2>
         <input
           type="text"
@@ -153,9 +152,9 @@ function Calendar() {
         />
         <Weather />
       </div>
-      <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
+      {/* <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
         <Image src="./image/logo.svg" alt="Calendar" width={90} height={40} />
-      </div>
+      </div> */}
     </div>
   );
 }

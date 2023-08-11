@@ -35,7 +35,7 @@
 .day-list {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
+  gap: 0.5rem;
   margin-top: 1rem;
 }
 
@@ -91,7 +91,7 @@
 .days-of-week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2.5rem;
+  gap: 0.6rem;
   font-size: 13px;
 }
 
