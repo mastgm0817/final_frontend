@@ -31,7 +31,7 @@ function Logined(props: any): any {
   
   const fetchData = useCallback(async () => {
     try {
-        const response = await SendData("GET", `/api/boards/page/0`, null, "fetch boards");
+        const response = await SendData("GET", `/boards/page/0`, null, "fetch boards");
         setBoards(response);
     } catch (error) {
         console.error("Error fetching boards:", error);
@@ -68,7 +68,7 @@ function Logined(props: any): any {
   
   async function CreateBoard(newBoard: Board) {
     newBoard.nickName = `${session ? session.user?.name : null}`;
-    await SendData("POST", `/api/boards`,newBoard,"create");
+    await SendData("POST", `/boards`,newBoard,"create");
     ToggleAddForm();
     fetchData();
   }

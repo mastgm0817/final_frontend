@@ -4,9 +4,9 @@
   }
   
   
-  /* Weather icon image */
   .weather-icon {
     width: auto;
+    justify-content: center;
     height: 100px;
   }
   

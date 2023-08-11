@@ -152,9 +152,9 @@ function Calendar() {
         />
         <Weather />
       </div>
-      <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
+      {/* <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
         <Image src="./image/logo.svg" alt="Calendar" width={90} height={40} />
-      </div>
+      </div> */}
     </div>
   );
 }

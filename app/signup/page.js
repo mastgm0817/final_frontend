@@ -47,7 +47,7 @@ export default function SignUp() {
 
     try {
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_URL + `/api/users`,
+        process.env.NEXT_PUBLIC_URL + `/users`,
         {
           nickName: nickName,
           email: email,

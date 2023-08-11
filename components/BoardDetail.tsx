@@ -85,7 +85,7 @@ function BoardDetail(props: any) {
 
   const fetchData = useCallback(async () => {
     try {
-        const response = await SendData("GET", `/api/boards/${props.selectedBoard.bid}/comments`, null, "fetch comment");
+        const response = await SendData("GET", `/boards/${props.selectedBoard.bid}/comments`, null, "fetch comment");
         setComments(response);
     } catch (error) {
         console.error('Error fetching boards:', error);
@@ -120,7 +120,7 @@ function BoardDetail(props: any) {
     console.log(newComment);
     await SendData(
       "POST",
-      `/api/boards/${bid}/comments`,
+      `/boards/${bid}/comments`,
       newComment,
       "create comment"
     );
@@ -130,7 +130,7 @@ function BoardDetail(props: any) {
   async function DeleteComment(cid: any, bid: any) {
     await SendData(
       "DELETE",
-      `/api/boards/${bid}/comments/${cid}`,
+      `/boards/${bid}/comments/${cid}`,
       null,
       "delete comment"
     );
@@ -140,7 +140,7 @@ function BoardDetail(props: any) {
     const cid = updatedComment.cid;
     await SendData(
       "PUT",
-      `/api/boards/${bid}/comments/${cid}/update`,
+      `/boards/${bid}/comments/${cid}/update`,
       updatedComment,
       "update comment"
     );

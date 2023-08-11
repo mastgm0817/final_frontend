@@ -3,7 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_URL;
 export default async function HandleFilterBoard(requester: String) {
   try {
     const response = await axios.put(
-      `${API_URL}/api/boards/myboard/${requester}`,
+      `${API_URL}/boards/myboard/${requester}`,
       requester,
       {
         headers: {
