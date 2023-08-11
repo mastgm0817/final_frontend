@@ -125,9 +125,9 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 </div>
                 <div className="w-2/12 text-center">{board.nickName}</div>
                 <div className="w-1/12 text-center">
-                  {board.b_recommendations}
+                  {board.b_recommendations.toString()}
                 </div>
-                <div className="w-1/12 text-center">{board.b_views}</div>
+                <div className="w-1/12 text-center">{board.b_views.toString()}</div>
               </div>
               <div
                 className={`board-detail flex ${
