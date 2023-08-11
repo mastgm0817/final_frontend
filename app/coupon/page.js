@@ -66,7 +66,7 @@ export default function Coupon() {
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            Coupon content:
+            쿠폰 종류 :
             <textarea
               placeholder="Enter coupon content here..."
               value={coupon.couponContent}
@@ -78,7 +78,7 @@ export default function Coupon() {
         </div>
         <div>
           <label>
-            Discount Type:
+            할인 종류? :
             <select
               value={coupon.discountType}
               onChange={(e) =>
@@ -92,7 +92,7 @@ export default function Coupon() {
         </div>
         <div>
           <label>
-            Discount Percentage:
+            할인율?률? :
             <input
               type="number"
               placeholder="DiscountPercentage"
@@ -105,8 +105,8 @@ export default function Coupon() {
         </div>
         <div>
           <label>
-            Number of Coupons:
-            <input
+            쿠폰 번호 :
+            <input 
               type="number"
               placeholder="Number of Coupons"
               value={couponCount}
@@ -114,18 +114,18 @@ export default function Coupon() {
             />
           </label>
         </div>
-        <button type="submit">Create Coupon</button>
+        <button type="submit">쿠폰 생성</button>
       </form>
       <table>
         <thead>
           <tr>
-            <th>No</th>
-            <th>Content</th>
-            <th>Code</th>
-            <th>Discount</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>End At</th>
+            <th>번호</th>
+            <th>종류</th>
+            <th>코드</th>
+            <th>할인</th>
+            <th>생성 날짜</th>
+            <th>수정 날짜</th>
+            <th>만료일</th>
           </tr>
         </thead>
         <tbody>
