@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "proxy": "https://180.150.207.73:31500",
+  "proxy": "http://localhost:8082",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
