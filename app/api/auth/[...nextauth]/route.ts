@@ -75,11 +75,13 @@ const handler = NextAuth({
 
           if (response.status === 201) {
             console.log("회원가입 성공:", data);
-            //
             return true; // 로그인 성공
-          } else {
-            console.error("회원가입 기존존재?:", data);
-            return true; // 바로 로그인
+          }
+          if (response.status === 404) {
+            console.log("회원이 아닙니다:", data);
+            // 소셜로그인으로 회원가입 할꺼면 return "http://localhost:3000/signup";
+            console.log("회원이 아닙니다:", data);
+            return true; // 로그인 성공
           }
         } catch (error) {
           console.error("회원가입 에러:", error);
