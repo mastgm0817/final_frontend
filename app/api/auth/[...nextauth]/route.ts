@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
-import axios from "axios";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { useRouter } from "next/router";
 
 const handler = NextAuth({
   providers: [
@@ -24,6 +24,36 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && user) {
+        //     try {
+        //       const loginRes = await fetch(
+        //         process.env.NEXT_PUBLIC_URL + `/users/login`,
+        //         {
+        //           method: "POST",
+        //           headers: {
+        //             "Content-Type": "application/json",
+        //           },
+        //           body: JSON.stringify({
+        //             provider: account.provider,
+        //             nickName: user.name,
+        //             email: user.email,
+        //           }),
+        //         }
+        //       );
+
+        //       // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
+        //       if (loginRes.status === 404) {
+        //         return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
+        //       }
+
+        //       return true;
+        //     } catch (error) {
+        //       console.error("토큰 발급실패");
+        //       return false;
+        //     }
+        //   }
+        //   return false; // 로그인 실패
+        // },
+
         try {
           const response = await fetch(
             process.env.NEXT_PUBLIC_URL + `/users/join`,
@@ -45,10 +75,11 @@ const handler = NextAuth({
 
           if (response.status === 201) {
             console.log("회원가입 성공:", data);
+            //
             return true; // 로그인 성공
           } else {
             console.error("회원가입 기존존재?:", data);
-            return true; // 로그인 실패
+            return true; // 바로 로그인
           }
         } catch (error) {
           console.error("회원가입 에러:", error);
@@ -58,7 +89,6 @@ const handler = NextAuth({
       console.log(user);
       return false; // 로그인 실패
     },
-
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
       session.user.id = token.sub as string;
