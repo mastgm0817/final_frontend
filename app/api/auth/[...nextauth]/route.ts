@@ -25,6 +25,10 @@ const handler = NextAuth({
       clientSecret: "74qcy3l60D",
     }),
   ],
+  pages: {
+    signIn: "/login",
+    error: "/api/auth/error",
+  },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && user) {

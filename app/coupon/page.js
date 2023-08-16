@@ -7,15 +7,13 @@ import { useSession } from "next-auth/react";
 const today = new Date();
 const oneMonthLater = new Date(today);
 const API_URL = process.env.NEXT_PUBLIC_URL;
-// const API_URL = "http://luvoost.co.kr";
-// const API_URL = "http://localhost:8082";
 oneMonthLater.setMonth(today.getMonth() + 1);
 export default function Coupon() {
   const session = useSession();
   if (session) {
     console.log(session);
   } else {
-    console.log("xx");
+    console.log("세션없음");
   }
   const [couponCount, setCouponCount] = useState(1); // 쿠폰 갯수를 관리할 state
   const [coupons, setCoupons] = useState([]);
@@ -99,7 +97,7 @@ export default function Coupon() {
         </div>
         <div>
           <label>
-            할인율?률? :
+            할인율 :
             <input
               type="number"
               placeholder="DiscountPercentage"
