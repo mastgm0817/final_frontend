@@ -5,13 +5,13 @@ import Board from "../../types/board";
 import WriteBoard from "../../components/WriteBoard";
 import SendData from "../api/board/SendData";
 import Page from "./[pagenum]/pagenum";
-import SearchMethod from "./selectbox";
+import FindingMethod from "../../components/selectbox";
 
 const defaultBoard: Board = {
   bid: 0,
   nickName: " ",
-  b_title: " ",
-  b_content: " ",
+  btitle: " ",
+  bcontent: " ",
   b_createdAt: " ",
   b_updatedAt: "",
   b_views: 0,
@@ -27,10 +27,18 @@ function Logined(props: any): any {
   const [AddFormClass, setAddFormClass] = useState<string | null>(null); //글추가폼의 class
   const [showAddForm, setShowAddForm] = useState<boolean>(false); //글추가폼 켜고끄기
   const [showSearchForm, setSearchForm] = useState<boolean>(false); //검색창 켜고끄기
-  const [searchMethod, setSearchMethod] = useState<String>("all")
+  const [findStr, setFindStr] = useState<string>('all');
+  const [findingMethod, setFindingMethod] = useState<string>('')
+  const [inputFindingMethod, setInputFindingMethod] = useState<string>('');
+  const [inputFindStr, setInputFindStr] = useState<string>('');
 
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [pages, setPages] = useState<number>(0)
+
+  useEffect(() => {
+    console.log("findingMethod:", findingMethod);
+    console.log("findStr:", findStr);
+  }, [findingMethod, findStr]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -68,14 +76,23 @@ function Logined(props: any): any {
   function handleSearchForm(){
     setSearchForm(!showSearchForm)
   }
-
+  function initiallizeSearchParams(){
+    setFindStr("");
+    setFindingMethod("all");
+    setInputFindStr("");
+    setInputFindingMethod("");
+  }
   async function CreateBoard(newBoard: Board) {
     newBoard.nickName = `${session ? session.user?.name : null}`;
     await SendData("POST", `/boards`,newBoard,"create");
     ToggleAddForm();
+    initiallizeSearchParams();
     fetchData();
   }
 
+  // async function SearchBoard(findingMethod:string, findStr:string) {
+  //   await SendData("GET",`/boards/page/${pages}/?findingMethod=${findingMethod}&findStr=${findStr}`,null,"search");
+  // }
 
   if (session) {
     const userName = session.user?.name;
@@ -92,9 +109,11 @@ function Logined(props: any): any {
           <button onClick={handleSearchForm}>검색</button>
           {showSearchForm &&
             <div>
-              <SearchMethod setSearchMethod={setSearchMethod}></SearchMethod>
-              <input></input>
-              <button>검색하기</button>
+              <FindingMethod inputFindingMethod={inputFindingMethod}
+                              setInputFindingMethod={setInputFindingMethod} />
+              <input value={inputFindStr}
+                    onChange={(e) => setInputFindStr(e.target.value)}></input>
+              <div onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>검색하기</div>
             </div>}
         <div>
           <div className="max-w-4xl bg-white rounded-lg p-4 mx-auto">
@@ -117,7 +136,7 @@ function Logined(props: any): any {
                 
               />
             )}
-            <Page params={{ pagenum: pages }} />
+            <Page params={{ pagenum: pages, findingMethod,findStr}} />
           </div>
         </div>
 

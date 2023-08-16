@@ -1,19 +1,19 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, FC } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
-const searchMethod = [
+const findingMethods = [
   {
     id: 1,
-    name: '작성자',
+    name: 'nickname',
   },
   {
     id: 2,
-    name: '제목',
+    name: 'title',
   },
   {
     id: 3,
-    name: '내용',
+    name: 'content',
   }]
 
 
@@ -21,11 +21,21 @@ function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function SearchMethod(props:any) {
-  const [selected, setSelected] = useState(searchMethod[0])
+interface boxProps {
+  inputFindingMethod:string
+  setInputFindingMethod: (value: string) => void;
+}
+
+const FindingMethod : FC<boxProps> = ({inputFindingMethod, setInputFindingMethod}) => {
+  const [selected, setSelected] = useState(findingMethods[0])
+
+  function handleOnchange(value:any){
+    setSelected(value);
+    setInputFindingMethod(value.name);
+  }
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={(value)=>handleOnchange(value)}>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-xs font-medium leading-6 text-gray-900">검색방법</Listbox.Label>
@@ -47,23 +57,23 @@ export default function SearchMethod(props:any) {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {searchMethod.map((method) => (
+                {findingMethods.map((findingMethod) => (
                   <Listbox.Option
-                    key={method.id}
+                    key={findingMethod.id}
                     className={({ active }) =>
                       classNames(
                         active ? 'bg-pink-400 text-white' : 'text-gray-900',
                         'relative cursor-default select-none py-2 pl-3 pr-9'
                       )
                     }
-                    value={method}
+                    value={findingMethod}
                   >
                     {({ selected, active }) => (
                       <>
                         <div className="flex items-center">
                           <span
                             className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}>
-                            {method.name}
+                            {findingMethod.name}
                           </span>
                         </div>
 
@@ -89,3 +99,5 @@ export default function SearchMethod(props:any) {
     </Listbox>
   )
 }
+
+export default FindingMethod;
