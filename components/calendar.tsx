@@ -118,7 +118,7 @@ function Calendar() {
     ];
 
   return (
-    <div className="container">
+    <div style={{ fontFamily: 'BMHANNAAir_ttf'}} className="container">
       <div className="calendar">
         <div className="month-selector">
           <button onClick={goToPrevMonth}>&lt;</button>
@@ -138,11 +138,11 @@ function Calendar() {
         <h2>
           {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
         </h2>
-        <input
+        {/* <input
           type="text"
           value={nickName}
           onChange={(e) => setNickName(e.target.value)}
-        />
+        /> */}
         <Schedule
           nickName={nickName}
           date={scheduleData.length > 0 ? scheduleData[0].date : ""}
