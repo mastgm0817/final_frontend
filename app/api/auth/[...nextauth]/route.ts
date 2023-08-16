@@ -53,7 +53,24 @@ const handler = NextAuth({
 
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
-            return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
+            const loginRes = await fetch(
+              process.env.NEXT_PUBLIC_URL + `/users/join`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  provider: account.provider,
+                  nickName: user.name,
+                  email: user.email,
+                  profileImage: user.image,
+                }),
+              }
+            );
+
+            return "http://localhost:3000";
+            // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
           console.log("이거나오면 안됨");
           return loginRes.ok;
