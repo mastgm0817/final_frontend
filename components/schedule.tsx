@@ -5,8 +5,12 @@ import {
   updateSchedule,
   deleteSchedule,
 } from "../app/api/calendar/calendarApi";
+// import CalendarApi from "../app/api/calendar/calendarApi";
 import "/public/css/schedule.css";
 import DateProps from "../types/calendar";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
 
 interface ScheduleProps {
   nickName: string;
@@ -162,66 +166,72 @@ const Schedule: React.FC<ScheduleProps> = ({
     <div className="p-4 m-4 border rounded">
       <div>
         {showAddForm ? (
-          <button
+          <Button
             onClick={toggleAddForm}
             className="px-4 py-2 bg-red-500 text-white rounded"
+            variant="contained"
           >
             취소
-          </button>
+          </Button>
         ) : (
-          <button
+          <Button
             onClick={toggleAddForm}
             className="px-4 py-2 bg-blue-500 text-white rounded"
+            variant="contained"
           >
             일정 추가
-          </button>
+          </Button>
         )}
       </div>
       {showAddForm && (
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="mr-2">별명: </label>
-            <input
+            <TextField
               type="text"
               value={inputNickName}
               onChange={(e) => setInputNickName(e.target.value)}
-              className="p-2 border rounded"
+              variant="outlined"
+              className="p-2"
             />
           </div>
           <div>
             <label className="mr-2">날짜: </label>
-            <input
+            <TextField
               type="date"
               value={inputDate}
               onChange={(e) => setInputDate(e.target.value)}
-              className="p-2 border rounded"
+              variant="outlined"
+              className="p-2"
             />
           </div>
           <div>
             <label className="mr-2">일정 내용: </label>
-            <input
+            <TextField
               type="text"
               value={inputSchedule}
               onChange={(e) => setInputSchedule(e.target.value)}
-              className="p-2 border rounded"
+              variant="outlined"
+              className="p-2"
             />
           </div>
           <div>
             <label className="mr-2">연인과 공유: </label>
-            <input
-              type="checkbox"
+            <Checkbox
               checked={inputShare}
               onChange={(e) => setInputShare(e.target.checked)}
             />
           </div>
-          <button
+          <Button
             type="submit"
             className="px-4 py-2 bg-blue-500 text-white rounded"
+            variant="contained"
           >
             일정 등록
-          </button>
+          </Button>
         </form>
       )}
+
 
       <h3 className="schedule-list">일정 목록</h3>
 
