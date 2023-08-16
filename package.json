@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "proxy": "https://localhost:8082/api/v1",
+  "proxy":"http://localhost:8082",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -33,7 +33,6 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-redux": "^8.1.2",
-    "react-router-dom": "^6.15.0",
     "redux": "^4.2.1",
     "redux-actions": "^3.0.0",
     "semantic-ui-css": "^2.5.0",

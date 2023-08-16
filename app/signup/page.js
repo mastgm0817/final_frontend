@@ -15,6 +15,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
+const API_URL = process.env.NEXT_PUBLIC_URL;
+
 function Copyright(props) {
   return (
     <Typography
@@ -46,14 +48,11 @@ export default function SignUp() {
     const API_URL = process.env.URL;
 
     try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_URL + `/api/users`,
-        {
-          nickName: nickName,
-          email: email,
-          password: password,
-        }
-      );
+      const response = await axios.post(API_URL + `/users/join`, {
+        nickName: nickName,
+        email: email,
+        password: password,
+      });
 
       if (response.status === 201) {
         console.log("User created successfully!");

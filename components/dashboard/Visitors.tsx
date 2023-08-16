@@ -10,7 +10,7 @@ const Visitors = () =>{
     const fetchTotalVisitors = async () => {
         try {
         const data = await counter(); // Call the API function
-        setTotalVisitors(data); // Update the state with the fetched data
+        setTotalVisitors(data.visitorCount); // Update the state with the fetched data
         console.log(data)
         } catch (error) {
         console.error("Error fetching total visitors:", error);
@@ -21,7 +21,7 @@ const Visitors = () =>{
     }, []); // Empty dependency array to run the effect only once
 
     return (
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-4 ">
           <div className="grid grid-cols-1 gap-4">
             <div className="grid grid-cols-2 gap-4" >  
               <div className="relative w-full px-4 py-6 bg-white shadow-lg dark:bg-gray-800">
@@ -30,9 +30,8 @@ const Visitors = () =>{
                   </p>
                   <div className="flex items-end my-6 space-x-2">
                       <p className="text-5xl font-bold text-black dark:text-white">
-                          2
+                          {totalVisitors}
                       </p>
-
                   </div>
               </div>
             </div>

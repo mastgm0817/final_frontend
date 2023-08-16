@@ -1,4 +1,7 @@
 import axios from "axios";
+import { useSession } from "next-auth/react";
+
+console.log(useSession)
 const URL = process.env.NEXT_PUBLIC_URL;
 const API_URL = `${URL}/counter`;
 
