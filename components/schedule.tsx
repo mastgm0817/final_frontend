@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  createSchedule,
-  getAllScheduleByName,
-  updateSchedule,
-  deleteSchedule,
-} from "../app/api/calendar/calendarApi";
-// import CalendarApi from "../app/api/calendar/calendarApi";
+// import {
+//   createSchedule,
+//   getAllScheduleByName,
+//   updateSchedule,
+//   deleteSchedule,
+// } from "../app/api/calendar/calendarApi";
+import { useSession } from "next-auth/react";
+import CalendarApi from "../app/api/calendar/calendarApi";
 import "/public/css/schedule.css";
 import DateProps from "../types/calendar";
 import Button from "@mui/material/Button";
@@ -27,6 +28,7 @@ const Schedule: React.FC<ScheduleProps> = ({
   share,
   selectedDate,
 }) => {
+  const session = useSession();
   const [inputNickName, setInputNickName] = useState("");
   const [inputDate, setInputDate] = useState("");
   const [inputSchedule, setInputSchedule] = useState("");
@@ -36,6 +38,16 @@ const Schedule: React.FC<ScheduleProps> = ({
   const [updatedSchedule, setUpdatedSchedule] = useState("");
   const [updatedShare, setUpdatedShare] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+
+  const token = session.data?.user.id;
+  console.log(token);
+
+  useEffect(() => {
+    // Automatically set the nickname input to the user's ID when logged in
+    if (session.data?.user.name) {
+      setInputNickName(session.data.user.name);
+    }
+  }, [session]);
 
   // 일정 수정
   const handleUpdate = (
@@ -75,32 +87,41 @@ const Schedule: React.FC<ScheduleProps> = ({
       share: updatedShare,
     };
 
-    try {
-      const response = await updateSchedule(
-        nickName,
-        updateScheduleId,
-        requestDTO
-      );
-      console.log(response);
-      loadSchedules();
-      setUpdateScheduleId(null);
-      setUpdatedDate("");
-      setUpdatedSchedule("");
-      setUpdatedShare(false);
-    } catch (error) {
-      console.error(error);
+    if (token) {
+      try {
+        const response = await CalendarApi.updateSchedule(
+          nickName,
+          updateScheduleId.toString(),
+          requestDTO,
+          token
+        );
+        console.log(response);
+        loadSchedules();
+        setUpdateScheduleId(null);
+        setUpdatedDate("");
+        setUpdatedSchedule("");
+        setUpdatedShare(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
-
   // 일정 삭제
   const handleDelete = async (scheduleId: number, shared: boolean) => {
-    try {
-      const response = await deleteSchedule(nickName, scheduleId, shared);
-      console.log(response);
-      // Reload schedules after successful deletion
-      loadSchedules();
-    } catch (error) {
-      console.error(error);
+    if (token) {
+      try {
+        const response = await CalendarApi.deleteSchedule(
+          nickName,
+          scheduleId.toString(),
+          shared,
+          token
+        );
+        console.log(response);
+        // Reload schedules after successful deletion
+        loadSchedules();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -108,13 +129,18 @@ const Schedule: React.FC<ScheduleProps> = ({
   const [schedules, setSchedules] = useState<any[]>([]);
 
   const loadSchedules = useCallback(async () => {
-    try {
-      const response = await getAllScheduleByName(nickName);
-      setSchedules(response);
-    } catch (error) {
-      console.error(error);
+    if (token) {
+      try {
+        const response = await CalendarApi.getAllScheduleByName(
+          nickName,
+          token
+        );
+        setSchedules(response);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [nickName]);
+  }, [nickName, token]);
 
   useEffect(() => {
     loadSchedules();
@@ -135,17 +161,23 @@ const Schedule: React.FC<ScheduleProps> = ({
       share: inputShare,
     };
 
-    try {
-      const response = await createSchedule(inputNickName, requestDTO);
-      console.log(response);
-      // 등록 후, 새로운 일정 목록을 불러옴
-      loadSchedules();
-      // 입력 필드 초기화
-      setInputDate("");
-      setInputSchedule("");
-      setInputShare(false);
-    } catch (error) {
-      console.error(error);
+    if (token) {
+      try {
+        const response = await CalendarApi.createSchedule(
+          inputNickName,
+          requestDTO,
+          token
+        );
+        console.log(response);
+        // 등록 후, 새로운 일정 목록을 불러옴
+        loadSchedules();
+        // 입력 필드 초기화
+        setInputDate("");
+        setInputSchedule("");
+        setInputShare(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -190,9 +222,9 @@ const Schedule: React.FC<ScheduleProps> = ({
             <TextField
               type="text"
               value={inputNickName}
-              onChange={(e) => setInputNickName(e.target.value)}
               variant="outlined"
               className="p-2"
+              disabled // Add this line
             />
           </div>
           <div>
@@ -204,6 +236,7 @@ const Schedule: React.FC<ScheduleProps> = ({
               variant="outlined"
               className="p-2"
             />
+            {inputDate.trim() === "" && <div>* 날짜를 선택해 주세요</div>}
           </div>
           <div>
             <label className="mr-2">일정 내용: </label>
@@ -214,6 +247,7 @@ const Schedule: React.FC<ScheduleProps> = ({
               variant="outlined"
               className="p-2"
             />
+            {inputSchedule.trim() === "" && <div>* 일정 내용을 입력해 주세요</div>}
           </div>
           <div>
             <label className="mr-2">연인과 공유: </label>
@@ -231,7 +265,6 @@ const Schedule: React.FC<ScheduleProps> = ({
           </Button>
         </form>
       )}
-
 
       <h3 className="schedule-list">일정 목록</h3>
 

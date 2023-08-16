@@ -3,6 +3,7 @@ import { useState } from "react";
 import "/public/css/calendar.css";
 import Schedule from "./schedule";
 import Weather from "./weather";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 interface ScheduleProps {
@@ -27,6 +28,9 @@ function Calendar() {
     day: date.getDate(),
     year: date.getFullYear(),
   });
+
+  const { data: session } = useSession();
+  const token = session?.user.id || "";
 
   const [nickName, setNickName] = useState("");
 

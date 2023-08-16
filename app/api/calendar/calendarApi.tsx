@@ -1,40 +1,100 @@
+// import axios from "axios";
+// import { useSession } from "next-auth/react";
+// // const URLS = process.env.NEXT_PUBLIC_URL;
+// // const API_URL = "http://localhost:8082/calendar";
+// // const API_URL = "http://luvoost.co.kr/calendar";
+
+// const URL = process.env.NEXT_PUBLIC_URL;
+// const API_URL = `${URL}/calendar`;
+
 import axios from "axios";
-// const URLS = process.env.NEXT_PUBLIC_URL;
-// const API_URL = "http://localhost:8082/calendar";
-// const API_URL = "http://luvoost.co.kr/calendar";
+
+interface CalendarRequestDTO {
+  date: string;
+  share: boolean;
+  schedule: string;
+}
 
 const URL = process.env.NEXT_PUBLIC_URL;
 const API_URL = `${URL}/calendar`;
 
-export const createSchedule = async (nickName: string, requestDTO: any) => {
-  const response = await axios.post(`${API_URL}/${nickName}`, requestDTO);
-  return response.data;
-};
+const CalendarApi = {
+  createSchedule: async (
+    nickName: string,
+    requestDTO: CalendarRequestDTO,
+    token: string
+  ) => {
+    try {
+      const response = await axios.post(`${API_URL}/${nickName}`, requestDTO, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-export const getAllScheduleByName = async (nickName: string) => {
-  const response = await axios.get(`${API_URL}/${nickName}`);
-  return response.data;
-};
+  getAllScheduleByName: async (nickName: string, token: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/${nickName}`, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-export const updateSchedule = async (
-  nickName: string,
-  scheduleId: number,
-  requestDTO: any
-) => {
-  const response = await axios.put(
-    `${API_URL}/${nickName}/${scheduleId}`,
-    requestDTO
-  );
-  return response.data;
-};
+  updateSchedule: async (
+    nickName: string,
+    scheduleId: string,
+    requestDTO: CalendarRequestDTO,
+    token: string
+  ) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/${nickName}/${scheduleId}`,
+        requestDTO,
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-export const deleteSchedule = async (
-  nickName: string,
-  scheduleId: number,
-  shared: boolean
-) => {
-  const response = await axios.delete(`${API_URL}/${nickName}/${scheduleId}`, {
-    params: { shared: shared },
-  });
-  return response.data;
+  deleteSchedule: async (
+    nickName: string,
+    scheduleId: string,
+    shared: boolean,
+    token: string
+  ) => {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/${nickName}/${scheduleId}`,
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+          params: { shared: shared },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
+export default CalendarApi;
