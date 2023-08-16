@@ -19,15 +19,14 @@ export default function WriteBoard(props: WriteBoardProps) {
 
   return (
 
-    <div className="max-w-5xl justify-center items-center bg-gray-100">
+    <div className="max-w-5xl justify-center items-center bg-gray-100 z-2000" style={{position:'absolute', width: '100%' }} >
       <div className={props.formClass}>
         <div className={"max-w-5xl bg-white p-6 shadow-lg rounded-md border"}>
         <div className="flex justify-between items-center mb-4">
           <div className="text-lg font-bold">{props.FormTitle}</div>
           <div
             className="cursor-pointer text-red-500"
-            onClick={props.handleXButton}
-          >
+            onClick={props.handleXButton}>
             X
           </div>
         </div>

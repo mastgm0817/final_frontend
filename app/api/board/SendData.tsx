@@ -1,8 +1,15 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
-const headers = {
-  "Content-Type": "application/json; charset=utf-8",
-};
+async function setHeader() {
+  const session = await getSession();
+  const token = session?.user.id;
+  console.log(token)
+  return {
+    'Content-Type': 'application/json; charset=utf-8',
+    Authorization : `Bearer${token}`
+  };
+}
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
@@ -12,6 +19,7 @@ const SendData = async (
   data: any,
   msg: string
 ) => {
+    const headers = await setHeader();
     const targetURL = `${API_URL}` + sendurl;
   try {
     const response = await axios({ method, url: targetURL, data, headers });
