@@ -1,9 +1,13 @@
 import NextAuth from "next-auth";
+import { User } from "next-auth"; // 기본 User 타입 임포트
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { useRouter } from "next/router";
+
+type CustomUser = User & {
+  accessToken?: string; // accessToken 속성 추가
+};
 
 const handler = NextAuth({
   providers: [
@@ -40,12 +44,21 @@ const handler = NextAuth({
             }
           );
 
+          if (loginRes.ok) {
+            const data = await loginRes.json();
+            console.log(data.token);
+            (user as CustomUser).accessToken = data.token; // 사용자 정의 User 객체에 accessToken을 설정합니다.
+            return true;
+          }
+
+
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
             return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
+          console.log("이거나오면 안됨");
+          return loginRes.ok;
 
-          return true;
         } catch (error) {
           console.error("토큰 발급실패");
           return false;
@@ -54,46 +67,17 @@ const handler = NextAuth({
       return false; // 로그인 실패
     },
 
-    //     try {
-    //       const response = await fetch(
-    //         process.env.NEXT_PUBLIC_URL + `/users/join`,
-    //         {
-    //           method: "POST",
-    //           headers: {
-    //             "Content-Type": "application/json",
-    //           },
-    //           body: JSON.stringify({
-    //             provider: account.provider,
-    //             nickName: user.name,
-    //             email: user.email,
-    //             profileImage: user.image,
-    //           }),
-    //         }
-    //       );
+    async jwt({ token, user }: { token: any; user?: CustomUser }) {
+      if (user) {
+        token.accessToken = user.accessToken;
+        return token;
+      }
+      return token;
+    },
 
-    //       const data = await response.text(); // 응답을 텍스트로 처리
-
-    //       if (response.status === 201) {
-    //         console.log("회원가입 성공:", data);
-    //         return true; // 로그인 성공
-    //       }
-    //       if (response.status === 404) {
-    //         console.log("회원이 아닙니다:", data);
-    //         // 소셜로그인으로 회원가입 할꺼면 return "http://localhost:3000/signup";
-    //         console.log("회원이 아닙니다:", data);
-    //         return true; // 로그인 성공
-    //       }
-    //     } catch (error) {
-    //       console.error("회원가입 에러:", error);
-    //       return false; // 로그인 실패
-    //     }
-    //   }
-    //   console.log(user);
-    //   return false; // 로그인 실패
-    // },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
-      session.user.id = token.sub as string;
+      session.user.id = token.accessToken as string;
       // console.log("token", token);
       return session;
     },

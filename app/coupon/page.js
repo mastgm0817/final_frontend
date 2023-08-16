@@ -22,7 +22,7 @@ export default function Coupon() {
   const [coupon, setCoupon] = useState({
     couponContent: "",
     code: "",
-    discountType: "PERCENT",
+    discountType: "PERCENTAGE",
     discountValue: 0,
     createdAt: today,
     updatedAt: today,
@@ -33,10 +33,17 @@ export default function Coupon() {
     e.preventDefault();
     try {
       const couponNum = couponCount;
+      const authToken = session.data.user.id;
+      console.log(authToken);
 
       const response = await axios.post(
         API_URL + `/coupon?countNum=${couponNum}`,
-        coupon
+        coupon,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`, // 토큰을 헤더에 추가
+          },
+        }
       );
       console.log("Coupon created:", response.data);
       setCoupons([...coupons, ...response.data]);
@@ -85,8 +92,8 @@ export default function Coupon() {
                 setCoupon({ ...coupon, discountType: e.target.value })
               }
             >
-              <option value="PERCENT">PERCENT</option>
-              <option value="WON">WON</option>
+              <option value="PERCENTAGE">PERCENT</option>
+              <option value="AMOUNT">WON</option>
             </select>
           </label>
         </div>
@@ -106,7 +113,7 @@ export default function Coupon() {
         <div>
           <label>
             쿠폰 번호 :
-            <input 
+            <input
               type="number"
               placeholder="Number of Coupons"
               value={couponCount}
@@ -134,7 +141,7 @@ export default function Coupon() {
               <td>{item.cpid}</td>
               <td>{item.couponContent}</td>
               <td>{item.code}</td>
-              {item.discountType === "PERCENT" ? (
+              {item.discountType === "PERCENTAGE" ? (
                 <td> {item.discountValue} % </td>
               ) : (
                 <td> {item.discountValue} 원 </td>
