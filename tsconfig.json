@@ -32,6 +32,6 @@
     "src/pages/userpage.js",
     "app/api/auth/[...nextauth]/route.ts",
     "app/api/auth/[...nextauth]/route.ts"
-  ],
+, "app/admin/.SalesOverviewtsx"  ],
   "exclude": ["node_modules"]
 }
