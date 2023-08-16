@@ -55,7 +55,12 @@ export default function Coupon() {
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await axios.get(API_URL + `/coupon`);
+        const authToken = session.data.user.id;
+        const response = await axios.get(API_URL + `/coupon`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`, // 토큰을 헤더에 추가
+          },
+        });
         setCoupons(response.data);
       } catch (error) {
         console.error("Error fetching coupons:", error);

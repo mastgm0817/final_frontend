@@ -41,12 +41,13 @@ export default function SignInSide() {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const response = await signIn("email-Credentials", {
+    const response = await signIn("Credentials", {
       email,
       password,
-      redirect: true,
-      callbackUrl: CALLBACKURL,
+      // redirect: true,
+      // callbackUrl: CALLBACKURL,
     });
+    console.log(response);
   };
 
   return (
@@ -97,7 +98,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="email"
                 name="email"
                 autoComplete="email"
                 autoFocus

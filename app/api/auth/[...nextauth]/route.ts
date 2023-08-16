@@ -24,6 +24,47 @@ const handler = NextAuth({
       clientId: "wHHdHmY9FpvrlZv21VRF",
       clientSecret: "74qcy3l60D",
     }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        // 서버에 요청을 보내 사용자 인증
+        console.log(credentials);
+        if (!credentials) {
+          return null;
+        }
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_URL + `/normal/users/authorize`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              provider: "credentials", // 여기에 적절한 프로바이더 값을 설정해야 합니다.
+              nickName: credentials.nickName,
+              email: credentials.email,
+              password: credentials.password, // 필요한 경우 비밀번호도 포함
+            }),
+          }
+        );
+
+        const user = await res.json();
+        console.log(user);
+
+        // 토큰이 유효하면 사용자 반환
+        if (user) {
+          console.log("user 값 반환" + user);
+          return user;
+        }
+
+        // 인증 실패시 null 반환
+        return null;
+      },
+    }),
   ],
   pages: {
     signIn: "/login",
@@ -55,7 +96,6 @@ const handler = NextAuth({
             return true;
           }
 
-
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
             const loginRes = await fetch(
@@ -79,7 +119,6 @@ const handler = NextAuth({
           }
           console.log("이거나오면 안됨");
           return loginRes.ok;
-
         } catch (error) {
           console.error("토큰 발급실패");
           return false;
