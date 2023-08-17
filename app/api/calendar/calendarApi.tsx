@@ -3,11 +3,19 @@
 // // const API_URL = "http://localhost:8082/calendar";
 // // const API_URL = "http://luvoost.co.kr/calendar";
 
-
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import DateProps from "../../../types/calendar";
 
 
+interface ScheduleProps {
+  nickName: string;
+  date: string;
+  schedule: string;
+  share: boolean;
+  selectedDate: DateProps;
+  // token: string;
+}
 
 interface CalendarRequestDTO {
   date: string;
@@ -19,10 +27,10 @@ const URL = process.env.NEXT_PUBLIC_URL;
 const API_URL = `${URL}/calendar`;
 
 const CalendarApi = {
-  
-  getAllScheduleByName: async (nickName: string, token: string) => {
+  getAllScheduleByName: async (nickName: any, token: any) => {
     try {
-      const response = await axios.get(`${API_URL}/${nickName}`, {
+      // const response = await axios.get(`${API_URL}/${nickName}`, {
+        const response = await axios.get(`${API_URL}/${nickName}`, {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: `Bearer ${token}`,
@@ -33,11 +41,11 @@ const CalendarApi = {
       throw error;
     }
   },
-  
+
   createSchedule: async (
-    nickName: string,
+    nickName: any,
     requestDTO: CalendarRequestDTO,
-    token: string
+    token: any
   ) => {
     try {
       // console.log("API 호출 URL:", `${API_URL}/${nickName}`);
@@ -57,10 +65,10 @@ const CalendarApi = {
   },
 
   updateSchedule: async (
-    nickName: string,
+    nickName: any,
     scheduleId: string,
     requestDTO: CalendarRequestDTO,
-    token: string
+    token: any
   ) => {
     try {
       const response = await axios.put(
@@ -80,17 +88,17 @@ const CalendarApi = {
   },
 
   deleteSchedule: async (
-    nickName: string,
+    nickName: any,
     scheduleId: string,
     shared: boolean,
-    token: string
+    token: any
   ) => {
     try {
       const response = await axios.delete(
         `${API_URL}/${nickName}/${scheduleId}`,
         {
           headers: {
-            'Content-Type': 'application/json; charset=utf-8',
+            "Content-Type": "application/json; charset=utf-8",
             Authorization: `Bearer ${token}`,
           },
           params: { shared: shared },

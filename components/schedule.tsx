@@ -34,6 +34,7 @@ const Schedule: React.FC<ScheduleProps> = ({
   const [updatedSchedule, setUpdatedSchedule] = useState("");
   const [updatedShare, setUpdatedShare] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [filteredSchedules, setFilteredSchedules] = useState<any[]>([]);
 
   const sessionToken = session.data?.user.id;
   console.log(sessionToken);
@@ -86,7 +87,7 @@ const Schedule: React.FC<ScheduleProps> = ({
     if (sessionToken) {
       try {
         const response = await CalendarApi.updateSchedule(
-          nickName,
+          session.data?.user.name,
           updateScheduleId.toString(),
           requestDTO,
           sessionToken
@@ -107,7 +108,7 @@ const Schedule: React.FC<ScheduleProps> = ({
     if (sessionToken) {
       try {
         const response = await CalendarApi.deleteSchedule(
-          nickName,
+          session.data?.user.name,
           scheduleId.toString(),
           shared,
           sessionToken
@@ -123,12 +124,12 @@ const Schedule: React.FC<ScheduleProps> = ({
 
   // 생성된 일정 조회
   const [schedules, setSchedules] = useState<any[]>([]);
-
   const loadSchedules = useCallback(async () => {
     if (sessionToken) {
       try {
+        
         const response = await CalendarApi.getAllScheduleByName(
-          nickName,
+          session.data?.user.name,
           sessionToken
         );
         setSchedules(response);
@@ -136,11 +137,11 @@ const Schedule: React.FC<ScheduleProps> = ({
         console.error(error);
       }
     }
-  }, [nickName, sessionToken]);
+  }, [session.data?.user.name, sessionToken]);
 
   useEffect(() => {
     loadSchedules();
-  }, [nickName, loadSchedules]);
+  }, [session.data?.user.name, loadSchedules]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -186,9 +187,19 @@ const Schedule: React.FC<ScheduleProps> = ({
     .toString()
     .padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
 
-  const filteredSchedules = schedules.filter(
-    (schedule) => schedule.scheduleDate === formattedSelectedDate
-  );
+  // const filteredSchedules = schedules.filter(
+  //   (schedule) => schedule.scheduleDate === formattedSelectedDate
+  // );
+
+  useEffect(() => {
+    const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month.toString().padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
+    const filteredSchedules = schedules.filter(
+      (schedule) => schedule.scheduleDate === formattedSelectedDate
+    );
+    setFilteredSchedules(filteredSchedules);
+  }, [selectedDate, schedules]);
+  
+
 
   return (
     <div className="p-4 m-4 border rounded bg-white shadow-md">
