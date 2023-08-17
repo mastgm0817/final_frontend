@@ -7,6 +7,7 @@ import predict from '../app/api/dateplan/dateplanApi';
 import RecommendForm from './RecommendForm';
 import RecommendResult from './RecommendResult';
 import { useRef } from 'react';
+import { useSession } from "next-auth/react";
 
 interface RecommendFormData {
   user_latitude: string;
@@ -33,7 +34,8 @@ const KakaoMap: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [resultMarkers, setResultMarkers] = useState<any[]>([]);
   const resultMarkersRef = useRef<any[]>([]);
-
+  const session = useSession();
+  const token = session.data?.user.id;
   const handleToggleForm = () => {
     setShowForm((prevShowForm) => !prevShowForm);
     console.log("Toggling form:", !showForm); // 상태 변경 로그
@@ -41,7 +43,7 @@ const KakaoMap: React.FC = () => {
 
   const handleSubmitForm = async (formData: RecommendFormData) => {
     try {
-      const predictionResult = await predict(formData);
+      const predictionResult = await predict(formData,token);
       console.log('Prediction result:', result);
 
       setResult(predictionResult);
