@@ -1,10 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-// import {
-//   createSchedule,
-//   getAllScheduleByName,
-//   updateSchedule,
-//   deleteSchedule,
-// } from "../app/api/calendar/calendarApi";
 import { useSession } from "next-auth/react";
 import CalendarApi from "../app/api/calendar/calendarApi";
 import "/public/css/schedule.css";
@@ -19,6 +13,7 @@ interface ScheduleProps {
   schedule: string;
   share: boolean;
   selectedDate: DateProps;
+  // token: string;
 }
 
 const Schedule: React.FC<ScheduleProps> = ({
@@ -27,6 +22,7 @@ const Schedule: React.FC<ScheduleProps> = ({
   schedule,
   share,
   selectedDate,
+  // token,
 }) => {
   const session = useSession();
   const [inputNickName, setInputNickName] = useState("");
@@ -39,8 +35,8 @@ const Schedule: React.FC<ScheduleProps> = ({
   const [updatedShare, setUpdatedShare] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const token = session.data?.user.id;
-  console.log(token);
+  const sessionToken = session.data?.user.id;
+  console.log(sessionToken);
 
   useEffect(() => {
     // Automatically set the nickname input to the user's ID when logged in
@@ -87,13 +83,13 @@ const Schedule: React.FC<ScheduleProps> = ({
       share: updatedShare,
     };
 
-    if (token) {
+    if (sessionToken) {
       try {
         const response = await CalendarApi.updateSchedule(
           nickName,
           updateScheduleId.toString(),
           requestDTO,
-          token
+          sessionToken
         );
         console.log(response);
         loadSchedules();
@@ -108,13 +104,13 @@ const Schedule: React.FC<ScheduleProps> = ({
   };
   // 일정 삭제
   const handleDelete = async (scheduleId: number, shared: boolean) => {
-    if (token) {
+    if (sessionToken) {
       try {
         const response = await CalendarApi.deleteSchedule(
           nickName,
           scheduleId.toString(),
           shared,
-          token
+          sessionToken
         );
         console.log(response);
         // Reload schedules after successful deletion
@@ -127,19 +123,20 @@ const Schedule: React.FC<ScheduleProps> = ({
 
   // 생성된 일정 조회
   const [schedules, setSchedules] = useState<any[]>([]);
+
   const loadSchedules = useCallback(async () => {
-    if (token) {
+    if (sessionToken) {
       try {
         const response = await CalendarApi.getAllScheduleByName(
           nickName,
-          token
+          sessionToken
         );
         setSchedules(response);
       } catch (error) {
         console.error(error);
       }
     }
-  }, [nickName, token]);
+  }, [nickName, sessionToken]);
 
   useEffect(() => {
     loadSchedules();
@@ -148,11 +145,11 @@ const Schedule: React.FC<ScheduleProps> = ({
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 입력값이 유효한지 확인
-    if (inputNickName.trim() === "") {
-      console.error("Nickname cannot be empty!");
-      return;
-    }
+    // // 입력값이 유효한지 확인
+    // if (inputNickName.trim() === "") {
+    //   console.error("Nickname cannot be empty!");
+    //   return;
+    // }
 
     const requestDTO = {
       date: inputDate,
@@ -160,12 +157,12 @@ const Schedule: React.FC<ScheduleProps> = ({
       share: inputShare,
     };
 
-    if (token) {
+    if (sessionToken) {
       try {
         const response = await CalendarApi.createSchedule(
           inputNickName,
           requestDTO,
-          token
+          sessionToken
         );
         console.log(response);
         // 등록 후, 새로운 일정 목록을 불러옴
@@ -194,7 +191,7 @@ const Schedule: React.FC<ScheduleProps> = ({
   );
 
   return (
-    <div className="p-4 m-4 border rounded">
+    <div className="p-4 m-4 border rounded bg-white shadow-md">
       <div>
         {showAddForm ? (
           <Button
@@ -267,16 +264,16 @@ const Schedule: React.FC<ScheduleProps> = ({
         </form>
       )}
 
-      <h3 className="schedule-list">일정 목록</h3>
+<h3 className="text-lg font-semibold mt-4">일정 목록</h3>
 
-      {filteredSchedules.length === 0 ? (
-        <div>일정이 없습니다.</div>
+{filteredSchedules.length === 0 ? (
+        <div className="mt-2">일정이 없습니다.</div>
       ) : (
-        <ul role="list" className="divide-y divide-gray-100">
+        <ul className="mt-2 space-y-2">
           {filteredSchedules.map((schedule) => (
             <li
               key={schedule.scheduleId}
-              className="flex justify-between gap-x-6 py-5"
+              className="flex items-center justify-between px-2 py-1 bg-gray-100 rounded"
             >
               <div className="flex gap-x-4">
                 {schedule.writerId} (공유: {schedule.shared ? "⭕" : "❌"})
@@ -310,10 +307,10 @@ const Schedule: React.FC<ScheduleProps> = ({
         </ul>
       )}
 
-      {updateScheduleId && (
-        <>
-          <h5 className="mt-4">일정 수정</h5>
-          <form onSubmit={handleUpdateSubmit} className="space-y-4">
+{updateScheduleId && (
+        <div className="mt-4">
+          <h5 className="text-lg font-semibold mb-2">일정 수정</h5>
+          <form onSubmit={handleUpdateSubmit} className="space-y-2">
             <label>
               날짜:
               <input
@@ -338,20 +335,22 @@ const Schedule: React.FC<ScheduleProps> = ({
                 onChange={(e) => setUpdatedShare(e.target.checked)}
               />
             </label>
-            <button
+            <Button
               type="submit"
               className="px-4 py-2 bg-green-500 text-white rounded"
+              variant="contained"
             >
               수정 완료
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleCancelUpdate}
               className="px-4 py-2 bg-red-500 text-white rounded"
+              variant="contained"
             >
               취소
-            </button>
+            </Button>
           </form>
-        </>
+        </div>
       )}
     </div>
   );

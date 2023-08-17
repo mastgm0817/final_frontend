@@ -4,11 +4,13 @@ import "/public/css/calendar.css";
 import Schedule from "./schedule";
 import Weather from "./weather";
 import { useSession } from "next-auth/react";
+import CalendarApi from "../app/api/calendar/calendarApi";
 import Image from "next/image";
 
 interface ScheduleProps {
   nickName: string;
   selectedDate: DateProps;
+  // token: string;
 }
 
 interface DateProps {
@@ -29,8 +31,8 @@ function Calendar() {
     year: date.getFullYear(),
   });
 
-  const { data: session } = useSession();
-  const token = session?.user.id || "";
+  // const { data: session } = useSession();
+  // const authToken = session?.user.id || "";
 
   const [nickName, setNickName] = useState("");
 
@@ -122,7 +124,7 @@ function Calendar() {
     ];
 
   return (
-    <div style={{ fontFamily: 'BMHANNAAir_ttf'}} className="container">
+    <div style={{ fontFamily: "BMHANNAAir_ttf" }} className="container">
       <div className="calendar">
         <div className="month-selector">
           <button onClick={goToPrevMonth}>&lt;</button>
@@ -140,7 +142,8 @@ function Calendar() {
       </div>
       <div className="schedule">
         <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 (
+          {selectedDayOfWeek})
         </h2>
         {/* <input
           type="text"
@@ -153,8 +156,9 @@ function Calendar() {
           schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
           share={shareData}
           selectedDate={selectedDate}
+          // token={authToken}
         />
-        <Weather />
+        {/* <Weather /> */}
       </div>
       {/* <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
         <Image src="./image/logo.svg" alt="Calendar" width={90} height={40} />

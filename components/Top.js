@@ -6,8 +6,7 @@ import Button from "@mui/material/Button";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
+import Weather from "./weather";
 
 const pages = ["Board", "Coupon", "Dateplan", "Profile"];
 
@@ -53,13 +52,7 @@ export default function Top() {
           <Typography variant="h6" sx={{ fontFamily: "BMDOHYEON_ttf, sans-serif" }}>
             <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
           </Typography>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <InputBase
-              placeholder="검색"
-              sx={{ color: "#fcc2d7", marginLeft: 65 }}
-            />
-            <SearchIcon />
-          </div>
+          <Weather />
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           {pages.map((page) => (
