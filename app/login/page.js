@@ -41,13 +41,11 @@ export default function SignInSide() {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const response = await signIn("Credentials", {
-      email,
-      password,
-      // redirect: true,
-      // callbackUrl: CALLBACKURL,
+    signIn("Credentials", {
+      email: email,
+      password: password,
+      callbackUrl: "http://localhost:3000",
     });
-    console.log(response);
   };
 
   return (

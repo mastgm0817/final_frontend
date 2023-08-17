@@ -25,6 +25,7 @@ const handler = NextAuth({
       clientSecret: "74qcy3l60D",
     }),
     CredentialsProvider({
+      id: "Credentials",
       name: "Credentials",
       credentials: {
         email: { label: "email", type: "text" },
@@ -44,8 +45,6 @@ const handler = NextAuth({
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              provider: "credentials", // 여기에 적절한 프로바이더 값을 설정해야 합니다.
-              nickName: credentials.nickName,
               email: credentials.email,
               password: credentials.password, // 필요한 경우 비밀번호도 포함
             }),
