@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Margin } from "@mui/icons-material";
 import Image from "next/image";
-export default function Home() {
+export default function Home() {  
   return (
     <>
       <React.Fragment>

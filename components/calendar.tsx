@@ -4,7 +4,7 @@ import "/public/css/calendar.css";
 import Schedule from "./schedule";
 import Weather from "./weather";
 import Image from "next/image";
-
+import { useSession } from "next-auth/react"
 interface ScheduleProps {
   nickName: string;
   selectedDate: DateProps;
@@ -27,7 +27,6 @@ function Calendar() {
     day: date.getDate(),
     year: date.getFullYear(),
   });
-
   const [nickName, setNickName] = useState("");
 
   const renderCalendar = () => {
