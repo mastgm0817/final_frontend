@@ -6,7 +6,6 @@ import Weather from "./weather";
 import { useSession } from "next-auth/react";
 import CalendarApi from "../app/api/calendar/calendarApi";
 import Image from "next/image";
-
 interface ScheduleProps {
   nickName: string;
   selectedDate: DateProps;
@@ -30,10 +29,6 @@ function Calendar() {
     day: date.getDate(),
     year: date.getFullYear(),
   });
-
-  // const { data: session } = useSession();
-  // const authToken = session?.user.id || "";
-
   const [nickName, setNickName] = useState("");
 
   const renderCalendar = () => {
