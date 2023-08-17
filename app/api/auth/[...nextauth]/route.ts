@@ -44,8 +44,6 @@ const handler = NextAuth({
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              provider: "credentials", // 여기에 적절한 프로바이더 값을 설정해야 합니다.
-              nickName: credentials.nickName,
               email: credentials.email,
               password: credentials.password, // 필요한 경우 비밀번호도 포함
             }),
@@ -72,6 +70,7 @@ const handler = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile }) {
+      const callBackUrl = process.env.NEXT_PUBLIC_CALLBACKURL as string;
       if (account && user) {
         try {
           const loginRes = await fetch(
@@ -114,7 +113,7 @@ const handler = NextAuth({
               }
             );
 
-            return "http://localhost:3000";
+            return callBackUrl;
             // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
           console.log("이거나오면 안됨");
