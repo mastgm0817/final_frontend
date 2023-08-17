@@ -71,6 +71,7 @@ const handler = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile }) {
+      const callBackUrl = process.env.NEXT_PUBLIC_CALLBACKURL as string;
       if (account && user) {
         try {
           const loginRes = await fetch(
@@ -114,7 +115,9 @@ const handler = NextAuth({
                 }),
               }
             );
-            return "http://localhost:3000";
+
+            return callBackUrl;
+
             // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
           console.log("이거나오면 안됨");
