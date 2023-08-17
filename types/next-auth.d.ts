@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import { DateTime } from "next-auth/providers/kakao";
 
 declare module "next-auth" {
   /**

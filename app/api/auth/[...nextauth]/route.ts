@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import { User } from "next-auth"; // 기본 User 타입 임포트
 import GoogleProvider from "next-auth/providers/google";
-import KakaoProvider from "next-auth/providers/kakao";
+import KakaoProvider, { DateTime } from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -25,6 +25,7 @@ const handler = NextAuth({
       clientSecret: "74qcy3l60D",
     }),
     CredentialsProvider({
+      id: "Credentials",
       name: "Credentials",
       credentials: {
         email: { label: "email", type: "text" },
@@ -92,8 +93,10 @@ const handler = NextAuth({
             const data = await loginRes.json();
             console.log(data.token);
             (user as CustomUser).accessToken = data.token; // 사용자 정의 User 객체에 accessToken을 설정합니다.
+            
             return true;
           }
+
 
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
@@ -114,6 +117,7 @@ const handler = NextAuth({
             );
 
             return callBackUrl;
+
             // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
           console.log("이거나오면 안됨");
@@ -140,6 +144,7 @@ const handler = NextAuth({
       // console.log("token", token);
       return session;
     },
+    
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

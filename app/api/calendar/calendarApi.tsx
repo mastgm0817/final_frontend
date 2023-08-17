@@ -1,40 +1,113 @@
+// import axios from "axios";
+// // const URLS = process.env.NEXT_PUBLIC_URL;
+// // const API_URL = "http://localhost:8082/calendar";
+// // const API_URL = "http://luvoost.co.kr/calendar";
+
 import axios from "axios";
-// const URLS = process.env.NEXT_PUBLIC_URL;
-// const API_URL = "http://localhost:8082/calendar";
-// const API_URL = "http://luvoost.co.kr/calendar";
+import { getSession } from "next-auth/react";
+import DateProps from "../../../types/calendar";
+
+
+interface ScheduleProps {
+  nickName: string;
+  date: string;
+  schedule: string;
+  share: boolean;
+  selectedDate: DateProps;
+  // token: string;
+}
+
+interface CalendarRequestDTO {
+  date: string;
+  share: boolean;
+  schedule: string;
+}
 
 const URL = process.env.NEXT_PUBLIC_URL;
 const API_URL = `${URL}/calendar`;
 
-export const createSchedule = async (nickName: string, requestDTO: any) => {
-  const response = await axios.post(`${API_URL}/${nickName}`, requestDTO);
-  return response.data;
-};
+const CalendarApi = {
+  getAllScheduleByName: async (nickName: any, token: any) => {
+    try {
+      // const response = await axios.get(`${API_URL}/${nickName}`, {
+        const response = await axios.get(`${API_URL}/${nickName}`, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-export const getAllScheduleByName = async (nickName: string) => {
-  const response = await axios.get(`${API_URL}/${nickName}`);
-  return response.data;
-};
+  createSchedule: async (
+    nickName: any,
+    requestDTO: CalendarRequestDTO,
+    token: any
+  ) => {
+    try {
+      // console.log("API 호출 URL:", `${API_URL}/${nickName}`);
+      // console.log("요청 데이터:", requestDTO);
 
-export const updateSchedule = async (
-  nickName: string,
-  scheduleId: number,
-  requestDTO: any
-) => {
-  const response = await axios.put(
-    `${API_URL}/${nickName}/${scheduleId}`,
-    requestDTO
-  );
-  return response.data;
-};
+      const response = await axios.post(`${API_URL}/${nickName}`, requestDTO, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log("응답 데이터:", response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-export const deleteSchedule = async (
-  nickName: string,
-  scheduleId: number,
-  shared: boolean
-) => {
-  const response = await axios.delete(`${API_URL}/${nickName}/${scheduleId}`, {
-    params: { shared: shared },
-  });
-  return response.data;
+  updateSchedule: async (
+    nickName: any,
+    scheduleId: string,
+    requestDTO: CalendarRequestDTO,
+    token: any
+  ) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/${nickName}/${scheduleId}`,
+        requestDTO,
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  deleteSchedule: async (
+    nickName: any,
+    scheduleId: string,
+    shared: boolean,
+    token: any
+  ) => {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/${nickName}/${scheduleId}`,
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+          params: { shared: shared },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
+export default CalendarApi;
