@@ -127,7 +127,6 @@ const Schedule: React.FC<ScheduleProps> = ({
 
   // 생성된 일정 조회
   const [schedules, setSchedules] = useState<any[]>([]);
-
   const loadSchedules = useCallback(async () => {
     if (token) {
       try {
@@ -247,7 +246,9 @@ const Schedule: React.FC<ScheduleProps> = ({
               variant="outlined"
               className="p-2"
             />
-            {inputSchedule.trim() === "" && <div>* 일정 내용을 입력해 주세요</div>}
+            {inputSchedule.trim() === "" && (
+              <div>* 일정 내용을 입력해 주세요</div>
+            )}
           </div>
           <div>
             <label className="mr-2">연인과 공유: </label>
