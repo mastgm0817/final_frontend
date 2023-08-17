@@ -7,22 +7,20 @@ import { useSession } from "next-auth/react";
 const today = new Date();
 const oneMonthLater = new Date(today);
 const API_URL = process.env.NEXT_PUBLIC_URL;
-// const API_URL = "http://luvoost.co.kr";
-// const API_URL = "http://localhost:8082";
 oneMonthLater.setMonth(today.getMonth() + 1);
 export default function Coupon() {
   const session = useSession();
   if (session) {
     console.log(session);
   } else {
-    console.log("xx");
+    console.log("세션없음");
   }
   const [couponCount, setCouponCount] = useState(1); // 쿠폰 갯수를 관리할 state
   const [coupons, setCoupons] = useState([]);
   const [coupon, setCoupon] = useState({
     couponContent: "",
     code: "",
-    discountType: "PERCENT",
+    discountType: "PERCENTAGE",
     discountValue: 0,
     createdAt: today,
     updatedAt: today,
@@ -33,10 +31,17 @@ export default function Coupon() {
     e.preventDefault();
     try {
       const couponNum = couponCount;
+      const authToken = session.data.user.id;
+      console.log(authToken);
 
       const response = await axios.post(
         API_URL + `/coupon?countNum=${couponNum}`,
-        coupon
+        coupon,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`, // 토큰을 헤더에 추가
+          },
+        }
       );
       console.log("Coupon created:", response.data);
       setCoupons([...coupons, ...response.data]);
@@ -85,14 +90,14 @@ export default function Coupon() {
                 setCoupon({ ...coupon, discountType: e.target.value })
               }
             >
-              <option value="PERCENT">PERCENT</option>
-              <option value="WON">WON</option>
+              <option value="PERCENTAGE">PERCENT</option>
+              <option value="AMOUNT">WON</option>
             </select>
           </label>
         </div>
         <div>
           <label>
-            할인율?률? :
+            할인율 :
             <input
               type="number"
               placeholder="DiscountPercentage"
@@ -106,7 +111,7 @@ export default function Coupon() {
         <div>
           <label>
             쿠폰 번호 :
-            <input 
+            <input
               type="number"
               placeholder="Number of Coupons"
               value={couponCount}
@@ -134,7 +139,7 @@ export default function Coupon() {
               <td>{item.cpid}</td>
               <td>{item.couponContent}</td>
               <td>{item.code}</td>
-              {item.discountType === "PERCENT" ? (
+              {item.discountType === "PERCENTAGE" ? (
                 <td> {item.discountValue} % </td>
               ) : (
                 <td> {item.discountValue} 원 </td>
