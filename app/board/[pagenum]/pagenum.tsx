@@ -8,8 +8,8 @@ import BoardDetail from "../../../components/BoardDetail";
 const defaultBoard: Board = {
   bid: 0,
   nickName: " ",
-  b_title: " ",
-  b_content: " ",
+  btitle: " ",
+  bcontent: " ",
   b_createdAt: " ",
   b_updatedAt: "",
   b_views: 0,
@@ -18,7 +18,8 @@ const defaultBoard: Board = {
 };
 
 interface pageProps {
-  params: { pagenum: number };
+  params: { pagenum: number, findStr: string, findingMethod: string;};
+  
 }
 
 const Page: FC<pageProps> = ({ params }, props: any) => {
@@ -34,24 +35,31 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
     try {
       const response = await SendData(
         "GET",
-        `/boards/page/${params.pagenum}`,
+        `/boards/page/${params.pagenum}?findingMethod=${params.findingMethod}&findStr=${params.findStr}`,
         null,
         "fetch boards"
       );
       setBoards(response);
       setIsLoading(false);
-      // console.log(response)
     } catch (error) {
       console.error("Error fetching boards:", error);
     }
-  }, [params.pagenum]);
+  }, [params.pagenum, params.findingMethod, params.findStr]);
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, params.findingMethod, params.findStr]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
+
+  
   // const boards=[board1,board2];
   // console.log(selectedBoard)
-
+  
+  // async function SearchBoard(findingMethod:string, findStr:string) {
+  //   await SendData("GET",`/boards/page/${params.pagenum}/?findingMethod=${findingMethod}&findStr=${findStr}`,null,"search");
+  // }
   async function HandleBoardClick(event: any, clickedBoard: Board) {
     if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid) {
       setSelectedBoard(clickedBoard);
@@ -106,7 +114,7 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
 
   return (
     <>
-      <div className="flex flex-col space-y-0">
+      <div className=" space-y-0">
         {boards &&
           boards.map((board: Board) => (
             <React.Fragment key={board.bid}>
@@ -119,7 +127,7 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 }`}
               >
                 <div className="w-1/12 text-center">{board.bid}</div>
-                <div className="w-4/12 text-center">{board.b_title}</div>
+                <div className="w-4/12 text-center">{board.btitle}</div>
                 <div className="w-2/12 text-center">
                   {board.b_createdAt.toLocaleString()}
                 </div>
@@ -130,10 +138,10 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 <div className="w-1/12 text-center">{board.b_views.toString()}</div>
               </div>
               <div
-                className={`board-detail flex ${
+                className={`${
                   selectedBoard && selectedBoard.bid === board.bid
-                    ? "active"
-                    : ""
+                    ? "board-detail active"
+                    : "board-detail"
                 }`}
               >
                 <BoardDetail
