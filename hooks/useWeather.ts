@@ -12,7 +12,7 @@ export default function useWeather() {
 
       try {
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&lang=kr`
         );
         setWeather(response.data);
       } catch (error) {

@@ -41,11 +41,10 @@ export default function SignInSide() {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const response = await signIn("email-Credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: CALLBACKURL,
+    signIn("Credentials", {
+      email: email,
+      password: password,
+      callbackUrl: "http://localhost:3000",
     });
   };
 
@@ -97,7 +96,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="email"
                 name="email"
                 autoComplete="email"
                 autoFocus
