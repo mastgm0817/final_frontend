@@ -382,26 +382,23 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
       console.error("Error fetching boards:", error);
     }
   }, [params.pagenum, params.findingMethod, params.findStr]);
+  const fetchBoard = useCallback(async (bid:any) => {
+    try {
+        const response = await SendData("GET", `/boards/${bid}`, null, "fetch one board");
+        setSelectedBoard(response);
+    } catch (error) {
+        console.error("Error fetching board:", error);
+    }
+    }, []);
   useEffect(() => {
     fetchData();
   }, [fetchData, params.findingMethod, params.findStr]);
-  // useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
 
-
-  
-  // const boards=[board1,board2];
-  // console.log(selectedBoard)
-  
-  // async function SearchBoard(findingMethod:string, findStr:string) {
-  //   await SendData("GET",`/boards/page/${params.pagenum}/?findingMethod=${findingMethod}&findStr=${findStr}`,null,"search");
-  // }
   async function HandleBoardClick(event: any, clickedBoard: Board) {
     if (selectedBoard === null || selectedBoard.bid !== clickedBoard.bid) {
       setSelectedBoard(clickedBoard);
       await SendData("GET", `/boards/${clickedBoard.bid}`, null, "view");
-      fetchData();
+      fetchBoard(clickedBoard.bid);
       console.log(clickedBoard.bid + "번 게시글 조회됨");
     } else if (
       selectedBoard !== null &&

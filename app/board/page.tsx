@@ -154,11 +154,14 @@ function Logined(props: any): any {
         console.error("Error fetching boards:", error);
     }
     }, []);
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-
-
+  const fetchBoard = useCallback(async (bid:number) => {
+      try {
+          const response = await SendData("GET", `/boards/${bid}`, null, "fetch one board");
+          setBoards(response);
+      } catch (error) {
+          console.error("Error fetching board:", error);
+      }
+      }, []);
   function ToggleAddForm(): any {
     if (AddFormClass === "formOn") {
       setAddFormClass("formOff");
@@ -240,7 +243,7 @@ function Logined(props: any): any {
                 
               />
             )}
-            <Page params={{ pagenum: pages, findingMethod,findStr}} />
+            <Page params={{ pagenum: pages,findingMethod,findStr }} />
           </div>
         </div>
 
