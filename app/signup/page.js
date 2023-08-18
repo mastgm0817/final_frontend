@@ -15,8 +15,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_URL;
-
 function Copyright(props) {
   return (
     <Typography
@@ -45,17 +43,18 @@ export default function SignUp() {
     const email = data.get("email");
     const password = data.get("password");
     const nickName = data.get("nickName");
-    const API_URL = process.env.URL;
+    const API_URL = process.env.NEXT_PUBLIC_URL;
 
     try {
-      const response = await axios.post(API_URL + `/users/join`, {
+      const response = await axios.post(API_URL + `/normal/users/join`, {
         nickName: nickName,
         email: email,
         password: password,
       });
 
       if (response.status === 201) {
-        console.log("User created successfully!");
+        alert("User created successfully!"); // 성공하면 alert을 표시합니다
+        window.location.href = "/login"; // alert 확인 후 로그인 페이지로 이동시킵니다
       }
     } catch (err) {
       console.error(err);
