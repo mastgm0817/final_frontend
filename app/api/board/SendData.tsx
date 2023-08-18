@@ -7,7 +7,7 @@ async function setHeader() {
   console.log(token)
   return {
     'Content-Type': 'application/json; charset=utf-8',
-    Authorization : `Bearer${token}`
+    Authorization : `Bearer ${token}`
   };
 }
 
