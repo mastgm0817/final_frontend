@@ -12,6 +12,8 @@ spec:
       labels:
         app: frontend
     spec:
+      nodeSelector: # nodeSelector 추가
+        kubernetes.io/hostname: worker1r # 원하는 노드 이름 지정
       containers:
         - name: frontend-pod
           image: 119.197.27.55:5000/frontend@sha256:99e0718bac506053941ace8aa3b08c93c6eecb004bcbd01c2f3316cb7740f113
