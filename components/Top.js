@@ -7,6 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import Weather from "./weather";
+import DropMenu from "./MenuDrop"
 
 const pages = ["Board", "Coupon", "Dateplan", "Profile"];
 
@@ -62,6 +63,7 @@ export default function Top() {
               </Button>
             </Link>
           ))}
+          <DropMenu />
           <LogoutedRightSideNav />
           <LoginedRightSideNav />
         </div>
