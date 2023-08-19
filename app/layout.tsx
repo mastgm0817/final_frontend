@@ -18,11 +18,9 @@ export default function RootLayout({
       <body>
         <ReduxProvider store={store}>
           <AuthSession>
-          <Top />
-            <div className="mx-auto max-w-4xl">
-              {children}
-              <Footer />
-            </div>
+            <Top />
+            <div className="mx-auto max-w-4xl">{children}</div>
+            <Footer />
           </AuthSession>
         </ReduxProvider>
       </body>

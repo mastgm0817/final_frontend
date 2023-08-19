@@ -1,42 +1,110 @@
 import * as React from "react";
+import "../public/css/footer.css";
 import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer style={{ fontFamily: "BMHANNAAir_ttf" }} className="rounded-lg shadow dark:bg-gray-900 m-4 mt-8">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8" style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href="https://localhost:3000/"
-            className="flex items-center mb-4 sm:mb-0 text-2xl font-semibold dark:text-white"
-          >
-            Luvoost Website
-          </a>
-        </div>
-        <div className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          <div className="mb-4 font-semibold">T2F4</div>
-          <div className="mb-4 text-blue-400 hover:underline cursor-pointer">고객 문의</div>
-          <div className="mb-4 flex items-center space-x-4">
-            <a
-              href="https://fragrant-pincushion-ccf.notion.site/Final-891596851f8147dc8d81c82eccadcf6f"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-500"
-            >
-              <Image src="/image/notion.png" alt="notion" width={30} height={30} />
-            </a>
-            <a
-              href="https://github.com/mastgm0817/final_frontend"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-500"
-            >
-              <Image src="/image/github.png" alt="github_frontend" width={30} height={30} />
+    <footer class="text-gray-600 body-font">
+      <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+
+      <div class="flex-grow flex md:w-5/6 w-full px-4">
+      <div className="w-full md:w-1/4 md:mx-0 mx-auto text-center md:text-left">
+          <div className="flex items-center justify-center md:justify-start">
+            <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+              <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+              <span class="ml-3 text-xl">Luvoost</span>
             </a>
           </div>
+          <p class="mt-2 text-sm text-gray-500">
+            세상의 모든 연인을 응원합니다💕
+          </p>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 mb-8" />
-        <div className="mb-4 text-center">Copyright Luvoost Website 2023.</div>
+
+        <div class="lg:w-1/4 md:w-1/2 w-full">
+          <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            CATEGORIES
+          </h2>
+          <nav class="list-none mb-5">
+            <li>
+              <a class="text-gray-600 hover:text-gray-800">First Link</a>
+            </li>
+            <li>
+              <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+            </li>
+            <li>
+              <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+            </li>
+            <li>
+              <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+            </li>
+          </nav>
+        </div>
+          <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+              CATEGORIES
+            </h2>
+            <nav class="list-none mb-5">
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">First Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+              </li>
+            </nav>
+          </div>
+          <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+              CATEGORIES
+            </h2>
+            <nav class="list-none mb-5">
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">First Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+              </li>
+            </nav>
+          </div>
+          <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+              CATEGORIES
+            </h2>
+            <nav class="list-none mb-5">
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">First Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Second Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Third Link</a>
+              </li>
+              <li>
+                <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+              </li>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-100">
+        <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row justify-between">
+          <p class="text-gray-500 text-sm text-center sm:text-left">
+            © 2023 Luvoost — @T2F4
+            <Image src="./image/github.svg" alt="github" width={24} height={24} />
+          </p>
+        </div>
       </div>
     </footer>
   );
