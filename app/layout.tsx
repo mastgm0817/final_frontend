@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
 import AuthSession from "./AuthSession";
-import MenuListCompotision from "./../components/MenuDrop";
+import Top from "../components/Top";
 import Footer from "../components/Footer";
 import { Provider as ReduxProvider } from "react-redux";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import { store } from "../store";
-// import Top from "../components/Top";
 
 export default function RootLayout({
   children,
@@ -19,9 +18,8 @@ export default function RootLayout({
       <body>
         <ReduxProvider store={store}>
           <AuthSession>
-            {/* <Top /> */}
-            <MenuListCompotision />
-            <div className="mx-auto max-w-4xl">{children}</div>
+            <Top/>
+            <div className="mx-auto max-w-6xl">{children}</div>
             <Footer />
           </AuthSession>
         </ReduxProvider>

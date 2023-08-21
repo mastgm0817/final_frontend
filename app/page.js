@@ -3,29 +3,16 @@ import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Image from "next/image";
+import Banner from "../components/Banner";
+
 export default function Home() {
-  
   return (
     <>
       <React.Fragment>
         <CssBaseline />
-        <Container maxWidth="fluid" sx={{ paddingLeft: 0, paddingRight: 0 }}>
-          <Box>
-            <Image
-              style={{
-                marginTop: 3,
-                marginBottom: 2,
-                paddingRight: 0,
-                paddingLeft: 0,
-                borderRadius: 20,
-              }}
-              width={500}
-              height={500}
-              layout="responsive"
-              src="/image/temporary.png"
-              alt="tempImage"
-            />
+        <Container maxWidth="fluid">
+        <Box mt={13} mb={20}>
+            <Banner />
           </Box>
         </Container>
         <Container maxWidth="fluid">
