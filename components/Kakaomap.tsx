@@ -30,22 +30,21 @@ const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(null);
   const [map,setMap] = useState<any>(null);
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [resultMarkers, setResultMarkers] = useState<any[]>([]);
   const resultMarkersRef = useRef<any[]>([]);
   const session = useSession();
   const token = session.data?.user.id;
-  const handleToggleForm = () => {
-    setShowForm((prevShowForm) => !prevShowForm);
-    console.log("Toggling form:", !showForm); // 상태 변경 로그
-  };
+  
+  // const handleToggleForm = () => {
+  //   setShowForm((prevShowForm) => !prevShowForm);
+  //   console.log("Toggling form:", !showForm); // 상태 변경 로그
+  // };
 
   const handleSubmitForm = async (formData: RecommendFormData) => {
     try {
-      const predictionResult = await predict(formData,token);
-      console.log('Prediction result:', result);
-
+      const predictionResult = await predict(formData, token);
       setResult(predictionResult);
       // Now you have the prediction result, you can update the UI or take any other actions based on the result.
     } catch (error) {
@@ -112,55 +111,33 @@ const KakaoMap: React.FC = () => {
       });
       marker.setMap(kakaoMap);
     }
-  }, [ kakaoMapLoaded, userPosition ]);
-
-
-  useEffect(() => {
-    if (map && result) {
-      // 기존 마커 제거
-      resultMarkersRef.current.forEach(marker => marker.setMap(null));
-
-      // 결과 마커 배열 초기화
-      const newResultMarkers: typeof window.kakao.maps.Marker[] = [];
-
-      // 결과에서 가져온 좌표를 사용하여 마커를 렌더링합니다.
-      result.forEach((item: any) => {
-        const resultMarkerPosition = new window.kakao.maps.LatLng(item.latitude, item.longitude);
-        const resultMarker = new window.kakao.maps.Marker({
-          position: resultMarkerPosition,
-        });
-        resultMarker.setMap(map); // 마커를 지도에 렌더링합니다.
-        newResultMarkers.push(resultMarker);
-      });
-
-      resultMarkersRef.current = newResultMarkers; // 새 결과 마커 배열 저장
-    }
-  }, [map, result]); // map 또는 result가 변경될 때마다 실행됩니다.
+  }, [kakaoMapLoaded, userPosition]);
 
   return (
     <div className="flex justify-center items-center h-full w-full">
-      <div id="map-container" className="relative" style={{ height: '900px', width: '100%' }}>
-        <div id="map" className="flex w-full h-700px" style={{ height: '600px', width: '100%' }}>
-        <div className="button-container absolute bottom-0 right-0">
-          <button
-            onClick={handleToggleForm}
-            className="bg-pink-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-2xl" // text 크기 조절
-          >
-            {showForm ? '-' : '+'}
-          </button>
-        </div>
-        {showForm && (
-          <div className={`form-container ${showForm ? 'open' : ''}`}>
+      <div
+        id="map-container"
+        className="relative"
+        style={{ height: '900px', width: '100%' }}
+      >
+        <div
+          id="map"
+          className="flex w-full h-700px"
+          style={{ height: '600px', width: '100%' }}
+        >
+          <div className={`form-container open`}>
             <RecommendForm onSubmit={handleSubmitForm} />
           </div>
-      )}
-       </div>
-        <div id="result-container" className="flex w-full h-300px">
+        </div>
+        <div
+          id="result-container"
+          className="flex w-full h-300px"
+        >
           <RecommendResult results={result} />
+        </div>
       </div>
     </div>
-  </div>
   );
-};
+}
 
 export default KakaoMap;

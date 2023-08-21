@@ -141,7 +141,7 @@ const handleCloseUploadPopup = () => {
     <ThemeProvider theme={defaultTheme}>
       <Grid container>
         {/* 여기는 왼쪽 정보란 -> 컴포넌트화 할 수 있음 */}
-        <Grid xs={4}>
+        <Grid item xs={4}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -215,7 +215,7 @@ const handleCloseUploadPopup = () => {
         </Container>
         </Grid>
         {/* 여기서부턴 정보를 나타내는 공간 -> 컴포넌트화 할 수 있음 */}
-        <Grid xs={8}>
+        <Grid item xs={8}>
           <Container sx={{ m:3 }}>
             <CardProfile title="기본 정보" buttonText="수정하기" /><br/>
             <CardProfile title="연인 정보" buttonText="헤어지기" /><br/>
