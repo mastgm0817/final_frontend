@@ -2,13 +2,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.footer-container {
+/* .footer-container {
   background-color: #f6f7f9;
   text-align: center;
   padding: 1rem;
 }
 
-/* Define styles for the footer links */
 .footer-link {
   color: #3b82f6;
 }
@@ -17,12 +16,10 @@
   color: #1d4ed8;
 }
 
-/* Additional styles for the footer items */
 .footer-item {
   margin-bottom: 1rem;
 }
 
-/* Styling for the italic text */
 .italic {
   font-style: italic;
 }
@@ -39,4 +36,4 @@
   src: url("/fonts/BMHANNAAir_ttf.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
+} */

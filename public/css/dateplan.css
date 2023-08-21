@@ -4,8 +4,8 @@
 
 .button-container button {
   position: absolute;
-  bottom: 15px;
-  right: 5px;
+  bottom: 0px;
+  left: 20px;
   z-index: 3;
   background-color: #FF5B5B;
   width: 30px; /* 너비와 높이를 동일하게 설정 */
