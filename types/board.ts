@@ -1,5 +1,6 @@
 import { ISODateString } from "next-auth";
 import { Key } from "react";
+import Comment from "./comment";
 
 type Board = {
   bid: Key;
@@ -11,6 +12,7 @@ type Board = {
   b_views: Number;
   comments: Number;
   b_recommendations: Number;
+  commentList:Comment[];
 };
 
 export default Board;
