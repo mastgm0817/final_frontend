@@ -13,6 +13,7 @@ const ProfileImageUploadPopup = ({ open, onClose, onSave, profileImage }) => {
   const { data: session } = useSession();
   const API_URL = process.env.NEXT_PUBLIC_URL;
   const authToken = session.user.id;
+  const nickName = session.user.name;
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -27,24 +28,27 @@ const ProfileImageUploadPopup = ({ open, onClose, onSave, profileImage }) => {
     }
 
     const formData = new FormData();
-    formData.append('image', selectedImage);
+    formData.append('file', selectedImage);
 
     try {
-      const response = await await axios.patch(API_URL + '/users/uploadProfileImage', formData, {
+      const response = await axios.post(API_URL + `/users/info/updateProfileImage/${nickName}`, formData, {
         headers: {
           Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'multipart/form-data',
         },
       });
 
-      if (response.ok) {
-        // Assuming the server returns a URL for the uploaded image
-        const imageUrl = await response.json();
-
+      if (response.status === 200) {
+        const imageUrl = response.data; // 이미지 URL은 바로 response.data에 들어있을 것입니다.
         onSave(imageUrl); // Save the image URL to the user's profile
         setSelectedImage(null);
         onClose();
+        // 0.5초 후에 페이지 새로고침
+        setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        console.log(response.data);
       } else {
+        console.log(response.data);
         // Handle error
       }
     } catch (error) {
@@ -61,7 +65,7 @@ const ProfileImageUploadPopup = ({ open, onClose, onSave, profileImage }) => {
           src={selectedImage ? URL.createObjectURL(selectedImage) : profileImage}
           sx={{ width: 200, height: 200 }}
         />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <input type="file" accept="image/*" name="imageFiles" onChange={handleImageChange} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">

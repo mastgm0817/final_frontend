@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import ModeIcon from '@mui/icons-material/Mode';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CardProfile from "../../components/ProfileCard";
+import LoverProfile from "../../components/LoverCard";
 import ProfileImageUploadPopUp from "../../components/ProfileImageUpLoadPopUp";
 
 
@@ -44,25 +45,25 @@ const handleCloseUploadPopup = () => {
       const formData = new FormData();
       formData.append('image', imageFile);
   
-      const uploadResponse = await axios.post(API_URL + '/uploadImage', formData, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // const uploadResponse = await axios.post(API_URL + '/uploadImage', formData, {
+      //   headers: {
+      //     Authorization: `Bearer ${authToken}`,
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
   
-      const uploadedImageUrl = uploadResponse.data.imageUrl;
+      // const uploadedImageUrl = uploadResponse.data.imageUrl;
   
-      // 2. 서버에 프로필 이미지 수정 요청
-      const updateUserResponse = await axios.patch(
-        API_URL + '/users/updateProfileImage',
-        { profileImage: uploadedImageUrl },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+      // // 2. 서버에 프로필 이미지 수정 요청
+      // const updateUserResponse = await axios.patch(
+      //   API_URL + '/users/updateProfileImage',
+      //   { profileImage: uploadedImageUrl },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${authToken}`,
+      //     },
+      //   }
+      // );
   
       // 3. 서버 응답을 받아서 페이지 데이터 업데이트 등의 작업 수행
       const updatedUserData = updateUserResponse.data;
@@ -126,16 +127,6 @@ const handleCloseUploadPopup = () => {
     return <p>Loading...</p>;
   }
 
-  // 수정할 데이터 수집 메소드
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
   return (
     <>
     <ThemeProvider theme={defaultTheme}>
@@ -152,26 +143,6 @@ const handleCloseUploadPopup = () => {
                 alignItems: 'center',
               }}
             >
-            {/* <Button sx={{ mb: 2, position: 'relative' }}>
-              <Avatar sx={{ m: 2, width: 200, height: 200 }}>
-                <Avatar
-                    alt="User porfile"
-                    src={userInfo.profileImage}
-                    sx={{ width: 200, height: 200 }}
-                  />
-              </Avatar>
-              <ModeIcon
-                sx={{
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 0,
-                  width: 30,
-                  height: 30,
-                  backgroundColor: 'white',
-                  color: '#f783ac',
-                  borderRadius: '50%',
-                }} />
-            </Button> */}
             <Button sx={{ mb: 2, position: 'relative' }} onClick={handleOpenUploadPopup}>
               <Avatar sx={{ m: 2, width: 200, height: 200 }}>
                 <Avatar
@@ -194,22 +165,13 @@ const handleCloseUploadPopup = () => {
             </Button>
             <ProfileImageUploadPopUp open={uploadPopupOpen} onClose={handleCloseUploadPopup}
             onSave={handleSaveImage} profileImage={userInfo.profileImage} />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Box component="form" noValidate sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Box>{userInfo.nickName}</Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box>{userInfo.email}</Box>
+                  <Box sx={{ fontSize: '36px', fontWeight: 'bold' }}>{userInfo.nickName}</Box>
+                  <Box sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{userInfo.email}</Box>
                 </Grid>
               </Grid>
-              <Button
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                내프로필
-              </Button>
             </Box>
           </Box>
         </Container>
@@ -217,8 +179,9 @@ const handleCloseUploadPopup = () => {
         {/* 여기서부턴 정보를 나타내는 공간 -> 컴포넌트화 할 수 있음 */}
         <Grid xs={8}>
           <Container sx={{ m:3 }}>
-            <CardProfile title="기본 정보" buttonText="수정하기" /><br/>
-            <CardProfile title="연인 정보" buttonText="헤어지기" /><br/>
+            {/* <CardProfile title="내프로필" buttonText="수정하기" /><br/> */}
+            <CardProfile title="내프로필" /><br/>
+            <LoverProfile title="연인 정보" buttonText1="찾기" buttonText2="헤어지기" /><br/>
             <CardProfile title="쿠폰 정보(예정)" buttonText="사용하기" /><br/>
             <Button>회원탈퇴</Button>
           </Container>
