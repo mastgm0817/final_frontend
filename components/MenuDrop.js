@@ -1,38 +1,46 @@
-import * as React from 'react';
+import * as React from "react";
 import { useSession, signOut } from "next-auth/react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
-import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import { styled } from '@mui/material/styles';
-import { orange } from '@mui/material/colors';
+import Button from "@mui/material/Button";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Weather from "./weather";
 
-const pages = ["Profile", "관리자모드"];
+const pages = ["Profile", "Admin", "Board", "Dateplan", "Coupon"];
 
-function LoginedRightSideNav() {
+function LoginedRightSideNav({ userImage, userName }) {
   const session = useSession();
-  if (session.status === "authenticated") {
+  if (session.status === "authenticated" && session.data.user) {
     return (
       <div style={{ display: "flex", alignItems: "center" }}>
         <Image
-          src={session.data.user?.image}
+          src={userImage}
           width="25"
           height="25"
-          style={{ marginRight: 10 , marginLeft:10 }}
+          style={{ marginRight: 10, marginLeft: 10 }}
           alt="userImg"
         />
-        <span style={{  color: "#f783ac", marginRight: 10 }}>{session.data.user?.name} 님</span>
-        <Button onClick={() => signOut()} color="inherit" sx={{ color: "#f783ac" }}>
+        <span style={{ color: "#f783ac", marginRight: 10 }}>
+          {userName} 님
+        </span>
+        <span
+          onClick={() => signOut()}
+          style={{ color: "#f783ac", cursor: "pointer" }}
+        >
           로그아웃
-        </Button>
+        </span>
       </div>
     );
   }
+  return null;
 }
 
 function LogoutedRightSideNav() {
@@ -40,21 +48,17 @@ function LogoutedRightSideNav() {
   if (session.status === "unauthenticated") {
     return (
       <Link href="/login">
-        <Button style={{ color: "#f783ac" }} color="inherit" sx={{ color: "#f783ac", marginLeft: 2 }}>
+        <Button
+          style={{ color: "#f783ac" }}
+          color="inherit"
+          sx={{ color: "#f783ac", marginLeft: 2 }}
+        >
           로그인
         </Button>
       </Link>
     );
   }
 }
-
-const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(orange[500]),
-  backgroundColor: orange[500],
-  '&:hover': {
-    backgroundColor: orange[700],
-  },
-}));
 
 function MenuListComposition() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -67,8 +71,8 @@ function MenuListComposition() {
   };
 
   const handleToggle = () => {
-    if (session.status == "authenticated"){
-    setOpen((prevOpen) => !prevOpen);
+    if (session.status == "authenticated") {
+      setOpen((prevOpen) => !prevOpen);
     }
   };
 
@@ -81,10 +85,10 @@ function MenuListComposition() {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
@@ -100,60 +104,110 @@ function MenuListComposition() {
     prevOpen.current = open;
   }, [open]);
 
+  const mainPages = ["Board", "Dateplan", "Coupon"];
+
   return (
-      <div>
-        <ColorButton
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? 'composition-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-        <LogoutedRightSideNav />
-        {session.status === "authenticated" ? <LoginedRightSideNav /> : null}
-        </ColorButton>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
-                      {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                          <Link href={"/" + page.toLowerCase()}>
-                            <Button sx={{  color: "#f783ac", marginRight: 10 }}>
-                              {page}
-                            </Button>
-                          </Link>
-                        </MenuItem>
-                      ))}
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
+    <AppBar sx={{ bgcolor: "#ffffff", width: "100%" }} position="static">
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          paddingLeft: "15%",
+          paddingRight: "15%",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Typography
+            variant="h6"
+            sx={{ fontFamily: "BMDOHYEON_ttf, sans-serif" }}
+          >
+            <Link href="/" passHref>
+              <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+            </Link>
+          </Typography>
+          <Weather />
+        </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {mainPages.map((page) => (
+            <Link key={page} href={"/" + page.toLowerCase()} passHref>
+              <Button color="inherit" sx={{ color: "#f783ac", marginLeft: 2 }}>
+                {page}
+              </Button>
+            </Link>
+          ))}
+
+          <Button
+            ref={anchorRef}
+            id="composition-button"
+            aria-controls={open ? "composition-menu" : undefined}
+            aria-expanded={open ? "true" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+            sx={{
+              color: (theme) => theme.palette.getContrastText("#f2f2f2"),
+              backgroundColor: "#f2f2f2",
+              "&:hover": {
+                backgroundColor: "#f2f2f2",
+              },
+            }}
+          >
+            {session.status === "authenticated" ? (
+              session.data.user ? (
+                <LoginedRightSideNav
+                  userImage={session.data.user.image}
+                  userName={session.data.user.name}
+                />
+              ) : null
+            ) : (
+              <LogoutedRightSideNav />
+            )}
+          </Button>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            placement="bottom-start"
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom-start" ? "left top" : "left bottom",
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="composition-menu"
+                      aria-labelledby="composition-button"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Link href="/profile" passHref>
+                          <Button sx={{ color: "#f783ac", marginRight: 10 }}>
+                            Profile
+                          </Button>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Link href="/admin" passHref>
+                          <Button sx={{ color: "#f783ac", marginRight: 10 }}>
+                            Admin
+                          </Button>
+                        </Link>
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }
 

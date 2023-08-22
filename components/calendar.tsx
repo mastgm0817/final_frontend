@@ -2,7 +2,6 @@
 import { useState } from "react";
 import "/public/css/calendar.css";
 import Schedule from "./schedule";
-import Weather from "./weather";
 import { useSession } from "next-auth/react";
 import CalendarApi from "../app/api/calendar/calendarApi";
 import Image from "next/image";
