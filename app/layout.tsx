@@ -28,6 +28,7 @@ export default function RootLayout({
         sessionStorage.setItem('notFirstVisit', 'true');
       }, 4000);
     }
+    else {setLoading(false);}
   }, []);
   
 
