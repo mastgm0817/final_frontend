@@ -1,9 +1,14 @@
 "use client";
-import React, { useState, useEffect, useCallback, FC } from "react";
+import React, { useState, useEffect, useCallback, FC, Fragment } from "react";
+import { useSession } from "next-auth/react";
 import Board from "../../../types/board";
+import Comment from "../../../types/comment";
 import SendData from "../../api/board/SendData";
 import WriteBoard from "../../../components/WriteBoard";
-// import BoardDetail from "../../../components/BoardDetail";
+import { CommonExecOptions } from "child_process";
+import { Menu, Transition } from '@headlessui/react';
+import { ISODateString } from "next-auth";
+
 
 const defaultBoard: Board = {
   bid: 0,
@@ -14,11 +19,10 @@ const defaultBoard: Board = {
   b_updatedAt: "",
   b_views: 0,
   comments: 0,
+  commentList:[],
   b_recommendations: 0,
 };
 
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
 
 function classNames(...classes:any) {
     return classes.filter(Boolean).join(' ')
@@ -32,10 +36,10 @@ const DotIcon=() =>{
     )
 }
 
-const MenuButton = (props:any)  => {
+function MenuButton(props:any) {
   
         return (
-          <Menu as="div" className={`relative inline-block text-left`}>
+          <Menu as="div" className={`relative inline-block text-center z-0`}>
             <div>
               <Menu.Button className="inline-flex rounded-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100">
                 <DotIcon aria-hidden="true" />
@@ -51,7 +55,7 @@ const MenuButton = (props:any)  => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-20 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
@@ -59,7 +63,7 @@ const MenuButton = (props:any)  => {
                         href="#" 
                         onClick={() => props.ToggleUpdateForm(props.selectedBoard)}
                         className={classNames(
-                          active ? 'bg-gray-100 text-slate-950' : 'text-slate-950',
+                          active ? 'bg-gray-100 text-black' : 'text-black',
                           'block px-4 py-2 text-sm'
                         )}>수정</a>
                     )}
@@ -70,8 +74,8 @@ const MenuButton = (props:any)  => {
                         href="#" 
                         onClick={(event) => {event.stopPropagation();props.DeleteBoard(props.selectedBoard);}}
                         className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
+                          active ? 'bg-gray-100 text-black' : 'text-black',
+                          'block py-2 px-4 text-sm'
                         )}>삭제</a>
                     )}
                   </Menu.Item>
@@ -82,16 +86,7 @@ const MenuButton = (props:any)  => {
         );
       }
 
-
 //====================================================================
-
-// import React, { useState, useEffect, useCallback } from "react";
-import Comment from "../../../types/comment";
-// import SendData from "../app/api/board/SendData";
-// import MenuButton from "../../../components/MenuButton";
-// import "./../public/css/board.css";
-import { CommonExecOptions } from "child_process";
-import { useSession } from "next-auth/react";
 
 const defaultComment: Comment = {
   cid: 0,
@@ -100,23 +95,10 @@ const defaultComment: Comment = {
   nickName: " ",
 };
 
-// const comment1: Comment = {
-//   cid: 1,
-//   ccontent: "dh",
-//   ccreatedAt:"askweuhnfoaeddfwoieujf",
-//   nickName: "뀰"
-// };
-// const comment2: Comment = {
-//   cid: 2,
-//   ccontent: "우히~",
-//   ccreatedAt:"askweuhnfoaeddfwoieujf",
-//   nickName: "이규린"
-// };
-
-//=================================================================================
 const CommentForm = (props:any) => {
   const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
   newComment.nickName=props.nickName;
+  // console.log("댓글작성자:"+newComment.nickName);
   return (
     <div className="flex flex-col mt-4 space-y-4">
       <form className="flex flex-col space-y-2">
@@ -167,7 +149,6 @@ function BoardDetail(props: any) {
   const { data: session } = useSession();
 
   newComment.nickName=props.userName;
-  // const comments=[comment1, comment2];
 
   const fetchData = useCallback(async () => {
     try {
@@ -200,7 +181,6 @@ function BoardDetail(props: any) {
       setUpdateCommentFormClass(true);
     }
   }
-
   async function CreateComment(newComment:Comment, bid:Number){
 
     console.log(newComment);
@@ -247,19 +227,18 @@ function BoardDetail(props: any) {
   const name=session?.user?.name
   return (
     <div>
-        <div>
-          <div className="text-xl"><b>{props.selectedBoard.btitle}</b></div>
-
-          {/* {props.selectedBoard.nickName===session?.user?.name && */}
+        <div className="flex items-center"><br />
+          <div className="text-xl mr-4"><b>{props.selectedBoard.btitle}</b></div>
+          {props.selectedBoard.nickName===session?.user?.name && !props.showUpdateForm &&
+            <div><MenuButton
+                ToggleUpdateForm={props.ToggleUpdateForm}
+                selectedBoard={props.selectedBoard}
+                DeleteBoard={props.DeleteBoard}/></div>}
         </div>
-
-            <MenuButton
-              ToggleUpdateForm={props.ToggleUpdateForm}
-              selectedBoard={props.selectedBoard}
-              DeleteBoard={props.DeleteBoard}/>
+        <br />
         <div className="text-sm text-gray-400 mb-2">{props.selectedBoard.nickName}</div>
-        <div className="text-sm text-gray-400 mb-2">작성일 {props.selectedBoard.b_createdAt}</div>
-        <div className="text-sm text-gray-400 mb-2">최근 수정 {props.selectedBoard.b_updatedAt}</div>
+        <div className="text-sm text-gray-400 mb-2">작성일 {props.formatDate(props.selectedBoard.b_createdAt)}</div>
+        <div className="text-sm text-gray-400 mb-2">최근 수정 {props.formatDate(props.selectedBoard.b_updatedAt)}</div>
         <div className="text-sm text-gray-400 mb-2">조회수 {props.selectedBoard.b_views}</div>
         <br /><hr /><br />
 
@@ -304,7 +283,7 @@ function BoardDetail(props: any) {
                         <div className="flex justify-between items-center">
                           <div className="flex">
                               <span className="font-semibold">{comment.nickName} &nbsp;&nbsp;</span>
-                              <span className="text-sm text-gray-500">{comment.ccreatedAt}</span>
+                              <span className="text-sm text-gray-500">{props.formatDate(comment.ccreatedAt)}</span>
                           </div>
                           {session && session.user && session?.user.name===comment.nickName &&
                             <div className="flex space-x-2">
@@ -445,6 +424,16 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
     await SendData("PUT", `/boards/${bid}/recommend`, null, "recommend");
     fetchData();
   }
+  function formatDate(dateString:ISODateString) {
+    const dateObj = new Date(dateString);
+    
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Months are 0 indexed
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+    return `${month}/${day} ${hours}:${minutes}`;
+}
 
   return (
     <>
@@ -461,9 +450,10 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 }`}
               >
                 <div className="w-1/12 text-center">{board.bid}</div>
-                <div className="w-4/12 text-center">{board.btitle}</div>
+                <div className="w-4/12 text-center flex items-center justify-center"><span className=" hover:underline">{board.btitle} </span>
+                          {board.commentList.length!=0 && <div className="text-xs text-pink-700 ml-3 hover:none">{board.commentList.length}</div>}</div>
                 <div className="w-2/12 text-center">
-                  {board.b_createdAt.toLocaleString()}
+                  {formatDate(board.b_createdAt.toLocaleString())}
                 </div>
                 <div className="w-2/12 text-center">{board.nickName}</div>
                 <div className="w-1/12 text-center">
@@ -478,7 +468,20 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                     : "board-detail"
                 }`}
               >
+                { selectedBoard && selectedBoard.bid === board.bid &&
+                <>
+                  {UpdateFormClass && showUpdateForm && (
+                    <WriteBoard
+                      board={{ ...selectedBoard }}
+                      FormTitle="게시글 수정"
+                      handleXButton={handelUpdateXButton}
+                      formClass={UpdateFormClass}
+                      BoardComplete={UpdateBoard}
+                    />
+                  )}
                 <BoardDetail
+                  showUpdateForm={showUpdateForm}
+                  formatDate={formatDate}
                   userName={props.userName}
                   selectedBoard={board}
                   ToggleUpdateForm={() => ToggleUpdateForm(board)}
@@ -487,19 +490,11 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                   commentListShow={false}
                   setCommentListShow={setCommentListShow}
                 />
+              </>}
               </div>
             </React.Fragment>
           ))}
       </div>
-      {UpdateFormClass && showUpdateForm && (
-        <WriteBoard
-          board={{ ...selectedBoard }}
-          FormTitle="게시글 수정"
-          handleXButton={handelUpdateXButton}
-          formClass={UpdateFormClass}
-          BoardComplete={UpdateBoard}
-        />
-      )}
     </>
   );
 };
