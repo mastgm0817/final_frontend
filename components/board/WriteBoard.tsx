@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./../public/css/board.css";
-import Board from "../types/board";
+import "./../../public/css/board.css";
+import Board from "../../types/board";
 
 interface WriteBoardProps {
   board: Board;

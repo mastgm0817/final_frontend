@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import useWeather from "../hooks/useWeather";
+import useWeather from "../../hooks/useWeather";
 import Image from "next/image";
-import "../public/css/weather.css";
+import "./../../public/css/weather.css";
 
 export default function Weather() {
   const weatherIconAPI = "https://openweathermap.org/img/wn";

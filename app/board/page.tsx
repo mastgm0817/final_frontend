@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Board from "../../types/board";
-import WriteBoard from "../../components/WriteBoard";
+import WriteBoard from "../../components/board/WriteBoard";
 import SendData from "../api/board/SendData";
 import Page from "./[pagenum]/pagenum";
 import './../../public/css/board.css';

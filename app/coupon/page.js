@@ -68,7 +68,7 @@ export default function Coupon() {
     };
 
     fetchCoupons();
-  }, []);
+  }, [session?.data?.user?.id]);
 
   return (
     <div>
