@@ -2,7 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import "/public/css/calendar.css";
-import Schedule from "../schedule/ScheduleView";
+import ScheduleView from "../schedule/ScheduleView";
 import CalendarHeader from "./CalendarHeader";
 import DaysOfWeek from "./DaysOfWeek";
 
@@ -131,7 +131,7 @@ export default function CalendarView() {
         <h2>
           {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
         </h2>
-        <Schedule
+        <ScheduleView
           nickName={nickName}
           date={scheduleData.length > 0 ? scheduleData[0].date : ""}
           schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}

@@ -1,4 +1,3 @@
-// ✍️ 일정 
 import React, { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import CalendarApi from "./../../app/api/calendar/calendarApi";
@@ -7,7 +6,6 @@ import DateProps from "./../../types/calendar";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
-import ScheduleList from "./ScheduleList";
 
 interface ScheduleProps {
   nickName: string;
@@ -17,7 +15,7 @@ interface ScheduleProps {
   selectedDate: DateProps;
 }
 
-const Schedule: React.FC<ScheduleProps> = ({
+const ScheduleView: React.FC<ScheduleProps> = ({
   nickName,
   date,
   schedule,
@@ -40,7 +38,6 @@ const Schedule: React.FC<ScheduleProps> = ({
 
 
   useEffect(() => {
-    // Automatically set the nickname input to the user's ID when logged in
     if (session.data?.user.name) {
       setInputNickName(session.data.user.name);
     }
@@ -145,12 +142,6 @@ const Schedule: React.FC<ScheduleProps> = ({
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // // 입력값이 유효한지 확인
-    // if (inputNickName.trim() === "") {
-    //   console.error("Nickname cannot be empty!");
-    //   return;
-    // }
-
     const requestDTO = {
       date: inputDate,
       schedule: inputSchedule,
@@ -185,10 +176,6 @@ const Schedule: React.FC<ScheduleProps> = ({
   const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
     .toString()
     .padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
-
-  // const filteredSchedules = schedules.filter(
-  //   (schedule) => schedule.scheduleDate === formattedSelectedDate
-  // );
 
   useEffect(() => {
     const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
@@ -274,11 +261,48 @@ const Schedule: React.FC<ScheduleProps> = ({
         </form>
       )}
 
-<ScheduleList
-      schedules={filteredSchedules}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-    />
+      <h3 className="text-lg font-semibold mt-4">일정 목록</h3>
+
+      {filteredSchedules.length === 0 ? (
+        <div className="mt-2">일정이 없습니다.</div>
+      ) : (
+        <ul className="mt-2 space-y-2">
+          {filteredSchedules.map((schedule) => (
+            <li
+              key={schedule.scheduleId}
+              className="flex items-center justify-between px-2 py-1 bg-gray-100 rounded"
+            >
+              <div className="flex gap-x-4">
+                {schedule.writerId} (공유: {schedule.shared ? "⭕" : "❌"})
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {schedule.scheduleContent}
+                  </p>
+                  <button
+                    onClick={() =>
+                      handleUpdate(
+                        schedule.scheduleId,
+                        schedule.scheduleContent,
+                        schedule.scheduleDate,
+                        schedule.shared
+                      )
+                    }
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDelete(schedule.scheduleId, schedule.shared)
+                    }
+                  >
+                    삭제
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {updateScheduleId && (
         <div className="mt-4">
@@ -329,4 +353,4 @@ const Schedule: React.FC<ScheduleProps> = ({
   );
 };
 
-export default Schedule;
+export default ScheduleView;
