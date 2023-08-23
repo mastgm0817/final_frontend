@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Board from "../../../types/board";
 import Comment from "../../../types/comment";
 import SendData from "../../api/board/SendData";
-import WriteBoard from "../../../components/WriteBoard";
+import WriteBoard from "../../../components/board/WriteBoard";
 import { CommonExecOptions } from "child_process";
 import { Menu, Transition } from '@headlessui/react';
 import { ISODateString } from "next-auth";

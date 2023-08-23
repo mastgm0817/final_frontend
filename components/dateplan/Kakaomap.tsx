@@ -1,9 +1,9 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createPosition } from '../store/position';
-import '../public/css/dateplan.css';
-import predict from '../app/api/dateplan/dateplanApi';
+import { createPosition } from '../../store/position';
+import './../../public/css/dateplan.css';
+import predict from '../../app/api/dateplan/dateplanApi';
 import RecommendForm from './RecommendForm';
 import RecommendResult from './RecommendResult';
 import { useRef } from 'react';
