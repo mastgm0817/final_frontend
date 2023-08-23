@@ -12,10 +12,10 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ModeIcon from '@mui/icons-material/Mode';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CardProfile from "../../components/ProfileCard";
-import LoverProfile from "../../components/LoverCard";
-import ProfileImageUploadPopUp from "../../components/ProfileImageUpLoadPopUp";
-import SearchLover from "../../components/SearchLover";
+import CardProfile from "../../components/profile/ProfileCard";
+import LoverProfile from "../../components/profile/LoverCard";
+import ProfileImageUploadPopUp from "../../components/profile/ProfileImageUpLoadPopUp";
+
 
 
 const API_URL = process.env.NEXT_PUBLIC_URL;

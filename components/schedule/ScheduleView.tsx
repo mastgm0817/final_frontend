@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import CalendarApi from "../app/api/calendar/calendarApi";
-import "./../public/css/schedule.css";
-import DateProps from "../types/calendar";
+import CalendarApi from "./../../app/api/calendar/calendarApi";
+import "./../../public/css/schedule.css";
+import DateProps from "./../../types/calendar";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
@@ -15,7 +15,7 @@ interface ScheduleProps {
   selectedDate: DateProps;
 }
 
-const Schedule: React.FC<ScheduleProps> = ({
+const ScheduleView: React.FC<ScheduleProps> = ({
   nickName,
   date,
   schedule,
@@ -23,6 +23,8 @@ const Schedule: React.FC<ScheduleProps> = ({
   selectedDate,
 }) => {
   const session = useSession();
+  const sessionToken = session.data?.user.id;
+  // console.log(sessionToken); * 토큰 확인 코드
   const [inputNickName, setInputNickName] = useState("");
   const [inputDate, setInputDate] = useState("");
   const [inputSchedule, setInputSchedule] = useState("");
@@ -34,11 +36,8 @@ const Schedule: React.FC<ScheduleProps> = ({
   const [showAddForm, setShowAddForm] = useState(false);
   const [filteredSchedules, setFilteredSchedules] = useState<any[]>([]);
 
-  const sessionToken = session.data?.user.id;
-  // console.log(sessionToken); * 토큰 확인 코드
 
   useEffect(() => {
-    // Automatically set the nickname input to the user's ID when logged in
     if (session.data?.user.name) {
       setInputNickName(session.data.user.name);
     }
@@ -143,12 +142,6 @@ const Schedule: React.FC<ScheduleProps> = ({
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // // 입력값이 유효한지 확인
-    // if (inputNickName.trim() === "") {
-    //   console.error("Nickname cannot be empty!");
-    //   return;
-    // }
-
     const requestDTO = {
       date: inputDate,
       schedule: inputSchedule,
@@ -183,10 +176,6 @@ const Schedule: React.FC<ScheduleProps> = ({
   const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
     .toString()
     .padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
-
-  // const filteredSchedules = schedules.filter(
-  //   (schedule) => schedule.scheduleDate === formattedSelectedDate
-  // );
 
   useEffect(() => {
     const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
@@ -364,4 +353,4 @@ const Schedule: React.FC<ScheduleProps> = ({
   );
 };
 
-export default Schedule;
+export default ScheduleView;
