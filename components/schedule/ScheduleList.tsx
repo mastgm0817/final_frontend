@@ -1,4 +1,5 @@
 import React from "react";
+import "./../../public/css/schedule.css";
 
 interface ScheduleListProps {
   filteredSchedules: any[];
@@ -25,7 +26,7 @@ const ScheduleList: React.FC<ScheduleListProps> = ({
               className="flex items-center justify-between px-2 py-1 bg-gray-100 rounded"
             >
               <div className="flex gap-x-4">
-                {schedule.writerId} (공유: {schedule.shared ? "⭕" : "❌"})
+                {schedule.writerId}님 (공유: {schedule.shared ? "⭕" : "❌"})
                 <div className="min-w-0 flex-auto">
                   <p className="text-sm font-semibold leading-6 text-gray-900">
                     {schedule.scheduleContent}
@@ -39,13 +40,15 @@ const ScheduleList: React.FC<ScheduleListProps> = ({
                         schedule.shared
                       )
                     }
-                    className="text-blue-500 hover:underline focus:outline-none"
+                    className="hover:underline focus:outline-none"
                   >
                     수정
                   </button>
                   <button
-                    onClick={() => handleDelete(schedule.scheduleId, schedule.shared)}
-                    className="text-red-500 hover:underline focus:outline-none"
+                    onClick={() =>
+                      handleDelete(schedule.scheduleId, schedule.shared)
+                    }
+                    className="hover:underline focus:outline-none"
                   >
                     삭제
                   </button>

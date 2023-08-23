@@ -28,9 +28,7 @@ export default function CalendarView() {
   });
   const [nickName, setNickName] = useState("");
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [selectedYear, setSelectedYear] = useState<number>(
-    selectedDate.year
-  );
+  const [selectedYear, setSelectedYear] = useState<number>(selectedDate.year);
   const [selectedMonth, setSelectedMonth] = useState<number>(
     selectedDate.month
   );
@@ -135,7 +133,6 @@ export default function CalendarView() {
     setShowDatePicker(false);
   };
 
-  
   const selectedDayOfWeek =
     daysOfWeek[
       new Date(
@@ -147,29 +144,33 @@ export default function CalendarView() {
 
   return (
     <div style={{ fontFamily: "Chosunilbo_myungjo" }} className="container">
-      <div className="calendar">
-        <CalendarHeader
-          selectedDate={selectedDate}
-          goToPrevMonth={goToPrevMonth}
-          goToNextMonth={goToNextMonth}
-          onYearChange={setSelectedYear}
-          onMonthChange={setSelectedMonth}
-        />
-        <DaysOfWeek />
-        <div className="day-list">{renderCalendar()}</div>
+      <div className="calendar-container">
+        <div className="calendar">
+          <CalendarHeader
+            selectedDate={selectedDate}
+            goToPrevMonth={goToPrevMonth}
+            goToNextMonth={goToNextMonth}
+            onYearChange={setSelectedYear}
+            onMonthChange={setSelectedMonth}
+          />
+          <DaysOfWeek />
+          <div className="day-list">{renderCalendar()}</div>
+        </div>
       </div>
-      <div className="schedule">
-        <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
-        </h2>
-        <ScheduleView
-          nickName={nickName}
-          date={scheduleData.length > 0 ? scheduleData[0].date : ""}
-          schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
-          share={shareData}
-          selectedDate={selectedDate}
-        />
+      <div className="schedule-container">
+        <div className="schedule">
         <DDay selectedDate={selectedDate} />
+          <h2>
+            {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
+          </h2>
+          <ScheduleView
+            nickName={nickName}
+            date={scheduleData.length > 0 ? scheduleData[0].date : ""}
+            schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
+            share={shareData}
+            selectedDate={selectedDate}
+          />
+        </div>
       </div>
     </div>
   );

@@ -71,7 +71,11 @@ export function LoginedRightSideNav() {
         <Button
           onClick={() => signOut()}
           color="inherit"
-          sx={{ fontFamily: "Chosunilbo_myungjo", color: "#f783ac", fontSize: "1.1rem",}}
+          sx={{
+            fontFamily: "Chosunilbo_myungjo",
+            color: "#f783ac",
+            fontSize: "1.1rem",
+          }}
         >
           로그아웃
         </Button>
@@ -115,7 +119,7 @@ export default function Top() {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/" passHref>
-              <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+            <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
           </Link>
           <Weather />
         </div>

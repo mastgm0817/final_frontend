@@ -191,14 +191,14 @@ const ScheduleView: React.FC<ScheduleProps> = ({
         {showAddForm ? (
           <button
             onClick={toggleAddForm}
-            className="px-4 py-2 bg-red-500 text-white rounded focus:outline-none"
+            className="px-4 py-2 bg-pink-500 text-white rounded focus:outline-none"
           >
             취소
           </button>
         ) : (
           <button
             onClick={toggleAddForm}
-            className="px-4 py-2 bg-blue-500 text-white rounded focus:outline-none"
+            className="px-4 py-2 bg-pink-500 text-white rounded focus:outline-none"
           >
             일정 추가
           </button>
@@ -247,7 +247,7 @@ const ScheduleView: React.FC<ScheduleProps> = ({
             </div>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded self-end"
+              className="px-4 py-2 bg-pink-500 text-white rounded self-end"
             >
               일정 등록
             </button>
