@@ -2,7 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import "/public/css/calendar.css";
-import Schedule from "../schedule";
+import Schedule from "../schedule/ScheduleView";
 import CalendarHeader from "./CalendarHeader";
 import DaysOfWeek from "./DaysOfWeek";
 
@@ -16,7 +16,7 @@ interface DateProps {
   year: number;
 }
 
-export default function Calendar() {
+export default function CalendarView() {
   const date = new Date();
   const [scheduleData, setScheduleData] = useState<any[]>([]);
   const [shareData, setShareData] = useState<any>(null);
