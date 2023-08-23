@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import useWeather from "../hooks/useWeather";
 import Image from "next/image";
@@ -20,7 +20,9 @@ export default function Weather() {
             className={`weather-icon mr-2`}
           />
           <div className="text-left">
-            <span className="text-pink">{currentWeather.weather[0].description}</span>
+            <span className="text-pink">
+              {currentWeather.weather[0].description}
+            </span>
           </div>
         </div>
       )}

@@ -228,7 +228,7 @@ const Schedule: React.FC<ScheduleProps> = ({
               value={inputNickName}
               variant="outlined"
               className="p-2"
-              disabled // Add this line
+              disabled
             />
           </div>
           <div>
