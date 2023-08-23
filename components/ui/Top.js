@@ -72,7 +72,7 @@ export function LoginedRightSideNav() {
         <Button
           onClick={() => signOut()}
           color="inherit"
-          sx={{ fontFamily: "Chosunilbo_myungjo", color: "#f783ac", fontSize: "1rem",}}
+          sx={{ fontFamily: "Chosunilbo_myungjo", color: "#f783ac", fontSize: "1.1rem",}}
         >
           로그아웃
         </Button>
@@ -94,7 +94,7 @@ export function LogoutedRightSideNav() {
             fontFamily: "Chosunilbo_myungjo",
             color: "#f783ac",
             marginLeft: 2,
-            fontSize: "1rem",
+            fontSize: "1.1rem",
           }}
         >
           로그인

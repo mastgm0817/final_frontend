@@ -5,6 +5,7 @@ import "/public/css/calendar.css";
 import ScheduleView from "../schedule/ScheduleView";
 import CalendarHeader from "./CalendarHeader";
 import DaysOfWeek from "./DaysOfWeek";
+import DDay from "./DDay";
 
 interface ScheduleProps {
   nickName: string;
@@ -117,7 +118,7 @@ export default function CalendarView() {
     ];
 
   return (
-    <div style={{ fontFamily: "BMHANNAAir_ttf" }} className="container">
+    <div style={{ fontFamily: "Chosunilbo_myungjo" }} className="container">
       <div className="calendar">
         <CalendarHeader
           selectedDate={selectedDate}
@@ -138,6 +139,7 @@ export default function CalendarView() {
           share={shareData}
           selectedDate={selectedDate}
         />
+        <DDay selectedDate={selectedDate} />
       </div>
     </div>
   );
