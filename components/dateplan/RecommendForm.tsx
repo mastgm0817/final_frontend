@@ -1,7 +1,6 @@
-// components/RecommendForm.tsx
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from '../../store';
 
 interface RecommendFormProps {
   onSubmit: (formData: RecommendFormData) => void;

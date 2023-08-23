@@ -1,9 +1,9 @@
-import Calendar from "../components/calendar";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Banner from "../components/Banner";
+import Banner from "./../components/util/Banner";
+import CalendarView from "./../components/calendar/CalendarView";
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
           </Box>
         </Container>
         <Container maxWidth="fluid">
-          <Calendar />
+          <CalendarView/>
         </Container>
       </React.Fragment>
     </>

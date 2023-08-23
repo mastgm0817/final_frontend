@@ -1,12 +1,14 @@
 import * as React from "react";
-import "../public/css/footer.css";
+import "./../../public/css/footer.css";
 
 export default function Footer() {
   return (
-    <footer className="w-full text-gray-700 body-font" style={{ marginTop: "20px", marginBottom: "20px" }}>
+    <footer
+      className="w-full text-gray-700 body-font"
+      style={{ marginTop: "20px", marginBottom: "20px" }}
+    >
       <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
-        <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
-        </a>
+        <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start"></a>
         <div className="flex justify-center mt-2 space-x-4">
           <a
             href="#"

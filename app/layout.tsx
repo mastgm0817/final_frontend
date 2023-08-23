@@ -3,10 +3,10 @@ import React from "react";
 import {useState, useEffect} from 'react';
 import router from "next/router";
 import AuthSession from "./AuthSession";
-import Top from "../components/Top";
-import Footer from "../components/Footer";
+import Footer from "./../components/ui/Footer";
+import Top from "./../components/ui/Top";
 import { Provider as ReduxProvider } from "react-redux";
-import GoogleAnalytics from "../components/GoogleAnalytics";
+import GoogleAnalytics from "../components/admin/GoogleAnalytics";
 import { store } from "../store";
 import Image from "next/image";
 
