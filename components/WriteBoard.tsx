@@ -19,11 +19,11 @@ export default function WriteBoard(props: WriteBoardProps) {
 
   return (
 
-    <div className="max-w-2xl justify-center items-center bg-gray-100 z-2000" style={{position:'absolute', width: '100%' }} >
+    <div className="max-w-2xl justify-center items-center z-5000" style={{position:'absolute', width: '100%' }} >
       <div className={props.formClass}>
-        <div className={"max-w-5xl bg-white p-6 shadow-lg rounded-md border"}>
+        <div className={"max-w-xl bg-white p-6 shadow-lg rounded-md border"}>
         <div className="flex justify-between items-center mb-4">
-          <div className="text-lg font-bold">{props.FormTitle}</div>
+          <div className="text-lg font-bold ml-3 mt-4 ">{props.FormTitle}</div>
           <div
             className="cursor-pointer text-red-500"
             onClick={props.handleXButton}>
@@ -31,7 +31,7 @@ export default function WriteBoard(props: WriteBoardProps) {
           </div>
         </div>
         <form>
-          <div className="mb-4">
+          <div className="mb-4 mr-4 ml-3 py-2">
             <input
               placeholder="제목"
               type="text"
@@ -39,10 +39,10 @@ export default function WriteBoard(props: WriteBoardProps) {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 setNewBoard({ ...newBoard, btitle: event.target.value })
               }
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-5 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 mr-4 ml-3 py-2">
             <textarea
               placeholder="내용"
               rows={4}
@@ -50,7 +50,7 @@ export default function WriteBoard(props: WriteBoardProps) {
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setNewBoard({ ...newBoard, bcontent: event.target.value })
               }
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-5 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
             ></textarea>
           </div>
         </form>

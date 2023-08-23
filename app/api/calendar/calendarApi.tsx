@@ -1,8 +1,3 @@
-// import axios from "axios";
-// // const URLS = process.env.NEXT_PUBLIC_URL;
-// // const API_URL = "http://localhost:8082/calendar";
-// // const API_URL = "http://luvoost.co.kr/calendar";
-
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import DateProps from "../../../types/calendar";
