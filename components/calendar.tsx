@@ -2,13 +2,10 @@
 import { useState } from "react";
 import "/public/css/calendar.css";
 import Schedule from "./schedule";
-import { useSession } from "next-auth/react";
-import CalendarApi from "../app/api/calendar/calendarApi";
-import Image from "next/image";
+
 interface ScheduleProps {
   nickName: string;
   selectedDate: DateProps;
-  // token: string;
 }
 
 interface DateProps {
@@ -19,7 +16,7 @@ interface DateProps {
 
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
-function Calendar() {
+export default function Calendar() {
   const date = new Date();
   const [scheduleData, setScheduleData] = useState<any[]>([]);
   const [shareData, setShareData] = useState<any>(null);
@@ -118,47 +115,36 @@ function Calendar() {
     ];
 
   return (
-    <div style={{ fontFamily: "BMHANNAAir_ttf" }} className="container">
-      <div className="calendar">
-        <div className="month-selector">
-          <button onClick={goToPrevMonth}>&lt;</button>
-          {selectedDate.year}년 {selectedDate.month}월
-          <button onClick={goToNextMonth}>&gt;</button>
-        </div>
-        <div className="days-of-week">
-          {daysOfWeek.map((day) => (
-            <div key={day} className="day-of-week">
-              {day}
-            </div>
-          ))}
-        </div>
-        <div className="day-list">{renderCalendar()}</div>
+    <div className="container">
+    <div className="calendar">
+      <div className="month-selector flex justify-between items-center mb-4">
+        <button onClick={goToPrevMonth}>&lt;</button>
+        {selectedDate.year}년 {selectedDate.month}월
+        <button onClick={goToNextMonth}>&gt;</button>
       </div>
-      <div className="schedule">
-        <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 (
-          {selectedDayOfWeek})
-        </h2>
-        {/* <input
-          type="text"
-          value={nickName}
-          onChange={(e) => setNickName(e.target.value)}
-        /> */}
-        <Schedule
-          nickName={nickName}
-          date={scheduleData.length > 0 ? scheduleData[0].date : ""}
-          schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
-          share={shareData}
-          selectedDate={selectedDate}
-          // token={authToken}
-        />
-        {/* <Weather /> */}
+      <div className="days-of-week grid grid-cols-7 gap-4 mb-2">
+        {daysOfWeek.map((day) => (
+          <div key={day} className="day-of-week text-center">
+            {day}
+          </div>
+        ))}
       </div>
-      {/* <div className={`logo ${scheduleData.length > 0 ? "hidden" : ""}`}>
-        <Image src="./image/logo.svg" alt="Calendar" width={90} height={40} />
-      </div> */}
+      <div className="day-list grid grid-cols-7 gap-4">
+        {renderCalendar()}
+      </div>
     </div>
-  );
+    <div className="schedule bg-gray-100 rounded-lg shadow-md p-4 mt-4">
+      <h2 className="text-xl font-semibold">
+        {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
+      </h2>
+      <Schedule
+        nickName={nickName}
+        date={scheduleData.length > 0 ? scheduleData[0].date : ""}
+        schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
+        share={shareData}
+        selectedDate={selectedDate}
+      />
+    </div>
+  </div>
+);
 }
-
-export default Calendar;

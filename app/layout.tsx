@@ -1,22 +1,21 @@
 "use client";
 import React from "react";
+import {useState, useEffect} from 'react';
+import router from "next/router";
 import AuthSession from "./AuthSession";
-import MenuListCompotision from "./../components/MenuDrop";
+import Top from "../components/Top";
 import Footer from "../components/Footer";
 import { Provider as ReduxProvider } from "react-redux";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import { store } from "../store";
-import {useState, useEffect} from 'react';
-import router from "next/router";
 import Image from "next/image";
-// import Top from "../components/Top";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -64,9 +63,8 @@ export default function RootLayout({
           </div>}
         {!loading && <ReduxProvider store={store}>
           <AuthSession>
-            {/* <Top /> */}
-            <MenuListCompotision />
-            <div className="mx-auto max-w-4xl">{children}</div>
+            <Top/>
+            <div className="mx-auto max-w-6xl">{children}</div>
             <Footer />
           </AuthSession>
         </ReduxProvider>}
