@@ -1,7 +1,6 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -39,6 +38,7 @@ export function LoginedRightSideNav() {
             color: "#f783ac",
             marginRight: 10,
             cursor: "pointer",
+            fontSize: "1.1rem",
           }}
           onClick={handleMenuOpen}
         >
@@ -54,7 +54,7 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/profile"
-              style={{ textDecoration: "none", color: "#f783ac" }}
+              style={{ fontFamily: "Chosunilbo_myungjo", color: "#f783ac" }}
             >
               Profile
             </a>
@@ -62,7 +62,7 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/admin"
-              style={{ textDecoration: "none", color: "#f783ac" }}
+              style={{ fontFamily: "Chosunilbo_myungjo", color: "#f783ac" }}
             >
               Admin
             </a>
@@ -71,7 +71,11 @@ export function LoginedRightSideNav() {
         <Button
           onClick={() => signOut()}
           color="inherit"
-          sx={{ color: "#f783ac" }}
+          sx={{
+            fontFamily: "Chosunilbo_myungjo",
+            color: "#f783ac",
+            fontSize: "1.1rem",
+          }}
         >
           로그아웃
         </Button>
@@ -89,7 +93,12 @@ export function LogoutedRightSideNav() {
         <Button
           style={{ color: "#f783ac" }}
           color="inherit"
-          sx={{ color: "#f783ac", marginLeft: 2 }}
+          sx={{
+            fontFamily: "Chosunilbo_myungjo",
+            color: "#f783ac",
+            marginLeft: 2,
+            fontSize: "1.1rem",
+          }}
         >
           로그인
         </Button>
@@ -110,26 +119,39 @@ export default function Top() {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/" passHref>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "BMDOHYEON_ttf, sans-serif",
-                cursor: "pointer",
-              }}
-            >
-              <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
-            </Typography>
+            <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
           </Link>
           <Weather />
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
-          {pages.map((page) => (
-            <Link key={page} href={"/" + page.toLowerCase()} passHref>
-              <Button color="inherit" sx={{ color: "#f783ac", marginLeft: 2 }}>
-                {page}
-              </Button>
-            </Link>
-          ))}
+          {pages.map((page) => {
+            let buttonText = page;
+            let linkPath = "/" + page.toLowerCase();
+            // 네비게이션 한글화
+            if (page === "Board") {
+              buttonText = "커뮤니티";
+            } else if (page === "Coupon") {
+              buttonText = "쿠폰";
+            } else if (page === "Dateplan") {
+              buttonText = "코스 추천";
+            }
+
+            return (
+              <Link key={page} href={linkPath} passHref>
+                <Button
+                  color="inherit"
+                  sx={{
+                    fontFamily: "Chosunilbo_myungjo",
+                    color: "#f783ac",
+                    marginLeft: 1,
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  {buttonText}
+                </Button>
+              </Link>
+            );
+          })}
           <LogoutedRightSideNav />
           <LoginedRightSideNav />
         </div>

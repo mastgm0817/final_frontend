@@ -11,7 +11,7 @@ export default function Home() {
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="fluid">
-        <Box mt={18} mb={20}>
+        <Box mt={14} mb={14}>
             <Banner />
           </Box>
         </Container>
