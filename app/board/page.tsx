@@ -22,6 +22,7 @@ const defaultBoard: Board = {
   b_views: 0,
   comments: 0,
   b_recommendations: 0,
+  commentList:[]
 };
 
 
@@ -38,7 +39,6 @@ const findingMethods = [
     id: 3,
     name: 'content',
   }]
-
 
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
@@ -63,7 +63,7 @@ const FindingMethod : FC<boxProps> = ({inputFindingMethod, setInputFindingMethod
         <>
           <Listbox.Label className="block text-xs font-medium leading-6 text-gray-900">검색방법</Listbox.Label>
           <div className="relative mt-2">
-            <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 sm:text-sm sm:leading-6">
+            <Listbox.Button className="relative cursor-default bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 sm:text-sm sm:leading-6">
               <span className="flex items-center">
                 <span className="ml-3 block truncate">{selected.name}</span>
               </span>
@@ -79,7 +79,7 @@ const FindingMethod : FC<boxProps> = ({inputFindingMethod, setInputFindingMethod
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-10 mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {findingMethods.map((findingMethod) => (
                   <Listbox.Option
                     key={findingMethod.id}
@@ -102,12 +102,10 @@ const FindingMethod : FC<boxProps> = ({inputFindingMethod, setInputFindingMethod
 
                         {selected ? (
                           <span
-                            className={classNames(
+                              className={classNames(
                               active ? 'text-white' : 'text-pink-200',
-                              'absolute inset-y-0 right-0 flex items-center pr-4'
-                            )}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                              'absolute inset-y-0 right-0 flex items-center pr-4')}>
+                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
                         ) : null}
                       </>
@@ -206,20 +204,23 @@ function Logined(props: any): any {
     return (
       <>
 
-      <div className="font-sans items-center max-w-6xl mx-auto flex-col justify-center min-h-screen bg-gray-100">
+      <div className="font-sans items-center max-w-6xl mx-auto flex-col justify-center min-h-screen">
       <br /><br />
         <div className="flex justify-center items-center">
           <h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}>게시판</h1></div>
 
           <br></br>
           <button className="text-blue-700">내글보기</button>
-          <button onClick={handleSearchForm}>검색</button>
+
+          <button onClick={handleSearchForm} className="hover:underline">검색</button>
+        
           {showSearchForm &&
-            <div>
+            <div className="flex items-center space-x-3">
               <FindingMethod inputFindingMethod={inputFindingMethod}
                               setInputFindingMethod={setInputFindingMethod} />
               <input value={inputFindStr}
-                    onChange={(e) => setInputFindStr(e.target.value)}></input>
+                    onChange={(e) => setInputFindStr(e.target.value)}
+                    className="flex-1 p-2 w-1/4 hover:"></input>
               <div onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>검색하기</div>
             </div>}
         <div>
@@ -234,14 +235,14 @@ function Logined(props: any): any {
               <div className="w-1/12 text-center">조회수</div>
             </div>
             {AddFormClass && showAddForm && (
-              <WriteBoard
+              <div><WriteBoard
                 board={{ ...defaultBoard }}
                 FormTitle="새로운 게시글 작성"
                 handleXButton={handleAddXButton}
                 formClass={AddFormClass}
                 BoardComplete={CreateBoard}
                 
-              />
+              /></div>
             )}
             <Page params={{ pagenum: pages,findingMethod,findStr }} />
           </div>

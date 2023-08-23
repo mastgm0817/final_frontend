@@ -6,23 +6,72 @@ import Footer from "../components/Footer";
 import { Provider as ReduxProvider } from "react-redux";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import { store } from "../store";
+<<<<<<< HEAD
+=======
+import {useState, useEffect} from 'react';
+import router from "next/router";
+import Image from "next/image";
+// import Top from "../components/Top";
+>>>>>>> b569fd80fbc009e03a63f1aae43d36d13e32b509
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // 첫방문여부
+    if (!sessionStorage.getItem('notFirstVisit')) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem('notFirstVisit', 'true');
+      }, 4000);
+    }
+    else {setLoading(false);}
+  }, []);
+  
+
+  useEffect(() => {
+    const startLoading = () => setLoading(true);
+    const stopLoading = () => setLoading(false);
+
+    window.addEventListener("beforeunload", startLoading);
+    router.events.on("routeChangeStart", startLoading);
+    router.events.on("routeChangeComplete", stopLoading);
+    router.events.on("routeChangeError", stopLoading);
+
+    return () => {
+      window.removeEventListener("beforeunload", startLoading);
+      router.events.off("routeChangeStart", startLoading);
+      router.events.off("routeChangeComplete", stopLoading);
+      router.events.off("routeChangeError", stopLoading);
+    };
+  }, []);
+
+  
   return (
     <html lang="en">
       {/* <GoogleAnalytics trackingId="G-FDVK366KNX" /> */}
       <body>
-        <ReduxProvider store={store}>
+        {loading && 
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',  
+            alignItems: 'center',    
+            height: '100vh'}}>
+            <Image src="/image/logo.webp" alt="logo" width={500} height={500} />
+          </div>}
+        {!loading && <ReduxProvider store={store}>
           <AuthSession>
             <Top/>
             <div className="mx-auto max-w-6xl">{children}</div>
             <Footer />
           </AuthSession>
-        </ReduxProvider>
+        </ReduxProvider>}
       </body>
     </html>
   );
