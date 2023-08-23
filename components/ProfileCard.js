@@ -12,13 +12,13 @@ import TextField from '@mui/material/TextField';
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
-function CardProfile ({ title, buttonText }){
+function CardProfile({ title, buttonText }) {
   const { data: session } = useSession();
   const [userInfo, setUserInfo] = useState(null);
   const [updatednickName, setUpdatednickName] = useState("");
   const [error, setError] = useState(null);
   const [updateMessage, setUpdateMessage] = useState("");
-  
+
   useEffect(() => {
     async function fetchUserInfo() {
       if (session) {
@@ -43,7 +43,7 @@ function CardProfile ({ title, buttonText }){
   }, [session]);
 
   const handleupdateClick = async () => {
-    if ( session && updatednickName ) {
+    if (session && updatednickName) {
       try {
         const authToken = session.user.id;
         const nickName = session.user.name;
@@ -58,7 +58,7 @@ function CardProfile ({ title, buttonText }){
         const response = await axios.patch(
           API_URL + `/users/info/update/${nickName}`,
           {
-            newNickname : updatednickName,
+            newNickname: updatednickName,
           },
           {
             headers: {
@@ -72,7 +72,7 @@ function CardProfile ({ title, buttonText }){
 
         // 서버에서 응답받은 수정된 유저 정보
         setUserInfo(response.data);
-      } catch ( error ) {
+      } catch (error) {
         setError(error);
       }
     }
@@ -83,28 +83,28 @@ function CardProfile ({ title, buttonText }){
       <Card>
         <React.Fragment>
           <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            <Typography sx={{ fontSize: 14 }} color="#f783ac" gutterBottom>
               {title}
             </Typography>
             {userInfo && (
-            <>
-              <TextField
-                id="standard-basic"
-                label={userInfo.nickName}
-                onChange={(e) => setUpdatednickName(e.target.value)}
-                variant="standard"
-                sx={{ display: 'flex', marginBottom: '1rem' }}
-              />
-              <br />
-              <TextField
-                id="standard-basic"
-                value={userInfo.userRole}
-                variant="standard"
-                InputProps={{ readOnly: true }} // 읽기 전용으로 설정
-                sx={{ display: 'flex' }}
-              />
-            </>
-          )}
+              <>
+                <TextField
+                  id="standard-basic"
+                  label={userInfo.nickName}
+                  onChange={(e) => setUpdatednickName(e.target.value)}
+                  variant="standard"
+                  sx={{ display: 'flex', marginBottom: '1rem' }}
+                />
+                <br />
+                <TextField
+                  id="standard-basic"
+                  value={userInfo.userRole}
+                  variant="standard"
+                  InputProps={{ readOnly: true }} // 읽기 전용으로 설정
+                  sx={{ display: 'flex' }}
+                />
+              </>
+            )}
           </CardContent>
           <CardActions>
             <Button size="small" onClick={handleupdateClick}>{buttonText}</Button>
