@@ -59,7 +59,6 @@ export default function SearchLover() {
   // 연인 검색 함수
   const handleSearchButtonClick = async () => {
     if (session) {
-      try {
         const authToken = session.user.id;
 
         // 입력된 닉네임을 이용하여 유저 정보 요청
@@ -76,10 +75,6 @@ export default function SearchLover() {
           setLoverInfo(response.data)
         } else {
           setError(error);
-        }
-      } catch (error) {
-            console.error("axios error:", error);
-            setError(error);
         }
     }
   };
