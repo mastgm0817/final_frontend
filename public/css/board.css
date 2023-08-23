@@ -208,13 +208,6 @@
   text-align: left;
 }
 
-.tablerow {
-  border-radius: 5px;
-  margin: 5px;
-  font-weight: "bold";
-  color: "white";
-  text-align: "center";
-}
 
 .board-detail {
   margin-left: 10px;
@@ -227,6 +220,31 @@
   margin-left: 105px;
   margin-top: 50px;
   height: 400px;
+  overflow-y: auto;
+}
+
+.search{
+  margin-left: 200px;
+  font-size: 15px;
+  transition: all 0.5s;
+}
+
+.search.active{
+  margin-left: 200px;
+  font-size: 5px;
+  transition: all 0.5s;
+}
+
+.search-form{
+  margin-left: 200px;
+  height: 0px;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.search-form.active{
+  margin-left: 200px;
+  height: 46px;
   overflow-y: auto;
 }
 
@@ -243,6 +261,8 @@
   height: 400px;
   overflow-y: auto;
 } */
+
+
 
 ::-webkit-scrollbar {
   width: 10px;

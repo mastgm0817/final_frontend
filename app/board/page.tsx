@@ -5,11 +5,11 @@ import Board from "../../types/board";
 import WriteBoard from "../../components/WriteBoard";
 import SendData from "../api/board/SendData";
 import Page from "./[pagenum]/pagenum";
-// import FindingMethod from "../../components/selectbox";
 import './../../public/css/board.css';
 import { Fragment, FC } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+import {HeartIcon, GlassIcon, RecommendIcon} from "./../../components/icons";
+import { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
 
 const defaultBoard: Board = {
@@ -61,15 +61,16 @@ const FindingMethod : FC<boxProps> = ({inputFindingMethod, setInputFindingMethod
     <Listbox value={selected} onChange={(value)=>handleOnchange(value)}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-xs font-medium leading-6 text-gray-900">검색방법</Listbox.Label>
-          <div className="relative mt-2">
-            <Listbox.Button className="relative cursor-default bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 sm:text-sm sm:leading-6">
+          {/* <Listbox.Label className="block text-xs font-medium leading-6 text-gray-900">검색방법</Listbox.Label> */}
+          <div>
+            <Listbox.Button>
               <span className="flex items-center">
-                <span className="ml-3 block truncate">{selected.name}</span>
+                <span className="ml-3 block truncate align-middle">&nbsp;&nbsp;{selected.name}&nbsp;&nbsp;&nbsp;</span>
+                <span className="text-gray-200">|</span>
               </span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <ChevronDownIcon className="h-1 w-1 text-gray-400" aria-hidden="true" />
-              </span>
+              <div className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                <ChevronDownIcon className="h-1 w-1 text-gray-400" />
+              </div>
             </Listbox.Button>
 
             <Transition
@@ -195,9 +196,6 @@ function Logined(props: any): any {
     fetchData();
   }
 
-  // async function SearchBoard(findingMethod:string, findStr:string) {
-  //   await SendData("GET",`/boards/page/${pages}/?findingMethod=${findingMethod}&findStr=${findStr}`,null,"search");
-  // }
 
   if (session) {
     const userName = session.user?.name;
@@ -210,19 +208,23 @@ function Logined(props: any): any {
           <h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}>게시판</h1></div>
 
           <br></br>
-          <button className="text-blue-700">내글보기</button>
+          {/* <button className="text-blue-700">내글보기</button> */}
 
-          <button onClick={handleSearchForm} className="hover:underline">검색</button>
+          <button onClick={handleSearchForm} className={showSearchForm?"search active":"search"}>검색</button>
         
-          {showSearchForm &&
-            <div className="flex items-center space-x-3">
+         
+            <div className={showSearchForm?"search-form active flex w-80 items-center space-x-3 border rounded border-gray-300 hover:border-gray-400":
+                          "search-form w-80"}>
               <FindingMethod inputFindingMethod={inputFindingMethod}
                               setInputFindingMethod={setInputFindingMethod} />
               <input value={inputFindStr}
                     onChange={(e) => setInputFindStr(e.target.value)}
-                    className="flex-1 p-2 w-1/4 hover:"></input>
-              <div onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>검색하기</div>
-            </div>}
+                    className="p-2 w-32 focus:outline-none"></input>
+              <div className="p-2 w-20"
+                    onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
+                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span></div>
+            </div>
+
         <div>
           <div className="max-w-4xl bg-white rounded-lg p-4 mx-auto">
             <div className="flex justify-between items-center font-bold mb-4 border-b-2 pb-2">
