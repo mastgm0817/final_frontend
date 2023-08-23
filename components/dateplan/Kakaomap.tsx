@@ -126,13 +126,13 @@ const KakaoMap: React.FC = () => {
         <div
           id="map"
           className="flex w-full h-700px"
-          style={{ height: "600px", width: "100%" }}
+          style={{ height: "80%", width: "100%" }}
         >
           <div className={`form-container open`}>
             <RecommendForm onSubmit={handleSubmitForm} />
           </div>
         </div>
-        <div id="result-container" className="flex w-full h-300px">
+        <div id="result-container" className="flex w-full">
           <RecommendResult results={result} />
         </div>
       </div>

@@ -6,13 +6,46 @@ interface RecommendResultProps {
 
 const RecommendResult: React.FC<RecommendResultProps> = ({ results }) => {
   if (!results || results.length === 0) {
-    return <div>No results available.</div>;
+    return <div>No results available.
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+      <p> No results available.</p>
+    </div>;
   }
 
   return (
     <div>
       <h1>Recommendation Results</h1>
-      <div className="flex w-full h-500px" style={{ width: "100%" }}>
+      <div className="flex w-full">
         <table style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead>
             <tr>
