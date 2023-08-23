@@ -1,22 +1,22 @@
+// 📆 캘린더 뷰, 조회 
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import "/public/css/calendar.css";
-import Schedule from "./schedule";
+import ScheduleView from "../schedule/ScheduleView";
+import CalendarHeader from "./CalendarHeader";
+import DaysOfWeek from "./DaysOfWeek";
 
 interface ScheduleProps {
   nickName: string;
   selectedDate: DateProps;
 }
-
 interface DateProps {
   month: number;
   day: number;
   year: number;
 }
 
-const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-
-export default function Calendar() {
+export default function CalendarView() {
   const date = new Date();
   const [scheduleData, setScheduleData] = useState<any[]>([]);
   const [shareData, setShareData] = useState<any>(null);
@@ -26,6 +26,8 @@ export default function Calendar() {
     year: date.getFullYear(),
   });
   const [nickName, setNickName] = useState("");
+
+  const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
   const renderCalendar = () => {
     const daysInMonth = new Date(
@@ -115,36 +117,28 @@ export default function Calendar() {
     ];
 
   return (
-    <div className="container">
-    <div className="calendar">
-      <div className="month-selector flex justify-between items-center mb-4">
-        <button onClick={goToPrevMonth}>&lt;</button>
-        {selectedDate.year}년 {selectedDate.month}월
-        <button onClick={goToNextMonth}>&gt;</button>
+    <div style={{ fontFamily: "BMHANNAAir_ttf" }} className="container">
+      <div className="calendar">
+        <CalendarHeader
+          selectedDate={selectedDate}
+          goToPrevMonth={goToPrevMonth}
+          goToNextMonth={goToNextMonth}
+        />
+        <DaysOfWeek />
+        <div className="day-list">{renderCalendar()}</div>
       </div>
-      <div className="days-of-week grid grid-cols-7 gap-4 mb-2">
-        {daysOfWeek.map((day) => (
-          <div key={day} className="day-of-week text-center">
-            {day}
-          </div>
-        ))}
-      </div>
-      <div className="day-list grid grid-cols-7 gap-4">
-        {renderCalendar()}
+      <div className="schedule">
+        <h2>
+          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
+        </h2>
+        <ScheduleView
+          nickName={nickName}
+          date={scheduleData.length > 0 ? scheduleData[0].date : ""}
+          schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
+          share={shareData}
+          selectedDate={selectedDate}
+        />
       </div>
     </div>
-    <div className="schedule bg-gray-100 rounded-lg shadow-md p-4 mt-4">
-      <h2 className="text-xl font-semibold">
-        {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일 ({selectedDayOfWeek})
-      </h2>
-      <Schedule
-        nickName={nickName}
-        date={scheduleData.length > 0 ? scheduleData[0].date : ""}
-        schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
-        share={shareData}
-        selectedDate={selectedDate}
-      />
-    </div>
-  </div>
-);
+  );
 }
