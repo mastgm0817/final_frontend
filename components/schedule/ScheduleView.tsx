@@ -3,9 +3,7 @@ import { useSession } from "next-auth/react";
 import CalendarApi from "./../../app/api/calendar/calendarApi";
 import "./../../public/css/schedule.css";
 import DateProps from "./../../types/calendar";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
+import ScheduleList from "./ScheduleList";
 
 interface ScheduleProps {
   nickName: string;
@@ -35,7 +33,6 @@ const ScheduleView: React.FC<ScheduleProps> = ({
   const [updatedShare, setUpdatedShare] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [filteredSchedules, setFilteredSchedules] = useState<any[]>([]);
-
 
   useEffect(() => {
     if (session.data?.user.name) {
@@ -188,143 +185,105 @@ const ScheduleView: React.FC<ScheduleProps> = ({
   }, [selectedDate, schedules]);
 
   return (
-    <div className="p-4 m-4 border rounded bg-white shadow-md">
-      <div>
+    <div className="flex flex-col h-full">
+      <div className="schedule-container p-4 m-4 border rounded bg-white shadow-md flex-grow">
+        <h2 className="text-2xl font-semibold">일정 관리</h2>
         {showAddForm ? (
-          <Button
+          <button
             onClick={toggleAddForm}
-            className="px-4 py-2 bg-red-500 text-white rounded"
-            variant="contained"
+            className="px-4 py-2 bg-red-500 text-white rounded focus:outline-none"
           >
             취소
-          </Button>
+          </button>
         ) : (
-          <Button
+          <button
             onClick={toggleAddForm}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            variant="contained"
+            className="px-4 py-2 bg-blue-500 text-white rounded focus:outline-none"
           >
             일정 추가
-          </Button>
+          </button>
+        )}
+
+        {showAddForm && (
+          <form onSubmit={onSubmit} className="schedule-form">
+            <div className="flex gap-2">
+              <label className="w-16 text-right">별명:</label>
+              <input
+                type="text"
+                value={inputNickName}
+                className="border rounded p-1 flex-grow"
+                disabled
+              />
+            </div>
+            <div className="flex gap-2">
+              <label className="w-16 text-right">날짜:</label>
+              <input
+                type="date"
+                value={inputDate}
+                onChange={(e) => setInputDate(e.target.value)}
+                className="border rounded p-1"
+              />
+              {inputDate.trim() === "" && <div>* 날짜를 선택해 주세요</div>}
+            </div>
+            <div className="flex gap-2">
+              <label className="w-16 text-right">일정 내용:</label>
+              <input
+                type="text"
+                value={inputSchedule}
+                onChange={(e) => setInputSchedule(e.target.value)}
+                className="border rounded p-1"
+              />
+              {inputSchedule.trim() === "" && (
+                <div>* 일정 내용을 입력해 주세요</div>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <label className="w-16 text-right">연인과 공유:</label>
+              <input
+                type="checkbox"
+                checked={inputShare}
+                onChange={(e) => setInputShare(e.target.checked)}
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded self-end"
+            >
+              일정 등록
+            </button>
+          </form>
         )}
       </div>
-      {showAddForm && (
-        <form onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <label className="mr-2">별명: </label>
-            <TextField
-              type="text"
-              value={inputNickName}
-              variant="outlined"
-              className="p-2"
-              disabled
-            />
-          </div>
-          <div>
-            <label className="mr-2">날짜: </label>
-            <TextField
-              type="date"
-              value={inputDate}
-              onChange={(e) => setInputDate(e.target.value)}
-              variant="outlined"
-              className="p-2"
-            />
-            {inputDate.trim() === "" && <div>* 날짜를 선택해 주세요</div>}
-          </div>
-          <div>
-            <label className="mr-2">일정 내용: </label>
-            <TextField
-              type="text"
-              value={inputSchedule}
-              onChange={(e) => setInputSchedule(e.target.value)}
-              variant="outlined"
-              className="p-2"
-            />
-            {inputSchedule.trim() === "" && (
-              <div>* 일정 내용을 입력해 주세요</div>
-            )}
-          </div>
-          <div>
-            <label className="mr-2">연인과 공유: </label>
-            <Checkbox
-              checked={inputShare}
-              onChange={(e) => setInputShare(e.target.checked)}
-            />
-          </div>
-          <Button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            variant="contained"
-          >
-            일정 등록
-          </Button>
-        </form>
-      )}
 
-      <h3 className="text-lg font-semibold mt-4">일정 목록</h3>
-
-      {filteredSchedules.length === 0 ? (
-        <div className="mt-2">일정이 없습니다.</div>
-      ) : (
-        <ul className="mt-2 space-y-2">
-          {filteredSchedules.map((schedule) => (
-            <li
-              key={schedule.scheduleId}
-              className="flex items-center justify-between px-2 py-1 bg-gray-100 rounded"
-            >
-              <div className="flex gap-x-4">
-                {schedule.writerId} (공유: {schedule.shared ? "⭕" : "❌"})
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">
-                    {schedule.scheduleContent}
-                  </p>
-                  <button
-                    onClick={() =>
-                      handleUpdate(
-                        schedule.scheduleId,
-                        schedule.scheduleContent,
-                        schedule.scheduleDate,
-                        schedule.shared
-                      )
-                    }
-                  >
-                    수정
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleDelete(schedule.scheduleId, schedule.shared)
-                    }
-                  >
-                    삭제
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ScheduleList
+        filteredSchedules={filteredSchedules}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+      />
 
       {updateScheduleId && (
         <div className="mt-4">
           <h5 className="text-lg font-semibold mb-2">일정 수정</h5>
           <form onSubmit={handleUpdateSubmit} className="space-y-2">
-            <label>
+            <label className="flex gap-2 items-center">
               날짜:
               <input
                 type="date"
                 value={updatedDate}
                 onChange={(e) => setUpdatedDate(e.target.value)}
+                className="border rounded p-1"
               />
             </label>
-            <label>
+            <label className="flex gap-2 items-center">
               일정 내용:
               <input
                 type="text"
                 value={updatedSchedule}
                 onChange={(e) => setUpdatedSchedule(e.target.value)}
+                className="border rounded p-1"
               />
             </label>
-            <label>
+            <label className="flex gap-2 items-center">
               연인과 공유:
               <input
                 type="checkbox"
@@ -332,20 +291,18 @@ const ScheduleView: React.FC<ScheduleProps> = ({
                 onChange={(e) => setUpdatedShare(e.target.checked)}
               />
             </label>
-            <Button
+            <button
               type="submit"
               className="px-4 py-2 bg-green-500 text-white rounded"
-              variant="contained"
             >
               수정 완료
-            </Button>
-            <Button
+            </button>
+            <button
               onClick={handleCancelUpdate}
               className="px-4 py-2 bg-red-500 text-white rounded"
-              variant="contained"
             >
               취소
-            </Button>
+            </button>
           </form>
         </div>
       )}

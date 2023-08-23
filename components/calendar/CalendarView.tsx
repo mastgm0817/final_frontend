@@ -1,4 +1,4 @@
-// 📆 캘린더 뷰, 조회 
+// 📆 캘린더 뷰, 조회
 "use client";
 import React, { useState } from "react";
 import "/public/css/calendar.css";
@@ -27,6 +27,13 @@ export default function CalendarView() {
     year: date.getFullYear(),
   });
   const [nickName, setNickName] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [selectedYear, setSelectedYear] = useState<number>(
+    selectedDate.year
+  );
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    selectedDate.month
+  );
 
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -108,6 +115,27 @@ export default function CalendarView() {
     }
   };
 
+  // 오늘로 이동
+  const goToToday = () => {
+    const today = new Date();
+    setSelectedDate({
+      month: today.getMonth() + 1,
+      day: today.getDate(),
+      year: today.getFullYear(),
+    });
+  };
+
+  // 날짜 년도/월/일 별로 가져오기
+  const handleDateChange = () => {
+    setSelectedDate({
+      year: selectedYear,
+      month: selectedMonth,
+      day: selectedDate.day,
+    });
+    setShowDatePicker(false);
+  };
+
+  
   const selectedDayOfWeek =
     daysOfWeek[
       new Date(
@@ -124,6 +152,8 @@ export default function CalendarView() {
           selectedDate={selectedDate}
           goToPrevMonth={goToPrevMonth}
           goToNextMonth={goToNextMonth}
+          onYearChange={setSelectedYear}
+          onMonthChange={setSelectedMonth}
         />
         <DaysOfWeek />
         <div className="day-list">{renderCalendar()}</div>

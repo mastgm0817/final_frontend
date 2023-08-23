@@ -30,7 +30,12 @@ const DDay: React.FC<DDayProps> = ({ selectedDate }) => {
     }
   };
 
-  return <div className="d-day">{calculateDDay()}</div>;
+  return (
+    <div className="d-day-container bg-gray-100 p-4 mt-4 border rounded shadow-md">
+      <h3 className="text-lg font-semibold mb-2">D-Day</h3>
+      <p className="text-2xl">{calculateDDay()}</p>
+    </div>
+  );
 };
 
 export default DDay;

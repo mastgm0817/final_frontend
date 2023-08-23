@@ -7,10 +7,10 @@
       transform: translateX(0);
     }
     40% {
-      transform: translateX(2px);
+      transform: translateX(1px);
     }
     60% {
-      transform: translateX(-2px);
+      transform: translateX(-1px);
     }
   }
   
@@ -24,6 +24,25 @@
   }
   
   .arrow-hover {
-    transform: translateX(2px);
+    transform: translateX(1px);
   }
+  
+
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .slide-in-right {
+    animation: slideInRight 2s ease-out;
+  }
+  
+  
   
