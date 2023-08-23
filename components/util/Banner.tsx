@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Lottie from "react-lottie-player";
-import lottieJson from "./../public/animations/main.json";
+import lottieJson from "../../public/animations/main.json";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight"; 
 import Link from "next/link";
 import ArrowRight from "./ArrowRight";
