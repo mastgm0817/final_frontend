@@ -2,41 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.footer-container {
-  background-color: #f6f7f9;
-  text-align: center;
-  padding: 1rem;
+a.text-sm.text-gray-500 {
+  transition: color 0.3s; /* 텍스트 색상 전환 효과 */
 }
 
-/* Define styles for the footer links */
-.footer-link {
-  color: #3b82f6;
-}
-
-.footer-link:hover {
-  color: #1d4ed8;
-}
-
-/* Additional styles for the footer items */
-.footer-item {
-  margin-bottom: 1rem;
-}
-
-/* Styling for the italic text */
-.italic {
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "BMHANNAPro";
-  src: url("/fonts/BMHANNAPro.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "BMHANNAAir_ttf";
-  src: url("/fonts/BMHANNAAir_ttf.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+a.text-sm.text-gray-500:hover {
+  color: #f783ac; /* 호버 시 텍스트 색상 변경 */
 }

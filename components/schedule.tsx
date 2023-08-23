@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import CalendarApi from "../app/api/calendar/calendarApi";
-import "/public/css/schedule.css";
+import "./../public/css/schedule.css";
 import DateProps from "../types/calendar";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -13,7 +13,6 @@ interface ScheduleProps {
   schedule: string;
   share: boolean;
   selectedDate: DateProps;
-  // token: string;
 }
 
 const Schedule: React.FC<ScheduleProps> = ({
@@ -22,7 +21,6 @@ const Schedule: React.FC<ScheduleProps> = ({
   schedule,
   share,
   selectedDate,
-  // token,
 }) => {
   const session = useSession();
   const [inputNickName, setInputNickName] = useState("");
@@ -37,7 +35,7 @@ const Schedule: React.FC<ScheduleProps> = ({
   const [filteredSchedules, setFilteredSchedules] = useState<any[]>([]);
 
   const sessionToken = session.data?.user.id;
-  console.log(sessionToken);
+  // console.log(sessionToken); * 토큰 확인 코드
 
   useEffect(() => {
     // Automatically set the nickname input to the user's ID when logged in
@@ -127,7 +125,6 @@ const Schedule: React.FC<ScheduleProps> = ({
   const loadSchedules = useCallback(async () => {
     if (sessionToken) {
       try {
-        
         const response = await CalendarApi.getAllScheduleByName(
           session.data?.user.name,
           sessionToken
@@ -192,14 +189,14 @@ const Schedule: React.FC<ScheduleProps> = ({
   // );
 
   useEffect(() => {
-    const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month.toString().padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
+    const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
+      .toString()
+      .padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
     const filteredSchedules = schedules.filter(
       (schedule) => schedule.scheduleDate === formattedSelectedDate
     );
     setFilteredSchedules(filteredSchedules);
   }, [selectedDate, schedules]);
-  
-
 
   return (
     <div className="p-4 m-4 border rounded bg-white shadow-md">
@@ -231,7 +228,7 @@ const Schedule: React.FC<ScheduleProps> = ({
               value={inputNickName}
               variant="outlined"
               className="p-2"
-              disabled // Add this line
+              disabled
             />
           </div>
           <div>
@@ -275,9 +272,9 @@ const Schedule: React.FC<ScheduleProps> = ({
         </form>
       )}
 
-<h3 className="text-lg font-semibold mt-4">일정 목록</h3>
+      <h3 className="text-lg font-semibold mt-4">일정 목록</h3>
 
-{filteredSchedules.length === 0 ? (
+      {filteredSchedules.length === 0 ? (
         <div className="mt-2">일정이 없습니다.</div>
       ) : (
         <ul className="mt-2 space-y-2">
@@ -318,7 +315,7 @@ const Schedule: React.FC<ScheduleProps> = ({
         </ul>
       )}
 
-{updateScheduleId && (
+      {updateScheduleId && (
         <div className="mt-4">
           <h5 className="text-lg font-semibold mb-2">일정 수정</h5>
           <form onSubmit={handleUpdateSubmit} className="space-y-2">

@@ -1,0 +1,29 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@keyframes bounceIn {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(5px);
+    }
+    60% {
+      transform: translateX(-5px);
+    }
+  }
+  
+  .animate-arrow {
+    animation: bounceIn 1s infinite;
+    transition: color 0.3s;
+  }
+  
+  .arrow-icon {
+    transition: transform 0.3s;
+  }
+  
+  .arrow-hover {
+    transform: translateX(4px);
+  }
+  
