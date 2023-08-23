@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Banner({
   play = true,
-  style = { width: 450, height: 400 },
+  style = { width: 400, height: 380 },
 }) {
   const [isHovered, setIsHovered] = useState(false);
 

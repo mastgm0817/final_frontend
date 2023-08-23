@@ -19,7 +19,7 @@ export default function Weather() {
             height={100}
             className={`weather-icon mr-2`}
           />
-          <div className="text-left">
+          <div className="text-left" style={{fontSize: "1.1rem"}}>
             <span className="text-pink">
               {currentWeather.weather[0].description}
             </span>

@@ -2,6 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "nprogress/nprogress.css";
+@import "./fonts.css";
 
 :root {
   --foreground-rgb: 0, 0, 0;

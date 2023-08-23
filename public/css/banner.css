@@ -7,10 +7,10 @@
       transform: translateX(0);
     }
     40% {
-      transform: translateX(5px);
+      transform: translateX(2px);
     }
     60% {
-      transform: translateX(-5px);
+      transform: translateX(-2px);
     }
   }
   
@@ -24,6 +24,6 @@
   }
   
   .arrow-hover {
-    transform: translateX(4px);
+    transform: translateX(2px);
   }
   
