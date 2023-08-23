@@ -1,12 +1,12 @@
-"use client"
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createPosition } from '../../store/position';
-import './../../public/css/dateplan.css';
-import predict from '../../app/api/dateplan/dateplanApi';
-import RecommendForm from './RecommendForm';
-import RecommendResult from './RecommendResult';
-import { useRef } from 'react';
+"use client";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { createPosition } from "../../store/position";
+import "./../../public/css/dateplan.css";
+import predict from "../../app/api/dateplan/dateplanApi";
+import RecommendForm from "./RecommendForm";
+import RecommendResult from "./RecommendResult";
+import { useRef } from "react";
 import { useSession } from "next-auth/react";
 
 interface RecommendFormData {
@@ -18,25 +18,26 @@ interface RecommendFormData {
   ambiance: number;
   taste: number;
   kindness: number;
-  quantity:number;
+  quantity: number;
 }
 
 declare const window: typeof globalThis & {
   kakao: any;
-}
-
+};
 
 const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
-  const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(null);
-  const [map,setMap] = useState<any>(null);
+  const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(
+    null
+  );
+  const [map, setMap] = useState<any>(null);
   // const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [resultMarkers, setResultMarkers] = useState<any[]>([]);
   const resultMarkersRef = useRef<any[]>([]);
   const session = useSession();
   const token = session.data?.user.id;
-  
+
   // const handleToggleForm = () => {
   //   setShowForm((prevShowForm) => !prevShowForm);
   //   console.log("Toggling form:", !showForm); // 상태 변경 로그
@@ -48,15 +49,14 @@ const KakaoMap: React.FC = () => {
       setResult(predictionResult);
       // Now you have the prediction result, you can update the UI or take any other actions based on the result.
     } catch (error) {
-      console.error('Error while predicting:', error);
+      console.error("Error while predicting:", error);
       // Handle the error if the prediction fails.
     }
   };
 
-
   const dispatch = useDispatch();
   useEffect(() => {
-    const mapScript = document.createElement('script');
+    const mapScript = document.createElement("script");
     mapScript.async = true;
     mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;
     document.head.appendChild(mapScript);
@@ -75,24 +75,24 @@ const KakaoMap: React.FC = () => {
           dispatch(createPosition(latitude, longitude));
         },
         (error) => {
-          console.error('Error getting user location:', error);
+          console.error("Error getting user location:", error);
         }
       );
     } else {
-      console.error('Geolocation is not supported in this browser.');
+      console.error("Geolocation is not supported in this browser.");
     }
 
-    mapScript.addEventListener('load', onLoadKakaoMap);
+    mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => {
-      mapScript.removeEventListener('load', onLoadKakaoMap);
+      mapScript.removeEventListener("load", onLoadKakaoMap);
     };
   }, [dispatch]);
 
   useEffect(() => {
     if (kakaoMapLoaded && userPosition) {
       const { latitude, longitude } = userPosition.coords;
-      const mapContainer = document.getElementById('map');
+      const mapContainer = document.getElementById("map");
 
       const mapOption = {
         center: new window.kakao.maps.LatLng(latitude, longitude),
@@ -102,7 +102,10 @@ const KakaoMap: React.FC = () => {
       const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOption);
       setMap(kakaoMap);
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
-      kakaoMap.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+      kakaoMap.addControl(
+        mapTypeControl,
+        window.kakao.maps.ControlPosition.TOPRIGHT
+      );
       var zoomControl = new window.kakao.maps.ZoomControl();
       kakaoMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
       var markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
@@ -118,26 +121,23 @@ const KakaoMap: React.FC = () => {
       <div
         id="map-container"
         className="relative"
-        style={{ height: '900px', width: '100%' }}
+        style={{ height: "900px", width: "100%" }}
       >
         <div
           id="map"
           className="flex w-full h-700px"
-          style={{ height: '600px', width: '100%' }}
+          style={{ height: "600px", width: "100%" }}
         >
           <div className={`form-container open`}>
             <RecommendForm onSubmit={handleSubmitForm} />
           </div>
         </div>
-        <div
-          id="result-container"
-          className="flex w-full h-300px"
-        >
+        <div id="result-container" className="flex w-full h-300px">
           <RecommendResult results={result} />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default KakaoMap;
