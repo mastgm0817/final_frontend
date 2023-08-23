@@ -2,16 +2,16 @@ import * as React from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import { Avatar, CardContent, CardActions, TextField, Card } from "@mui/material"
+import { Avatar, CardContent, CardActions, TextField, Card, Container } from "@mui/material"
 import { TransitionProps } from '@mui/material/transitions';
-import Top from "./Top";
+import Top from '../ui/Top';
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
@@ -33,6 +33,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function SearchLover() {
   const [open, setOpen] = React.useState(false);
+  const [reopen, setReOpen] = React.useState(false);
   const [error, setError] = React.useState<Error | null>(null);
   const { data: session } = useSession();
   // 검색
@@ -45,6 +46,14 @@ export default function SearchLover() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const SearchClickOpen = () => {
+    setReOpen(true);
+  };
+
+  const SearchClickClose = () => {
+    setReOpen(false);
   };
 
   // 연인 검색 함수
@@ -62,8 +71,13 @@ export default function SearchLover() {
             },
           }
         );
-        setLoverInfo(response.data);
-        } catch (error) {
+        if (response.data) {
+          SearchClickOpen();
+          setLoverInfo(response.data)
+        } else {
+          setError(error);
+        }
+      } catch (error) {
             console.error("axios error:", error);
             setError(error);
         }
@@ -73,7 +87,7 @@ export default function SearchLover() {
   return (
     <div>
       <Button size="small" onClick={handleClickOpen}>
-        찾기
+        연인검색
       </Button>
       <Dialog
         fullScreen
@@ -95,9 +109,9 @@ export default function SearchLover() {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               내 연인을 찾아보아요❤️
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
         {/* 연인 검색 */}
@@ -122,31 +136,40 @@ export default function SearchLover() {
             </CardActions>
         </Card>
         {/* 검색 결과 표시 영역 */}
-        {LoverInfo && (
-            <>
-            <Avatar sx={{ m: 2, width: 200, height: 200 }}>
-            <Avatar
-              alt="User porfile"
-              src={LoverInfo.profileImage}
-              sx={{ width: 200, height: 200 }}
-            />
-            </Avatar>
-            <TextField
-              id="연인 닉네임"
-              value={LoverInfo.nickName}
-              InputProps={{ readOnly: true }} // 읽기 전용으로 설정
-              variant="standard"
-              sx={{ display: 'flex' }}
-            />
-            <br />
-            <TextField
-              id="standard-basic"
-              value={LoverInfo.email}
-              InputProps={{ readOnly: true }} // 읽기 전용으로 설정
-              variant="standard"
-              sx={{ display: 'flex' }}
-            />
-            </>)}
+          {LoverInfo && ( <>
+            <Dialog open={reopen}>
+              <DialogTitle sx={{ color: "#f783ac" }}>연인 정보</DialogTitle>
+              <DialogContent>
+                <Avatar
+                  alt="Lover profileImage"
+                  src={LoverInfo.profileImage}
+                  sx={{ width: 200, height: 200, backgroundColor: "#f783ac" }}
+                />
+              </DialogContent>
+              <TextField
+                  id="연인 닉네임"
+                  value={LoverInfo.nickName}
+                  InputProps={{ readOnly: true }} // 읽기 전용으로 설정
+                  variant="standard"
+                  sx={{ display: 'flex', ml: 2, mr: 2 }}
+                />
+                <br />
+                <TextField
+                  id="standard-basic"
+                  value={LoverInfo.email}
+                  InputProps={{ readOnly: true }} // 읽기 전용으로 설정
+                  variant="standard"
+                  sx={{ display: 'flex', ml: 2, mr: 2 }}
+                />
+              <DialogActions>
+                <Button color="primary" onClick={SearchClickClose}>
+                  취소
+                </Button>
+                <Button color="primary">
+                  저장
+                </Button>
+              </DialogActions>
+            </Dialog> </>)}
       </Dialog>
     </div>
   );

@@ -162,7 +162,7 @@ export default function UserInfo() {
             <Container sx={{ m: 3 }}>
               {/* <CardProfile title="내프로필" buttonText="수정하기" /><br/> */}
               <CardProfile title="내프로필" /><br />
-              <LoverProfile title="연인 정보" buttonText1="찾기" buttonText2="헤어지기" /><br />
+              <LoverProfile title="연인 정보" buttonText2="헤어지기" /><br />
               <CardProfile title="쿠폰 정보(예정)" buttonText="사용하기" /><br />
               <Button>회원탈퇴</Button>
             </Container>
