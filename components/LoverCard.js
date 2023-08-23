@@ -9,6 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import SearchLover from "./SearchLover";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
@@ -151,6 +152,7 @@ function LoverProfile({ title, buttonText1, buttonText2 }) {
               </>)} <br />
           </CardContent>
           <CardActions>
+            <SearchLover/>
             <Button size="small" onClick={openDialogHandler}>{buttonText1}</Button>
             <Button size="small" onClick={handleButton2Click}>{buttonText2}</Button>
           </CardActions>
@@ -172,26 +174,6 @@ function LoverProfile({ title, buttonText1, buttonText2 }) {
         <DialogActions>
           <Button onClick={handleSearchButtonClick} color="primary">Search</Button>
           <Button onClick={closeDialogHandler} color="primary">Close</Button>
-        </DialogActions>
-      </Dialog>
-      {/* Dialog again */}
-      <Dialog open={confirmDialogOpen} onClose={closeConfirmDialogHandler}>
-        <DialogTitle>Confirm</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {/* 결과 내용을 표시 */}
-            {result && (
-              <div>
-                Nickname: {result.nickName}<br />
-                Email: {result.email}
-              </div>
-            )}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleConfirmButtonClick(true)} color="primary">Yes</Button>
-          <Button onClick={() => handleConfirmButtonClick(false)} color="primary">No</Button>
-          <Button onClick={closeConfirmDialogHandler} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
     </Box>

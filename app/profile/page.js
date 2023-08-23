@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CardProfile from "../../components/ProfileCard";
 import LoverProfile from "../../components/LoverCard";
 import ProfileImageUploadPopUp from "../../components/ProfileImageUpLoadPopUp";
+import SearchLover from "../../components/SearchLover";
 
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
