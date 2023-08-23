@@ -1,25 +1,21 @@
 "use client";
 import React from "react";
+import {useState, useEffect} from 'react';
+import router from "next/router";
 import AuthSession from "./AuthSession";
 import Top from "../components/Top";
 import Footer from "../components/Footer";
 import { Provider as ReduxProvider } from "react-redux";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import { store } from "../store";
-<<<<<<< HEAD
-=======
-import {useState, useEffect} from 'react';
-import router from "next/router";
 import Image from "next/image";
-// import Top from "../components/Top";
->>>>>>> b569fd80fbc009e03a63f1aae43d36d13e32b509
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
