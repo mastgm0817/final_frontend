@@ -25,7 +25,6 @@ const RecommendResult: React.FC<RecommendResultProps> = ({ results }) => {
               <th style={{ border: "1px solid black" }}>Ambiance</th>
               <th style={{ border: "1px solid black" }}>Kindness</th>
               <th style={{ border: "1px solid black" }}>Price</th>{" "}
-              {/* 추가된 부분 */}
             </tr>
           </thead>
           <tbody>
@@ -55,7 +54,6 @@ const RecommendResult: React.FC<RecommendResultProps> = ({ results }) => {
                 <td style={{ border: "1px solid black" }}>
                   {result.restaurant_prediction[0].price}
                 </td>{" "}
-                {/* 추가된 부분 */}
               </tr>
             ))}
           </tbody>
