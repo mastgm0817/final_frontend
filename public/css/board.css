@@ -224,45 +224,52 @@
 }
 
 .search{
-  margin-left: 200px;
+  margin-left: 180px;
   font-size: 15px;
   transition: all 0.5s;
 }
 
 .search.active{
-  margin-left: 200px;
-  font-size: 5px;
-  transition: all 0.5s;
+  overflow: hidden;
+  height: 0px;
 }
 
 .search-form{
-  margin-left: 200px;
+  margin-left: 180px;
   height: 0px;
   overflow: hidden;
   transition: all 0.5s;
 }
 
 .search-form.active{
-  margin-left: 200px;
+  margin-left: 180px;
   height: 46px;
   overflow-y: auto;
 }
 
-/* .comment-list {
-  margin-left: 10px;
-  height: 0px;
-  overflow-y: hidden;
+.sort{
+  margin-left: 200px;
+  font-size: 15px;
   transition: all 0.5s;
 }
 
-.comment-list.active {
-  margin-left: 105px;
-  margin-top: 50px;
-  height: 400px;
+.sort.active{
+  overflow: hidden;
+  height: 0px;
+}
+
+.sort-form{
+  margin-left: 180px;
+  height: 0px;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.sort-form.active{
+  margin-left: 180px;
+  height: 46px;
   overflow-y: auto;
-} */
-
-
+}
 
 ::-webkit-scrollbar {
   width: 10px;
