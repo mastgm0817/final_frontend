@@ -162,7 +162,6 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -200,6 +199,7 @@ export function LoginedRightSideNav() {
             color: "#f783ac",
             marginRight: 10,
             cursor: "pointer",
+            fontSize: "1.1rem",
           }}
           onClick={handleMenuOpen}
         >
@@ -215,7 +215,11 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/profile"
-              style={{ textDecoration: "none", color: "#f783ac" }}
+              style={{
+                fontSize: "1.1rem",
+                fontFamily: "Pretendard-Regular",
+                color: "#f783ac",
+              }}
             >
               Profile
             </a>
@@ -223,7 +227,11 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/admin"
-              style={{ textDecoration: "none", color: "#f783ac" }}
+              style={{
+                fontSize: "1.1rem",
+                fontFamily: "Pretendard-Regular",
+                color: "#f783ac",
+              }}
             >
               Admin
             </a>
@@ -232,7 +240,11 @@ export function LoginedRightSideNav() {
         <Button
           onClick={() => signOut()}
           color="inherit"
-          sx={{ color: "#f783ac" }}
+          sx={{
+            fontSize: "1rem",
+            fontFamily: "Pretendard-Regular",
+            color: "#f783ac",
+          }}
         >
           로그아웃
         </Button>
@@ -248,9 +260,13 @@ export function LogoutedRightSideNav() {
     return (
       <Link href="/login">
         <Button
-          style={{ color: "#f783ac" }}
           color="inherit"
-          sx={{ color: "#f783ac", marginLeft: 2 }}
+          sx={{
+            fontSize: "1rem",
+            fontFamily: "Pretendard-Regular",
+            color: "#f783ac",
+            marginLeft: 2,
+          }}
         >
           로그인
         </Button>
@@ -271,15 +287,7 @@ export default function Top() {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/" passHref>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "BMDOHYEON_ttf, sans-serif",
-                cursor: "pointer",
-              }}
-            >
-              <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
-            </Typography>
+            <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
           </Link>
           <Weather />
         </div>
