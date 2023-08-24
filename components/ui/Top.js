@@ -278,7 +278,7 @@ export default function Top() {
                 cursor: "pointer",
               }}
             >
-              <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+              <Image src="./image/logo-text.png" alt="Logo" width={90} height={40} />
             </Typography>
           </Link>
           <Weather />

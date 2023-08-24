@@ -19,9 +19,9 @@ export default function WriteBoard(props: WriteBoardProps) {
 
   return (
 
-    <div className="max-w-2xl justify-center items-center z-5000" style={{position:'absolute', width: '100%' }} >
+    <div className="max-w-2xl justify-center items-center z-5000" style={{position:'absolute'}} >
       <div className={props.formClass}>
-        <div className={"max-w-xl bg-white p-6 shadow-lg rounded-md border"}>
+        <div className={"bg-white p-6 shadow-lg rounded-md border"}>
         <div className="flex justify-between items-center mb-4">
           <div className="text-lg font-bold ml-3 mt-4 ">{props.FormTitle}</div>
           <div
