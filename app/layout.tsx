@@ -53,7 +53,7 @@ export default function RootLayout({
       {/* <GoogleAnalytics trackingId="G-FDVK366KNX" /> */}
       <body
         style={{
-          fontFamily: "Chosunilbo_myungjo",
+          fontFamily: "Pretendard-Regular",
           backgroundImage:
             'url("https://cdn.lazyrockets.com/homepage/360abb10007541a9b4a3e9f04f7a9343_crumbled-paper-1.jpg")',
           backgroundSize: "cover",

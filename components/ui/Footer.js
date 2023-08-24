@@ -13,7 +13,7 @@ export default function Footer() {
           <a
             href="#"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "11px" }}
+            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             <p>이용약관</p>
           </a>
@@ -21,7 +21,7 @@ export default function Footer() {
           <a
             href="#"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "11px" }}
+            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             개인정보처리방침
           </a>
@@ -30,7 +30,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "11px" }}
+            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             Github
           </a>
@@ -39,7 +39,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "11px" }}
+            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             Contact
           </a>
