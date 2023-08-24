@@ -231,28 +231,30 @@ function Logined(props: any): any {
           {/* <button className="text-blue-700">내글보기</button> */}
         
           {/* 검색 */}
-          <button onClick={handleSearchForm} className={showSearchForm?"search active":"search"}><GlassIcon /></button>
-            <div className={showSearchForm?"search-form active flex-grow w-auto items-center space-x-3 border rounded border-gray-300 hover:border-gray-400":
+          <div className="flex justify-items-end">
+            <button onClick={handleSearchForm} className={showSearchForm?"search active":"search"}><GlassIcon /></button>
+            <div className={showSearchForm?"search-form active bg-white flex flex-grow w-80 items-center space-x-3 border rounded border-gray-300 hover:border-gray-400":
                           "search-form w-80"}>
-              <FindingMethod inputFindingMethod={inputFindingMethod}
+              {showSearchForm && <FindingMethod inputFindingMethod={inputFindingMethod}
                               list={findingMethods}
-                              setInputFindingMethod={setInputFindingMethod} />
+                              setInputFindingMethod={setInputFindingMethod} />}
 
               <input value={inputFindStr}
                     onChange={(e) => setInputFindStr(e.target.value)}
-                    className="p-2 w-40 focus:outline-none"></input>
+                    className="p-2 w-44 focus:outline-none"></input>
 
-              <div className="p-1 w-16"
+              <div className="p-1 w-3.5"
                     onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
                       <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span></div>
               
-              <div className="p-1 w-16" onClick={() => setSearchForm(false)}>
+              <div className="p-1 w-3.5" onClick={() => setSearchForm(false)}>
                       <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span></div>
             </div>
+          </div>
 
 
           {/* 정렬 */}
-            <button onClick={handleSortForm} className={showSortForm?"sort active":"sort"}><SortIcon /></button>
+            {/* <button onClick={handleSortForm} className={showSortForm?"sort active":"sort"}><SortIcon /></button>
             <div className={showSortForm?"sort-form active flex-grow w-auto items-center space-x-3 border rounded border-gray-300 hover:border-gray-400":
                           "search-form w-80"}>
               <FindingMethod inputFindingMethod={inputFindingMethod}
@@ -264,7 +266,7 @@ function Logined(props: any): any {
               
               <div className="p-1 w-16" onClick={() => setSortForm(false)}>
                       <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span></div>
-            </div>
+            </div> */}
 
         <div>
           <div className="max-w-4xl bg-white rounded-lg p-4 mx-auto">

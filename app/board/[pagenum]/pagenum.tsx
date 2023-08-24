@@ -8,6 +8,7 @@ import WriteBoard from "../../../components/board/WriteBoard";
 import { CommonExecOptions } from "child_process";
 import { Menu, Transition } from '@headlessui/react';
 import { ISODateString } from "next-auth";
+import Loading from "../../../components/board/Loading";
 
 
 const defaultBoard: Board = {
@@ -441,6 +442,12 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
 
   return (
     <>
+    {isLoading&&
+      <Loading />
+    }
+    
+    {!isLoading &&
+    <div>
       <div className=" space-y-0">
         {boards &&
           boards.map((board: Board) => (
@@ -498,7 +505,9 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
               </div>
             </React.Fragment>
           ))}
-      </div>
+
+          {/* {(boards===[]) && <div>찾으시는 게시글이 없습니다.</div>} */}
+      </div></div>}
     </>
   );
 };

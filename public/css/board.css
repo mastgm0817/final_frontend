@@ -226,7 +226,7 @@
 .search{
   margin-left: 180px;
   font-size: 15px;
-  transition: all 0.5s;
+  transition: all 2s;
 }
 
 .search.active{
@@ -236,7 +236,8 @@
 
 .search-form{
   margin-left: 180px;
-  height: 0px;
+  height: 46px;
+  width:0px;
   overflow: hidden;
   transition: all 0.5s;
 }
@@ -244,6 +245,7 @@
 .search-form.active{
   margin-left: 180px;
   height: 46px;
+  width:320px;
   overflow-y: auto;
 }
 
