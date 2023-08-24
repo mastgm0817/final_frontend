@@ -277,7 +277,7 @@ export function LogoutedRightSideNav() {
 
 export default function Top() {
   return (
-    <AppBar sx={{ bgcolor: "#ffffff", width: "100%" }} position="static">
+    <AppBar sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }} position="static">
       <Toolbar
         sx={{
           justifyContent: "space-between",
