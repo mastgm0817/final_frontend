@@ -7,6 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 type CustomUser = User & {
   accessToken?: string; // accessToken 속성 추가
+  profileImage?: string;
 };
 
 const handler = NextAuth({
@@ -52,11 +53,12 @@ const handler = NextAuth({
         );
 
         const user = await res.json();
-        console.log(user);
+        console.log("user데이터" + user.profileImage);
 
         // 토큰이 유효하면 사용자 반환
         if (user) {
           console.log("user 값 반환" + user);
+          console.log("user 값 반환: " + JSON.stringify(user));
           return user;
         }
 
@@ -93,10 +95,9 @@ const handler = NextAuth({
             const data = await loginRes.json();
             console.log(data.token);
             (user as CustomUser).accessToken = data.token; // 사용자 정의 User 객체에 accessToken을 설정합니다.
-            
+
             return true;
           }
-
 
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
@@ -133,18 +134,28 @@ const handler = NextAuth({
     async jwt({ token, user }: { token: any; user?: CustomUser }) {
       if (user) {
         token.accessToken = user.accessToken;
+        token.profileImage = user.profileImage;
         return token;
       }
       return token;
     },
 
-    async session({ session, token, user }) {
+    async session({
+      session,
+      token,
+      user,
+    }: {
+      session: any;
+      token: any;
+      user?: CustomUser;
+    }) {
       // Send properties to the client, like an access_token from a provider.
       session.user.id = token.accessToken as string;
+      if (token.profileImage != null)
+        session.user.image = token.profileImage as string;
       // console.log("token", token);
       return session;
     },
-    
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

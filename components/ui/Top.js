@@ -287,7 +287,7 @@ export default function Top() {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/" passHref>
-            <Image src="./image/logo.svg" alt="Logo" width={90} height={40} />
+              <Image src="./image/logo-text.png" alt="Logo" width={90} height={40} />
           </Link>
           <Weather />
         </div>

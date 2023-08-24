@@ -69,7 +69,7 @@ export default function RootLayout({
               height: "100vh",
             }}
           >
-            <Image src="/image/logo.webp" alt="logo" width={500} height={500} />
+            <Image src="/image/logo-text.gif" alt="logo" width={500} height={500} />
           </div>
         )}
         {!loading && (
