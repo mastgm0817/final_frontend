@@ -1,10 +1,11 @@
-// 📆 캘린더 뷰, 조회 
+// 📆 캘린더 뷰, 조회
 "use client";
 import React, { useState } from "react";
 import "/public/css/calendar.css";
 import ScheduleView from "../schedule/ScheduleView";
 import CalendarHeader from "./CalendarHeader";
 import DaysOfWeek from "./DaysOfWeek";
+import DDay from "./DDay";
 
 interface ScheduleProps {
   nickName: string;
@@ -26,6 +27,11 @@ export default function CalendarView() {
     year: date.getFullYear(),
   });
   const [nickName, setNickName] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [selectedYear, setSelectedYear] = useState<number>(selectedDate.year);
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    selectedDate.month
+  );
 
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -107,6 +113,26 @@ export default function CalendarView() {
     }
   };
 
+  // 오늘로 이동
+  const goToToday = () => {
+    const today = new Date();
+    setSelectedDate({
+      month: today.getMonth() + 1,
+      day: today.getDate(),
+      year: today.getFullYear(),
+    });
+  };
+
+  // 날짜 년도/월/일 별로 가져오기
+  const handleDateChange = () => {
+    setSelectedDate({
+      year: selectedYear,
+      month: selectedMonth,
+      day: selectedDate.day,
+    });
+    setShowDatePicker(false);
+  };
+
   const selectedDayOfWeek =
     daysOfWeek[
       new Date(
@@ -117,27 +143,34 @@ export default function CalendarView() {
     ];
 
   return (
-    <div style={{ fontFamily: "BMHANNAAir_ttf" }} className="container">
-      <div className="calendar">
-        <CalendarHeader
-          selectedDate={selectedDate}
-          goToPrevMonth={goToPrevMonth}
-          goToNextMonth={goToNextMonth}
-        />
-        <DaysOfWeek />
-        <div className="day-list">{renderCalendar()}</div>
+    <div style={{ fontFamily: "Chosunilbo_myungjo" }} className="container">
+      <div className="calendar-container">
+        <div className="calendar">
+          <CalendarHeader
+            selectedDate={selectedDate}
+            goToPrevMonth={goToPrevMonth}
+            goToNextMonth={goToNextMonth}
+            onYearChange={setSelectedYear}
+            onMonthChange={setSelectedMonth}
+          />
+          <DaysOfWeek />
+          <div className="day-list">{renderCalendar()}</div>
+        </div>
       </div>
-      <div className="schedule">
-        <h2>
-          {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
-        </h2>
-        <ScheduleView
-          nickName={nickName}
-          date={scheduleData.length > 0 ? scheduleData[0].date : ""}
-          schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
-          share={shareData}
-          selectedDate={selectedDate}
-        />
+      <div className="schedule-container">
+        <div className="schedule">
+        <DDay selectedDate={selectedDate} />
+          <h2>
+            {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
+          </h2>
+          <ScheduleView
+            nickName={nickName}
+            date={scheduleData.length > 0 ? scheduleData[0].date : ""}
+            schedule={scheduleData.length > 0 ? scheduleData[0].schedule : ""}
+            share={shareData}
+            selectedDate={selectedDate}
+          />
+        </div>
       </div>
     </div>
   );
