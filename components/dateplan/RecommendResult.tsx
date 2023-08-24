@@ -7,38 +7,6 @@ interface RecommendResultProps {
 const RecommendResult: React.FC<RecommendResultProps> = ({ results }) => {
   if (!results || results.length === 0) {
     return <div>No results available.
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
-      <p> No results available.</p>
     </div>;
   }
 
