@@ -37,13 +37,40 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const API_URL = process.env.NEXT_PUBLIC_URL;
+  const [emailDuplicate, setEmailDuplicate] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState(""); // 비밀번호 상태 변수
+  const [passwordConfirm, setPasswordConfirm] = React.useState(""); // 비밀번호 확인 상태 변수
+
+  const handleEmailCheck = async (email) => {
+    try {
+      const response = await axios.post(API_URL + `/normal/users/checkEmail`, {
+        email: email,
+      });
+      if (response.data === true) {
+        alert("이미 사용중인 이메일입니다.");
+        setEmailDuplicate(true);
+      } else {
+        alert("사용 가능한 이메일입니다.");
+        setEmailDuplicate(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
     const nickName = data.get("nickName");
-    const API_URL = process.env.NEXT_PUBLIC_URL;
+
+    if (password !== passwordConfirm) {
+      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+      return;
+    }
 
     try {
       const response = await axios.post(API_URL + `/normal/users/join`, {
@@ -105,6 +132,19 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleEmailCheck(email)} // 여기에 email 값을 전달합니다.
+                      >
+                        Check
+                      </Button>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -116,6 +156,20 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)} // 비밀번호 상태 업데이트
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="passwordConfirm"
+                  label="비밀번호 확인"
+                  type="password"
+                  id="passwordConfirm"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
                 />
               </Grid>
               <Grid item xs={12}>
