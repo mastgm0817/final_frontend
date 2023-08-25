@@ -34,14 +34,13 @@ function CardProfile({ title, buttonText }) {
             }
           );
           setUserInfo(response.data);
-          console.log(userInfo);
         } catch (error) {
           setError(error);
         }
       }
     }
     fetchUserInfo();
-  }, [session]);
+  }, [session, userInfo]);
 
   const handleupdateClick = async () => {
     if (session && updatednickName) {

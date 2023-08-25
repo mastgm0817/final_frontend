@@ -60,10 +60,11 @@ function LoverProfile({ title, buttonText2 }) {
         if (response.data) {
           setShowLoverInfo(response.data);
         } else {
-          setError(error);
+          setShowLoverInfo(null);
         }
       } catch (error) {
         setError(error);
+        setShowLoverInfo(null);
       }
     }
   }
