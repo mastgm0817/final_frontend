@@ -26,7 +26,7 @@ export default function SignInSide() {
     const password = e.target.password.value;
     signIn("Credentials", {
       email: email,
-      password: password1,
+      password: password,
       callbackUrl: CALLBACKURL,
     });
   };
