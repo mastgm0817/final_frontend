@@ -15,10 +15,9 @@ import { Button, Container, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 
-
 const defaultTheme = createTheme();
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
-const G_CALLBACKURL = process.env.NEXT_PUBLIC_GOOGlE_CALLBACKURL;
+// const G_CALLBACKURL = process.env.NEXT_PUBLIC_GOOGlE_CALLBACKURL;
 
 export default function SignInSide() {
   const handleLoginBtn = async (e) => {
@@ -164,7 +163,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("google", {
-                        callbackUrl: G_CALLBACKURL,
+                        callbackUrl: CALLBACKURL,
                       })
                     }
                   >
