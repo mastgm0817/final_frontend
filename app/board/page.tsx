@@ -48,7 +48,7 @@ function Logined(props: any): any {
   const [AddFormClass, setAddFormClass] = useState<string | null>(null); //글추가폼의 class
   const [showAddForm, setShowAddForm] = useState<boolean>(false); //글추가폼 켜고끄기
   const [showSearchForm, setSearchForm] = useState<boolean>(false); //검색창 켜고끄기
-  // const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
+  const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
   const [findStr, setFindStr] = useState<string>('all');
   const [findingMethod, setFindingMethod] = useState<string>('')
   const [inputFindingMethod, setInputFindingMethod] = useState<string>('');
@@ -99,9 +99,9 @@ function Logined(props: any): any {
   function handleSearchForm(){
     setSearchForm(!showSearchForm)
   }
-  // function handleSortForm(){
-  //   setSortForm(!showSortForm)
-  // }
+  function handleSortForm(){
+    setSortForm(!showSortForm)
+  }
   function initiallizeSearchParams(){
     setFindStr("");
     setFindingMethod("all");
@@ -125,48 +125,69 @@ function Logined(props: any): any {
       <div className="font-sans items-center max-w-6xl mx-auto flex-col justify-center min-h-screen">
       <br /><br />
         <div className="flex justify-center items-center">
-          <h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}>게시판</h1></div>
+          <h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}></h1></div>
 
           <br></br>
           {/* <button className="text-blue-700">내글보기</button> */}
         
+
           {/* 검색 */}
-          <div className="flex justify-items-end">
-            <button onClick={handleSearchForm} className={showSearchForm?"search active":"search"}><GlassIcon /></button>
-            <div className={showSearchForm?"search-form active bg-white flex flex-grow w-80 items-center space-x-3 border rounded border-gray-300 hover:border-gray-400":
-                          "search-form w-80"}>
-              {showSearchForm && <FindingMethod inputFindingMethod={inputFindingMethod}
-                              list={findingMethods}
-                              setInputFindingMethod={setInputFindingMethod} />}
+          <div className="flex justify-items-end py-2">
+            <button onClick={handleSearchForm} className={showSearchForm ? "search active" : "search object-right"}><GlassIcon /></button>
+            <div className={showSearchForm ? 
+                            "search-form active bg-white w-96 basis-96 flex items-center space-x-3 border rounded border-gray-300 hover:border-gray-400"
+                            : "search-form"}>
 
-              <input value={inputFindStr}
-                    onChange={(e) => setInputFindStr(e.target.value)}
-                    className="p-2 w-44 focus:outline-none"></input>
+                {showSearchForm && 
+                <>
+                <div className="w-20">
+                  <FindingMethod inputFindingMethod={inputFindingMethod}
+                                 list={findingMethods}
+                                 setInputFindingMethod={setInputFindingMethod} /></div>
 
-              <div className="p-1 w-3.5"
+                {/* <span className="text-gray-200">|</span> */}
+                
+                <input value={inputFindStr}
+                      onChange={(e) => setInputFindStr(e.target.value)}
+                      className="p-2 w-44 focus:outline-none" />
+
+                {/* <span className="text-gray-200">|</span> */}
+
+                <div className="p-1 w-3.5"
                     onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
-                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span></div>
-              
-              <div className="p-1 w-3.5" onClick={() => setSearchForm(false)}>
-                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span></div>
+                    <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span>
+                </div>
+                
+                <div className="p-1 w-3.5" onClick={() => setSearchForm(false)}>
+                    <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span>
+                </div>
+                </>}
             </div>
           </div>
 
 
+
           {/* 정렬 */}
-            {/* <button onClick={handleSortForm} className={showSortForm?"sort active":"sort"}><SortIcon /></button>
-            <div className={showSortForm?"sort-form active flex-grow w-auto items-center space-x-3 border rounded border-gray-300 hover:border-gray-400":
-                          "search-form w-80"}>
-              <FindingMethod inputFindingMethod={inputFindingMethod}
-                              list={sortMethods}
-                              setInputFindingMethod={setInputFindingMethod} />
-              <div className="p-1 w-16"
-                    onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
-                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span></div>
-              
-              <div className="p-1 w-16" onClick={() => setSortForm(false)}>
-                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span></div>
-            </div> */}
+          {/* <div className="flex justify-items-end py-2">
+            <button onClick={handleSearchForm} className={showSearchForm ? "sort active" : "sort object-right"}><SortIcon /></button>
+            <div className={showSortForm ? 
+                            "sort-form active bg-white w-96 basis-96 flex items-center space-x-3 border rounded border-gray-300 hover:border-gray-400"
+                            : "sort-form"}>
+                {showSortForm && <FindingMethod inputFindingMethod={inputFindingMethod}
+                                  list={sortMethods}
+                                  setInputFindingMethod={setInputFindingMethod} />}
+
+                <div className="p-1 w-3.5"
+                    onClick={() => {setSortMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
+                    <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span>
+                </div>
+                
+                <div className="p-1 w-3.5" onClick={() => setSearchForm(false)}>
+                    <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span>
+                </div>
+            </div>
+        </div> */}
+
 
         <div>
           <div className="max-w-4xl bg-white rounded-lg p-4 mx-auto">
