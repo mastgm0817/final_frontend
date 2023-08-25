@@ -26,8 +26,10 @@ const defaultBoard: Board = {
 
 const findingMethods = [
   {id: 1,name: 'nickname'},
-  { id: 2,name: 'title',},
-  {id: 3,name: 'content',}]
+  {id: 2,name: 'title',},
+  {id: 3,name: 'content',},
+  {id: 4,name: 'mine',}
+]
 
   const sortMethods=[
     {id:1,name:'recommend'},
@@ -46,7 +48,7 @@ function Logined(props: any): any {
   const [AddFormClass, setAddFormClass] = useState<string | null>(null); //글추가폼의 class
   const [showAddForm, setShowAddForm] = useState<boolean>(false); //글추가폼 켜고끄기
   const [showSearchForm, setSearchForm] = useState<boolean>(false); //검색창 켜고끄기
-  const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
+  // const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
   const [findStr, setFindStr] = useState<string>('all');
   const [findingMethod, setFindingMethod] = useState<string>('')
   const [inputFindingMethod, setInputFindingMethod] = useState<string>('');
@@ -97,9 +99,9 @@ function Logined(props: any): any {
   function handleSearchForm(){
     setSearchForm(!showSearchForm)
   }
-  function handleSortForm(){
-    setSortForm(!showSortForm)
-  }
+  // function handleSortForm(){
+  //   setSortForm(!showSortForm)
+  // }
   function initiallizeSearchParams(){
     setFindStr("");
     setFindingMethod("all");

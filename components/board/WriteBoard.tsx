@@ -31,7 +31,7 @@ export default function WriteBoard(props: WriteBoardProps) {
           </div>
         </div>
         <form>
-          <div className="mb-4 mr-4 ml-3 py-2">
+          <div className="mb-4 mr-4 ml-3 py-2 w-80">
             <input
               placeholder="제목"
               type="text"
