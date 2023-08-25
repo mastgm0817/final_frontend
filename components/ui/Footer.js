@@ -1,27 +1,19 @@
-import * as React from "react";
 import "./../../public/css/footer.css";
 
 export default function Footer() {
   return (
-    <footer
-      className="w-full text-gray-700 body-font"
-      style={{ marginTop: "20px", marginBottom: "20px" }}
-    >
-      <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
-        <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start"></a>
-        <div className="flex justify-center mt-2 space-x-4">
+    <footer className="w-full text-gray-700 body-font bg-gray-100 py-8 bg-opacity-50">
+      <div className="flex justify-center items-center mx-auto max-w-4xl px-4 md:px-0">
+        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
           <a
             href="#"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "12px" }}
           >
-            <p>이용약관</p>
+            이용약관
           </a>
-
           <a
             href="#"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             개인정보처리방침
           </a>
@@ -30,7 +22,6 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             Github
           </a>
@@ -39,14 +30,12 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "12px" }}
           >
             Contact
           </a>
           <a
             href="https://luvoost.co.kr"
             className="text-sm text-gray-500 hover:text-f783ac transition-colors"
-            style={{ marginRight: "8px", fontSize: "11px" }}
           >
             © Luvoost
           </a>

@@ -207,7 +207,7 @@ const ScheduleView: React.FC<ScheduleProps> = ({
         {showAddForm && (
           <form onSubmit={onSubmit} className="schedule-form">
             <div className="flex gap-2">
-              <label className="w-16 text-right">별명:</label>
+              <label className="w-16 text-right custom-label">별명:</label>
               <input
                 type="text"
                 value={inputNickName}
@@ -216,29 +216,29 @@ const ScheduleView: React.FC<ScheduleProps> = ({
               />
             </div>
             <div className="flex gap-2">
-              <label className="w-16 text-right">날짜:</label>
+              <label className="w-16 text-right custom-label">날짜:</label>
               <input
                 type="date"
                 value={inputDate}
                 onChange={(e) => setInputDate(e.target.value)}
-                className="border rounded p-1"
+                className="border rounded p-1 flex-grow"
               />
               {inputDate.trim() === "" && <div>* 날짜를 선택해 주세요</div>}
             </div>
             <div className="flex gap-2">
-              <label className="w-16 text-right">일정 내용:</label>
+              <label className="w-16 text-right custom-label">일정 내용:</label>
               <input
                 type="text"
                 value={inputSchedule}
                 onChange={(e) => setInputSchedule(e.target.value)}
-                className="border rounded p-1"
+                className="border rounded p-1 flex-grow"
               />
               {inputSchedule.trim() === "" && (
                 <div>* 일정 내용을 입력해 주세요</div>
               )}
             </div>
             <div className="flex gap-2">
-              <label className="w-16 text-right">연인과 공유:</label>
+              <label className="w-16 text-right custom-label">연인과 공유:</label>
               <input
                 type="checkbox"
                 checked={inputShare}
