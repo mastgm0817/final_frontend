@@ -232,20 +232,21 @@
 .search.active{
   overflow: hidden;
   height: 0px;
-  transition: all 5s;
+  transition: all 0.5s;
 }
 
 .search-form{
   height: 46px;
   width:0px;
-  transition: all 0.5s;
+  transition: width 0.5s;
 }
 
 .search-form.active{
   height: 46px;
-  width:320px;
-  transition: all 0.5s;
+  width: auto;
+  transition: width 0.5s;
 }
+
 
 .sort{
   margin-left: 200px;

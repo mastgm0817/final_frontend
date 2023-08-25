@@ -70,14 +70,7 @@ function Logined(props: any): any {
         console.error("Error fetching boards:", error);
     }
     }, []);
-  const fetchBoard = useCallback(async (bid:number) => {
-      try {
-          const response = await SendData("GET", `/boards/${bid}`, null, "fetch one board");
-          setBoards(response);
-      } catch (error) {
-          console.error("Error fetching board:", error);
-      }
-      }, []);
+
   function ToggleAddForm(): any {
     if (AddFormClass === "formOn") {
       setAddFormClass("formOff");
@@ -119,6 +112,7 @@ function Logined(props: any): any {
 
   if (session) {
     const userName = session.user?.name;
+
     return (
       <>
 
@@ -128,39 +122,35 @@ function Logined(props: any): any {
           <h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}></h1></div>
 
           <br></br>
-          {/* <button className="text-blue-700">내글보기</button> */}
         
 
           {/* 검색 */}
           <div className="flex justify-items-end py-2">
             <button onClick={handleSearchForm} className={showSearchForm ? "search active" : "search object-right"}><GlassIcon /></button>
-            <div className={showSearchForm ? 
-                            "search-form active bg-white w-96 basis-96 flex items-center space-x-3 border rounded border-gray-300 hover:border-gray-400"
-                            : "search-form"}>
+            
+            <div className={`search-form 
+                            ${showSearchForm ? 'active flex items-center w-max space-x-3 border rounded border-gray-300 hover:border-gray-400' : ''}`}>
+
 
                 {showSearchForm && 
                 <>
-                <div className="w-20">
-                  <FindingMethod inputFindingMethod={inputFindingMethod}
-                                 list={findingMethods}
-                                 setInputFindingMethod={setInputFindingMethod} /></div>
+                  <div className="w-30">
+                    <FindingMethod inputFindingMethod={inputFindingMethod}
+                                  list={findingMethods}
+                                  setInputFindingMethod={setInputFindingMethod} /></div>
+                  
+                  <input value={inputFindStr}
+                        onChange={(e) => setInputFindStr(e.target.value)}
+                        className="p-2 bg-transparent w-ay focus:outline-none" />
 
-                {/* <span className="text-gray-200">|</span> */}
-                
-                <input value={inputFindStr}
-                      onChange={(e) => setInputFindStr(e.target.value)}
-                      className="p-2 w-44 focus:outline-none" />
-
-                {/* <span className="text-gray-200">|</span> */}
-
-                <div className="p-1 w-3.5"
-                    onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
-                    <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span>
-                </div>
-                
-                <div className="p-1 w-3.5" onClick={() => setSearchForm(false)}>
-                    <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span>
-                </div>
+                  <div className="p-1 w-3"
+                      onClick={() => {setFindingMethod(inputFindingMethod); setFindStr(inputFindStr);}}>
+                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><GlassIcon /></span>
+                  </div>
+                  
+                  <div className="pr-8 pl-1 w-3" onClick={() => setSearchForm(false)}>
+                      <span className="h-1 w-1 text-gray-300 hover:text-gray-400"><XMark /></span>
+                  </div>
                 </>}
             </div>
           </div>
