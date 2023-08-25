@@ -22,6 +22,15 @@ const defaultBoard: Board = {
   b_recommendations: 0,
 };
 
+const fixedCenterStyle : React.CSSProperties = {
+  position: 'fixed',
+  top: '50%',
+  left: '70%',
+  transform: 'translate(-50%, -50%)',
+  width:'1000px',
+  zIndex: 1000
+};
+
 //=======================================================================
 // import { useState, useCallback, useEffect, Fragment } from 'react';
 import { Fragment } from 'react';
@@ -361,7 +370,7 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
             <React.Fragment key={board.bid}>
               <div
                 onClick={(event) => HandleBoardClick(event, board)}
-                className={`cursor-pointer max-w-4xl w-full bg-white rounded-lg p-4 flex items-center justify-between ${
+                className={`cursor-pointer max-w-4xl w-full rounded-lg p-4 flex items-center justify-between ${
                   selectedBoard && selectedBoard.bid === board.bid
                     ? "text-pink-500"
                     : ""
@@ -389,13 +398,13 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 { selectedBoard && selectedBoard.bid === board.bid &&
                 <>
                   {UpdateFormClass && showUpdateForm && (
-                    <WriteBoard
+                    <div style={fixedCenterStyle}><WriteBoard
                       board={{ ...selectedBoard }}
                       FormTitle="게시글 수정"
                       handleXButton={handelUpdateXButton}
                       formClass={UpdateFormClass}
                       BoardComplete={UpdateBoard}
-                    />
+                    /></div>
                   )}
                 <BoardDetail
                   showUpdateForm={showUpdateForm}

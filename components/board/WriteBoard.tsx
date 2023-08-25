@@ -19,7 +19,7 @@ export default function WriteBoard(props: WriteBoardProps) {
 
   return (
 
-    <div className="max-w-2xl justify-center items-center z-5000" style={{position:'absolute'}} >
+    <div className="w-2xl justify-center items-center z-5000" style={{position:'absolute'}} >
       <div className={props.formClass}>
         <div className={"bg-white p-6 shadow-lg rounded-md border"}>
         <div className="flex justify-between items-center mb-4">
@@ -31,25 +31,21 @@ export default function WriteBoard(props: WriteBoardProps) {
           </div>
         </div>
         <form>
-          <div className="mb-4 mr-4 ml-3 py-2 w-80">
+          <div className="mb-4 mr-4 ml-3 py-2 w-full">
             <input
               placeholder="제목"
               type="text"
               value={newBoard.btitle}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setNewBoard({ ...newBoard, btitle: event.target.value })
-              }
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setNewBoard({ ...newBoard, btitle: event.target.value })}
               className="w-full px-5 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
           </div>
-          <div className="mb-4 mr-4 ml-3 py-2">
+          <div className="mb-4 mr-4 ml-3 py-2 w-full">
             <textarea
               placeholder="내용"
               rows={4}
               value={newBoard.bcontent}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setNewBoard({ ...newBoard, bcontent: event.target.value })
-              }
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setNewBoard({ ...newBoard, bcontent: event.target.value })}
               className="w-full px-5 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
             ></textarea>
           </div>
