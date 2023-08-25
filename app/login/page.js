@@ -44,7 +44,7 @@ export default function SignInSide() {
     signIn("Credentials", {
       email: email,
       password: password,
-      callbackUrl: process.env.NEXTAUTH_URL,
+      callbackUrl: CALLBACKURL,
     });
   };
 

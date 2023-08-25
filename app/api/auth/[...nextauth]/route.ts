@@ -8,6 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 type CustomUser = User & {
   accessToken?: string; // accessToken 속성 추가
   profileImage?: string;
+  nickName?: string;
 };
 
 const handler = NextAuth({
@@ -53,7 +54,7 @@ const handler = NextAuth({
         );
 
         const user = await res.json();
-        console.log("user데이터" + user.profileImage);
+        console.log("user데이터" + user.nickName);
 
         // 토큰이 유효하면 사용자 반환
         if (user) {
@@ -69,6 +70,7 @@ const handler = NextAuth({
   ],
   pages: {
     signIn: "/login",
+    signOut: "/",
     error: "/api/auth/error",
   },
   callbacks: {
@@ -135,6 +137,7 @@ const handler = NextAuth({
       if (user) {
         token.accessToken = user.accessToken;
         token.profileImage = user.profileImage;
+        token.nickName = user.nickName;
         return token;
       }
       return token;
@@ -153,6 +156,7 @@ const handler = NextAuth({
       session.user.id = token.accessToken as string;
       if (token.profileImage != null)
         session.user.image = token.profileImage as string;
+      if (token.nickName != null) session.user.name = token.nickName as string;
       // console.log("token", token);
       return session;
     },

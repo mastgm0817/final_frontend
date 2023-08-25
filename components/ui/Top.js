@@ -171,6 +171,7 @@ import Image from "next/image";
 import Weather from "../util/CurrentWeather";
 
 const pages = ["Board", "Coupon", "Dateplan"];
+const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
 
 export function LoginedRightSideNav() {
   const session = useSession();
@@ -238,7 +239,11 @@ export function LoginedRightSideNav() {
           </MenuItem>
         </Menu>
         <Button
-          onClick={() => signOut()}
+          onClick={() =>
+            signOut({
+              callbackUrl: CALLBACKURL,
+            })
+          }
           color="inherit"
           sx={{
             fontSize: "1rem",
@@ -277,7 +282,10 @@ export function LogoutedRightSideNav() {
 
 export default function Top() {
   return (
-    <AppBar sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }} position="static">
+    <AppBar
+      sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }}
+      position="static"
+    >
       <Toolbar
         sx={{
           justifyContent: "space-between",
@@ -287,7 +295,12 @@ export default function Top() {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/" passHref>
-              <Image src="./image/logo-text.png" alt="Logo" width={90} height={40} />
+            <Image
+              src="./image/logo-text.png"
+              alt="Logo"
+              width={90}
+              height={40}
+            />
           </Link>
           <Weather />
         </div>
