@@ -22,6 +22,15 @@ const defaultBoard: Board = {
   b_recommendations: 0,
 };
 
+const fixedCenterStyle : React.CSSProperties = {
+  position: 'fixed',
+  top: '50%',
+  left: '70%',
+  transform: 'translate(-50%, -50%)',
+  width:'1000px',
+  zIndex: 1000
+};
+
 //=======================================================================
 // import { useState, useCallback, useEffect, Fragment } from 'react';
 import { Fragment } from 'react';
@@ -130,6 +139,7 @@ function BoardDetail(props: any) {
     const name=session?.user?.name
     return (
       <div>
+        <br />
           <div className="flex items-center"><br />
             <div className="text-xl mr-4"><b>{props.selectedBoard.btitle}</b></div>
             {props.selectedBoard.nickName===session?.user?.name && !props.showUpdateForm &&
@@ -143,7 +153,7 @@ function BoardDetail(props: any) {
           <div className="text-sm text-gray-400 mb-2">작성일 {props.formatDate(props.selectedBoard.b_createdAt)}</div>
           <div className="text-sm text-gray-400 mb-2">최근 수정 {props.formatDate(props.selectedBoard.b_updatedAt)}</div>
           <div className="text-sm text-gray-400 mb-2">조회수 {props.selectedBoard.b_views}</div>
-          <br /><hr /><br />
+          <br /><hr className="w-11/12"/><br />
   
           <p>{lineBrakedContent}</p>
           <br /><br />
@@ -169,7 +179,7 @@ function BoardDetail(props: any) {
   
           {commentListShow &&
             <div className={`comment-list ${commentListShow ? 'p-4 rounded-lg shadow-md' : ''}`}>
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex w-11/12 justify-between items-center mb-4">
                     <p className="text-lg font-bold">댓글</p>
                     <button
                         onClick={ToggleAddComment}
@@ -182,7 +192,7 @@ function BoardDetail(props: any) {
                     {comments &&
                     comments.map((comment:Comment) => (
                         <Fragment key={comment.cid}>
-                            <div className="border p-4 rounded-lg">
+                            <div className="border p-4 rounded-lg w-11/12">
                             <div className="flex justify-between items-center">
                                 <div className="flex">
                                     <span className="font-semibold">{comment.nickName} &nbsp;&nbsp;</span>
@@ -218,7 +228,7 @@ function BoardDetail(props: any) {
                         </Fragment>
                     ))}
                 </div>
-                <hr className="my-4"></hr>
+                <hr className="my-4 w-11/12"></hr>
   
                 {/* 댓글작성폼 */}
                 {AddCommentFormClass && (
@@ -360,7 +370,7 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
             <React.Fragment key={board.bid}>
               <div
                 onClick={(event) => HandleBoardClick(event, board)}
-                className={`cursor-pointer max-w-4xl w-full bg-white rounded-lg p-4 flex items-center justify-between ${
+                className={`cursor-pointer max-w-4xl w-full rounded-lg p-4 flex items-center justify-between ${
                   selectedBoard && selectedBoard.bid === board.bid
                     ? "text-pink-500"
                     : ""
@@ -388,13 +398,13 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 { selectedBoard && selectedBoard.bid === board.bid &&
                 <>
                   {UpdateFormClass && showUpdateForm && (
-                    <WriteBoard
+                    <div style={fixedCenterStyle}><WriteBoard
                       board={{ ...selectedBoard }}
                       FormTitle="게시글 수정"
                       handleXButton={handelUpdateXButton}
                       formClass={UpdateFormClass}
                       BoardComplete={UpdateBoard}
-                    />
+                    /></div>
                   )}
                 <BoardDetail
                   showUpdateForm={showUpdateForm}

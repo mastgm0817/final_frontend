@@ -1,4 +1,4 @@
-import React from "react";
+// 📆 캘린더 디데이
 
 interface DDayProps {
   selectedDate: DateProps;

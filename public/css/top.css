@@ -2,12 +2,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.container {
-  padding: 1rem 15%; /* Add left and right padding of 15% */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #e9e9e9;
+.custom-container {
+  width: "100%";
+  font-size: 1rem;
+  font-family: "Pretendard-Regular";
+  color: "#f783ac";
+  /* margin-left: 2 */
 }
 
 .md\\:flex a {
