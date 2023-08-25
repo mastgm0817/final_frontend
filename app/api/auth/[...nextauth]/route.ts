@@ -69,6 +69,7 @@ const handler = NextAuth({
   ],
   pages: {
     signIn: "/login",
+    signOut: "/",
     error: "/api/auth/error",
   },
   callbacks: {
