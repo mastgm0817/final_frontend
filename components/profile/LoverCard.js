@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Box from '@mui/material/Box';
+import { Avatar, Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -13,10 +13,11 @@ import SearchLover from "./SearchLover";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
-function LoverProfile({ title, buttonText1, buttonText2 }) {
+function LoverProfile({ title, buttonText2 }) {
   const { data: session } = useSession();
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
+  const [showLoverInfo, setShowLoverInfo] = useState(null);
 
   useEffect(() => {
     async function fetchUserInfo() {
@@ -41,36 +42,57 @@ function LoverProfile({ title, buttonText1, buttonText2 }) {
     fetchUserInfo();
   }, [session]);
 
-  // 서버에 수정 요청 보내는 함수
-  // const handleConfirmButtonClick = async (confirm) => {
-  //   if (session && result) {
-  //     try {
-  //       const authToken = session.user.id;
-  //       const response = await axios.post(
-  //         API_URL + `/users/info/update/${result.nickName}`,
-  //         { confirm }, // 수정 요청 데이터
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${authToken}`,
-  //           },
-  //         }
-  //       );
-
-  //       // 결과 처리
-  //       if (response.status === 200) {
-  //         // 서버 응답에 따른 처리 (예: 성공 메시지 표시)
-  //       }
-  //     } catch (error) {
-  //       setError(error);
-  //     }
-  //   }
-  //   setConfirmDialogOpen(false); // 확인 다이얼로그 닫기
-  // };
+  // 연인 데이터 불러오기
+  useEffect(() => {
+    async function showMyLover () {
+    if (session && userInfo && userInfo.lover) {
+      try {
+        // 입력된 닉네임을 이용하여 유저 정보 요청
+        const authToken = session.user.id;
+        const response = await axios.get(
+          API_URL + `/users/info/search/${userInfo.lover}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        if (response.data) {
+          setShowLoverInfo(response.data);
+        } else {
+          setError(error);
+        }
+      } catch (error) {
+        setError(error);
+      }
+    }
+  }
+  showMyLover();
+  }, [session, userInfo]);
 
   // 버튼2 클릭 시 실행되는 함수
-  const handleButton2Click = () => {
-    setUserInfo(null); // 유저 정보 초기화
-    setInputNickName(""); // 입력된 닉네임도 초기화
+  const handleButton2Click = async () => {
+    if (session && userInfo) {
+      const authToken = session.user.id;
+      try {
+        const nickName = session.user.name;
+        const response = await axios.delete(
+          API_URL + `/users/deletelover/${nickName}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        if (response.status == 200) {
+        setUserInfo(response.data);
+        } else {
+        console.log('Error deleting lover', error);
+        }
+      } catch (error) {
+        console.error('Error deleting lover', error)
+      }
+    }
   };
 
   return (
@@ -81,27 +103,31 @@ function LoverProfile({ title, buttonText1, buttonText2 }) {
             <Typography sx={{ fontSize: 14 }} color="#f783ac" >
               {title}
             </Typography>
-            {userInfo && (
+            {showLoverInfo ? (
               <>
+                <Avatar value={showLoverInfo.profileImage}></Avatar>
                 <TextField
                   id="연인 닉네임"
-                  value={userInfo.nickName}
+                  value={showLoverInfo.nickName}
                   InputProps={{ readOnly: true }} // 읽기 전용으로 설정
                   variant="standard"
                   sx={{ display: 'flex' }}
                 />
                 <br />
                 <TextField
-                  id="standard-basic"
-                  value={userInfo.email}
+                  id="연인 이메일"
+                  value={showLoverInfo.email}
                   InputProps={{ readOnly: true }} // 읽기 전용으로 설정
                   variant="standard"
                   sx={{ display: 'flex' }}
                 />
-              </>)} <br />
+              </>
+              ) : ( 
+                <Typography>연인을 기다리는 중이에요...</Typography>
+              )} <br />
           </CardContent>
           <CardActions>
-            <SearchLover/>
+            <SearchLover />
             <Button size="small" onClick={handleButton2Click}>{buttonText2}</Button>
           </CardActions>
         </React.Fragment>

@@ -34,6 +34,7 @@ function CardProfile({ title, buttonText }) {
             }
           );
           setUserInfo(response.data);
+          console.log(userInfo);
         } catch (error) {
           setError(error);
         }
