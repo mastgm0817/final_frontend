@@ -5,12 +5,16 @@ interface CalendarHeaderProps {
   selectedDate: DateProps;
   goToPrevMonth: () => void;
   goToNextMonth: () => void;
+  onYearChange: (year: number) => void;
+  onMonthChange: (month: number) => void;
 }
 
 export default function CalendarHeader({
   selectedDate,
   goToPrevMonth,
   goToNextMonth,
+  onYearChange,
+  onMonthChange,
 }: CalendarHeaderProps) {
   return (
     <div className="month-selector">
