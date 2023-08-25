@@ -5,11 +5,10 @@ import Board from "../../types/board";
 import WriteBoard from "../../components/board/WriteBoard";
 import SendData from "../api/board/SendData";
 import Page from "./[pagenum]/pagenum";
+import FindingMethod from "../../components/board/FindingMethod";
 import './../../public/css/board.css';
-import { Fragment, FC } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
 import { GlassIcon, SortIcon, XMark } from "./../../components/icons";
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+
 
 
 const defaultBoard: Board = {
@@ -25,118 +24,19 @@ const defaultBoard: Board = {
   commentList:[]
 };
 
-
 const findingMethods = [
-  {
-    id: 1,
-    name: 'nickname',
-  },
-  {
-    id: 2,
-    name: 'title',
-  },
-  {
-    id: 3,
-    name: 'content',
-  }]
+  {id: 1,name: 'nickname'},
+  {id: 2,name: 'title',},
+  {id: 3,name: 'content',},
+  {id: 4,name: 'mine',}
+]
 
   const sortMethods=[
-    {
-      id:1,
-      name:'recommend'
-    },
-    {
-      id:2,
-      name:'newest'
-    },
-    {
-      id:3,
-      name:'oldest'
-    }
+    {id:1,name:'recommend'},
+    {id:2,name:'newest'},
+    {id:3,name:'oldest'}
   ]
 
-function classNames(...classes:any) {
-  return classes.filter(Boolean).join(' ')
-}
-
-interface boxProps {
-  inputFindingMethod:string
-  setInputFindingMethod: (value: string) => void;
-  list:any
-}
-
-const FindingMethod : FC<boxProps> = ({inputFindingMethod, setInputFindingMethod, list}) => {
-  const [selected, setSelected] = useState(list[0])
-
-  function handleOnchange(value:any){
-    setSelected(value);
-    setInputFindingMethod(value.name);
-  }
-
-  return (
-    <Listbox value={selected} onChange={(value)=>handleOnchange(value)}>
-      {({ open }) => (
-        <>
-          {/* <Listbox.Label className="block text-xs font-medium leading-6 text-gray-900">검색방법</Listbox.Label> */}
-          <div>
-            <Listbox.Button>
-              <span className="flex items-center">
-                <span className="ml-3 block truncate align-middle">&nbsp;&nbsp;{selected.name}&nbsp;&nbsp;&nbsp;</span>
-                <span className="text-gray-200">|</span>
-              </span>
-              <div className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <ChevronDownIcon className="h-1 w-1 text-gray-400" />
-              </div>
-            </Listbox.Button>
-
-            <Transition
-              show={open}
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {list.map((Method:any) => (
-                  <Listbox.Option
-                    key={Method.id}
-                    className={({ active }) =>
-                      classNames(
-                        active ? 'bg-pink-400 text-white' : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-3 pr-9'
-                      )
-                    }
-                    value={Method}
-                  >
-                    {({ selected, active }) => (
-                      <>
-                        <div className="flex items-center">
-                          <span
-                            className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}>
-                            {Method.name}
-                          </span>
-                        </div>
-
-                        {selected ? (
-                          <span
-                              className={classNames(
-                              active ? 'text-white' : 'text-pink-200',
-                              'absolute inset-y-0 right-0 flex items-center pr-4')}>
-                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </>
-      )}
-    </Listbox>
-  )
-}
 
 //==================================================
 
@@ -148,7 +48,7 @@ function Logined(props: any): any {
   const [AddFormClass, setAddFormClass] = useState<string | null>(null); //글추가폼의 class
   const [showAddForm, setShowAddForm] = useState<boolean>(false); //글추가폼 켜고끄기
   const [showSearchForm, setSearchForm] = useState<boolean>(false); //검색창 켜고끄기
-  const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
+  // const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
   const [findStr, setFindStr] = useState<string>('all');
   const [findingMethod, setFindingMethod] = useState<string>('')
   const [inputFindingMethod, setInputFindingMethod] = useState<string>('');
@@ -199,9 +99,9 @@ function Logined(props: any): any {
   function handleSearchForm(){
     setSearchForm(!showSearchForm)
   }
-  function handleSortForm(){
-    setSortForm(!showSortForm)
-  }
+  // function handleSortForm(){
+  //   setSortForm(!showSortForm)
+  // }
   function initiallizeSearchParams(){
     setFindStr("");
     setFindingMethod("all");

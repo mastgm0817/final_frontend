@@ -1,4 +1,6 @@
-export default function Loading(){
+import './../../public/css/board.css';
+
+const Loadimage = () => {
     return(
         <>
         <div role="status" className="max-w-sm animate-pulse">
@@ -29,3 +31,11 @@ export default function Loading(){
         </>
     );
 }
+
+const Loading=()=>{
+    return(
+    <Loadimage />
+    );
+}
+
+export default Loading;
