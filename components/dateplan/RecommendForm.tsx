@@ -32,6 +32,14 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
     quantity: 0,
   });
 
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      user_latitude: position.latitude?.toString() || "",
+      user_longitude: position.longitude?.toString() || ""
+    }));
+  }, [position]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {

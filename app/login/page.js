@@ -15,23 +15,6 @@ import { Button, Container, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const defaultTheme = createTheme();
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
@@ -215,7 +198,6 @@ export default function SignInSide() {
                   </Button>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
