@@ -1,12 +1,32 @@
-.weather-container {
-    text-align: center;
-    margin: 20px;
-  }
-  
-  
-  /* Weather icon image */
-  .weather-icon {
-    width: auto;
-    height: 100px;
-  }
-  
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.weather-icon {
+  width: auto;
+  height: 70px;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-pink {
+  color: #f783ac;
+}
