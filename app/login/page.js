@@ -35,6 +35,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
+const G_CALLBACKURL = process.env.NEXT_PUBLIC_GOOGlE_CALLBACKURL;
 
 export default function SignInSide() {
   const handleLoginBtn = async (e) => {
@@ -180,7 +181,7 @@ export default function SignInSide() {
                   <Button
                     onClick={() =>
                       signIn("google", {
-                        callbackUrl: CALLBACKURL,
+                        callbackUrl: G_CALLBACKURL,
                       })
                     }
                   >
