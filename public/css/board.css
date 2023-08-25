@@ -219,35 +219,34 @@
 .board-detail.active {
   margin-left: 105px;
   margin-top: 50px;
-  height: 400px;
+  height: 450px;
   overflow-y: auto;
 }
 
 .search{
-  margin-left: 180px;
+  margin-right: 3px;
   font-size: 15px;
-  transition: all 2s;
+  overflow:auto;
 }
 
 .search.active{
   overflow: hidden;
   height: 0px;
-}
-
-.search-form{
-  margin-left: 180px;
-  height: 46px;
-  width:0px;
-  overflow: hidden;
   transition: all 0.5s;
 }
 
-.search-form.active{
-  margin-left: 180px;
+.search-form{
   height: 46px;
-  width:320px;
-  overflow-y: auto;
+  width:0px;
+  transition: width 0.5s;
 }
+
+.search-form.active{
+  height: 46px;
+  width: auto;
+  transition: width 0.5s;
+}
+
 
 .sort{
   margin-left: 200px;

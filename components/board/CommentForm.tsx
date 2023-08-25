@@ -16,7 +16,7 @@ const defaultComment: Comment = {
     newComment.nickName=props.nickName;
     // console.log("댓글작성자:"+newComment.nickName);
     return (
-      <div className="flex flex-col mt-4 space-y-4">
+      <div className="flex flex-col mt-4 space-y-4 w-11/12">
         <form className="flex flex-col space-y-2">
           <label className="text-sm font-bold text-gray-600" htmlFor="comment-content">CONTENT</label>
           <input

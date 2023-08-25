@@ -40,7 +40,7 @@ function CardProfile({ title, buttonText }) {
       }
     }
     fetchUserInfo();
-  }, [session, userInfo]);
+  }, [session]);
 
   const handleupdateClick = async () => {
     if (session && updatednickName) {

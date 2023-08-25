@@ -30,7 +30,7 @@
   bottom: 0;
   right: 30px; /* 지도 컨테이너와 동일한 오른쪽 패딩 */
   width: 150px;
-  height: 100%;
+  height: 450px;
   padding: 10px;
   transform: translateX(100%);
   transition: transform 0.3s ease;
@@ -45,9 +45,7 @@
 }
 
 #map-container {
-  margin-top: 10px;
   position: relative; /* 상대 위치 설정 */
-  padding: 30px;
   overflow: hidden; /* 지도 컨테이너 내의 요소가 넘치지 않도록 함 */
   height: 100%;
   width: 100%;
