@@ -130,6 +130,7 @@ function BoardDetail(props: any) {
     const name=session?.user?.name
     return (
       <div>
+        <br />
           <div className="flex items-center"><br />
             <div className="text-xl mr-4"><b>{props.selectedBoard.btitle}</b></div>
             {props.selectedBoard.nickName===session?.user?.name && !props.showUpdateForm &&
@@ -143,7 +144,7 @@ function BoardDetail(props: any) {
           <div className="text-sm text-gray-400 mb-2">작성일 {props.formatDate(props.selectedBoard.b_createdAt)}</div>
           <div className="text-sm text-gray-400 mb-2">최근 수정 {props.formatDate(props.selectedBoard.b_updatedAt)}</div>
           <div className="text-sm text-gray-400 mb-2">조회수 {props.selectedBoard.b_views}</div>
-          <br /><hr /><br />
+          <br /><hr className="w-11/12"/><br />
   
           <p>{lineBrakedContent}</p>
           <br /><br />
@@ -169,7 +170,7 @@ function BoardDetail(props: any) {
   
           {commentListShow &&
             <div className={`comment-list ${commentListShow ? 'p-4 rounded-lg shadow-md' : ''}`}>
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex w-11/12 justify-between items-center mb-4">
                     <p className="text-lg font-bold">댓글</p>
                     <button
                         onClick={ToggleAddComment}
@@ -182,7 +183,7 @@ function BoardDetail(props: any) {
                     {comments &&
                     comments.map((comment:Comment) => (
                         <Fragment key={comment.cid}>
-                            <div className="border p-4 rounded-lg">
+                            <div className="border p-4 rounded-lg w-11/12">
                             <div className="flex justify-between items-center">
                                 <div className="flex">
                                     <span className="font-semibold">{comment.nickName} &nbsp;&nbsp;</span>
@@ -218,7 +219,7 @@ function BoardDetail(props: any) {
                         </Fragment>
                     ))}
                 </div>
-                <hr className="my-4"></hr>
+                <hr className="my-4 w-11/12"></hr>
   
                 {/* 댓글작성폼 */}
                 {AddCommentFormClass && (
