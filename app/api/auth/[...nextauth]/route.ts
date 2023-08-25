@@ -17,6 +17,7 @@ const handler = NextAuth({
       clientId:
         "348049863995-rmkmgpkp5qvtiggpuc162e1hakjs5mo4.apps.googleusercontent.com",
       clientSecret: "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",
+      authorization: "http://luvoost.co.kr/api/auth/callback/google",
     }),
     KakaoProvider({
       clientId: "25edd438130f1d799655087b02557293",
