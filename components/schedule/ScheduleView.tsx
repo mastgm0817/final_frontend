@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+// ✍️ 일정 관리 부분
+
+import { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import CalendarApi from "./../../app/api/calendar/calendarApi";
 import "./../../public/css/schedule.css";
@@ -35,6 +37,8 @@ const ScheduleView: React.FC<ScheduleProps> = ({
   const [updatedShare, setUpdatedShare] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [filteredSchedules, setFilteredSchedules] = useState<any[]>([]);
+  const [showSharedSchedules, setShowSharedSchedules] = useState(true);
+  const [showPersonalSchedules, setShowPersonalSchedules] = useState(true);
 
   useEffect(() => {
     if (session.data?.user.name) {
@@ -172,31 +176,59 @@ const ScheduleView: React.FC<ScheduleProps> = ({
     setShowAddForm(!showAddForm);
   };
 
-  const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
-    .toString()
-    .padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
-
   useEffect(() => {
     const formattedSelectedDate = `${selectedDate.year}-${selectedDate.month
       .toString()
       .padStart(2, "0")}-${selectedDate.day.toString().padStart(2, "0")}`;
-    const filteredSchedules = schedules.filter(
-      (schedule) => schedule.scheduleDate === formattedSelectedDate
-    );
+
+    const filteredSchedules = schedules.filter((schedule) => {
+      if (showSharedSchedules && showPersonalSchedules) {
+        return schedule.scheduleDate === formattedSelectedDate;
+      }
+
+      const isPersonalSchedule = !schedule.shared && showPersonalSchedules;
+      const isSharedSchedule = schedule.shared && showSharedSchedules;
+      return (
+        schedule.scheduleDate === formattedSelectedDate &&
+        (isPersonalSchedule || isSharedSchedule)
+      );
+    });
+
     setFilteredSchedules(filteredSchedules);
-  }, [selectedDate, schedules]);
+  }, [selectedDate, schedules, showPersonalSchedules, showSharedSchedules]);
 
   return (
     <div className="flex flex-col h-full">
       <div className="schedule-container p-4 m-4 border rounded bg-white shadow-md flex-grow">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold mb-2">일정 관리</h2>
-          <button
-            onClick={toggleAddForm}
-            className="px-4 py-2 bg-pink-500 text-white rounded focus:outline-none"
-          >
-            {showAddForm ? "취소" : "일정 추가"}
-          </button>
+          <div className="flex gap-4 items-center">
+            <button
+              onClick={toggleAddForm}
+              className="px-4 py-2 bg-pink-500 text-white rounded focus:outline-none"
+            >
+              {showAddForm ? "취소" : "일정 추가"}
+            </button>
+            <select
+              onChange={(e) => {
+                if (e.target.value === "all") {
+                  setShowSharedSchedules(true);
+                  setShowPersonalSchedules(true);
+                } else if (e.target.value === "shared") {
+                  setShowSharedSchedules(true);
+                  setShowPersonalSchedules(false);
+                } else if (e.target.value === "personal") {
+                  setShowSharedSchedules(false);
+                  setShowPersonalSchedules(true);
+                }
+              }}
+              className="px-4 py-2 rounded focus:outline-none bg-gray-100"
+            >
+              <option value="all">모든 일정</option>
+              <option value="personal">개인 일정</option>
+              <option value="shared">공유된 일정</option>
+            </select>
+          </div>
         </div>
 
         {showAddForm && (
@@ -213,11 +245,17 @@ const ScheduleView: React.FC<ScheduleProps> = ({
         )}
       </div>
 
-      <ScheduleList
-        filteredSchedules={filteredSchedules}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-      />
+      {showSharedSchedules || showPersonalSchedules ? (
+        <ScheduleList
+          filteredSchedules={filteredSchedules}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
+      ) : (
+        <div className="schedule-container p-4 m-4 border rounded bg-white shadow-md mt-4">
+          <div className="mt-2">일정을 선택하세요.</div>
+        </div>
+      )}
 
       {updateScheduleId && (
         <ScheduleUpdateForm

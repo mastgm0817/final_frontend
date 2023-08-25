@@ -1,3 +1,5 @@
+// ✍️ 
+
 interface ScheduleAddFormProps {
   inputNickName: string;
   inputDate: string;
@@ -48,9 +50,7 @@ const ScheduleAddForm: React.FC<ScheduleAddFormProps> = ({
           onChange={(e) => setInputSchedule(e.target.value)}
           className="border rounded p-1 flex-grow"
         />
-        {inputSchedule.trim() === "" && (
-          <div>* 일정 내용을 입력해 주세요</div>
-        )}
+        {inputSchedule.trim() === "" && <div>* 일정 내용을 입력해 주세요</div>}
       </div>
       <div className="flex gap-2">
         <label className="w-16 text-right custom-label">연인과 공유:</label>

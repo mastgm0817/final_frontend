@@ -1,3 +1,5 @@
+// ✍️ 일정 수정 폼
+
 interface ScheduleUpdateFormProps {
   updatedDate: string;
   updatedSchedule: string;

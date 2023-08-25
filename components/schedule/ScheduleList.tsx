@@ -1,6 +1,6 @@
-import React from "react";
+// ✍️ 일정 목록 조회
+
 import "./../../public/css/schedule.css";
-import ScheduleUpdateForm from "./ScheduleUpdateForm";
 
 interface ScheduleListProps {
   filteredSchedules: any[];

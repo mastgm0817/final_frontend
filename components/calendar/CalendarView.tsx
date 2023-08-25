@@ -1,4 +1,5 @@
 // 📆 캘린더 뷰, 조회
+
 "use client";
 import React, { useState } from "react";
 import "/public/css/calendar.css";
@@ -52,7 +53,7 @@ export default function CalendarView() {
       0
     ).getDay();
     const calendarDays = [];
-  
+
     for (let i = firstDayOfMonth; i > 0; i--) {
       const day = new Date(
         selectedDate.year,
@@ -65,14 +66,18 @@ export default function CalendarView() {
         </div>
       );
     }
-  
+
     for (let i = 1; i <= daysInMonth; i++) {
-      const currentDate = new Date(selectedDate.year, selectedDate.month - 1, i);
+      const currentDate = new Date(
+        selectedDate.year,
+        selectedDate.month - 1,
+        i
+      );
       const isSunday = currentDate.getDay() === 0; // 0 corresponds to Sunday
       const dayClass = `day ${selectedDate.day === i ? "selected" : ""} ${
         isSunday ? "sunday" : ""
       }`;
-  
+
       calendarDays.push(
         <div
           key={i}
@@ -83,7 +88,7 @@ export default function CalendarView() {
         </div>
       );
     }
-  
+
     for (let i = 1; i < 7 - lastDayOfMonth; i++) {
       calendarDays.push(
         <div key={`next-month-${i}`} className="day empty next-month-day">
@@ -91,7 +96,7 @@ export default function CalendarView() {
         </div>
       );
     }
-  
+
     return calendarDays;
   };
 
