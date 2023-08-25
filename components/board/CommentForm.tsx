@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Comment from "../../types/comment";
+import { useSession } from "next-auth/react";
 
 const defaultComment: Comment = {
     cid: 0,
@@ -9,6 +10,8 @@ const defaultComment: Comment = {
   };
   
   const CommentForm = (props:any) => {
+    const commentMethod=props.method;
+    const { data: session } = useSession();
     const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
     newComment.nickName=props.nickName;
     // console.log("댓글작성자:"+newComment.nickName);
@@ -31,7 +34,7 @@ const defaultComment: Comment = {
         <div className="flex space-x-2">
         <button
           onClick={() => {
-            newComment.nickName = props.nickName;
+            newComment.nickName = session?.user.name;
             props.CommetComplete(newComment, props.selectedBoard.bid);
           }}
             className="bg-pink-500 text-white p-2 rounded hover:bg-black transition"
@@ -39,7 +42,7 @@ const defaultComment: Comment = {
           제출
           </button>
           <button
-            onClick={props.ToggleAddComment}
+            onClick={() => {props.ToggleCommentForm();} }
             className="bg-gray-200 text-gray-500 p-2 rounded hover:bg-gray-300 transition"
           >
             취소
