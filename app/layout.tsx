@@ -50,7 +50,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      {/* <GoogleAnalytics trackingId="G-FDVK366KNX" /> */}
+      <GoogleAnalytics trackingId="G-FDVK366KNX" />
       <body
         style={{
           fontFamily: "Pretendard-Regular",

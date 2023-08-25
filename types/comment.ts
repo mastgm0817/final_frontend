@@ -5,7 +5,7 @@ type Comment = {
   cid: Key;
   ccontent: string;
   ccreatedAt: ISODateString;
-  nickName: String;
+  nickName: string|undefined;
 };
 
 export default Comment;
