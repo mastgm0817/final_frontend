@@ -187,6 +187,7 @@ export function LoginedRightSideNav() {
 
   if (session.status === "authenticated") {
     return (
+      <div className="container">
       <div style={{ display: "flex", alignItems: "center" }}>
         <Image
           src={session.data.user?.image}
@@ -216,11 +217,6 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/profile"
-              style={{
-                fontSize: "1.1rem",
-                fontFamily: "Pretendard-Regular",
-                color: "#f783ac",
-              }}
             >
               Profile
             </a>
@@ -228,11 +224,6 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/admin"
-              style={{
-                fontSize: "1.1rem",
-                fontFamily: "Pretendard-Regular",
-                color: "#f783ac",
-              }}
             >
               Admin
             </a>
@@ -245,14 +236,14 @@ export function LoginedRightSideNav() {
             })
           }
           color="inherit"
-          sx={{
-            fontSize: "1rem",
-            fontFamily: "Pretendard-Regular",
-            color: "#f783ac",
-          }}
+          sx={{ color: "#f783ac",
+          fontSize: "1.1rem",
+          fontFamily: "Pretendard-Regular"
+        }}
         >
           로그아웃
         </Button>
+      </div>
       </div>
     );
   }
@@ -266,12 +257,10 @@ export function LogoutedRightSideNav() {
       <Link href="/login">
         <Button
           color="inherit"
-          sx={{
-            fontSize: "1rem",
-            fontFamily: "Pretendard-Regular",
-            color: "#f783ac",
-            marginLeft: 2,
-          }}
+          sx={{ color: "#f783ac",
+          fontSize: "1.1rem",
+          fontFamily: "Pretendard-Regular"
+        }}
         >
           로그인
         </Button>
@@ -282,6 +271,7 @@ export function LogoutedRightSideNav() {
 
 export default function Top() {
   return (
+    <div className="container">
     <AppBar
       sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }}
       position="static"
@@ -317,5 +307,6 @@ export default function Top() {
         </div>
       </Toolbar>
     </AppBar>
+    </div>
   );
 }

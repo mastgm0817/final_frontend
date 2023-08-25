@@ -143,7 +143,7 @@ export default function CalendarView() {
     ];
 
   return (
-    <div style={{ fontFamily: "Chosunilbo_myungjo" }} className="container">
+    <div className="container">
       <div className="calendar-container">
         <div className="calendar">
           <CalendarHeader
