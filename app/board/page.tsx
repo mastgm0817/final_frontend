@@ -13,15 +13,24 @@ import { GlassIcon, SortIcon, XMark } from "./../../components/icons";
 
 const defaultBoard: Board = {
   bid: 0,
-  nickName: " ",
-  btitle: " ",
-  bcontent: " ",
-  b_createdAt: " ",
+  nickName: "",
+  btitle: "",
+  bcontent: "",
+  b_createdAt: "",
   b_updatedAt: "",
   b_views: 0,
   comments: 0,
   b_recommendations: 0,
   commentList:[]
+};
+
+const fixedCenterStyle : React.CSSProperties = {
+  position: 'fixed',
+  top: '50%',
+  left: '30%',
+  transform: 'translate(-50%, -50%)',
+  width:'1000px',
+  zIndex: 1000
 };
 
 const findingMethods = [
@@ -56,6 +65,7 @@ function Logined(props: any): any {
 
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [pages, setPages] = useState<number>(0)
+  const [pageCount, setPageCount] = useState<number>(0)
 
   useEffect(() => {
     console.log("findingMethod:", findingMethod);
@@ -70,6 +80,15 @@ function Logined(props: any): any {
         console.error("Error fetching boards:", error);
     }
     }, []);
+
+  const getPages = useCallback(async () => {
+      try {
+          const pagecount:number = await SendData("GET", `/boards`, null, "fetch page count");
+          setPageCount(pagecount)
+      } catch (error) {
+          console.error("Error fetching pagecount:", error);
+      }
+      }, []);
 
   function ToggleAddForm(): any {
     if (AddFormClass === "formOn") {
@@ -107,16 +126,18 @@ function Logined(props: any): any {
     ToggleAddForm();
     initiallizeSearchParams();
     fetchData();
+    getPages();
   }
 
 
   if (session) {
+    getPages();
     const userName = session.user?.name;
 
     return (
       <>
 
-      <div className="font-sans items-center max-w-6xl mx-auto flex-col justify-center min-h-screen">
+      <div className="items-center max-w-6xl mx-auto flex-col justify-center min-h-screen">
       <br /><br />
         <div className="flex justify-center items-center">
           <h1 className="text-3xl font-bold mb-4 items-center" onClick={() => setPages(0)}></h1></div>
@@ -180,7 +201,7 @@ function Logined(props: any): any {
 
 
         <div>
-          <div className="max-w-4xl bg-white rounded-lg p-4 mx-auto">
+          <div className="max-w-4xl rounded-lg p-4 mx-auto">
             <div className="flex justify-between items-center font-bold mb-4 border-b-2 pb-2">
               <div className="divide-y divide-gray-100"></div>
               <div className="w-1/12 text-center">No</div>
@@ -190,16 +211,7 @@ function Logined(props: any): any {
               <div className="w-1/12 text-center">추천수</div>
               <div className="w-1/12 text-center">조회수</div>
             </div>
-            {AddFormClass && showAddForm && (
-              <div><WriteBoard
-                board={{ ...defaultBoard }}
-                FormTitle="새로운 게시글 작성"
-                handleXButton={handleAddXButton}
-                formClass={AddFormClass}
-                BoardComplete={CreateBoard}
-                
-              /></div>
-            )}
+            
             <Page params={{ pagenum: pages,findingMethod,findStr }} />
           </div>
         </div>
@@ -213,11 +225,14 @@ function Logined(props: any): any {
                         className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages-1}</button>}
           {pages>=1 && <button onClick={() => setPages(pages-1)}
                         className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages}</button>}
+
           <p className="bg-pink-500 text-white p-2 rounded relative inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium">{pages+1}</p>
-          <button onClick={() => setPages(pages+1)}
-                        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages+2}</button>
-          <button onClick={() => setPages(pages+2)}
-                        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages+3}</button>
+          {(pageCount-1>pages) && <button onClick={() => setPages(pages+1)}
+                        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages+2}</button>}
+          {(pageCount-2>pages) && <button onClick={() => setPages(pages+2)}
+                        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{pages+3}</button>}
+          {(pageCount>pages) && !(pageCount-1==pages) && <button onClick={() => setPages(pageCount-1)}
+                        className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{">>"}</button>}
         </div>
 
         <div className="fixed bottom-5 right-5 bg-pink-500 hover:bg-black text-white font-bold py-2 px-4 rounded-full"
@@ -228,6 +243,20 @@ function Logined(props: any): any {
 
         
       </div>
+
+      {AddFormClass && showAddForm && (
+        <div style={fixedCenterStyle}>
+          <WriteBoard
+            board={{ ...defaultBoard }}
+            FormTitle="새로운 게시글 작성"
+            handleXButton={handleAddXButton}
+            formClass={AddFormClass}
+            BoardComplete={CreateBoard}
+          />
+        </div>
+      )}
+
+      
       </>
    )}
    else{
