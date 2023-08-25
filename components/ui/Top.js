@@ -271,7 +271,7 @@ export function LogoutedRightSideNav() {
 
 export default function Top() {
   return (
-    <div className="container">
+    <div className="custom-container">
     <AppBar
       sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }}
       position="static"

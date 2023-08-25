@@ -52,7 +52,7 @@ export default function CalendarView() {
       0
     ).getDay();
     const calendarDays = [];
-
+  
     for (let i = firstDayOfMonth; i > 0; i--) {
       const day = new Date(
         selectedDate.year,
@@ -65,19 +65,25 @@ export default function CalendarView() {
         </div>
       );
     }
-
+  
     for (let i = 1; i <= daysInMonth; i++) {
+      const currentDate = new Date(selectedDate.year, selectedDate.month - 1, i);
+      const isSunday = currentDate.getDay() === 0; // 0 corresponds to Sunday
+      const dayClass = `day ${selectedDate.day === i ? "selected" : ""} ${
+        isSunday ? "sunday" : ""
+      }`;
+  
       calendarDays.push(
         <div
           key={i}
           onClick={() => setSelectedDate({ ...selectedDate, day: i })}
-          className={`day ${selectedDate.day === i ? "selected" : ""}`}
+          className={dayClass}
         >
           {i}
         </div>
       );
     }
-
+  
     for (let i = 1; i < 7 - lastDayOfMonth; i++) {
       calendarDays.push(
         <div key={`next-month-${i}`} className="day empty next-month-day">
@@ -85,7 +91,7 @@ export default function CalendarView() {
         </div>
       );
     }
-
+  
     return calendarDays;
   };
 
@@ -159,8 +165,8 @@ export default function CalendarView() {
       </div>
       <div className="schedule-container">
         <div className="schedule">
-        <DDay selectedDate={selectedDate} />
-          <h2>
+          <DDay selectedDate={selectedDate} />
+          <h2 className="text-lg font-semibold mb-2">
             {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
           </h2>
           <ScheduleView

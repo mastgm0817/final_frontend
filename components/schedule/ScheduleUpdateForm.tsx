@@ -4,9 +4,9 @@ interface ScheduleUpdateFormProps {
   updatedShare: boolean;
   handleUpdateSubmit: (e: React.FormEvent) => void;
   handleCancelUpdate: () => void;
-  setUpdatedDate: React.Dispatch<React.SetStateAction<string>>;
-  setUpdatedSchedule: React.Dispatch<React.SetStateAction<string>>;
-  setUpdatedShare: React.Dispatch<React.SetStateAction<boolean>>;
+  setUpdatedDate: (value: string) => void;
+  setUpdatedSchedule: (value: string) => void;
+  setUpdatedShare: (value: boolean) => void;
 }
 
 const ScheduleUpdateForm: React.FC<ScheduleUpdateFormProps> = ({
@@ -57,7 +57,7 @@ const ScheduleUpdateForm: React.FC<ScheduleUpdateFormProps> = ({
         </button>
         <button
           onClick={handleCancelUpdate}
-          className="px-4 py-2 bg-red-500 text-white rounded"
+          className="px-4 py-2 bg-pink-500 text-white rounded focus:outline-none"
         >
           취소
         </button>

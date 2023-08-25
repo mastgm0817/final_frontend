@@ -2,11 +2,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.container {
+.custom-container {
+  width: "100%";
   font-size: 1rem;
   font-family: "Pretendard-Regular";
   color: "#f783ac";
-  margin-left: 2
+  /* margin-left: 2 */
 }
 
 .md\\:flex a {

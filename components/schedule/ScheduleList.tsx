@@ -1,5 +1,6 @@
 import React from "react";
 import "./../../public/css/schedule.css";
+import ScheduleUpdateForm from "./ScheduleUpdateForm";
 
 interface ScheduleListProps {
   filteredSchedules: any[];
