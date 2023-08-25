@@ -56,6 +56,7 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/profile"
+              style={{color: "#f783ac"}}
             >
               Profile
             </a>
@@ -63,6 +64,7 @@ export function LoginedRightSideNav() {
           <MenuItem onClick={handleMenuClose}>
             <a
               href="/admin"
+              style={{color: "#f783ac"}}
             >
               Admin
             </a>
