@@ -1,4 +1,5 @@
-import React from "react";
+// ✍️ 일정 목록 조회
+
 import "./../../public/css/schedule.css";
 
 interface ScheduleListProps {
@@ -14,7 +15,7 @@ const ScheduleList: React.FC<ScheduleListProps> = ({
 }) => {
   return (
     <div className="schedule-container p-4 m-4 border rounded bg-white shadow-md mt-4">
-      <h3 className="text-lg font-semibold mt-4">일정 목록</h3>
+      <h2 className="text-lg font-semibold mb-2">일정 목록</h2>
 
       {filteredSchedules.length === 0 ? (
         <div className="mt-2">일정이 없습니다.</div>
@@ -25,12 +26,17 @@ const ScheduleList: React.FC<ScheduleListProps> = ({
               key={schedule.scheduleId}
               className="flex items-center justify-between px-2 py-1 bg-gray-100 rounded"
             >
-              <div className="flex gap-x-4">
-                {schedule.writerId}님 (공유: {schedule.shared ? "⭕" : "❌"})
-                <div className="min-w-0 flex-auto">
+              <div className="flex items-center gap-x-4 w-full">
+                <div className="flex-auto">
+                  {schedule.writerId}님
                   <p className="text-sm font-semibold leading-6 text-gray-900">
                     {schedule.scheduleContent}
                   </p>
+                </div>
+                <div className="flex items-center gap-x-2">
+                  <span className="text-gray-500">
+                    공유: {schedule.shared ? "⭕" : "❌"}
+                  </span>
                   <button
                     onClick={() =>
                       handleUpdate(
@@ -40,7 +46,7 @@ const ScheduleList: React.FC<ScheduleListProps> = ({
                         schedule.shared
                       )
                     }
-                    className="hover:underline focus:outline-none"
+                    className="hover:underline focus:outline-none text-sm text-blue-500"
                   >
                     수정
                   </button>
@@ -48,7 +54,7 @@ const ScheduleList: React.FC<ScheduleListProps> = ({
                     onClick={() =>
                       handleDelete(schedule.scheduleId, schedule.shared)
                     }
-                    className="hover:underline focus:outline-none"
+                    className="hover:underline focus:outline-none text-sm text-red-500"
                   >
                     삭제
                   </button>

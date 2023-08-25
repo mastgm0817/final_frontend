@@ -7,8 +7,7 @@
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 50%;
-  margin: 0 auto;
+  font-family: "Pretendard-Regular";
 }
 
 .month-selector {
@@ -16,15 +15,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  padding-left: 10px; 
-  padding-right: 10px; 
+  padding-left: 10px;
+  padding-right: 10px;
 }
-
 
 .button-wrapper {
   display: flex;
   gap: 2px;
-  align-items: center; /* 버튼들을 수직 중앙으로 정렬 */
+  align-items: center;
 }
 
 .days-of-week {
@@ -130,8 +128,15 @@
   cursor: pointer;
 }
 
+.sunday {
+  color: red;
+}
+
+.d-day {
+  font-size: 20px;
+  color: #f783ac;
+}
 /* 공휴일
 .day.holiday {
   color: red;
 } */
-

@@ -32,6 +32,7 @@ export default function Banner({
       className="flex items-center"
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
+      style={{fontFamily:"Chosunilbo_myungjo"}}
     >
       <Lottie animationData={lottieJson} play={play} style={animationStyle} />
       <div className="ml-4 slide-in-right">

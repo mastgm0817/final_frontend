@@ -1,4 +1,5 @@
 // 📆 캘린더 주간 요일
+
 export default function DaysOfWeek() {
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 

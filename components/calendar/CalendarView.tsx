@@ -1,4 +1,5 @@
 // 📆 캘린더 뷰, 조회
+
 "use client";
 import React, { useState } from "react";
 import "/public/css/calendar.css";
@@ -67,11 +68,21 @@ export default function CalendarView() {
     }
 
     for (let i = 1; i <= daysInMonth; i++) {
+      const currentDate = new Date(
+        selectedDate.year,
+        selectedDate.month - 1,
+        i
+      );
+      const isSunday = currentDate.getDay() === 0; // 0 corresponds to Sunday
+      const dayClass = `day ${selectedDate.day === i ? "selected" : ""} ${
+        isSunday ? "sunday" : ""
+      }`;
+
       calendarDays.push(
         <div
           key={i}
           onClick={() => setSelectedDate({ ...selectedDate, day: i })}
-          className={`day ${selectedDate.day === i ? "selected" : ""}`}
+          className={dayClass}
         >
           {i}
         </div>
@@ -143,7 +154,7 @@ export default function CalendarView() {
     ];
 
   return (
-    <div style={{ fontFamily: "Chosunilbo_myungjo" }} className="container">
+    <div className="container">
       <div className="calendar-container">
         <div className="calendar">
           <CalendarHeader
@@ -159,8 +170,8 @@ export default function CalendarView() {
       </div>
       <div className="schedule-container">
         <div className="schedule">
-        <DDay selectedDate={selectedDate} />
-          <h2>
+          <DDay selectedDate={selectedDate} />
+          <h2 className="text-lg font-semibold mb-2">
             {selectedDate.year}년 {selectedDate.month}월 {selectedDate.day}일
           </h2>
           <ScheduleView
