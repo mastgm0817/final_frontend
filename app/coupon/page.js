@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import axios from "axios";
+import CouponApi from "../api/coupon/CouponApi";
+import CouponFormApi from "../api/coupon/CouponFormApi";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
@@ -61,6 +63,7 @@ export default function Coupon() {
             Authorization: `Bearer ${authToken}`, // 토큰을 헤더에 추가
           },
         });
+        console.log(response.data);
         setCoupons(response.data);
       } catch (error) {
         console.error("Error fetching coupons:", error);
@@ -136,6 +139,7 @@ export default function Coupon() {
             <th>생성 날짜</th>
             <th>수정 날짜</th>
             <th>만료일</th>
+            <th>쿠폰소유자</th>
           </tr>
         </thead>
         <tbody>
@@ -152,10 +156,13 @@ export default function Coupon() {
               <td>{new Date(item.createdAt).toLocaleDateString()}</td>
               <td>{new Date(item.updatedAt).toLocaleDateString()}</td>
               <td>{new Date(item.endAt).toLocaleDateString()}</td>
+              <td>{item.userId}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <CouponApi></CouponApi>
+      <CouponFormApi></CouponFormApi>
     </div>
   );
 }
