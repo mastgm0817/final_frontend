@@ -67,6 +67,12 @@ export default function SignUp() {
     const password = data.get("password");
     const nickName = data.get("nickName");
 
+    // 입력 필드가 비어 있는지 확인
+    if (!email || !password || !nickName || !passwordConfirm) {
+      alert("모든 필드를 채워주세요.");
+      return;
+    }
+
     if (password !== passwordConfirm) {
       alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
