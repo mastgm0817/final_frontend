@@ -50,6 +50,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </head>
       <GoogleAnalytics trackingId="G-FDVK366KNX" />
       <body
         style={{
@@ -69,7 +75,12 @@ export default function RootLayout({
               height: "100vh",
             }}
           >
-            <Image src="/image/logo-text.gif" alt="logo" width={500} height={500} />
+            <Image
+              src="/image/logo-text.gif"
+              alt="logo"
+              width={500}
+              height={500}
+            />
           </div>
         )}
         {!loading && (
