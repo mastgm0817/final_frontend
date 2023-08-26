@@ -66,7 +66,7 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              로그인
             </Typography>
             <Box
               component="form"
@@ -79,7 +79,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="email"
+                label="이메일"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -89,48 +89,37 @@ export default function SignInSide() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="비밀번호"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="아이디 저장"
               />
               <Button
                 type="submit"
                 fullWidth
+                bgcolor="#f783ac"
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 2, mb: 2}}
               >
-                Sign In
+                로그인
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Forgot password?
+                    비밀번호 찾기
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {"회원가입"}
                   </Link>
                 </Grid>
               </Grid>
-              <Typography
-                style={{
-                  textAlign: "center",
-                  color: "#1976d2",
-                  fontSize: "16px",
-                  marginTop: "10px",
-                }}
-                component="h5"
-                variant="h5"
-              >
-                Or sign in with
-              </Typography>
-              <Grid container spacing={0.5} style={{ marginTop: "10px" }}>
+              <Grid container spacing={0.5} style={{ marginTop: "30px" }}>
                 <Grid
                   xs
                   item
