@@ -11,7 +11,6 @@ const CouponApi = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.get(API_URL + `/users/info/${userNickName}`);
-      console.log(response);
       setUser(response.data);
     } catch (error) {
       console.error(error);

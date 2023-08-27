@@ -53,6 +53,7 @@ const CouponApi = () => {
                 key={index}
                 code={coupon.code}
                 content={coupon.couponContent}
+                discountType={coupon.discountType}
                 discountValue={coupon.discountValue}
                 assignedAt={coupon.assignedAt}
                 endAt={coupon.endAt}

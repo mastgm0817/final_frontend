@@ -98,7 +98,6 @@ const handler = NextAuth({
             const data = await loginRes.json();
             console.log(data.token);
             (user as CustomUser).accessToken = data.token; // 사용자 정의 User 객체에 accessToken을 설정합니다.
-
             return true;
           }
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
@@ -124,14 +123,14 @@ const handler = NextAuth({
             // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
 
-          if (loginRes.status !== 404){
-            console.error(loginRes.body)
+          if (loginRes.status !== 404) {
+            console.error(loginRes.body);
           }
           console.log("이거나오면 안됨");
           return loginRes.ok;
         } catch (error) {
-          console.error("토큰 발급실패",error);
-          
+          console.error("토큰 발급실패", error);
+
           return false;
         }
       }

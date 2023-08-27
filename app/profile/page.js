@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import * as React from "react";
@@ -106,6 +107,24 @@ export default function UserInfo() {
     return <p>Loading...</p>;
   }
 
+  const deleteUser = async () => {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/users/delete/${session.user.name}`
+      );
+      if (response.status === 200) {
+        // 로그아웃 처리
+        alert("회원탈퇴되었습니다.");
+        signOut({
+          callbackUrl: "/login", // 로그아웃 후 리다이렉트될 URL
+          redirect: true, // 리다이렉트를 수행할지 여부
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user", error);
+    }
+  };
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
@@ -177,7 +196,7 @@ export default function UserInfo() {
               <br />
               <CardProfile title="쿠폰 정보" buttonText="나의쿠폰보기" />
               <br />
-              <Button>회원탈퇴</Button>
+              <Button onClick={deleteUser}>회원탈퇴</Button>
             </Container>
           </Grid>
         </Grid>
