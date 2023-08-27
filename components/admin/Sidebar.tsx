@@ -2,7 +2,7 @@ import React from 'react';
 import "../../public/css/admin.css"
 const Sidebar: React.FC = () => {
   return (
-    <div className="bg-color-#e5e7eb text-black w-40 h-screen flex flex-col shadow-lg">
+    <div className="bg-color-#e5e7eb text-black w-40 h-screen flex flex-col shadow-lg flex-shrink-0">
       <div className="p-4">
         <h1 className="text-2xl font-semibold">Sidebar</h1>
       </div>

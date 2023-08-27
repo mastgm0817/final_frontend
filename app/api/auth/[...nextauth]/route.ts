@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider, { DateTime } from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { log } from "console";
 
 type CustomUser = User & {
   accessToken?: string; // accessToken 속성 추가
@@ -100,7 +101,6 @@ const handler = NextAuth({
 
             return true;
           }
-
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
             const loginRes = await fetch(
@@ -123,10 +123,15 @@ const handler = NextAuth({
 
             // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
           }
+
+          if (loginRes.status !== 404){
+            console.error(loginRes.body)
+          }
           console.log("이거나오면 안됨");
           return loginRes.ok;
         } catch (error) {
-          console.error("토큰 발급실패");
+          console.error("토큰 발급실패",error);
+          
           return false;
         }
       }

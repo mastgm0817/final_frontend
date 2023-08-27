@@ -6,11 +6,12 @@ const App: React.FC = () => {
     <div className="flex">
       <Sidebar />
       {/* Main content */}
-      <div className="flex-grow bg-gray-100 p-8"> 
+      <div className="flex-grow bg-gray-100 p-8 flex-grow-1"> 
         <UserManager />
       </div>
     </div>
   );
 };
+
 
 export default App;

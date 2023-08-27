@@ -11,26 +11,56 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CardProfile from "../profile/ProfileCard";
 import LoverProfile from "../profile/LoverCard";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 
 interface User {
+  uid: number;
   nickName: string;
   email: string;
+  blocked: string;
   // 추가적인 유저 정보 필드
 }
+type CouponType = {
+  couponContent: string;
+  code: string;
+  discountType: "PERCENTAGE" | "ANOTHER_POSSIBLE_TYPE"; // 여기에 가능한 다른 값들을 추가해 주세요.
+  discountValue: number;
+  createdAt: Date; // 만약 `today`와 `oneMonthLater`가 Date 타입이라면
+  updatedAt: Date; // 만약 `today`와 `oneMonthLater`가 Date 타입이라면
+  endAt: Date; // 만약 `oneMonthLater`가 Date 타입이라면
+};
+
+type BlockUserData = {
+  reason: string;
+  startDate: string;  // ISO 형식의 문자열 (예: "2023-08-26T14:54:06.952")
+  endDate: string;    // ISO 형식의 문자열
+};
 
 const UserManager: React.FC = () => {
+  const [formData, setFormData] = useState<BlockUserData>({
+    reason: '',
+    startDate: '',
+    endDate: '',
+  });
   const session = useSession();
   const [nickName, setNickName] = useState<string>("");
-  const [user, setUser] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
   const token = session.data?.user.id;
   const defaultTheme = createTheme();
   const URL = process.env.NEXT_PUBLIC_URL;
-  const API_URL = `${URL}/users`;
-  const [block,setBolck] = useState(null);
+  const API_URL = `${URL}/admin`;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`${API_URL}/info/search/${nickName}`, {
+      const response = await axios.get(`${API_URL}/users/${nickName}`, {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: `Bearer ${token}`,
@@ -38,19 +68,21 @@ const UserManager: React.FC = () => {
       });
       if (response.status === 200) {
         const userData: User = response.data;
-        setUser(userData);
+        console.log(response.data);
+        setUserInfo(userData);
       } else {
-        setUser(null);
+        setUserInfo(null);
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setUser(null);
+      setUserInfo(null);
     }
   };
 
-  const handleBlockUser = async () => {
+  const handleBlockUser = async (uid:number) => {
     try {
-      const response = await axios.post(`${API_URL}/block/${nickName}`,{
+      console.log(token);
+      const response = await axios.post(`${API_URL}/users/block/${uid}`, JSON.stringify(formData), {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: `Bearer ${token}`,
@@ -58,7 +90,6 @@ const UserManager: React.FC = () => {
       });
       if (response.status === 200) {
         console.log(response.data);
-        setBolck(response.data);
       }
     } catch (error) {
       console.error('Error blocking user:', error);
@@ -99,23 +130,142 @@ const UserManager: React.FC = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Box component="form" noValidate sx={{ mt: 3 }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <Box sx={{ fontSize: "36px", fontWeight: "bold" }}>
-                          {user?.nickName}
-                        </Box>
-                        <Box sx={{ fontSize: 14 }} color="text.secondary">
-                          {user?.email}
-                        </Box>
+                  {Array.isArray(userInfo) && userInfo.map((user, index) => (
+                    <Box component="form" key={index} sx={{ 
+                      ml:46,
+                      mb:5,
+                      mt: -5, 
+                      p: 3, 
+                      border: '1px solid #ddd', 
+                      borderRadius: '5px', 
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.1)', 
+                      display: 'flex', 
+                      flexDirection: 'column',
+                      justifyContent: 'center', 
+                      alignItems: 'center',
+                      height: '100vh',  // 높이를 전체 뷰포트 높이로 설정
+                      width:"full"
+                  }}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12} sx={{ mb: 2 }}>
+                          <Typography variant="h4" component="div" fontWeight="bold">
+                            NickName: {user.nickName}
+                          </Typography>
+                          <Typography color="textSecondary" variant="body2">
+                            E-mail: {user.email}
+                          </Typography>
+                          <Typography variant="body1">
+                            UID: {user.uid}
+                          </Typography>
+                          <Typography variant="body1">
+                            UserRole: {user.userRole}
+                          </Typography>
+                          {user.blackListDetails && (
+                            <Grid item xs={12}>
+                              <TableContainer component={Paper}>
+                                <Table>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>번호</TableCell>
+                                      <TableCell>정지 사유</TableCell>
+                                      <TableCell>정지 시작일</TableCell>
+                                      <TableCell>정지 종료일</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow key={user.blackListDetails.blackId}>
+                                      <TableCell>{user.blackListDetails.blackId}</TableCell>
+                                      <TableCell>{user.blackListDetails.reason}</TableCell>
+                                      <TableCell>{new Date(user.blackListDetails.startDate).toLocaleDateString()}</TableCell>
+                                      <TableCell>{user.blackListDetails.endDate ? new Date(user.blackListDetails.endDate).toLocaleDateString() : "N/A"}</TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                          )}
+                        </Grid>
+                        {user.couponList && user.couponList.length > 0 && (
+                          <Grid item xs={12}>
+                            <TableContainer component={Paper}>
+                              <Table>
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell>번호</TableCell>
+                                    <TableCell>종류</TableCell>
+                                    <TableCell>코드</TableCell>
+                                    <TableCell>할인</TableCell>
+                                    <TableCell>생성 날짜</TableCell>
+                                    <TableCell>수정 날짜</TableCell>
+                                    <TableCell>만료일</TableCell>
+                                    <TableCell>쿠폰소유자</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {user.couponList.map((item: any) => (
+                                    <TableRow key={item.cpid}>
+                                      <TableCell>{item.cpid}</TableCell>
+                                      <TableCell>{item.couponContent}</TableCell>
+                                      <TableCell>{item.code}</TableCell>
+                                      <TableCell>
+                                        {item.discountType === "PERCENTAGE" ? `${item.discountValue} %` : `${item.discountValue} 원`}
+                                      </TableCell>
+                                      <TableCell>{new Date(item.createdAt).toLocaleDateString()}</TableCell>
+                                      <TableCell>{new Date(item.updatedAt).toLocaleDateString()}</TableCell>
+                                      <TableCell>{new Date(item.endAt).toLocaleDateString()}</TableCell>
+                                      <TableCell>{item.userId}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </Grid>
+                        )}
+                        <Grid item xs={12}>
+                          <Typography variant="body1">
+                            Lover: {user.lover}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
+                      <div>
+                        <label>
+                          Reason:
+                          <input
+                            type="text"
+                            name="reason"
+                            value={formData.reason}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          Start Date:
+                          <input
+                            type="datetime-local"
+                            name="startDate"
+                            value={formData.startDate}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          End Date:
+                          <input
+                            type="datetime-local"
+                            name="endDate"
+                            value={formData.endDate}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                      <Button onClick={() => handleBlockUser(user.uid)}>유저 차단하기</Button>
+                    </Box>
+                  ))}
                 </Box>
               </Container>
             </Grid>
-            {nickName}
-            <Button onClick={handleBlockUser}>유저 차단하기</Button>
           </Grid>
         </ThemeProvider>
       </>
