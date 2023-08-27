@@ -18,6 +18,16 @@ export default function CouponInfo({
   assignedAt,
   endAt,
 }) {
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(code).then(
+      () => {
+        alert("쿠폰 번호가 클립보드에 복사되었습니다.");
+      },
+      (err) => {
+        alert("쿠폰 번호를 복사하는데 실패했습니다.", err);
+      }
+    );
+  };
   let imageSrc;
   if (content === "회원가입축하쿠폰") {
     imageSrc = "./image/cImgSignup.png";
@@ -29,7 +39,7 @@ export default function CouponInfo({
   return (
     <Card sx={{ width: 320, maxWidth: "100%", boxShadow: "lg" }}>
       <CardOverflow>
-        <AspectRatio sx={{ minWidth: 200 }}>
+        <AspectRatio objectFit="contain" sx={{ minWidth: 200 }}>
           <Image
             src={imageSrc} // 동적으로 설정된 src를 사용
             alt="CouponImage"
@@ -65,8 +75,13 @@ export default function CouponInfo({
         <Typography level="body-xs">만료 일자: {endAt}</Typography>
       </CardContent>
       <CardOverflow>
-        <Button variant="solid" color="danger" size="lg">
-          사용하기
+        <Button
+          variant="solid"
+          color="danger"
+          size="lg"
+          onClick={handleCopyCode}
+        >
+          쿠폰번호 복사하기
         </Button>
       </CardOverflow>
     </Card>
