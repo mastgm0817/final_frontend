@@ -22,6 +22,8 @@ export default function Payment() {
   const [couponCode, setCouponCode] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const { data: session } = useSession();
+  // 쿠폰적용 여부를 판단하는 새로운 상태 변수 추가
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
 
   const applyCoupon = async () => {
     const authToken = session.user.id;
@@ -48,7 +50,14 @@ export default function Payment() {
         } else if (discountType === "AMOUNT") {
           updatedPrice = totalPrice - discountValue;
         }
+
+        // 만약 계산된 총 금액이 0 이하면 0으로 설정
+        if (updatedPrice < 0) {
+          updatedPrice = 0;
+        }
+
         setTotalPrice(updatedPrice);
+        setIsCouponApplied(true);
       }
     } catch (error) {
       if (
@@ -122,9 +131,15 @@ export default function Payment() {
         value={couponCode}
         onChange={(e) => setCouponCode(e.target.value)}
       />
-      <Button variant="contained" color="secondary" onClick={applyCoupon}>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={applyCoupon}
+        disabled={isCouponApplied}
+      >
         쿠폰 적용하기
       </Button>
+
       <Typography variant="h6">
         총 금액: {totalPrice.toLocaleString()}
       </Typography>
