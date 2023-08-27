@@ -40,27 +40,31 @@ const CouponFormApi = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="couponId">쿠폰 번호: </label>
-        <input
-          type="text"
-          id="couponId"
-          value={couponId}
-          onChange={(e) => setCouponId(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="userId">유저 번호: </label>
-        <input
-          type="text"
-          id="userId"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
-      </div>
-      <button type="submit">쿠폰 할당</button>
-    </form>
+    <>
+      <h1 style={{ fontSize: "36px" }}>쿠폰 할당하기</h1>
+      <hr />
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="couponId">쿠폰 번호: </label>
+          <input
+            type="text"
+            id="couponId"
+            value={couponId}
+            onChange={(e) => setCouponId(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="userId">유저 번호: </label>
+          <input
+            type="text"
+            id="userId"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+        </div>
+        <button type="submit">쿠폰 할당</button>
+      </form>
+    </>
   );
 };
 

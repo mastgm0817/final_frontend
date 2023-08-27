@@ -1,26 +1,24 @@
 "use client";
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import ModeIcon from '@mui/icons-material/Mode';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import ModeIcon from "@mui/icons-material/Mode";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CardProfile from "../../components/profile/ProfileCard";
 import LoverProfile from "../../components/profile/LoverCard";
 import ProfileImageUploadPopUp from "../../components/profile/ProfileImageUpLoadPopUp";
 
-
-
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
 export default function UserInfo() {
-
   // 이미지 수정 로직
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
 
@@ -34,7 +32,7 @@ export default function UserInfo() {
 
   const handleSaveImage = async (imageFile) => {
     if (!session) {
-      console.log('User session not available.');
+      console.log("User session not available.");
       return;
     }
 
@@ -43,11 +41,11 @@ export default function UserInfo() {
 
       // 1. 프로필 이미지 업로드
       const formData = new FormData();
-      formData.append('image', imageFile);
+      formData.append("image", imageFile);
 
       // 2. 서버 응답을 받아서 페이지 데이터 업데이트 등의 작업 수행
       const updatedUserData = updateUserResponse.data;
-      console.log('Updated user data:', updatedUserData);
+      console.log("Updated user data:", updatedUserData);
 
       // 필요한 경우 userInfo 상태 업데이트
       setUserInfo(updatedUserData);
@@ -55,7 +53,10 @@ export default function UserInfo() {
       // 팝업 닫기
       handleCloseUploadPopup();
     } catch (error) {
-      console.error('Error uploading image or updating profile:', error.message);
+      console.error(
+        "Error uploading image or updating profile:",
+        error.message
+      );
     }
   };
 
@@ -106,6 +107,24 @@ export default function UserInfo() {
     return <p>Loading...</p>;
   }
 
+  const deleteUser = async () => {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/users/delete/${session.user.name}`
+      );
+      if (response.status === 200) {
+        // 로그아웃 처리
+        alert("회원탈퇴되었습니다.");
+        signOut({
+          callbackUrl: "/login", // 로그아웃 후 리다이렉트될 URL
+          redirect: true, // 리다이렉트를 수행할지 여부
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user", error);
+    }
+  };
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
@@ -117,12 +136,15 @@ export default function UserInfo() {
               <Box
                 sx={{
                   marginTop: 8,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                <Button sx={{ mb: 2, position: 'relative' }} onClick={handleOpenUploadPopup}>
+                <Button
+                  sx={{ mb: 2, position: "relative" }}
+                  onClick={handleOpenUploadPopup}
+                >
                   <Avatar sx={{ m: 2, width: 200, height: 200 }}>
                     <Avatar
                       alt="User porfile"
@@ -132,23 +154,32 @@ export default function UserInfo() {
                   </Avatar>
                   <ModeIcon
                     sx={{
-                      position: 'absolute',
+                      position: "absolute",
                       bottom: 0,
                       right: 0,
                       width: 30,
                       height: 30,
-                      backgroundColor: 'white',
-                      color: '#f783ac',
-                      borderRadius: '50%',
-                    }} />
+                      backgroundColor: "white",
+                      color: "#f783ac",
+                      borderRadius: "50%",
+                    }}
+                  />
                 </Button>
-                <ProfileImageUploadPopUp open={uploadPopupOpen} onClose={handleCloseUploadPopup}
-                  onSave={handleSaveImage} profileImage={userInfo.profileImage} />
+                <ProfileImageUploadPopUp
+                  open={uploadPopupOpen}
+                  onClose={handleCloseUploadPopup}
+                  onSave={handleSaveImage}
+                  profileImage={userInfo.profileImage}
+                />
                 <Box component="form" noValidate sx={{ mt: 3 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Box sx={{ fontSize: '36px', fontWeight: 'bold' }}>{userInfo.nickName}</Box>
-                      <Box sx={{ fontSize: 14 }} color="text.secondary">{userInfo.email}</Box>
+                      <Box sx={{ fontSize: "36px", fontWeight: "bold" }}>
+                        {userInfo.nickName}
+                      </Box>
+                      <Box sx={{ fontSize: 14 }} color="text.secondary">
+                        {userInfo.email}
+                      </Box>
                     </Grid>
                   </Grid>
                 </Box>
@@ -159,10 +190,13 @@ export default function UserInfo() {
           <Grid item xs={8}>
             <Container sx={{ m: 3 }}>
               {/* <CardProfile title="내프로필" buttonText="수정하기" /><br/> */}
-              <CardProfile title="내프로필" /><br />
-              <LoverProfile title="연인 정보" buttonText2="헤어지기" /><br />
-              <CardProfile title="쿠폰 정보(예정)" buttonText="사용하기" /><br />
-              <Button>회원탈퇴</Button>
+              <CardProfile title="내프로필" />
+              <br />
+              <LoverProfile title="연인 정보" buttonText2="헤어지기" />
+              <br />
+              <CardProfile title="쿠폰 정보" buttonText="나의쿠폰보기" />
+              <br />
+              <Button onClick={deleteUser}>회원탈퇴</Button>
             </Container>
           </Grid>
         </Grid>

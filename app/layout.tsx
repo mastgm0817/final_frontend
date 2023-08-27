@@ -10,6 +10,8 @@ import GoogleAnalytics from "../components/admin/GoogleAnalytics";
 import { store } from "../store";
 import Image from "next/image";
 import "./../public/css/fonts.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function RootLayout({
   children,

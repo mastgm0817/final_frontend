@@ -3,6 +3,8 @@ import React from "react";
 import axios from "axios";
 import CouponApi from "../api/coupon/CouponApi";
 import CouponFormApi from "../api/coupon/CouponFormApi";
+import DeleteCoupon from "../api/coupon/DeleteCoupon";
+import UserCouponList from "../api/coupon/UserCouponList";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
@@ -17,13 +19,14 @@ export default function Coupon() {
   } else {
     console.log("세션없음");
   }
+  const [discountOptions, setDiscountOptions] = useState([]);
   const [couponCount, setCouponCount] = useState(1); // 쿠폰 갯수를 관리할 state
   const [coupons, setCoupons] = useState([]);
   const [coupon, setCoupon] = useState({
     couponContent: "",
     code: "",
     discountType: "PERCENTAGE",
-    discountValue: 0,
+    discountValue: 10,
     createdAt: today,
     updatedAt: today,
     endAt: oneMonthLater,
@@ -31,6 +34,8 @@ export default function Coupon() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting with coupon object: ", coupon); // 1번 디버깅 코드
+
     try {
       const couponNum = couponCount;
       const authToken = session.data.user.id;
@@ -73,9 +78,23 @@ export default function Coupon() {
     fetchCoupons();
   }, [session?.data?.user?.id]);
 
+  useEffect(() => {
+    if (coupon.discountType === "PERCENTAGE") {
+      setDiscountOptions([10, 15]); // 예시입니다. 원하는 퍼센트로 변경 가능합니다.
+    } else {
+      setDiscountOptions([10000, 20000]); // 예시입니다. 원하는 금액으로 변경 가능합니다.
+    }
+  }, [coupon.discountType]);
+
+  const handleChangeDiscountValue = (e) => {
+    const newDiscountValue = Number(e.target.value);
+    console.log("Setting discountValue to: ", newDiscountValue); // 2번 디버깅 코드
+    setCoupon({ ...coupon, discountValue: newDiscountValue });
+  };
+
   return (
     <div>
-      <h1>Coupons</h1>
+      <h1 style={{ fontSize: "36px" }}>Coupons 생성</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
@@ -98,22 +117,26 @@ export default function Coupon() {
                 setCoupon({ ...coupon, discountType: e.target.value })
               }
             >
-              <option value="PERCENTAGE">PERCENT</option>
-              <option value="AMOUNT">WON</option>
+              <option value="PERCENTAGE">PERCENTAGE</option>
+              <option value="AMOUNT">AMOUNT</option>
             </select>
           </label>
         </div>
         <div>
           <label>
             할인율 :
-            <input
-              type="number"
-              placeholder="DiscountPercentage"
+            <select
               value={coupon.discountValue}
-              onChange={(e) =>
-                setCoupon({ ...coupon, discountValue: Number(e.target.value) })
-              }
-            />
+              onChange={handleChangeDiscountValue}
+            >
+              {discountOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {coupon.discountType === "PERCENTAGE"
+                    ? `${option} %`
+                    : `${option} 원`}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
         <div>
@@ -129,6 +152,9 @@ export default function Coupon() {
         </div>
         <button type="submit">쿠폰 생성</button>
       </form>
+      <h1 style={{ fontSize: "36px" }}> 쿠폰 삭제 </h1>
+      <DeleteCoupon></DeleteCoupon>
+      <h1 style={{ fontSize: "36px" }}> 생성된 쿠폰 리스트 정보 </h1>
       <table>
         <thead>
           <tr>
@@ -163,6 +189,7 @@ export default function Coupon() {
       </table>
       <CouponApi></CouponApi>
       <CouponFormApi></CouponFormApi>
+      <UserCouponList></UserCouponList>
     </div>
   );
 }
