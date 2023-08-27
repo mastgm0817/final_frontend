@@ -21,11 +21,6 @@ const ScheduleAddForm: React.FC<ScheduleAddFormProps> = ({
   setInputShare,
   onSubmit,
 }) => {
-  const isDateEmpty = inputDate.trim() === "";
-  const isScheduleEmpty = inputSchedule.trim() === "";
-  const isFormSubmitted =
-    inputDate.trim() !== "" || inputSchedule.trim() !== "";
-
   return (
     <form onSubmit={onSubmit} className="schedule-form">
       <div className="flex gap-2">
@@ -43,13 +38,9 @@ const ScheduleAddForm: React.FC<ScheduleAddFormProps> = ({
           type="date"
           value={inputDate}
           onChange={(e) => setInputDate(e.target.value)}
-          className={`border rounded p-1 flex-grow ${
-            isDateEmpty ? "border-red-500" : ""
-          }`}
+          className="border rounded p-1 flex-grow"
         />
-        {isFormSubmitted && isDateEmpty && (
-          <div className="w-16 text-red-500">* 날짜를 선택해 주세요</div>
-        )}
+        {inputDate.trim() === "" && <div>*</div>}
       </div>
       <div className="flex gap-2">
         <label className="w-16 text-right custom-label">일정 내용:</label>
@@ -57,13 +48,9 @@ const ScheduleAddForm: React.FC<ScheduleAddFormProps> = ({
           type="text"
           value={inputSchedule}
           onChange={(e) => setInputSchedule(e.target.value)}
-          className={`border rounded p-1 flex-grow ${
-            isScheduleEmpty ? "border-red-500" : ""
-          }`}
+          className="border rounded p-1 flex-grow"
         />
-        {isFormSubmitted && isScheduleEmpty && (
-          <div className="w-16 text-red-500">* 일정 내용을 입력해 주세요</div>
-        )}
+        {inputSchedule.trim() === "" && <div>*</div>}
       </div>
       <div className="flex gap-2">
         <label className="w-16 text-right custom-label">연인과 공유:</label>
