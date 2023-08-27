@@ -1,4 +1,4 @@
-// ✍️ 
+// ✍️ 일정 추가 폼
 
 interface ScheduleAddFormProps {
   inputNickName: string;
@@ -40,7 +40,7 @@ const ScheduleAddForm: React.FC<ScheduleAddFormProps> = ({
           onChange={(e) => setInputDate(e.target.value)}
           className="border rounded p-1 flex-grow"
         />
-        {inputDate.trim() === "" && <div>* 날짜를 선택해 주세요</div>}
+        {inputDate.trim() === "" && <div>*</div>}
       </div>
       <div className="flex gap-2">
         <label className="w-16 text-right custom-label">일정 내용:</label>
@@ -50,7 +50,7 @@ const ScheduleAddForm: React.FC<ScheduleAddFormProps> = ({
           onChange={(e) => setInputSchedule(e.target.value)}
           className="border rounded p-1 flex-grow"
         />
-        {inputSchedule.trim() === "" && <div>* 일정 내용을 입력해 주세요</div>}
+        {inputSchedule.trim() === "" && <div>*</div>}
       </div>
       <div className="flex gap-2">
         <label className="w-16 text-right custom-label">연인과 공유:</label>

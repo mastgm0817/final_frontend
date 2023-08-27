@@ -1,6 +1,6 @@
 "use client";
 import Lottie from "react-lottie-player";
-import lottieJson from "../../public/animations/main.json";
+// import lottieJson from "../../public/animations/main.json";
 import Image from "next/image";
 import Link from "next/link";
 import "./../../public/css/banner.css";
