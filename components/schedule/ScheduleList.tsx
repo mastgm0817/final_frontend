@@ -1,5 +1,4 @@
 // ✍️ 일정 목록 조회
-
 import "./../../public/css/schedule.css";
 
 interface ScheduleListProps {
