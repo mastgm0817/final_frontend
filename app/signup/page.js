@@ -74,7 +74,7 @@ export default function SignUp() {
       );
       if (response.data.exists) {
         setIsNickNameUnique(false);
-        alert("닉네임이 이미 존재합니다. 다른 닉네임을 사용해주세요");
+        alert("닉네임이 이미 존재합니다. 다른 닉네임을 사용해주세요!");
       } else {
         setIsNickNameUnique(true);
         alert("사용 가능한 닉네임입니다.");
