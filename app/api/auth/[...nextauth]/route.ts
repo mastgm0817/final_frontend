@@ -76,7 +76,8 @@ const handler = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      const callBackUrl = process.env.NEXT_PUBLIC_CALLBACKURL as string;
+      // const callBackUrl = process.env.NEXT_PUBLIC_CALLBACKURL as string;
+      const callBackUrl = "/test";
       if (account && user) {
         try {
           const loginRes = await fetch(
@@ -94,12 +95,19 @@ const handler = NextAuth({
             }
           );
 
+          // if (loginRes.ok) {
+          //   const data = await loginRes.json();
+          //   console.log(data.token);
+          //   (user as CustomUser).accessToken = data.token; // 사용자 정의 User 객체에 accessToken을 설정합니다.
+          //   return true;
+          // }
           if (loginRes.ok) {
             const data = await loginRes.json();
-            console.log(data.token);
-            (user as CustomUser).accessToken = data.token; // 사용자 정의 User 객체에 accessToken을 설정합니다.
+            (user as CustomUser).nickName = data.nickName; // 닉네임을 추가
+            (user as CustomUser).accessToken = data.token;
             return true;
           }
+
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
             const loginRes = await fetch(
@@ -117,11 +125,16 @@ const handler = NextAuth({
                 }),
               }
             );
+            const responseBody = await loginRes.json();
+            const { email, nickName } = responseBody.user;
+            const res_email = encodeURIComponent(email);
+            const res_nickName = encodeURIComponent(nickName);
+            const callbackURL = `/test?email=${res_email}&nickName=${res_nickName}`;
 
-            return callBackUrl;
-
-            // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
+            return callbackURL;
           }
+
+          // return "http://localhost:3000/signup"; // 리다이렉트 URL 반환
 
           if (loginRes.status !== 404) {
             console.error(loginRes.body);
