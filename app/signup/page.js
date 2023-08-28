@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 function Copyright(props) {
   return (
@@ -42,6 +43,8 @@ export default function SignUp() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState(""); // 비밀번호 상태 변수
   const [passwordConfirm, setPasswordConfirm] = React.useState(""); // 비밀번호 확인 상태 변수
+  const [nickNameState, setNickNameState] = React.useState("");
+  const [isNickNameUnique, setIsNickNameUnique] = useState(true);
 
   const handleEmailCheck = async (email) => {
     try {
@@ -57,6 +60,27 @@ export default function SignUp() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const checkNickName = async () => {
+    if (!nickNameState || nickNameState.trim() === "") {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `${API_URL}/users/check/nickname?nickName=${nickNameState}`
+      );
+      if (response.data.exists) {
+        setIsNickNameUnique(false);
+        alert("닉네임이 이미 존재합니다. 다른 닉네임을 사용해주세요");
+      } else {
+        setIsNickNameUnique(true);
+        alert("사용 가능한 닉네임입니다.");
+      }
+    } catch (error) {
+      console.error("닉네임 중복 확인 실패", error);
     }
   };
 
@@ -127,7 +151,23 @@ export default function SignUp() {
                   fullWidth
                   id="nickName"
                   label="닉네임"
+                  value={nickNameState}
+                  onChange={(e) => setNickNameState(e.target.value)}
                   autoFocus
+                  helperText={
+                    nickNameState === "" ? "닉네임을 입력해주세요" : ""
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <Button
+                        onClick={checkNickName}
+                        variant="outlined"
+                        size="small"
+                      >
+                        Check
+                      </Button>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -139,6 +179,7 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                   value={email}
+                  helperText={email === "" ? "이메일을 입력해주세요" : ""}
                   onChange={(e) => setEmail(e.target.value)}
                   InputProps={{
                     endAdornment: (

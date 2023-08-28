@@ -61,6 +61,10 @@ export default function SignUp() {
   }, []);
 
   const checkNickName = async () => {
+    if (!nickNameState || nickNameState.trim() === "") {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
     try {
       const response = await axios.get(
         `${API_URL}/users/check/nickname?nickName=${nickNameState}`
@@ -142,6 +146,9 @@ export default function SignUp() {
                   value={nickNameState}
                   onChange={(e) => setNickNameState(e.target.value)}
                   autoFocus
+                  helperText={
+                    nickNameState === "" ? "닉네임을 입력해주세요" : ""
+                  }
                   InputProps={{
                     endAdornment: (
                       <Button
