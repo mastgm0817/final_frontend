@@ -50,10 +50,10 @@ const CouponManager: React.FC = () => {
           />
         </div>
         <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">생성/수정일</label>
+          <label className="block text-sm font-medium text-gray-700">생성/만료일</label>
           <div className="mt-1 p-2 w-full rounded-md border border-gray-300">
             <div>생성일: {exampleCouponData.createdDate}</div>
-            <div>수정일: {exampleCouponData.modifiedDate}</div>
+            <div>만료일: {exampleCouponData.modifiedDate}</div>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@ const CouponManager: React.FC = () => {
           <div className="col-span-1 text-gray-600">타입</div>
           <div className="col-span-1 text-gray-600">쿠폰번호</div>
           <div className="col-span-1 text-gray-600">소유자</div>
-          <div className="col-span-1 text-gray-600">생성/수정일</div>
+          <div className="col-span-1 text-gray-600">생성/만료일</div>
           <div className="col-span-1">{exampleCouponData.type}</div>
           <div className="col-span-1">{exampleCouponData.category}</div>
           <div className="col-span-1">{exampleCouponData.code}</div>

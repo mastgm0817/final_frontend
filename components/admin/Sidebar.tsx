@@ -9,15 +9,17 @@ const Sidebar: React.FC = () => {
       <nav className="flex-grow">
         <ul className="p-4">
           <li className="mb-2">
+            <a href="/admin/DashBoard" className="text-blue-300 hover:text-blue-500">대시보드</a>
+          </li>
+          <li className="mb-2">
+            <a href="/admin/UserManager" className="text-blue-300 hover:text-blue-500">사용자 정보 조회</a>
+          </li>
+          <li className="mb-2">
             <a href="/admin/BoardManager" className="text-blue-300 hover:text-blue-500">게시판 관리</a>
           </li>
           <li className="mb-2">
             <a href="/admin/CouponManager" className="text-blue-300 hover:text-blue-500">쿠폰 발급/현황</a>
           </li>
-          <li className="mb-2">
-            <a href="/admin/UserManager" className="text-blue-300 hover:text-blue-500">사용자 정보 조회</a>
-          </li>
-          {/* Add more links as needed */}
         </ul>
       </nav>
     </div>

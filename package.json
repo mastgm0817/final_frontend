@@ -24,6 +24,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "chart.js": "^4.4.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
     "next": "^13.4.12",
@@ -31,6 +32,8 @@
     "next-redux-wrapper": "^8.1.0",
     "postcss": "8.4.27",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^4.16.0",
     "react-dom": "^18.2.0",
     "react-lottie-player": "^1.5.5",
     "react-query": "^3.39.3",
@@ -44,5 +47,8 @@
     "styled-components": "^6.0.5",
     "tailwindcss": "^3.3.3",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/react-datepicker": "^4.15.0"
   }
 }
