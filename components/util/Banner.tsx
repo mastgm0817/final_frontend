@@ -9,7 +9,9 @@ export default function Banner({}) {
       className="flex items-center"
       style={{ fontFamily: "Chosunilbo_myungjo" }}
     >
+
       <Image src="/image/main.gif" alt="mainBanner" width={300} height={280} />
+
       <div className="ml-10 slide-in-right">
         <p className="text-3xl font-bold leading-tight">
           데이트 코스 걱정 끝
