@@ -13,5 +13,11 @@ export default withAuth(
   //   }
 );
 export const config = {
-  matcher: ["/board/:path*", "/coupon/:path*", "/dateplan/:path*"],
+  matcher: [
+    "/board/:path*",
+    "/coupon/:path*",
+    "/dateplan/:path*",
+    "/price/:path*",
+    "/payment/:path*",
+  ],
 };

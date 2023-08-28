@@ -26,7 +26,7 @@ export default function Coupon() {
     couponContent: "",
     code: "",
     discountType: "PERCENTAGE",
-    discountValue: 10,
+    discountValue: "",
     createdAt: today,
     updatedAt: today,
     endAt: oneMonthLater,

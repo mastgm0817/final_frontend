@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import MilitaryTechSharpIcon from "@mui/icons-material/MilitaryTechSharp";
 import { signOut } from "next-auth/react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -15,12 +16,18 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CardProfile from "../../components/profile/ProfileCard";
 import LoverProfile from "../../components/profile/LoverCard";
 import ProfileImageUploadPopUp from "../../components/profile/ProfileImageUpLoadPopUp";
+import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
 export default function UserInfo() {
   // 이미지 수정 로직
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
+  const defaultTheme = createTheme();
+  const { data: session } = useSession();
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   const handleOpenUploadPopup = () => {
     setUploadPopupOpen(true);
@@ -60,10 +67,23 @@ export default function UserInfo() {
     }
   };
 
-  const defaultTheme = createTheme();
-  const { data: session } = useSession();
-  const [userInfo, setUserInfo] = useState(null);
-  const [error, setError] = useState(null);
+  const deleteUser = async () => {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/users/delete/${session.user.name}`
+      );
+      if (response.status === 200) {
+        // 로그아웃 처리
+        alert("회원탈퇴되었습니다.");
+        signOut({
+          callbackUrl: "/login", // 로그아웃 후 리다이렉트될 URL
+          redirect: true, // 리다이렉트를 수행할지 여부
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user", error);
+    }
+  };
 
   // session 데이터
   useEffect(() => {
@@ -83,6 +103,7 @@ export default function UserInfo() {
               },
             }
           );
+          console.log(response.data);
 
           setUserInfo(response.data);
         } catch (error) {
@@ -106,24 +127,6 @@ export default function UserInfo() {
   if (!userInfo) {
     return <p>Loading...</p>;
   }
-
-  const deleteUser = async () => {
-    try {
-      const response = await axios.delete(
-        `${API_URL}/users/delete/${session.user.name}`
-      );
-      if (response.status === 200) {
-        // 로그아웃 처리
-        alert("회원탈퇴되었습니다.");
-        signOut({
-          callbackUrl: "/login", // 로그아웃 후 리다이렉트될 URL
-          redirect: true, // 리다이렉트를 수행할지 여부
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting user", error);
-    }
-  };
 
   return (
     <>
@@ -179,6 +182,13 @@ export default function UserInfo() {
                       </Box>
                       <Box sx={{ fontSize: 14 }} color="text.secondary">
                         {userInfo.email}
+                      </Box>
+                      <Box sx={{ fontSize: 14 }} color="text.secondary">
+                        <MilitaryTechSharpIcon />
+                        현재등급 : {userInfo.userRole}
+                        <Link href="/price">
+                          <Button>등급업하기</Button>
+                        </Link>
                       </Box>
                     </Grid>
                   </Grid>
