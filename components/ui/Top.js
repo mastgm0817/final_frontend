@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Weather from "../util/CurrentWeather";
 
-const pages = ["Dateplan", "Board", "Coupon",];
+const pages = ["Dateplan", "Board", "Coupon", "Inquiry"];
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
 
 export function LoginedRightSideNav() {
