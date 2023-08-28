@@ -44,6 +44,8 @@ export default function SignUp() {
   const [password, setPassword] = React.useState(""); // 비밀번호 상태 변수
   const [passwordConfirm, setPasswordConfirm] = React.useState(""); // 비밀번호 확인 상태 변수
   const [nickNameState, setNickNameState] = React.useState("");
+  const [userNameState, setUserNameState] = React.useState("");
+  const [userName, setUserName] = React.useState("");
   const [isNickNameUnique, setIsNickNameUnique] = useState(true);
 
   const handleEmailCheck = async (email) => {
@@ -90,9 +92,10 @@ export default function SignUp() {
     const email = data.get("email");
     const password = data.get("password");
     const nickName = data.get("nickName");
+    const userName = data.get("userName");
 
     // 입력 필드가 비어 있는지 확인
-    if (!email || !password || !nickName || !passwordConfirm) {
+    if (!email || !password || !nickName || !userName || !passwordConfirm) {
       alert("모든 필드를 채워주세요.");
       return;
     }
@@ -105,6 +108,7 @@ export default function SignUp() {
     try {
       const response = await axios.post(API_URL + `/normal/users/join`, {
         nickName: nickName,
+        userName: userName,
         email: email,
         password: password,
       });
@@ -170,6 +174,20 @@ export default function SignUp() {
                   }}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="userName"
+                  label="사용자 이름"
+                  name="userName"
+                  autoComplete="username"
+                  value={userNameState}
+                  helperText={userName === "" ? "이름을 입력해주세요" : ""}
+                  onChange={(e) => setUserNameState(e.target.value)}
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
