@@ -16,7 +16,7 @@ spec:
         kubernetes.io/hostname: worker1r # 원하는 노드 이름 지정
       containers:
         - name: frontend-pod
-          image: 119.197.27.55:5000/frontend@sha256:8ba6392b86f8b998d35dfb8d678d282be9fc184f9af8ec68d2d6f9e8f1a38050
+          image: 119.197.27.55:5000/frontend@sha256:7a806dce0c5ab649a92fd453d3df34845943c1fa536d3de5e25bb9af98059cb2
           ports:
             - containerPort: 3001
 ---
