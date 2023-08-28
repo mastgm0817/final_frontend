@@ -1,6 +1,4 @@
 "use client";
-import Lottie from "react-lottie-player";
-// import lottieJson from "../../public/animations/main.json";
 import Image from "next/image";
 import Link from "next/link";
 import "./../../public/css/banner.css";
@@ -14,7 +12,6 @@ export default function Banner({
       style={{ fontFamily: "Chosunilbo_myungjo" }}
     >
       <Image src="/image/main.gif" alt="mainBanner" width={300} height={280}/>
-      {/* <Lottie animationData={lottieJson} play={play} style={animationStyle} /> */}
       <div className="ml-10 slide-in-right">
         <p className="text-3xl font-bold leading-tight">
           데이트 코스 걱정 끝
