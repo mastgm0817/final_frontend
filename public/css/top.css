@@ -2,33 +2,51 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* 네비게이션 바 스타일 */
 .custom-container {
-  width: "100%";
+  width: 100%;
   font-size: 1rem;
   font-family: "Pretendard-Regular";
-  color: "#f783ac";
-  /* margin-left: 2 */
+  color: #f783ac;
 }
 
-.md\\:flex a {
-  padding: 0.5rem 1rem; /* Add padding to the navigation links */
+/* 반응형 클래스 설정 */
+.md\:flex a {
+  padding: 0.5rem 1rem;
   color: black;
   font-weight: bold;
   transition: background-color 0.3s, border-radius 0.3s;
 }
 
-.md\\:flex a:hover {
-  background-color: #f2f2f2; /* Change the background color on hover */
-  border-radius: 0.25rem; /* Add rounded corners on hover */
+.md\:flex a:hover {
+  background-color: #f2f2f2;
+  border-radius: 0.25rem;
 }
 
 .flex a {
-  color: #e91e63; /* Set the text color to a pink shade for login/logout button */
+  color: inherit;
   font-weight: bold;
   transition: background-color 0.3s, border-radius 0.3s;
 }
 
 .flex a:hover {
-  background-color: #ecbace; /* Change the background color on hover for login/logout button */
-  border-radius: 0.25rem; /* Add rounded corners on hover */
+  /* background-color: #ecbace; */
+  border-radius: 0.25rem;
+}
+
+@media (max-width: 600px) {
+  .custom-container {
+    height: 60px;
+    justify-content: space-between;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .custom-container {
+    /* 메뉴 항목 숨기기 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }

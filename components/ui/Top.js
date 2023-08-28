@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Weather from "../util/CurrentWeather";
+import "./../../public/css/top.css";
 
 const pages = ["Dateplan", "Board", "Coupon", "Inquiry"];
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
@@ -133,7 +134,7 @@ export default function Top() {
               height={40}
             />
           </Link>
-          <Weather />
+          <Weather style={{ display: "none" }} />
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           {pages.map((page) => (
