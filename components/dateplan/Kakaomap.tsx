@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createPosition } from "../../store/position";
-import "./../../public/css/dateplan.css";
 import predict from "../../app/api/dateplan/dateplanApi";
 import RecommendForm from "./RecommendForm";
 import RecommendResult from "./RecommendResult";
-import { useRef } from "react";
 import { useSession } from "next-auth/react";
+import "./../../public/css/dateplan.css";
 
 interface RecommendFormData {
   user_latitude: string;
@@ -31,26 +30,16 @@ const KakaoMap: React.FC = () => {
     null
   );
   const [map, setMap] = useState<any>(null);
-  // const [showForm, setShowForm] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [resultMarkers, setResultMarkers] = useState<any[]>([]);
-  const resultMarkersRef = useRef<any[]>([]);
   const session = useSession();
   const token = session.data?.user.id;
-
-  // const handleToggleForm = () => {
-  //   setShowForm((prevShowForm) => !prevShowForm);
-  //   console.log("Toggling form:", !showForm); // 상태 변경 로그
-  // };
 
   const handleSubmitForm = async (formData: RecommendFormData) => {
     try {
       const predictionResult = await predict(formData, token);
       setResult(predictionResult);
-      // Now you have the prediction result, you can update the UI or take any other actions based on the result.
     } catch (error) {
       console.error("Error while predicting:", error);
-      // Handle the error if the prediction fails.
     }
   };
 
@@ -101,13 +90,16 @@ const KakaoMap: React.FC = () => {
 
       const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOption);
       setMap(kakaoMap);
+
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
       kakaoMap.addControl(
         mapTypeControl,
         window.kakao.maps.ControlPosition.TOPRIGHT
       );
+
       var zoomControl = new window.kakao.maps.ZoomControl();
       kakaoMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
       var markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
       var marker = new window.kakao.maps.Marker({
         position: markerPosition,
@@ -117,7 +109,10 @@ const KakaoMap: React.FC = () => {
   }, [kakaoMapLoaded, userPosition]);
 
   return (
-    <div className="flex justify-center items-center h-full w-full">
+    <div className="flex justify-center items-center">
+       <div className="form-container top-2 left-2">
+            <RecommendForm onSubmit={handleSubmitForm} />
+          </div>
       <div
         id="map-container"
         className="relative"
@@ -125,12 +120,9 @@ const KakaoMap: React.FC = () => {
       >
         <div
           id="map"
-          className="flex w-full h-700px"
-          style={{ height: "30%", width: "100%" }}
+          className="flex w-full h-500px"
+          style={{ height: "35%", width: "100%" }}
         >
-          <div className={`form-container open`}>
-            <RecommendForm onSubmit={handleSubmitForm} />
-          </div>
         </div>
         <div id="result-container" className="flex w-full">
           <RecommendResult results={result} />
