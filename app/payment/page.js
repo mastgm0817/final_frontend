@@ -22,9 +22,9 @@ const payinfo = {
     total_amount: 22000,
     vat_amount: 0,
     tax_free_amount: 0,
-    approval_url: "http://localhost:3000",
-    fail_url: "http://localhost:3000",
-    cancel_url: "http://localhost:3000",
+    approval_url: "http://localhost:8082",
+    fail_url: "http://localhost:8082",
+    cancel_url: "http://localhost:8082",
   },
 };
 
@@ -92,31 +92,23 @@ export default function Payment() {
       }
     }
   };
+  const postKakaopay = async () => {
+    try {
+      const authToken = session.user.id; // 세션에서 토큰 가져오기
+      const response = await axios.post(API_URL + "/payment/ready", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
 
-  // 카카오 페이관련
-  useEffect(() => {
-    const postKakaopay = async () => {
-      try {
-        const authToken = session.user.id; // 세션에서 토큰 가져오기
-        const response = await axios.post(API_URL + "/payment/kakao", payinfo, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-
-        if (response.data) {
-          // 응답을 받아서 처리, 예를 들어 페이지 리다이렉트 등
-          window.location.href = response.data.next_redirect_pc_url;
-        }
-      } catch (error) {
-        console.error("Kakao Payment Error:", error);
-        // 에러 처리 로직
+      if (response.data) {
+        window.location.href = response.data.next_redirect_pc_url;
       }
-    };
-
-    postKakaopay();
-  }, []); // 또는 필요한 Dependency
+    } catch (error) {
+      console.error("Kakao Payment Error:", error);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
