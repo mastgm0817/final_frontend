@@ -1,6 +1,6 @@
 // pages/inquiry.tsx
 "use client"
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useCallback  } from 'react';
 import { useSession } from 'next-auth/react'
 import InquiryForm from '../../components/inquiry/InquiryForm';
 import { createInquiry,getMyInquiry } from '../api/inquiry/inquriyApi';
@@ -11,7 +11,7 @@ const InquiryPage: React.FC = () => {
     const nickName = session.data?.user.name || "";
     const [inquiries, setInquiries] = useState<any[]>([]);
 
-    const fetchInquiries = async () => {  // useEffect 밖으로 함수를 빼냈습니다.
+    const fetchInquiries = useCallback(async () => {
         if (nickName && token) {
             try {
                 const result = await getMyInquiry(nickName, token);
@@ -20,13 +20,13 @@ const InquiryPage: React.FC = () => {
                 console.error('Error fetching inquiries:', error);
             }
         }
-    };
+    }, [nickName, token]);
 
     const handleInquirySubmit = async (content: string, title: string) => {
         try {
             const result = await createInquiry(nickName, title, content, token);
             console.log('Inquiry submitted:', result);
-            fetchInquiries();  // 문의 제출 후 fetchInquiries를 호출합니다.
+            fetchInquiries();
         } catch (error) {
             console.error('Error submitting inquiry:', error);
         }
@@ -34,7 +34,7 @@ const InquiryPage: React.FC = () => {
 
     useEffect(() => {
         fetchInquiries();
-    }, [nickName, token]);
+    }, [fetchInquiries]); // Include fetchInquiries in the dependency array
 
 
     return (
