@@ -52,7 +52,7 @@ function Logined(props: any): any {
   const [showSearchForm, setSearchForm] = useState<boolean>(false); //검색창 켜고끄기
   const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
   const [findStr, setFindStr] = useState<any>('all');
-  const [findingMethod, setFindingMethod] = useState<string>('')
+  const [findingMethod, setFindingMethod] = useState<string>("0");
   const [inputFindingMethod, setInputFindingMethod] = useState<string>('');
   const [inputFindStr, setInputFindStr] = useState<string>('');
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
@@ -160,7 +160,7 @@ function Logined(props: any): any {
 
           {/* 검색 */}
           <div className="flex justify-items-end py-2">
-            <button onClick={handleSearchForm} className={showSearchForm ? "search active" : "search object-right"}><GlassIcon /></button>
+            <button onClick={() => {setInputFindingMethod("1"); handleSearchForm();}} className={showSearchForm ? "search active" : "search object-right"}><GlassIcon /></button>
             
             <div className={`search-form 
                             ${showSearchForm ? 'active flex items-center w-max space-x-3 border rounded border-gray-300 hover:border-gray-400' : ''}`}>
