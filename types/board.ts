@@ -7,11 +7,11 @@ type Board = {
   nickName: string;
   btitle: string;
   bcontent: string;
-  b_createdAt: ISODateString;
-  b_updatedAt: ISODateString;
-  b_views: Number;
+  bcreatedAt: ISODateString;
+  bupdatedAt: ISODateString;
+  bviews: Number;
   comments: Number;
-  b_recommendations: Number;
+  brecommendations: Number;
   commentList:Comment[];
 };
 
