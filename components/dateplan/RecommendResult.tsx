@@ -11,7 +11,7 @@ const RecommendResult: React.FC<RecommendResultProps> = ({ results }) => {
 
   return (
     <div className="text-center">
-      <h1 className="text-xl font-bold text-pink-500 mb-6">데이트 추천 코스 결과</h1>
+      <h1 className="text-xl font-bold text-pink-500 mb-6">데이트 코스 추천 결과</h1>
       <div className="flex flex-col gap-8">
         {results.map((result, courseIndex) => (
           <div key={courseIndex} className="bg-white rounded-lg shadow-md p-4">
