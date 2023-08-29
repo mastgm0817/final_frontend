@@ -19,6 +19,9 @@ const Sidebar: React.FC = () => {
           </li>
           <li className="mb-2">
             <a href="/admin/CouponManager" className="text-blue-300 hover:text-blue-500">쿠폰 발급/현황</a>
+          </li>          
+          <li className="mb-2">
+            <a href="/admin/InquiryManager" className="text-blue-300 hover:text-blue-500">문의 내역 </a>
           </li>
         </ul>
       </nav>

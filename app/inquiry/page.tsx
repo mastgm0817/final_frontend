@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react'
 import InquiryForm from '../../components/inquiry/InquiryForm';
 import { createInquiry,getMyInquiry } from '../api/inquiry/inquriyApi';
 
-
 const InquiryPage: React.FC = () => {
     const session = useSession();
     const token = session.data?.user.id;
@@ -49,7 +48,7 @@ const InquiryPage: React.FC = () => {
                 <ul>
                     {inquiries.map(inquiry => (
                         <li key={inquiry.id}>
-                            {inquiry.title} - {inquiry.content} - {inquiry.createdAt}
+                            {inquiry.title} - {inquiry.content} - {inquiry.createdAt} -{inquiry.status}
                         </li>
                     ))}
                 </ul>
