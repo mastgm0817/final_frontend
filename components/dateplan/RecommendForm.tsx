@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import "./../../public/css/dateplan.css";
 
 interface RecommendFormProps {
   onSubmit: (formData: RecommendFormData) => void;
 }
+
 interface RecommendFormData {
   user_latitude: string;
   user_longitude: string;
@@ -56,12 +58,13 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   };
 
   const renderStars = (name: string, value: number) => (
-    <div>
+    <div className="flex items-center">
       {[1, 2, 3, 4, 5].map((star) => (
         <button
           key={star}
           type="button"
-          style={{ color: star <= value ? "gold" : "gray" }}
+          className={`text-2xl ${star <= value ? "text-yellow-400" : "text-gray-300"
+          }`}
           onClick={() => setFormData((prev) => ({ ...prev, [name]: star }))}
         >
           ★
@@ -73,28 +76,22 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white border-2 border-pink-400 rounded-md p-4"
-      style={{
-        width: "30vh",
-        border: "3px solid #e393b9",
-        borderRadius: "30px",
-        textAlign: "center",
-        marginTop: "12rem",
-        marginLeft: "18rem",
-      }}
+      className="recommend-form-container bg-white p-4 rounded-lg shadow-md"
     >
-      <p className="text-center text-lg mb-4">선호하는 음식점 유형</p>
+      <h2 className="text-center text-xl font-semibold mb-4">선호하는 음식점 유형</h2>
       <div className="mb-4">
-        <label className="block">음식 종류</label>
+        <label className="block text-sm font-medium text-gray-700">
+          음식 종류
+        </label>
         <select
           name="food"
           value={formData.food}
           onChange={handleChange}
-          className="w-full border rounded-md p-1"
+          className="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-pink-500 focus:border-pink-500"
         >
           <option value="" disabled>
             음식 종류 선택
-          </option>{" "}
+          </option>
           <option value="한식">한식</option>
           <option value="양식">양식</option>
           <option value="일식">일식</option>
@@ -103,33 +100,39 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
         </select>
       </div>
       <div className="mb-4">
-        <label className="block">맛</label>
+        <label className="block text-sm font-medium text-gray-700">맛</label>
         {renderStars("taste", formData.taste)}
       </div>
       <div className="mb-4">
-        <label className="block">서비스</label>
+        <label className="block text-sm font-medium text-gray-700">
+          서비스
+        </label>
         {renderStars("service", formData.service)}
       </div>
       <div className="mb-4">
-        <label className="block">분위기</label>
+        <label className="block text-sm font-medium text-gray-700">
+          분위기
+        </label>
         {renderStars("ambiance", formData.ambiance)}
       </div>
       <div className="mb-4">
-        <label className="block">매장상태</label>
+        <label className="block text-sm font-medium text-gray-700">
+          매장상태
+        </label>
         {renderStars("storeCondition", formData.storeCondition)}
       </div>
       <div className="mb-4">
-        <label className="block">친절함</label>
+        <label className="block text-sm font-medium text-gray-700">친절함</label>
         {renderStars("kindness", formData.kindness)}
       </div>
       <div className="mb-4">
-        <label className="block">양</label>
+        <label className="block text-sm font-medium text-gray-700">양</label>
         {renderStars("quantity", formData.quantity)}
       </div>
       <div className="text-center">
         <button
           type="submit"
-          className="px-2 py-2 bg-pink-500 text-white rounded-md"
+          className="px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition duration-300"
         >
           코스 추천 받기
         </button>
