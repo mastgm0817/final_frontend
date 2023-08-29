@@ -88,7 +88,7 @@ const handler = NextAuth({
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                provider: account.provider,
+                providerName: account.provider,
                 nickName: user.name,
                 email: user.email,
               }),
@@ -110,6 +110,7 @@ const handler = NextAuth({
 
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
+            console.log("account info: ", JSON.stringify(account, null, 2));
             const loginRes = await fetch(
               process.env.NEXT_PUBLIC_URL + `/users/join`,
               {
@@ -118,7 +119,7 @@ const handler = NextAuth({
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  provider: account.provider,
+                  providerName: account.provider,
                   nickName: user.name,
                   email: user.email,
                   profileImage: user.image,
