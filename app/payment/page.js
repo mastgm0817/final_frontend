@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import PaymentCouponList from "../api/coupon/PaymentCouponList";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
@@ -31,6 +32,28 @@ const payinfo = {
 export default function Payment() {
   const pathname = usePathname();
   const router = useRouter();
+
+  const [config, setConfig] = useState({
+    next_redirect_pc_url: "",
+    tid: "",
+    nickName: "",
+    params: {
+      cid: "TC0ONETIME",
+      partner_order_id: "partner_order_id",
+      partner_user_id: "partner_user_id",
+      item_name: "",
+      quantity: 1,
+      total_amount: 0,
+      vat_amount: 0,
+      tax_free_amount: 0,
+      approval_url: "http://localhost:3000",
+      fail_url: "http://localhost:3000",
+      cancel_url: "http://localhost:3000",
+    },
+    couponInfo: {
+      couponCode: "",
+    },
+  });
 
   const [params, setParams] = useState({
     title: "",
@@ -92,6 +115,7 @@ export default function Payment() {
       }
     }
   };
+
   const postKakaopay = async () => {
     try {
       const authToken = session.user.id; // 세션에서 토큰 가져오기
@@ -109,6 +133,51 @@ export default function Payment() {
       console.error("Kakao Payment Error:", error);
     }
   };
+
+  const virtualpay = async () => {
+    try {
+      const authToken = session.user.id; // 세션에서 토큰 가져오기
+      const response = await axios.post(API_URL + "/payment/virtual", config, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        alert("VIP정기권을 구매해주셔서 감사합니다.");
+        // signOut({ callbackUrl: "/login" });
+        window.location.href = "/profile";
+      }
+    } catch (error) {
+      console.error("구매실패 Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (session && session.user && session.user.name) {
+      setConfig((prevConfig) => ({
+        ...prevConfig,
+        nickName: session.user.name,
+      }));
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (params.title) {
+      setConfig((prevConfig) => ({
+        ...prevConfig,
+        params: {
+          ...prevConfig.params,
+          item_name: params.title,
+          total_amount: totalPrice,
+        },
+        couponInfo: {
+          couponCode: couponCode,
+        },
+      }));
+    }
+  }, [params, totalPrice, couponCode]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -183,6 +252,9 @@ export default function Payment() {
 
       <Button variant="contained" color="primary" onClick={postKakaopay}>
         결제하기
+      </Button>
+      <Button variant="contained" color="primary" onClick={virtualpay}>
+        가상결제하기
       </Button>
     </Container>
   );
