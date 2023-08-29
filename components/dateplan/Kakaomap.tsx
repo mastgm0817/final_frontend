@@ -39,8 +39,6 @@ const KakaoMap: React.FC = () => {
   const session = useSession();
   const token = session.data?.user.id;
 
-  
-
   const handleSubmitForm = async (formData: RecommendFormData) => {
     try {
       const predictionResult = await predict(formData, token);
@@ -89,7 +87,6 @@ const KakaoMap: React.FC = () => {
   const handleShowMarkers = (index: number) => {
     setShowMarkers(true);
     setCourseIndex(index);
-    
   };
   const OFFSET = 0.0001;  // 적절한 값을 선택하세요.
   const [courseIndex, setCourseIndex] = useState<number | null>(null);  // 현재 표시할 코스의 인덱스를 저장하는 state
@@ -219,15 +216,15 @@ const KakaoMap: React.FC = () => {
       <div className="flex justify-center items-center">
         <div className="form-container top-2 left-2">
           <RecommendForm onSubmit={handleSubmitForm} />
-          <button onClick={() => handleShowMarkers(0)}>코스1</button>
-          <button onClick={() => handleShowMarkers(1)}>코스2</button>
-          <button onClick={() => handleShowMarkers(2)}>코스3</button>
+          {[0, 1, 2].map((courseIndex) => (
+          <button key={courseIndex} onClick={() => handleShowMarkers(courseIndex)}>코스{courseIndex + 1}</button>
+        ))}
           <button onClick={handleShowRoute}>경로 보기</button>
         </div>
         <div
             id="map-container"
             className="relative"
-            style={{ height: "2000px", width: "100%" }}
+            style={{ height: "2300px", width: "100%" }}
         >
           <div
               id="map"
@@ -236,7 +233,8 @@ const KakaoMap: React.FC = () => {
           >
           </div>
           <div id="result-container" className="flex w-full">
-            <RecommendResult results={result} />
+          <RecommendResult results={result && courseIndex !== null ? [result[courseIndex]] : []} />
+
           </div>
         </div>
       </div>

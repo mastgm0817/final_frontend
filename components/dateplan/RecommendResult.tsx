@@ -2,97 +2,61 @@ import React from "react";
 
 interface RecommendResultProps {
   results: any[]; // 결과 배열
-  courseIndex?: number | null; // 선택된 코스 인덱스
 }
 
-const RecommendResult: React.FC<RecommendResultProps> = ({ results, courseIndex }) => {
+const RecommendResult: React.FC<RecommendResultProps> = ({ results }) => {
   if (!results || results.length === 0) {
-    return <div>코스 추천 결과가 없습니다. 다시 시도해 주세요 !</div>;
+    return <div className="text-center text-gray-600 my-8">코스 추천 결과가 없습니다. 다시 시도해 주세요 !</div>;
   }
 
-  const selectedResult = (courseIndex !== null && courseIndex !== undefined) ? [results[courseIndex]] : results;
-
-
   return (
-    <div>
-      <h1 style={{ color: "#f783ac", marginBottom: "20px" }}>
-        데이트 추천 코스 결과
-      </h1>
-      <div className="flex w-full">
-        <table
-          style={{
-            borderCollapse: "collapse",
-            width: "100%",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-            borderRadius: "8px",
-            overflow: "hidden",
-          }}
-        >
-          <thead>
-            <tr>
-              <th style={tableCellStyle}>상호명</th>
-              <th style={tableCellStyle}>주소</th>
-              <th style={tableCellStyle}>구분</th>
-              <th style={tableCellStyle}>맛</th>
-              <th style={tableCellStyle}>서비스</th>
-              <th style={tableCellStyle}>분위기</th>
-              <th style={tableCellStyle}>친절도</th>
-              <th style={tableCellStyle}>가격</th>
-              <th style={tableCellStyle}>예산</th>
-            </tr>
-          </thead>
-          <tbody>
-            {selectedResult.map((result, index) => (
-              <React.Fragment key={index}>
-                {[0, 1, 2, 3, 4].map((restaurantIndex) => (
-                  <tr key={restaurantIndex}>
-                    {result && result.restaurant_prediction && Array.isArray(result.restaurant_prediction) ? (
-                      <>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.사업장명 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.소재지전체주소 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.업태구분명 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.맛 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.서비스 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.분위기 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.친절도 || "-"}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.restaurant_prediction[restaurantIndex]?.mean_price || "-"}원
-                        </td>
-                        <td style={tableCellStyle}>
-                          {result.expected_total_cost || "-"}원
-                        </td>
-                      </>
-                    ) : (
-                      <td colSpan={9}>No results available</td>
-                    )}
+    <div className="text-center">
+      <h1 className="text-xl font-bold text-pink-500 mb-6">데이트 추천 코스 결과</h1>
+      <div className="flex flex-col gap-8">
+        {results.map((result, courseIndex) => (
+          <div key={courseIndex} className="bg-white rounded-lg shadow-md p-4">
+            {/* <h2 className="text-lg font-semibold mb-2">코스 {courseIndex + 1}</h2> */}
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="p-2">상호명</th>
+                  <th className="p-2">주소</th>
+                  <th className="p-2">구분</th>
+                  <th className="p-2">맛</th>
+                  <th className="p-2">서비스</th>
+                  <th className="p-2">분위기</th>
+                  <th className="p-2">친절도</th>
+                  <th className="p-2">가격</th>
+                  <th className="p-2">예산</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.restaurant_prediction && Array.isArray(result.restaurant_prediction) ? (
+                  result.restaurant_prediction.map((restaurant: any, restaurantIndex: number) => (
+                    <tr key={restaurantIndex}>
+                      <td className="p-2">{restaurant.사업장명 || "-"}</td>
+                      <td className="p-2">{restaurant.소재지전체주소 || "-"}</td>
+                      <td className="p-2">{restaurant.업태구분명 || "-"}</td>
+                      <td className="p-2">{restaurant.맛 || "-"}</td>
+                      <td className="p-2">{restaurant.서비스 || "-"}</td>
+                      <td className="p-2">{restaurant.분위기 || "-"}</td>
+                      <td className="p-2">{restaurant.친절도 || "-"}</td>
+                      <td className="p-2">{restaurant.max_price || "-"}원</td>
+                      <td className="p-2">{result.expected_total_cost || "-"}원</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={9} className="p-2">No results available</td>
                   </tr>
-                ))}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
+                )}
+              </tbody>
+            </table>
+          </div>
+        ))}
       </div>
     </div>
   );
-};
-
-const tableCellStyle = {
-  border: "1px solid black",
-  padding: "8px",
 };
 
 export default RecommendResult;
