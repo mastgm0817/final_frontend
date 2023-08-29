@@ -49,6 +49,10 @@ export default function SignUp() {
   const [isNickNameUnique, setIsNickNameUnique] = useState(true);
 
   const handleEmailCheck = async (email) => {
+    if (!email || email.trim() === "") {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
     try {
       const response = await axios.post(API_URL + `/normal/users/checkEmail`, {
         email: email,
