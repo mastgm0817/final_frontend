@@ -8,6 +8,25 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
+const KAKAO_ADMIN_KEY = process.env.NEXT_PUBLIC_KAKAO_ADMIN_KEY;
+
+const payinfo = {
+  next_redirect_pc_url: "",
+  tid: "",
+  params: {
+    cid: "TC0ONETIME",
+    partner_order_id: "partner_order_id",
+    partner_user_id: "partner_user_id",
+    item_name: "동대문엽기떡볶이",
+    quantity: 1,
+    total_amount: 22000,
+    vat_amount: 0,
+    tax_free_amount: 0,
+    approval_url: "http://localhost:3000",
+    fail_url: "http://localhost:3000",
+    cancel_url: "http://localhost:3000",
+  },
+};
 
 export default function Payment() {
   const pathname = usePathname();
@@ -18,6 +37,7 @@ export default function Payment() {
     price: "",
     description: "",
   });
+
   //   쿠폰적용코드 관련
   const [couponCode, setCouponCode] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
@@ -72,6 +92,31 @@ export default function Payment() {
       }
     }
   };
+
+  // 카카오 페이관련
+  useEffect(() => {
+    const postKakaopay = async () => {
+      try {
+        const authToken = session.user.id; // 세션에서 토큰 가져오기
+        const response = await axios.post(API_URL + "/payment/kakao", payinfo, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (response.data) {
+          // 응답을 받아서 처리, 예를 들어 페이지 리다이렉트 등
+          window.location.href = response.data.next_redirect_pc_url;
+        }
+      } catch (error) {
+        console.error("Kakao Payment Error:", error);
+        // 에러 처리 로직
+      }
+    };
+
+    postKakaopay();
+  }, []); // 또는 필요한 Dependency
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -144,7 +189,7 @@ export default function Payment() {
         총 금액: {totalPrice.toLocaleString()}
       </Typography>
 
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={postKakaopay}>
         결제하기
       </Button>
     </Container>
