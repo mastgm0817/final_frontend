@@ -16,28 +16,21 @@ const defaultBoard: Board = {
   nickName: "",
   btitle: "",
   bcontent: "",
-  b_createdAt: "",
-  b_updatedAt: "",
-  b_views: 0,
+  bcreatedAt: "",
+  bupdatedAt: "",
+  bviews: 0,
   comments: 0,
-  b_recommendations: 0,
+  brecommendations: 0,
   commentList:[]
 };
 
-const fixedCenterStyle : React.CSSProperties = {
-  position: 'fixed',
-  top: '50%',
-  left: '30%',
-  transform: 'translate(-50%, -50%)',
-  width:'1000px',
-  zIndex: 1000
-};
+
+
 
 const findingMethods = [
-  {id: 1,name: 'nickname'},
-  {id: 2,name: 'title',},
-  {id: 3,name: 'content',},
-  {id: 4,name: 'mine',}
+  {id: 1,name: '닉네임'},
+  {id: 2,name: '제목',},
+  {id: 3,name: '내용',},
 ]
 
   const sortMethods=[
@@ -58,14 +51,14 @@ function Logined(props: any): any {
   const [showAddForm, setShowAddForm] = useState<boolean>(false); //글추가폼 켜고끄기
   const [showSearchForm, setSearchForm] = useState<boolean>(false); //검색창 켜고끄기
   const [showSortForm, setSortForm] = useState<boolean>(false); //정렬창 켜고끄기
-  const [findStr, setFindStr] = useState<string>('all');
-  const [findingMethod, setFindingMethod] = useState<string>('')
+  const [findStr, setFindStr] = useState<any>('all');
+  const [findingMethod, setFindingMethod] = useState<string>("0");
   const [inputFindingMethod, setInputFindingMethod] = useState<string>('');
   const [inputFindStr, setInputFindStr] = useState<string>('');
-
   const [newBoard, CreateNewBoard] = useState<Board>({ ...defaultBoard }); //새로운 board
   const [pages, setPages] = useState<number>(0)
   const [pageCount, setPageCount] = useState<number>(0)
+  const [showingMyboard, setShowingMyBoard]=useState<boolean>(false);
 
   useEffect(() => {
     console.log("findingMethod:", findingMethod);
@@ -111,15 +104,28 @@ function Logined(props: any): any {
   function handleSearchForm(){
     setSearchForm(!showSearchForm)
   }
-  function handleSortForm(){
-    setSortForm(!showSortForm)
-  }
+  // function handleSortForm(){
+  //   setSortForm(!showSortForm)
+  // }
   function initiallizeSearchParams(){
     setFindStr("");
     setFindingMethod("all");
     setInputFindStr("");
     setInputFindingMethod("");
   }
+  function handleMyBoardButton(){
+    let buttonMsg:string=""
+    if(findingMethod==="4"){
+      initiallizeSearchParams();
+      setShowingMyBoard(false);
+      buttonMsg="내글보기"
+    }else{
+      setFindingMethod("4");
+      setFindStr(session?.user.name);
+      setShowingMyBoard(true);
+      buttonMsg="전체글보기"
+    }
+}
   async function CreateBoard(newBoard: Board) {
     newBoard.nickName = `${session ? session.user?.name : null}`;
     await SendData("POST", `/boards`,newBoard,"create");
@@ -128,7 +134,14 @@ function Logined(props: any): any {
     fetchData();
     getPages();
   }
-
+  const fixedCenterStyle : React.CSSProperties = {
+    position: 'fixed',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:'70%',
+    zIndex: 1000
+  };
 
   if (session) {
     getPages();
@@ -147,7 +160,7 @@ function Logined(props: any): any {
 
           {/* 검색 */}
           <div className="flex justify-items-end py-2">
-            <button onClick={handleSearchForm} className={showSearchForm ? "search active" : "search object-right"}><GlassIcon /></button>
+            <button onClick={() => {setInputFindingMethod("1"); handleSearchForm();}} className={showSearchForm ? "search active" : "search object-right"}><GlassIcon /></button>
             
             <div className={`search-form 
                             ${showSearchForm ? 'active flex items-center w-max space-x-3 border rounded border-gray-300 hover:border-gray-400' : ''}`}>
@@ -174,6 +187,9 @@ function Logined(props: any): any {
                   </div>
                 </>}
             </div>
+            <button onClick={()=>{handleMyBoardButton();}} className="pl-4 hover:underline">
+              {showingMyboard?"전체글보기":"내글보기"}
+            </button>
           </div>
 
 

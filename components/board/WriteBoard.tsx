@@ -17,9 +17,25 @@ export default function WriteBoard(props: WriteBoardProps) {
     setNewBoard({ ...props.board });
   }, [props.board]);
 
+  const submitForm = () => {
+    if (!newBoard.btitle) {
+      alert("제목을 써 주세요!");
+      return;
+    }else if (!newBoard.bcontent) {
+      alert("내용을 써 주세요!");
+      return;
+    }else {
+      const isConfirmed = window.confirm("게시글을 등록할까요?");
+      if (!isConfirmed) {
+        return;
+      }
+    }
+    props.BoardComplete(newBoard);
+  };
+
   return (
 
-    <div className="w-2xl justify-center items-center z-5000" style={{position:'absolute'}} >
+    <div className="justify-center items-center z-5000" >
       <div className={props.formClass}>
         <div className={"bg-white p-6 shadow-lg rounded-md border"}>
         <div className="flex justify-between items-center mb-4">
@@ -53,7 +69,7 @@ export default function WriteBoard(props: WriteBoardProps) {
 
         <div className="flex justify-center mt-6">
           <button
-            onClick={() => props.BoardComplete(newBoard)}
+            onClick={() => submitForm()}
             className="bg-pink-500 hover:bg-black text-white px-4 py-2 rounded focus:outline-none"
           >
             게시글 작성 완료

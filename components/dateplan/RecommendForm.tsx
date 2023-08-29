@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import "./../../public/css/dateplan.css";
 
 interface RecommendFormProps {
   onSubmit: (formData: RecommendFormData) => void;
 }
+
 interface RecommendFormData {
   user_latitude: string;
   user_longitude: string;
@@ -33,10 +35,10 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   });
 
   useEffect(() => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       user_latitude: position.latitude?.toString() || "",
-      user_longitude: position.longitude?.toString() || ""
+      user_longitude: position.longitude?.toString() || "",
     }));
   }, [position]);
 
@@ -56,12 +58,13 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   };
 
   const renderStars = (name: string, value: number) => (
-    <div>
+    <div className="flex items-center">
       {[1, 2, 3, 4, 5].map((star) => (
         <button
           key={star}
           type="button"
-          style={{ color: star <= value ? "gold" : "gray" }}
+          className={`text-2xl ${star <= value ? "text-yellow-400" : "text-gray-300"
+          }`}
           onClick={() => setFormData((prev) => ({ ...prev, [name]: star }))}
         >
           ★
@@ -73,26 +76,22 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      style={{
-        width: "15vh",
-        backgroundColor: "#ffd4c9",
-        border: "1px solid #e393b9",
-        borderRadius: "15px",
-        textAlign: "center",
-      }}
+      className="recommend-form-container bg-white p-4 rounded-lg shadow-md"
     >
-      <div
-        style={{
-          borderBottom: "1px solid #e393b9",
-          padding: "6px",
-          fontSize: "15px",
-        }}
-      >
-        <select name="food" value={formData.food} onChange={handleChange}>
+      <h2 className="text-center text-xl font-semibold mb-4">선호하는 음식점 유형</h2>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          음식 종류
+        </label>
+        <select
+          name="food"
+          value={formData.food}
+          onChange={handleChange}
+          className="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:ring-pink-500 focus:border-pink-500"
+        >
           <option value="" disabled>
             음식 종류 선택
-          </option>{" "}
-          {/* 초기 선택 값 */}
+          </option>
           <option value="한식">한식</option>
           <option value="양식">양식</option>
           <option value="일식">일식</option>
@@ -100,32 +99,43 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
           <option value="기타">기타</option>
         </select>
       </div>
-      <div style={{ borderBottom: "1px solid #e393b9", padding: "6px" }}>
-        <label>맛</label>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">맛</label>
         {renderStars("taste", formData.taste)}
       </div>
-      <div style={{ borderBottom: "1px solid #e393b9", padding: "6px" }}>
-        <label>서비스</label>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          서비스
+        </label>
         {renderStars("service", formData.service)}
       </div>
-      <div style={{ borderBottom: "1px solid #e393b9", padding: "6px" }}>
-        <label>분위기</label>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          분위기
+        </label>
         {renderStars("ambiance", formData.ambiance)}
       </div>
-      <div style={{ borderBottom: "1px solid #e393b9", padding: "6px" }}>
-        <label>매장상태</label>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          매장상태
+        </label>
         {renderStars("storeCondition", formData.storeCondition)}
       </div>
-      <div style={{ borderBottom: "1px solid #e393b9", padding: "6px" }}>
-        <label>친절함</label>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">친절함</label>
         {renderStars("kindness", formData.kindness)}
       </div>
-      <div style={{ borderBottom: "1px solid #e393b9", padding: "6px" }}>
-        <label>양</label>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">양</label>
         {renderStars("quantity", formData.quantity)}
       </div>
-      <div style={{ padding: "6px" }}>
-        <button type="submit">Submit</button>
+      <div className="text-center">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition duration-300"
+        >
+          코스 추천 받기
+        </button>
       </div>
     </form>
   );
