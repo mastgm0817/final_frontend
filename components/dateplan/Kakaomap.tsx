@@ -29,6 +29,11 @@ const KakaoMap: React.FC = () => {
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(
       null
   );
+  // 마커 좌표를 저장할 상태
+  const [markerPositions, setMarkerPositions] = useState<any[]>([]);
+  // 라인을 관리할 상태
+  const [line, setLine] = useState<any>(null);
+
   const [map, setMap] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
   const session = useSession();
@@ -47,7 +52,7 @@ const KakaoMap: React.FC = () => {
   useEffect(() => {
     const mapScript = document.createElement("script");
     mapScript.async = true;
-    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
     document.head.appendChild(mapScript);
 
     const onLoadKakaoMap = () => {
@@ -116,6 +121,7 @@ const KakaoMap: React.FC = () => {
       marker.setMap(kakaoMap);
     }
   }, [kakaoMapLoaded, userPosition]);
+  // 마커 좌표를 저장할 배열
 
   useEffect(() => {
     if (showMarkers && map && Array.isArray(result) && courseIndex !== null && result.length > courseIndex) {
@@ -123,14 +129,55 @@ const KakaoMap: React.FC = () => {
 
       // 이전에 생성된 마커들을 지도에서 제거합니다.
       markers.forEach(marker => marker.setMap(null));
+      // 이전에 그려진 라인을 지도에서 제거합니다.
+      if (line) {
+        line.setMap(null);
+        setLine(null);
+      }
+      // 마커의 좌표 배열을 초기화합니다.
+      setMarkerPositions([]);
 
       const newMarkers: any[] = [];
+      // 마커 생성 로직에서
       restaurantPredictions.forEach((restaurant: any, index: number) => {
         if (restaurant.latitude && restaurant.longitude) {
           const restaurantPosition = new window.kakao.maps.LatLng(restaurant.latitude + OFFSET * index, restaurant.longitude + OFFSET * index);
           const restaurantMarker = new window.kakao.maps.Marker({
             position: restaurantPosition,
           });
+
+          // 인포윈도우를 생성합니다.
+          const infowindowContent = `<div style="width:200px; padding:10px; font-size:14px;">${restaurant.사업장명} (${restaurant.업태구분명})</div>`;
+          const infowindow = new window.kakao.maps.InfoWindow({
+            content: infowindowContent,
+            removable: true,
+            zIndex: 1
+          });
+
+          // 마커에 마우스를 올렸을 때의 이벤트를 추가합니다.
+          window.kakao.maps.event.addListener(restaurantMarker, 'mouseover', function() {
+            infowindow.open(map, restaurantMarker);
+          });
+
+          // 마커에서 마우스를 제거했을 때의 이벤트를 추가합니다.
+          window.kakao.maps.event.addListener(restaurantMarker, 'mouseout', function() {
+            infowindow.close();
+          });
+
+          // 마커 클릭 이벤트를 추가합니다.
+          window.kakao.maps.event.addListener(restaurantMarker, 'click', function() {
+            const places = new window.kakao.maps.services.Places();
+            places.keywordSearch(restaurant.사업장명, function(results: any, status: any) {
+              if (status === window.kakao.maps.services.Status.OK && results && results[0]) {
+                const place = results[0];
+                window.open(place.place_url, '_blank');  // 새 탭에서 상세 페이지를 엽니다.
+              } else {
+                console.error("검색 결과가 없습니다.");
+              }
+            });
+          });
+          // 좌표를 배열에 저장
+          setMarkerPositions(prevPositions => [...prevPositions, restaurantPosition]);
           newMarkers.push(restaurantMarker);
           restaurantMarker.setMap(map);
         }
@@ -143,6 +190,28 @@ const KakaoMap: React.FC = () => {
     }
   }, [result, map, showMarkers, courseIndex]);
 
+  const handleShowRoute = () => {
+    if (userPosition) {
+      const userLatLng = new window.kakao.maps.LatLng(userPosition.coords.latitude, userPosition.coords.longitude);
+
+      // 사용자의 좌표와 나머지 마커의 좌표들을 결합
+      const path = [userLatLng, ...markerPositions];
+
+      const polyline = new window.kakao.maps.Polyline({
+        path: path,  // 결합된 경로로 변경
+        strokeWeight: 3,
+        strokeColor: '#db4040',
+        strokeOpacity: 1,
+        strokeStyle: 'solid'
+      });
+
+      polyline.setMap(map);
+
+      // 상태에 현재 그려진 라인을 저장한다.
+      setLine(polyline);
+    }
+  };
+
   return (
       <div className="flex justify-center items-center">
         <div className="form-container top-2 left-2">
@@ -150,6 +219,7 @@ const KakaoMap: React.FC = () => {
           <button onClick={() => handleShowMarkers(0)}>코스1</button>
           <button onClick={() => handleShowMarkers(1)}>코스2</button>
           <button onClick={() => handleShowMarkers(2)}>코스3</button>
+          <button onClick={handleShowRoute}>경로 보기</button>
         </div>
         <div
             id="map-container"
