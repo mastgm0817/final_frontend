@@ -21,7 +21,7 @@ import './../../public/css/board.css';
   
     function handleOnchange(value:any){
       setSelected(value);
-      setInputFindingMethod(value.name);
+      setInputFindingMethod(value.id);
     }
   
     return (

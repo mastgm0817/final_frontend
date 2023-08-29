@@ -14,20 +14,20 @@ const defaultBoard: Board = {
   nickName: " ",
   btitle: " ",
   bcontent: " ",
-  b_createdAt: " ",
-  b_updatedAt: "",
-  b_views: 0,
+  bcreatedAt: " ",
+  bupdatedAt: "",
+  bviews: 0,
   comments: 0,
   commentList:[],
-  b_recommendations: 0,
+  brecommendations: 0,
 };
 
-const fixedCenterStyle : React.CSSProperties = {
+const fixedUpdateStyle : React.CSSProperties = {
   position: 'fixed',
-  top: '50%',
-  left: '70%',
+  top: '60%',
+  left: '50%',
   transform: 'translate(-50%, -50%)',
-  width:'1000px',
+  width:'70%',
   zIndex: 1000
 };
 
@@ -94,7 +94,8 @@ function BoardDetail(props: any) {
       }
     }
     async function CreateComment(newComment:Comment, bid:Number){
-  
+      const isConfirmed = window.confirm("댓글을 등록할까요?");
+      if (!isConfirmed) {return;}
       console.log(newComment);
       await SendData(
         "POST",
@@ -106,6 +107,10 @@ function BoardDetail(props: any) {
       fetchData();
     }
     async function DeleteComment(cid: any, bid: any) {
+
+      const isConfirmed = window.confirm("댓글을 삭제할까요?");
+      if (!isConfirmed) {return;}
+
       await SendData(
         "DELETE",
         `/boards/${bid}/comments/${cid}`,
@@ -116,6 +121,8 @@ function BoardDetail(props: any) {
     }
     async function UpdateComment(updatedComment: Comment, bid: any) {
       const cid = updatedComment.cid;
+      const isConfirmed = window.confirm("댓글을 이대로 수정할까요?");
+      if (!isConfirmed) {return;}
       await SendData(
         "PUT",
         `/boards/${bid}/comments/${cid}/update`,
@@ -150,9 +157,9 @@ function BoardDetail(props: any) {
           </div>
           <br />
           <div className="text-sm text-gray-400 mb-2">{props.selectedBoard.nickName}</div>
-          <div className="text-sm text-gray-400 mb-2">작성일 {props.formatDate(props.selectedBoard.b_createdAt)}</div>
-          <div className="text-sm text-gray-400 mb-2">최근 수정 {props.formatDate(props.selectedBoard.b_updatedAt)}</div>
-          <div className="text-sm text-gray-400 mb-2">조회수 {props.selectedBoard.b_views}</div>
+          <div className="text-sm text-gray-400 mb-2">작성일 {props.formatDate(props.selectedBoard.bcreatedAt)}</div>
+          <div className="text-sm text-gray-400 mb-2">최근 수정 {props.formatDate(props.selectedBoard.bupdatedAt)}</div>
+          <div className="text-sm text-gray-400 mb-2">조회수 {props.selectedBoard.bviews}</div>
           <br /><hr className="w-11/12"/><br />
   
           <p>{lineBrakedContent}</p>
@@ -166,7 +173,7 @@ function BoardDetail(props: any) {
               }}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 hover:text-purple-400">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
-              </svg><span>{props.selectedBoard.b_recommendations}</span>
+              </svg><span>{props.selectedBoard.bRecommendations}</span>
             </button>
             {/* 댓글 */}
             <button onClick={() => setCommentListShow(!commentListShow)}>
@@ -245,12 +252,9 @@ function BoardDetail(props: any) {
   
         </div>);}
 
-        // export default BoardDetail;
-
-
 //=======================================================================
 interface pageProps {
-  params: { pagenum: number, findStr: string, findingMethod: string;};
+  params: { pagenum: number, findStr: string, findingMethod: any;};
   
 }
 
@@ -309,13 +313,15 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
     }
   }
   async function UpdateBoard(UpdateBoard: Board) {
-    UpdateBoard.b_updatedAt = new Date().toISOString();
+    UpdateBoard.bupdatedAt = new Date().toISOString();
     await SendData("PUT", `/boards/${UpdateBoard.bid}`, UpdateBoard, "update");
     setSelectedBoard(defaultBoard);
     setUpdateFormClass("formOff");
     fetchData();
   }
   async function DeleteBoard(board: Board) {
+    const isConfirmed = window.confirm("게시글을 삭제할까요?");
+    if (!isConfirmed) {return;}
     await SendData("DELETE", `/boards/${board.bid}`, board, "delete");
     fetchData();
   }
@@ -342,7 +348,7 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
     });
   }
   async function HandleRecommendButton(bid: any) {
-    await SendData("PUT", `/boards/${bid}/recommend`, null, "recommend");
+    await SendData("POST", `/boards/${bid}/recommend`, null, "recommend");
     fetchData();
   }
   function formatDate(dateString:ISODateString) {
@@ -380,13 +386,13 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 <div className="w-4/12 text-center flex items-center justify-center"><span className=" hover:underline">{board.btitle} </span>
                           {board.commentList.length!=0 && <div className="text-xs text-pink-700 ml-3 hover:none">{board.commentList.length}</div>}</div>
                 <div className="w-2/12 text-center">
-                  {formatDate(board.b_createdAt.toLocaleString())}
+                  {formatDate(board.bcreatedAt.toLocaleString())}
                 </div>
                 <div className="w-2/12 text-center">{board.nickName}</div>
                 <div className="w-1/12 text-center">
-                  {board.b_recommendations.toString()}
+                  {board.brecommendations.toString()}
                 </div>
-                <div className="w-1/12 text-center">{board.b_views.toString()}</div>
+                <div className="w-1/12 text-center">{board.bviews.toString()}</div>
               </div>
               <div
                 className={`${
@@ -398,7 +404,7 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
                 { selectedBoard && selectedBoard.bid === board.bid &&
                 <>
                   {UpdateFormClass && showUpdateForm && (
-                    <div style={fixedCenterStyle}><WriteBoard
+                    <div style={fixedUpdateStyle}><WriteBoard
                       board={{ ...selectedBoard }}
                       FormTitle="게시글 수정"
                       handleXButton={handelUpdateXButton}
