@@ -27,7 +27,7 @@ declare const window: typeof globalThis & {
 const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(
-    null
+      null
   );
   // 마커 좌표를 저장할 상태
   const [markerPositions, setMarkerPositions] = useState<any[]>([]);
@@ -44,7 +44,7 @@ const KakaoMap: React.FC = () => {
       const predictionResult = await predict(formData, token);
       setResult(predictionResult);
       handleShowMarkers(0);
-      
+
     } catch (error) {
       console.error("Error while predicting:", error);
     }
@@ -65,14 +65,14 @@ const KakaoMap: React.FC = () => {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserPosition(position);
-          const { latitude, longitude } = position.coords;
-          dispatch(createPosition(latitude, longitude));
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-        }
+          (position) => {
+            setUserPosition(position);
+            const { latitude, longitude } = position.coords;
+            dispatch(createPosition(latitude, longitude));
+          },
+          (error) => {
+            console.error("Error getting user location:", error);
+          }
       );
     } else {
       console.error("Geolocation is not supported in this browser.");
@@ -106,8 +106,8 @@ const KakaoMap: React.FC = () => {
 
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
       kakaoMap.addControl(
-        mapTypeControl,
-        window.kakao.maps.ControlPosition.TOPRIGHT
+          mapTypeControl,
+          window.kakao.maps.ControlPosition.TOPRIGHT
       );
 
       var zoomControl = new window.kakao.maps.ZoomControl();
@@ -135,8 +135,8 @@ const KakaoMap: React.FC = () => {
       }
       setMarkerPositions([]);
 
-      const newMarkers = [];
-      const path = [];
+      const newMarkers: any[] = [];
+      const path: any[] = [];
 
       if (userPosition) {
         path.push(new window.kakao.maps.LatLng(userPosition.coords.latitude, userPosition.coords.longitude));
@@ -158,6 +158,55 @@ const KakaoMap: React.FC = () => {
           });
 
           // 인포윈도우와 마커 이벤트 리스너 설정
+          // 인포윈도우를 생성합니다.
+          const infowindowContent = `<div style="width:200px; padding:10px; font-size:14px;">${restaurant.사업장명} (${restaurant.업태구분명})</div>`;
+          const infowindow = new window.kakao.maps.InfoWindow({
+            content: infowindowContent,
+            removable: true,
+            zIndex: 1,
+          });
+
+          // 마커에 마우스를 올렸을 때의 이벤트를 추가합니다.
+          window.kakao.maps.event.addListener(
+              restaurantMarker,
+              "mouseover",
+              function () {
+                infowindow.open(map, restaurantMarker);
+              }
+          );
+
+          // 마커에서 마우스를 제거했을 때의 이벤트를 추가합니다.
+          window.kakao.maps.event.addListener(
+              restaurantMarker,
+              "mouseout",
+              function () {
+                infowindow.close();
+              }
+          );
+
+          // 마커 클릭 이벤트를 추가합니다.
+          window.kakao.maps.event.addListener(
+              restaurantMarker,
+              "click",
+              function () {
+                const places = new window.kakao.maps.services.Places();
+                places.keywordSearch(
+                    restaurant.사업장명,
+                    function (results: any, status: any) {
+                      if (
+                          status === window.kakao.maps.services.Status.OK &&
+                          results &&
+                          results[0]
+                      ) {
+                        const place = results[0];
+                        window.open(place.place_url, "_blank"); // 새 탭에서 상세 페이지를 엽니다.
+                      } else {
+                        console.error("검색 결과가 없습니다.");
+                      }
+                    }
+                );
+              }
+          );
 
           setMarkerPositions(prevPositions => [...prevPositions, restaurantPosition]);
           newMarkers.push(restaurantMarker);
@@ -211,24 +260,24 @@ const KakaoMap: React.FC = () => {
               </button>
           ))}
         </div>
-      <div
-        className="kakao-map-container"
-        style={{ height: "2300px", width: "100%" }}
-      >
         <div
-          id="map"
-          className="flex w-full h-500px"
-          style={{ height: "30%", width: "100%" }}
-        ></div>
-        <div id="result-container" className="flex w-full">
-          <RecommendResult
-            results={
-              result && result.length > courseIndex ? [result[courseIndex]] : []
-            }
-          />
+            className="kakao-map-container"
+            style={{ height: "2300px", width: "100%" }}
+        >
+          <div
+              id="map"
+              className="flex w-full h-500px"
+              style={{ height: "30%", width: "100%" }}
+          ></div>
+          <div id="result-container" className="flex w-full">
+            <RecommendResult
+                results={
+                  result && result.length > courseIndex ? [result[courseIndex]] : []
+                }
+            />
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 
