@@ -34,6 +34,8 @@ const KakaoMap: React.FC = () => {
   const session = useSession();
   const token = session.data?.user.id;
 
+  
+
   const handleSubmitForm = async (formData: RecommendFormData) => {
     try {
       const predictionResult = await predict(formData, token);
@@ -82,6 +84,7 @@ const KakaoMap: React.FC = () => {
   const handleShowMarkers = (index: number) => {
     setShowMarkers(true);
     setCourseIndex(index);
+    
   };
   const OFFSET = 0.0001;  // 적절한 값을 선택하세요.
   const [courseIndex, setCourseIndex] = useState<number | null>(null);  // 현재 표시할 코스의 인덱스를 저장하는 state
