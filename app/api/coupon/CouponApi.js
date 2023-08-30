@@ -4,7 +4,7 @@ import CouponInfo from "../../../components/coupon/CouponInfo";
 import Slider from "react-slick";
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
-const CouponApi = () => {
+const CouponApi = ({}) => {
   const [userNickName, setUserNickName] = useState("");
   const [user, setUser] = useState(null);
 
@@ -51,6 +51,7 @@ const CouponApi = () => {
                 discountValue={coupon.discountValue}
                 assignedAt={coupon.assignedAt}
                 endAt={coupon.endAt}
+                hideImageOnProfile={hideImageOnProfile}
               />
             ))}
           </Slider>

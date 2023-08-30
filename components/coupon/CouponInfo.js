@@ -9,6 +9,7 @@ export default function CouponInfo({
   discountType,
   assignedAt,
   endAt,
+  hideImageOnProfile,
 }) {
   const handleCopyCode = () => {
     navigator.clipboard.writeText(code).then(
@@ -31,13 +32,15 @@ export default function CouponInfo({
   return (
     <div className="max-w-xs rounded overflow-hidden">
       <div className="relative w-full h-auto">
-        <Image
-          src={imageSrc}
-          alt="CouponImage"
-          width={400}
-          height={200}
-          className="object-cover"
-        />
+        {!hideImageOnProfile && (
+            <Image
+              src={imageSrc}
+              alt="CouponImage"
+              width={400}
+              height={200}
+              className="object-cover"
+            />
+          )}
       </div>
       <div className="p-6">
         <a
@@ -59,7 +62,7 @@ export default function CouponInfo({
 
         <button
           onClick={handleCopyCode}
-          className="mt-3 w-full bg-rose-400 text-white p-2 rounded"
+          className="mt-3 w-5/7 bg-rose-400 text-white p-2 rounded"
         >
           쿠폰번호 복사하기
         </button>
