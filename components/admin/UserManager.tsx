@@ -160,6 +160,9 @@ const UserManager: React.FC = () => {
                           <Typography variant="body1">
                             UserRole: {user.userRole}
                           </Typography>
+                          <Typography variant="h4" component="div" fontWeight="bold">
+                            Lover: {user.lover}
+                          </Typography>
                           {user.blackListDetails && (
                             <Grid item xs={12}>
                               <TableContainer component={Paper}>
@@ -221,11 +224,6 @@ const UserManager: React.FC = () => {
                             </TableContainer>
                           </Grid>
                         )}
-                        <Grid item xs={12}>
-                          <Typography variant="body1">
-                            Lover: {user.lover}
-                          </Typography>
-                        </Grid>
                       </Grid>
                       <div>
                         <label>

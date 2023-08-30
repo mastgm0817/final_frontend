@@ -32,7 +32,7 @@ const useFetchData = (dim: string, met: string, startDate?: string, endDate?: st
         setError(err);
         setLoading(false);
       });
-  }, [dim, met, startDate, endDate]);
+  }, [dim, met, startDate, endDate, API_URL, token]);
 
   return { data, loading, error };
 };

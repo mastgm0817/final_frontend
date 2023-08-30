@@ -2,7 +2,7 @@
 "use client"
 import type { NextPage } from 'next';
 import LineChartComponent from '../../../components/admin/LineChart';
-import useFetchData from '../../api/analyticsdata/useFetchData';
+import useFetchData from '../../api/admin/analyticsdata/useFetchData';
 import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale } from 'chart.js';
 import DatePicker from "react-datepicker";
 import { useState } from 'react'

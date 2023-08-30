@@ -18,7 +18,7 @@ import CouponInfo from "../../components/profile/CouponInfo";
 import LoverProfile from "../../components/profile/LoverCard";
 import ProfileImageUploadPopUp from "../../components/profile/ProfileImageUpLoadPopUp";
 import Link from "next/link";
-
+import TestButton from "../../components/profile/TestButton";
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
 export default function UserInfo() {
@@ -190,6 +190,7 @@ export default function UserInfo() {
                         <Link href="/price">
                           <Button>등급업하기</Button>
                         </Link>
+                        <TestButton />
                       </Box>
                     </Grid>
                   </Grid>
