@@ -54,10 +54,10 @@ const CouponApi = () => {
           {isLoadingCoupon && <Skeleton />}
           {!isLoadingCoupon && 
             <Slider {...settings}>
-              {user.couponList.map((coupon, index) => (
-                <div className="">
+            {user.couponList.map((coupon) => (
+              <div key={coupon.id} className="">
                 <CouponInfo
-                  key={index}
+                  key={coupon.id}
                   code={coupon.code}
                   content={coupon.couponContent}
                   discountType={coupon.discountType}
@@ -65,9 +65,9 @@ const CouponApi = () => {
                   assignedAt={coupon.assignedAt}
                   endAt={coupon.endAt}
                 />
-                </div>
-              ))}
-            </Slider>
+              </div>
+            ))}
+          </Slider>
           }
         </div>
       )}
