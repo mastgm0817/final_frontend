@@ -43,6 +43,8 @@ const KakaoMap: React.FC = () => {
   const [markerPositions, setMarkerPositions] = useState<any[]>([]);
   // 라인을 관리할 상태
   const [line, setLine] = useState<any>(null);
+  // 커스텀 오버레이 관리할 상태
+  const [customOverlays, setCustomOverlays] = useState<any[]>([]);
 
   const [map, setMap] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
@@ -133,41 +135,88 @@ const KakaoMap: React.FC = () => {
   // 마커 좌표를 저장할 배열
 
   useEffect(() => {
-    if (
-      showMarkers &&
-      map &&
-      Array.isArray(result) &&
-      courseIndex !== null &&
-      result.length > courseIndex
+    function createLinkOverlay(map: any, restaurant: any) {
+
+      // 커스텀 오버레이에 표출될 내용
+      const content = `
+    <div class="customoverlay">
+        <a href="https://map.kakao.com/link/map/${restaurant.사업장명},${restaurant.latitude},${restaurant.longitude}" target="_blank">
+            <span class="title">${restaurant.사업장명}</span>
+        </a>
+    </div>`;
+
+      const position = new window.kakao.maps.LatLng(restaurant.latitude, restaurant.longitude);
+
+      // 커스텀 오버레이를 생성
+      const customOverlay = new window.kakao.maps.CustomOverlay({
+        map: map,
+        position: position,
+        content: content,
+        yAnchor: 1
+      });
+      // 생성된 커스텀 오버레이를 customOverlays 배열에 추가
+      setCustomOverlays(prevOverlays => [...prevOverlays, customOverlay]);
+    }
+
+    // 기존 마커와 라인 제거
+    markers.forEach((marker) => marker.setMap(null));
+    if (line) {
+      line.setMap(null);
+      setLine(null);
+    }
+    setMarkers([]);
+
+    // 커스텀 오버레이 제거
+    customOverlays.forEach((overlay) => overlay.setMap(null));
+    setCustomOverlays([]);
+
+    if (selectedRecommendType === "region" && result?.random) {
+      // 지역구 선택 기반 랜덤 코스 추천 결과 처리
+      const newMarkers: any[] = [];
+
+      // 지역구 기반 랜덤 코스 추천 결과 처리 부분
+      result.random.forEach((restaurant: any) => {
+        if (restaurant.latitude && restaurant.longitude) {
+          const position = new window.kakao.maps.LatLng(restaurant.latitude, restaurant.longitude);
+          const marker = new window.kakao.maps.Marker({
+            position: position,
+            map: map
+          });
+          newMarkers.push(marker);
+
+          // 커스텀 오버레이 추가
+          createLinkOverlay(map, restaurant);
+
+        }
+      });
+
+      setMarkers(newMarkers);
+    } else if (
+        showMarkers &&
+        map &&
+        Array.isArray(result) &&
+        courseIndex !== null &&
+        result.length > courseIndex
     ) {
-      // 레스토랑 예측 결과 배열 가져오기
+      // 위치 기반 데이트 코스 추천 결과 처리
       const restaurantPredictions = result[courseIndex].restaurant_prediction;
-
-      // 이전에 생성된 마커 및 라인 제거 및 초기화
-      markers.forEach((marker) => marker.setMap(null));
-      if (line) {
-        line.setMap(null);
-        setLine(null);
-      }
-      setMarkerPositions([]);
-
       const newMarkers: any[] = [];
       const path: any[] = [];
 
       if (userPosition) {
         path.push(
-          new window.kakao.maps.LatLng(
-            userPosition.coords.latitude,
-            userPosition.coords.longitude
-          )
+            new window.kakao.maps.LatLng(
+                userPosition.coords.latitude,
+                userPosition.coords.longitude
+            )
         );
       }
 
       restaurantPredictions.forEach((restaurant: any, index: any) => {
         if (restaurant.latitude && restaurant.longitude) {
           const restaurantPosition = new window.kakao.maps.LatLng(
-            restaurant.latitude + OFFSET * index,
-            restaurant.longitude + OFFSET * index
+              restaurant.latitude + OFFSET * index,
+              restaurant.longitude + OFFSET * index
           );
 
           if (userPosition) {
@@ -180,10 +229,26 @@ const KakaoMap: React.FC = () => {
 
           // 인포윈도우와 마커 이벤트 리스너 설정
           // 인포윈도우를 생성합니다.
-          const infowindowContent = `<div style="width:200px; padding:10px; font-size:14px;">${restaurant.사업장명} (${restaurant.업태구분명})</div>`;
+          const infowindowContent = `
+            <div style="
+                width:200px; 
+                padding:15px; 
+                font-size:14px; 
+                background-color: #FFE4E1; 
+                border-radius: 0 0 0 0; 
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e0e0e0; 
+                text-align: center;
+                margin-top: -1px;
+                margin-left: -1px;
+            ">
+                <strong style="color: #333333;">${restaurant.사업장명}</strong> 
+                <span style="color: #777777;">(${restaurant.업태구분명})</span>
+            </div>`;
+
           const infowindow = new window.kakao.maps.InfoWindow({
             content: infowindowContent,
-            removable: true,
+            removable: false,
             zIndex: 1,
           });
 
@@ -246,7 +311,8 @@ const KakaoMap: React.FC = () => {
       markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
     }
-  }, [result, map, showMarkers, courseIndex]);
+  }, [result, map, showMarkers, courseIndex, selectedRecommendType]);
+
 
   const handleShowRoute = (path: any[]) => {
     // any 대신에 카카오 맵 LatLng 객체 타입을 지정할 수 있으면 더 좋습니다.
