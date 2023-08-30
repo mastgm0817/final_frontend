@@ -58,8 +58,14 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const canProceed = await handleUsageCheckButtonClick(session);
+
+    if (!canProceed) {
+      alert("서비스를 이용할 수 없습니다.");
+      return;
+    }
+
     onSubmit(formData);
-    await handleUsageCheckButtonClick(session);
   };
 
   const renderStars = (name: string, value: number) => (
