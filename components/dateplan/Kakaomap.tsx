@@ -27,7 +27,7 @@ declare const window: typeof globalThis & {
 const KakaoMap: React.FC = () => {
   const [kakaoMapLoaded, setKakaoMapLoaded] = useState(false);
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(
-      null
+    null
   );
   // 마커 좌표를 저장할 상태
   const [markerPositions, setMarkerPositions] = useState<any[]>([]);
@@ -44,7 +44,6 @@ const KakaoMap: React.FC = () => {
       const predictionResult = await predict(formData, token);
       setResult(predictionResult);
       handleShowMarkers(0);
-
     } catch (error) {
       console.error("Error while predicting:", error);
     }
@@ -65,14 +64,14 @@ const KakaoMap: React.FC = () => {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setUserPosition(position);
-            const { latitude, longitude } = position.coords;
-            dispatch(createPosition(latitude, longitude));
-          },
-          (error) => {
-            console.error("Error getting user location:", error);
-          }
+        (position) => {
+          setUserPosition(position);
+          const { latitude, longitude } = position.coords;
+          dispatch(createPosition(latitude, longitude));
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
       );
     } else {
       console.error("Geolocation is not supported in this browser.");
@@ -106,8 +105,8 @@ const KakaoMap: React.FC = () => {
 
       var mapTypeControl = new window.kakao.maps.MapTypeControl();
       kakaoMap.addControl(
-          mapTypeControl,
-          window.kakao.maps.ControlPosition.TOPRIGHT
+        mapTypeControl,
+        window.kakao.maps.ControlPosition.TOPRIGHT
       );
 
       var zoomControl = new window.kakao.maps.ZoomControl();
@@ -123,12 +122,18 @@ const KakaoMap: React.FC = () => {
   // 마커 좌표를 저장할 배열
 
   useEffect(() => {
-    if (showMarkers && map && Array.isArray(result) && courseIndex !== null && result.length > courseIndex) {
+    if (
+      showMarkers &&
+      map &&
+      Array.isArray(result) &&
+      courseIndex !== null &&
+      result.length > courseIndex
+    ) {
       // 레스토랑 예측 결과 배열 가져오기
       const restaurantPredictions = result[courseIndex].restaurant_prediction;
 
       // 이전에 생성된 마커 및 라인 제거 및 초기화
-      markers.forEach(marker => marker.setMap(null));
+      markers.forEach((marker) => marker.setMap(null));
       if (line) {
         line.setMap(null);
         setLine(null);
@@ -139,14 +144,19 @@ const KakaoMap: React.FC = () => {
       const path: any[] = [];
 
       if (userPosition) {
-        path.push(new window.kakao.maps.LatLng(userPosition.coords.latitude, userPosition.coords.longitude));
+        path.push(
+          new window.kakao.maps.LatLng(
+            userPosition.coords.latitude,
+            userPosition.coords.longitude
+          )
+        );
       }
 
       restaurantPredictions.forEach((restaurant: any, index: any) => {
         if (restaurant.latitude && restaurant.longitude) {
           const restaurantPosition = new window.kakao.maps.LatLng(
-              restaurant.latitude + OFFSET * index,
-              restaurant.longitude + OFFSET * index
+            restaurant.latitude + OFFSET * index,
+            restaurant.longitude + OFFSET * index
           );
 
           if (userPosition) {
@@ -168,47 +178,50 @@ const KakaoMap: React.FC = () => {
 
           // 마커에 마우스를 올렸을 때의 이벤트를 추가합니다.
           window.kakao.maps.event.addListener(
-              restaurantMarker,
-              "mouseover",
-              function () {
-                infowindow.open(map, restaurantMarker);
-              }
+            restaurantMarker,
+            "mouseover",
+            function () {
+              infowindow.open(map, restaurantMarker);
+            }
           );
 
           // 마커에서 마우스를 제거했을 때의 이벤트를 추가합니다.
           window.kakao.maps.event.addListener(
-              restaurantMarker,
-              "mouseout",
-              function () {
-                infowindow.close();
-              }
+            restaurantMarker,
+            "mouseout",
+            function () {
+              infowindow.close();
+            }
           );
 
           // 마커 클릭 이벤트를 추가합니다.
           window.kakao.maps.event.addListener(
-              restaurantMarker,
-              "click",
-              function () {
-                const places = new window.kakao.maps.services.Places();
-                places.keywordSearch(
-                    restaurant.사업장명,
-                    function (results: any, status: any) {
-                      if (
-                          status === window.kakao.maps.services.Status.OK &&
-                          results &&
-                          results[0]
-                      ) {
-                        const place = results[0];
-                        window.open(place.place_url, "_blank"); // 새 탭에서 상세 페이지를 엽니다.
-                      } else {
-                        console.error("검색 결과가 없습니다.");
-                      }
-                    }
-                );
-              }
+            restaurantMarker,
+            "click",
+            function () {
+              const places = new window.kakao.maps.services.Places();
+              places.keywordSearch(
+                restaurant.사업장명,
+                function (results: any, status: any) {
+                  if (
+                    status === window.kakao.maps.services.Status.OK &&
+                    results &&
+                    results[0]
+                  ) {
+                    const place = results[0];
+                    window.open(place.place_url, "_blank"); // 새 탭에서 상세 페이지를 엽니다.
+                  } else {
+                    console.error("검색 결과가 없습니다.");
+                  }
+                }
+              );
+            }
           );
 
-          setMarkerPositions(prevPositions => [...prevPositions, restaurantPosition]);
+          setMarkerPositions((prevPositions) => [
+            ...prevPositions,
+            restaurantPosition,
+          ]);
           newMarkers.push(restaurantMarker);
           restaurantMarker.setMap(map);
         }
@@ -219,23 +232,23 @@ const KakaoMap: React.FC = () => {
 
       setMarkers(newMarkers);
     } else if (markers.length > 0) {
-      markers.forEach(marker => marker.setMap(null));
+      markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
     }
   }, [result, map, showMarkers, courseIndex]);
 
-  const handleShowRoute = (path) => {
+  const handleShowRoute = (path: any[]) => {
+    // any 대신에 카카오 맵 LatLng 객체 타입을 지정할 수 있으면 더 좋습니다.
     if (userPosition && path.length > 1) {
       const polyline = new window.kakao.maps.Polyline({
         path: path,
         strokeWeight: 3,
-        strokeColor: '#db4040',
+        strokeColor: "#db4040",
         strokeOpacity: 1,
-        strokeStyle: 'solid'
+        strokeStyle: "solid",
       });
 
       polyline.setMap(map);
-
       setLine(polyline);
     }
   };
@@ -245,39 +258,38 @@ const KakaoMap: React.FC = () => {
     setCourseIndex(courseIndex);
   };
 
-
   return (
-      <div className="flex justify-center items-center">
-        <div className="form-container top-2 left-2 p-4 w-80 mx-auto mt-12">
-          <RecommendForm onSubmit={handleSubmitForm} />
-          {[0, 1, 2].map((courseIndex) => (
-              <button
-                  key={courseIndex}
-                  onClick={() => handleShowMarkers(courseIndex)}
-                  className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
-              >
-                코스 {courseIndex + 1}
-              </button>
-          ))}
-        </div>
+    <div className="flex justify-center items-center">
+      <div className="form-container top-2 left-2 p-4 w-80 mx-auto mt-12">
+        <RecommendForm onSubmit={handleSubmitForm} />
+        {[0, 1, 2].map((courseIndex) => (
+          <button
+            key={courseIndex}
+            onClick={() => handleShowMarkers(courseIndex)}
+            className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
+          >
+            코스 {courseIndex + 1}
+          </button>
+        ))}
+      </div>
+      <div
+        className="kakao-map-container"
+        style={{ height: "2300px", width: "100%" }}
+      >
         <div
-            className="kakao-map-container"
-            style={{ height: "2300px", width: "100%" }}
-        >
-          <div
-              id="map"
-              className="flex w-full h-500px"
-              style={{ height: "30%", width: "100%" }}
-          ></div>
-          <div id="result-container" className="flex w-full">
-            <RecommendResult
-                results={
-                  result && result.length > courseIndex ? [result[courseIndex]] : []
-                }
-            />
-          </div>
+          id="map"
+          className="flex w-full h-500px"
+          style={{ height: "30%", width: "100%" }}
+        ></div>
+        <div id="result-container" className="flex w-full">
+          <RecommendResult
+            results={
+              result && result.length > courseIndex ? [result[courseIndex]] : []
+            }
+          />
         </div>
       </div>
+    </div>
   );
 };
 
