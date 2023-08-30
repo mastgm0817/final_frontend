@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { useSession } from "next-auth/react";
+import { handleUsageCheckButtonClick } from "../profile/UsageCheckButton";
 import "./../../public/css/dateplan.css";
 
 interface RecommendFormProps {
@@ -18,9 +20,11 @@ interface RecommendFormData {
   kindness: number;
   quantity: number;
 }
+const API_URL = process.env.NEXT_PUBLIC_URL;
 
 const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   const position = useSelector((state: RootState) => state.position);
+  const { data: session } = useSession();
 
   const [formData, setFormData] = useState<RecommendFormData>({
     user_latitude: position.latitude?.toString() || "",
@@ -52,9 +56,10 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
+    await handleUsageCheckButtonClick(session);
   };
 
   const renderStars = (name: string, value: number) => (

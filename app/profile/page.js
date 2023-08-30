@@ -18,7 +18,6 @@ import CouponInfo from "../../components/profile/CouponInfo";
 import LoverProfile from "../../components/profile/LoverCard";
 import ProfileImageUploadPopUp from "../../components/profile/ProfileImageUpLoadPopUp";
 import Link from "next/link";
-import TestButton from "../../components/profile/TestButton";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
@@ -54,11 +53,12 @@ export default function UserInfo() {
       formData.append("file", imageFile);
 
       const response = await axios.post(
-        API_URL + `/users/info/updateProfileImage/${nickName}`, formData,
+        API_URL + `/users/info/updateProfileImage/${nickName}`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
-            'Content-Type' : 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -67,36 +67,36 @@ export default function UserInfo() {
       let responseUpdate;
 
       if (response.status === 200) {
-          // 업로드한 이미지 URL을 사용 -> userInfo를 Put 요청으로 업데이트
-          updatedImageUrl = response.data; // 새 이미지 url
+        // 업로드한 이미지 URL을 사용 -> userInfo를 Put 요청으로 업데이트
+        updatedImageUrl = response.data; // 새 이미지 url
 
-          responseUpdate = await axios.put(
+        responseUpdate = await axios.put(
           API_URL + `/users/info/updateProfileImage/${nickName}`,
-          { profileImage: updatedImageUrl},   // 새 이미지 URL 포함
+          { profileImage: updatedImageUrl }, // 새 이미지 URL 포함
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
-            'Content-Type':'application/json',
+              "Content-Type": "application/json",
             },
-          },
-        )
-      };
+          }
+        );
+      }
 
-      if (responseUpdate && responseUpdate.status === 200) { 
+      if (responseUpdate && responseUpdate.status === 200) {
         // 프로필 이미지 업데이트 후 서버 응답 데이터로 useInfo.profileImage 속성값 업데이트
         console.log("responseUpdate for update: ", responseUpdate);
         const updatedUserInfo = {
           ...userInfo,
-          profileImage: updatedImageUrl, 
+          profileImage: updatedImageUrl,
         };
         // 필요한 경우 userInfo 상태 업데이트
         setUserInfo(updatedUserInfo);
         // 팝업 닫기
         handleCloseUploadPopup();
-        } 
-      } catch (error) {
-       console.error(
-         "Error uploading image or updating profile:",
+      }
+    } catch (error) {
+      console.error(
+        "Error uploading image or updating profile:",
         error.message
       );
     }
@@ -224,7 +224,6 @@ export default function UserInfo() {
                         <Link href="/price">
                           <Button>등급업하기</Button>
                         </Link>
-                        <TestButton />
                       </Box>
                     </Grid>
                   </Grid>

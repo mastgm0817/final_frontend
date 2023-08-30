@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import { handleUsageCheckButtonClick } from "../profile/UsageCheckButton";
+import { useSession } from "next-auth/react";
 
 interface RandomRecommendFormProps {
-  onSubmit: (formData: RandomRecommendFormData, selected_region: string) => void;
+  onSubmit: (
+    formData: RandomRecommendFormData,
+    selected_region: string
+  ) => void;
 }
 
 interface RandomRecommendFormData {
@@ -12,18 +17,20 @@ const RandomRecommendForm: React.FC<RandomRecommendFormProps> = ({
   onSubmit,
 }) => {
   const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const { data: session } = useSession();
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRegion(e.target.value);
   };
 
-  const handleRandomSubmit = (e: React.FormEvent) => {
+  const handleRandomSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData: RandomRecommendFormData = {
       selected_region: selectedRegion,
     };
 
     onSubmit(formData, selectedRegion);
+    await handleUsageCheckButtonClick(session);
   };
 
   return (
