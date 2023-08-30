@@ -10,6 +10,7 @@ type CustomUser = User & {
   accessToken?: string; // accessToken 속성 추가
   profileImage?: string;
   nickName?: string;
+  userRole?: string;
 };
 
 const handler = NextAuth({
@@ -104,6 +105,7 @@ const handler = NextAuth({
           if (loginRes.ok) {
             const data = await loginRes.json();
             (user as CustomUser).nickName = data.nickName; // 닉네임을 추가
+            (user as CustomUser).userRole = data.userRole; // 유저권한 추가
             (user as CustomUser).accessToken = data.token;
             return true;
           }
@@ -156,6 +158,7 @@ const handler = NextAuth({
         token.accessToken = user.accessToken;
         token.profileImage = user.profileImage;
         token.nickName = user.nickName;
+        token.userRole = user.userRole;
         return token;
       }
       return token;
@@ -175,6 +178,8 @@ const handler = NextAuth({
       if (token.profileImage != null)
         session.user.image = token.profileImage as string;
       if (token.nickName != null) session.user.name = token.nickName as string;
+      if (token.userRole != null)
+        session.user.userRole = token.userRole as string;
       // console.log("token", token);
       return session;
     },
