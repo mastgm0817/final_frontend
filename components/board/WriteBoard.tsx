@@ -21,7 +21,11 @@ export default function WriteBoard(props: WriteBoardProps) {
     if (!newBoard.btitle) {
       alert("제목을 써 주세요!");
       return;
-    }else if (!newBoard.bcontent) {
+    } else if (newBoard.btitle.length>10){
+      alert("제목은 15자를 넘을 수 없습니다.");
+      return;
+    }
+      else if (!newBoard.bcontent) {
       alert("내용을 써 주세요!");
       return;
     }else {

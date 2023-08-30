@@ -1,12 +1,4 @@
 import * as React from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
-import Button from "@mui/joy/Button";
-import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import CardOverflow from "@mui/joy/CardOverflow";
-import Chip from "@mui/joy/Chip";
-import Link from "@mui/joy/Link";
-import Typography from "@mui/joy/Typography";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import Image from "next/image";
 
@@ -37,53 +29,41 @@ export default function CouponInfo({
     imageSrc = `./image/${discountValue}.png`;
   }
   return (
-    <Card sx={{ width: 320, maxWidth: "100%", boxShadow: "lg" }}>
-      <CardOverflow>
-        <AspectRatio objectFit="contain" sx={{ minWidth: 200 }}>
-          <Image
-            src={imageSrc} // 동적으로 설정된 src를 사용
-            alt="CouponImage"
-            width={400} // Desired size
-            height={200} // Desired size
-          />
-        </AspectRatio>
-      </CardOverflow>
-      <CardContent>
-        <Link
+    <div className="max-w-xs rounded overflow-hidden">
+      <div className="relative w-full h-auto">
+        <Image
+          src={imageSrc}
+          alt="CouponImage"
+          width={400}
+          height={200}
+          className="object-cover"
+        />
+      </div>
+      <div className="p-6">
+        <a
           href="#product-card"
-          fontWeight="md"
-          color="neutral"
-          textColor="text.primary"
-          overlay
-          endDecorator={<ArrowOutwardIcon />}
+          className="text-lg font-medium text-rose-500 hover:underline flex items-center"
         >
           {content}
-        </Link>
+          <ArrowOutwardIcon className="ml-1" />
+        </a>
 
-        <Typography
-          level="title-lg"
-          sx={{ mt: 1, fontWeight: "xl" }}
-          endDecorator={
-            <Chip component="span" size="sm" variant="soft" color="success">
-              {discountValue}%
-            </Chip>
-          }
-        >
+        <h3 className="text-xl font-bold mt-2 flex items-center">
           {code}
-        </Typography>
-        <Typography level="body-xs">할당 일자: {assignedAt}</Typography>
-        <Typography level="body-xs">만료 일자: {endAt}</Typography>
-      </CardContent>
-      <CardOverflow>
-        <Button
-          variant="solid"
-          color="danger"
-          size="lg"
+          <span className="ml-2 px-2 py-1 bg-purple-200 text-purple-800 rounded-full text-sm">
+            {discountValue}%
+          </span>
+        </h3>
+        <p className="text-xs mt-1">할당 일자: {assignedAt}</p>
+        <p className="text-xs">만료 일자: {endAt}</p>
+
+        <button
           onClick={handleCopyCode}
+          className="mt-3 w-full bg-rose-400 text-white p-2 rounded"
         >
           쿠폰번호 복사하기
-        </Button>
-      </CardOverflow>
-    </Card>
+        </button>
+      </div>
+    </div>
   );
 }
