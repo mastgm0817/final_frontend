@@ -1,90 +1,56 @@
 import React from "react";
 
 interface RandomRecommendResultProps {
-  results: any[];
+  results: any;
+}
+
+interface RandomRecommendItem {
+  사업장명: string;
+  소재지전체주소: string;
+  업태구분명: string;
+  맛: number;
+  서비스: number;
+  분위기: number;
+  친절도: number;
 }
 
 const RandomRecommendResult: React.FC<RandomRecommendResultProps> = ({
   results,
 }) => {
-  if (!results || results.length === 0) {
+  if (!results || !results.random || !Array.isArray(results.random)) {
     return (
       <div className="text-center text-gray-600 my-8">
-        코스 추천 결과가 없습니다. 다시 시도해 주세요!
+        코스 추천 결과가 없습니다.
       </div>
     );
   }
 
   return (
-    <div className="text-center">
-      <div className="grid gap-6">
-        <table
-          style={{
-            borderCollapse: "collapse",
-            width: "100%",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-            borderRadius: "8px",
-            overflow: "hidden",
-          }}
-        >
-          <thead>
-            <tr>
-              <th>상호명</th>
-              <th>주소</th>
-              <th>구분</th>
-              <th>맛</th>
-              <th>서비스</th>
-              <th>분위기</th>
-              <th>친절도</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(results) ? (
-              results.map((result, index) => (
-                <React.Fragment key={index}>
-                  {[0, 1, 2, 3, 4,5,6,7,8,9].map((restaurantIndex) => (
-                    <tr key={restaurantIndex}>
-                      <td>
-                        {result.random[restaurantIndex].사업장명}
-                      </td>
-                      <td>
-                        {
-                          result.random[restaurantIndex]
-                            .소재지전체주소
-                        }
-                      </td>
-                      <td>
-                        {
-                          result.random[restaurantIndex]
-                            .업태구분명
-                        }
-                      </td>
-                      <td>
-                        {result.random[restaurantIndex].맛}
-                      </td>
-                      <td>
-                        {result.random[restaurantIndex].서비스}
-                      </td>
-                      <td>
-                        {result.random[restaurantIndex].분위기}
-                      </td>
-                      <td>
-                        {result.random[restaurantIndex].친절도}
-                      </td>
-                    </tr>
-                  ))}
-                </React.Fragment>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={9}>No results available</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+    <div className="random-result-container">
+      <div className="text-center">
+        {results.random.map((result: RandomRecommendItem, index: number) => (
+          <div key={index} className="mt-4">
+            <h2 className="text-xl font-semibold">{result.사업장명}</h2>
+            <table className="w-full border-collapse shadow-md rounded-lg overflow-hidden mt-2">
+              <tbody>
+                <tr>
+                  <td>{result.소재지전체주소}</td>
+                </tr>
+                <tr>
+                  <td>{result.업태구분명}</td>
+                </tr>
+                <tr>
+                  <td>
+                    맛: {result.맛}, 서비스: {result.서비스}, 분위기: {result.분위기}, 친절도: {result.친절도}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            {index < results.random.length - 1 && <hr className="my-4 border-gray-300" />}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
-
 export default RandomRecommendResult;

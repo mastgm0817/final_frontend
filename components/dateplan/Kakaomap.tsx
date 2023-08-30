@@ -7,6 +7,9 @@ import RecommendForm from "./RecommendForm";
 import RecommendResult from "./RecommendResult";
 import { useSession } from "next-auth/react";
 import "./../../public/css/dateplan.css";
+import random from "../../app/api/dateplan/dateRandomPlanApi";
+import RandomRecommendForm from "./RandomRecommendForm";
+import RandomRecommendResult from "./RandomRecommendResult";
 
 interface RecommendFormData {
   user_latitude: string;
@@ -20,6 +23,10 @@ interface RecommendFormData {
   quantity: number;
 }
 
+interface RandomRecommendFormData {
+  selected_region: string;
+}
+
 declare const window: typeof globalThis & {
   kakao: any;
 };
@@ -29,6 +36,9 @@ const KakaoMap: React.FC = () => {
   const [userPosition, setUserPosition] = useState<GeolocationPosition | null>(
     null
   );
+  const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
+  const [selectedRecommendType, setSelectedRecommendType] =
+    useState<string>(""); // Track selected recommendation type
   // 마커 좌표를 저장할 상태
   const [markerPositions, setMarkerPositions] = useState<any[]>([]);
   // 라인을 관리할 상태
@@ -44,6 +54,7 @@ const KakaoMap: React.FC = () => {
       const predictionResult = await predict(formData, token);
       setResult(predictionResult);
       handleShowMarkers(0);
+      setRecommendationSubmitted(true);
     } catch (error) {
       console.error("Error while predicting:", error);
     }
@@ -258,39 +269,86 @@ const KakaoMap: React.FC = () => {
     setCourseIndex(courseIndex);
   };
 
+  const handleRandomSubmitForm = async (formData: RandomRecommendFormData) => {
+    try {
+      const randomPredictionResult = await random(formData, token);
+      setResult(randomPredictionResult);
+      setSelectedRecommendType("region");
+    } catch (error) {
+      console.error("Error while handling random form submission:", error);
+    }
+  };
+
+  const handleRecommendTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedRecommendType(event.target.value);
+  };
+
+  const maxCourseIndex =
+    result && result.length >= 3 ? 2 : result ? result.length - 1 : -1;
+
   return (
-    <div className="flex justify-center items-center">
-      <div className="form-container top-2 left-2 p-4 w-80 mx-auto mt-12">
-        <RecommendForm onSubmit={handleSubmitForm} />
-        {[0, 1, 2].map((courseIndex) => (
-          <button
-            key={courseIndex}
-            onClick={() => handleShowMarkers(courseIndex)}
-            className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
-          >
-            코스 {courseIndex + 1}
-          </button>
-        ))}
+    <div className="kakao-map-container">
+      <div id="map"></div>
+
+      {/* Recommend Type Dropdown */}
+      <div className="recommend-type-dropdown">
+        <select
+          value={selectedRecommendType}
+          onChange={handleRecommendTypeChange}
+          className="block px-2 py-1 bg-gray-200 rounded-md"
+        >
+          <option value="">데이트 코스 추천 유형 선택</option>
+          <option value="location">위치 기반 데이트 코스 추천</option>
+          <option value="region">지역구 선택 기반</option>
+        </select>
       </div>
-      <div
-        className="kakao-map-container"
-        style={{ height: "2300px", width: "100%" }}
-      >
-        <div
-          id="map"
-          className="flex w-full h-500px"
-          style={{ height: "30%", width: "100%" }}
-        ></div>
-        <div id="result-container" className="flex w-full">
+
+      {/* Forms */}
+      <div className="random-course-container">
+        {selectedRecommendType === "region" && (
+          <RandomRecommendForm onSubmit={handleRandomSubmitForm} />
+        )}
+      </div>
+      <div className="course-container">
+        {selectedRecommendType === "location" && (
+          <RecommendForm onSubmit={handleSubmitForm} />
+        )}
+        {selectedRecommendType === "location" && (
+          <div className="course-button">
+            {recommendationSubmitted &&
+              maxCourseIndex >= 0 &&
+              [0, 1, 2].map(
+                (courseIndex) =>
+                  courseIndex <= maxCourseIndex && (
+                    <button
+                      key={courseIndex}
+                      onClick={() => handleShowMarkers(courseIndex)}
+                      className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
+                    >
+                      코스 {courseIndex + 1}
+                    </button>
+                  )
+              )}
+          </div>
+        )}
+      </div>
+
+      {/* Results */}
+      <div className="result-container">
+        {selectedRecommendType === "location" && (
           <RecommendResult
             results={
               result && result.length > courseIndex ? [result[courseIndex]] : []
             }
           />
-        </div>
+        )}
       </div>
+      {selectedRecommendType === "region" && (
+        <RandomRecommendResult results={result} />
+      )}
     </div>
   );
 };
-
 export default KakaoMap;
