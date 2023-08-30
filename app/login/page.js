@@ -1,17 +1,7 @@
 "use client";
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button, Container, Typography } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 
@@ -32,165 +22,39 @@ export default function SignInSide() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              로그인
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              sx={{ mt: 1 }}
-              onSubmit={handleLoginBtn}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="이메일"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="비밀번호"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="아이디 저장"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                bgcolor="#f783ac"
-                variant="contained"
-                sx={{ mt: 2, mb: 2}}
-              >
-                로그인
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    비밀번호 찾기
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"회원가입"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Grid container spacing={0.5} style={{ marginTop: "30px" }}>
-                <Grid
-                  xs
-                  item
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Button
-                    onClick={() =>
-                      signIn("naver", {
-                        callbackUrl: CALLBACKURL,
-                      })
-                    }
-                  >
-                    <Image
-                      src="/image/naver.png"
-                      alt="naverbtn"
-                      width={50}
-                      height={50}
-                    ></Image>
-                  </Button>
-                </Grid>
-                <Grid
-                  xs
-                  item
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Button
-                    onClick={() =>
-                      signIn("google", {
-                        callbackUrl: CALLBACKURL,
-                      })
-                    }
-                  >
-                    <Image
-                      src="/image/google.png"
-                      alt="googlebtn"
-                      width={50}
-                      height={50}
-                    ></Image>
-                  </Button>
-                </Grid>
-                <Grid
-                  xs
-                  item
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Button
-                    onClick={() =>
-                      signIn("kakao", {
-                        callbackUrl: CALLBACKURL,
-                      })
-                    }
-                  >
-                    <Image
-                      src="/image/kakao.png"
-                      alt="kakaobtn"
-                      width={50}
-                      height={50}
-                    ></Image>
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+    <div className="flex h-screen">
+        <div className="w-4/12 bg-cover bg-center hidden sm:block" style={{ backgroundImage: "url(https://source.unsplash.com/random?wallpapers)" }}></div>
+        <div className="w-full sm:w-8/12 bg-white p-8 flex flex-col justify-center">
+            <div className="flex flex-col items-center">
+                <LockOutlinedIcon />
+                </div>
+                <h1 className="text-2xl mt-3 text-center font-bold mb-5">로그인</h1>
+                <form className="items-center px-10" onSubmit={handleLoginBtn}>
+                    <input className="border w-full p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" type="email" name="email" placeholder="이메일" required />
+                    <input className="border w-full p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" type="password" name="password" placeholder="비밀번호" required />
+                    <div className="flex justify-between items-center mb-4">
+                        <label className="flex items-center">
+                            <input type="checkbox" className="form-checkbox mr-2" />
+                            아이디 저장
+                        </label>
+                    </div>
+                    <button className="w-full bg-pink-500 text-white p-3 rounded-md mb-4">로그인</button>
+                </form>
+                <div className="mt-5 grid grid-cols-3 gap-3">
+                    <button onClick={() => signIn("naver", { callbackUrl: CALLBACKURL })} className="flex justify-center items-center">
+                        <Image src="/image/naver.png" alt="naverbtn" width={50} height={50} />
+                    </button>
+                    <button onClick={() => signIn("google", { callbackUrl: CALLBACKURL })} className="flex justify-center items-center">
+                        <Image src="/image/google.png" alt="googlebtn" width={50} height={50} />
+                    </button>
+                    <button onClick={() => signIn("kakao", { callbackUrl: CALLBACKURL })} className="flex justify-center items-center">
+                        <Image src="/image/kakao.png" alt="kakaobtn" width={50} height={50} />
+                    </button>
+                </div>
+                <div className="mt-5 flex justify-end">
+                    <a href="/signup" className="text-pink-500 text-sm px-10">회원가입</a>
+                </div>
+            </div>
+        </div>
   );
 }

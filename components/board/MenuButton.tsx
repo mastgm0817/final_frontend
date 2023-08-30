@@ -19,7 +19,7 @@ function MenuButton(props:any) {
         return (
           <Menu as="div" className={`relative inline-block text-center z-0`}>
             <div>
-              <Menu.Button className="inline-flex rounded-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100">
+              <Menu.Button className="inline-flex justify-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-100 rounded-full">
                 <DotIcon aria-hidden="true" />
               </Menu.Button>
             </div>

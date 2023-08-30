@@ -1,18 +1,7 @@
 "use client";
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -33,9 +22,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function SignUp() {
   const API_URL = process.env.NEXT_PUBLIC_URL;
@@ -127,149 +113,49 @@ export default function SignUp() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            회원 가입 페이지
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="nickname"
-                  name="nickName"
-                  required
-                  fullWidth
-                  id="nickName"
-                  label="닉네임"
-                  value={nickNameState}
-                  onChange={(e) => setNickNameState(e.target.value)}
-                  autoFocus
-                  helperText={
-                    nickNameState === "" ? "닉네임을 입력해주세요" : ""
-                  }
-                  InputProps={{
-                    endAdornment: (
-                      <Button
-                        onClick={checkNickName}
-                        variant="outlined"
-                        size="small"
-                      >
-                        Check
-                      </Button>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="userName"
-                  label="사용자 이름"
-                  name="userName"
-                  autoComplete="username"
-                  value={userNameState}
-                  helperText={userName === "" ? "이름을 입력해주세요" : ""}
-                  onChange={(e) => setUserNameState(e.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  helperText={email === "" ? "이메일을 입력해주세요" : ""}
-                  onChange={(e) => setEmail(e.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleEmailCheck(email)} // 여기에 email 값을 전달합니다.
-                      >
-                        Check
-                      </Button>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="패스워드"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)} // 비밀번호 상태 업데이트
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="passwordConfirm"
-                  label="비밀번호 확인"
-                  type="password"
-                  id="passwordConfirm"
-                  value={passwordConfirm}
-                  onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="광고/이벤트 정보 수신에 동의 하십니까?"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              회원 가입
-            </Button>
-
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  이미 회원이십니까? 로그인하러 가기
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12">
+      <div className="p-6 max-w-md w-full">
+        <div className="justify-center items-center mb-4 place-items-center">
+          <h2 className="mt-4 mb-5 text-center text-3xl font-extrabold text-gray-900">회원가입</h2>
+  
+          <hr className="mb-5"></hr>
+        </div>
+  
+        <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
+          <div className="relative">
+            <input type="text" name="nickName" className="w-full h-14 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="닉네임" value={nickNameState} onChange={(e) => setNickNameState(e.target.value)} required />
+            <button onClick={checkNickName} className="absolute right-2 top-2 px-2 py-2 border rounded-md hover:bg-pink-200 text-pink-700">Check</button>
+          </div>
+          
+          <input type="text" name="userName" className="w-full h-14 item-center p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="사용자 이름" value={userNameState} onChange={(e) => setUserNameState(e.target.value)} required />
+  
+          <div className="relative">
+            <input type="email" name="email" className="w-full h-14 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <button onClick={() => handleEmailCheck(email)} className="absolute right-2 top-2 px-2 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600">Check</button>
+          </div>
+          
+          <input type="password" name="password" className="w-full h-14 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="패스워드" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input type="password" name="passwordConfirm" className="w-full h-14 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="비밀번호 확인" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required />
+  
+          <div>
+            <label className="inline-flex items-center mt-5">
+              <input type="checkbox" className="form-checkbox h-4 w-4 text-pink-600" value="allowExtraEmails" />
+              <span className="ml-1 text-sm text-gray-700">광고/이벤트 정보 수신에 동의 하십니까?</span>
+            </label>
+          </div>
+  
+          <button type="submit" className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-500 hover:bg-pink-600">회원 가입</button>
+        </form>
+  
+        <div className="mt-4 flex items-center justify-end">
+          <a href="/login" className="font-medium text-sm text-pink-600 hover:text-pink-500">이미 회원이십니까? 로그인하러 가기</a>
+        </div>
+      </div>
+  
+      <div className="mt-6 text-center text-sm text-gray-500">
+        Copyright © <a href="https://mui.com/" className="text-pink-600 hover:text-pink-500">Your Website</a> {new Date().getFullYear()}.
+      </div>
+    </div>
   );
+  
 }

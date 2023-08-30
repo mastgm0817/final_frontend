@@ -7,6 +7,8 @@ import PaymentCouponList from "../api/coupon/PaymentCouponList";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import axios from "axios";
+import "./../../public/css/fonts.css";
+import "./../../public/css/coupon.css";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 const KAKAO_ADMIN_KEY = process.env.NEXT_PUBLIC_KAKAO_ADMIN_KEY;
@@ -61,12 +63,17 @@ export default function Payment() {
     description: "",
   });
 
+  const [showCoupon,setShowCoupon] = useState(false);
   //   쿠폰적용코드 관련
   const [couponCode, setCouponCode] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const { data: session } = useSession();
   // 쿠폰적용 여부를 판단하는 새로운 상태 변수 추가
   const [isCouponApplied, setIsCouponApplied] = useState(false);
+
+  const HandleShowCoupon=()=>{
+    setShowCoupon(!showCoupon);
+  }
 
   const applyCoupon = async () => {
     const authToken = session.user.id;
@@ -216,46 +223,63 @@ export default function Payment() {
   const parsedDescription = description ? JSON.parse(description) : [];
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        결제 페이지
-      </Typography>
-      <Typography variant="h5">상품: {title}</Typography>
-      <Typography variant="h6">가격: {price || "Loading..."}</Typography>
+    <div className="container mx-auto px-4 mt-8"><br/><br/>
+      <h1 className="text-4xl font-bold justify-center items-center mb-4">결제 페이지</h1>
+      <span><hr className=" border-half  border-t"/></span><br/>
 
-      <PaymentCouponList></PaymentCouponList>
-      <Typography>상품 설명:</Typography>
-      <ul>
-        {parsedDescription &&
-          Array.isArray(parsedDescription) &&
-          parsedDescription.map((desc, index) => <li key={index}>{desc}</li>)}
-      </ul>
+      <div className="m-10 justify-center items-center grid grid-cols-1 md:grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center items-center border bg-gray-50 border-rose-400 rounded-lg">
+            <div className="text-center w-full h-full text-white bg-rose-400 rounded-l-lg">
+              <h2 className="text-2xl font-extrabold mb-2 mt-10">{title}</h2>
+              <h3 className="text-lg font-extrabold mb-10">{price || "Loading..."}</h3>
+            </div>
+            <div>
+              <ul className="mt-4 list-disc pl-5 mb-4 rounded-r-lg bg-gray-50 ">
+                {parsedDescription &&
+                  Array.isArray(parsedDescription) &&
+                  parsedDescription.map((desc, index) => <li key={index}>{desc}</li>)}
+              </ul>
+            </div>
+          </div>
+          <div className="ml-10">
+              <h3 className="my-4">결제 금액: <span className="font-bold">{totalPrice.toLocaleString()}</span><span> 원</span></h3>
+                <button
+                  className="px-4 py-2 rounded text-white bg-rose-400 hover:bg-rose-500 mr-4"
+                  onClick={postKakaopay}
+                >
+                  결제하기
+                </button>
+                <button
+                  className="px-4 py-2 rounded text-white bg-rose-400 hover:bg-rose-500"
+                  onClick={virtualpay}
+                >
+                  가상결제하기
+            </button>
+          </div>
+      </div>
+      <br/>
 
-      <TextField
-        label="쿠폰 코드"
-        variant="outlined"
-        value={couponCode}
-        onChange={(e) => setCouponCode(e.target.value)}
-      />
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={applyCoupon}
-        disabled={isCouponApplied}
-      >
-        쿠폰 적용하기
-      </Button>
+      <div className="ml-10">
+        <div onClick={HandleShowCoupon} className="text-sm">{!showCoupon?"사용 가능한 쿠폰 목록 보기":"닫기"}</div>
+        {showCoupon && <div><PaymentCouponList></PaymentCouponList><br/></div>}
+        <input
+          type="text"
+          className="border border-rose-400 p-2 rounded w-48 mb-4 mr-4 focus:ring-2 focus:outline-none focus:ring-rose-400"
+          placeholder="쿠폰 코드"
+          value={couponCode}
+          onChange={(e) => setCouponCode(e.target.value)}
+        />
+        <button
+          className={`px-4 py-2 rounded text-white mb-4 ${isCouponApplied ? 'bg-gray-400 cursor-not-allowed' : 'bg-rose-400 hover:bg-rose-500'}`}
+          onClick={applyCoupon}
+          disabled={isCouponApplied}
+        >
+          쿠폰 적용하기
+        </button>
+      </div>
+        <br/><br/><hr/>
 
-      <Typography variant="h6">
-        총 금액: {totalPrice.toLocaleString()}
-      </Typography>
-
-      <Button variant="contained" color="primary" onClick={postKakaopay}>
-        결제하기
-      </Button>
-      <Button variant="contained" color="primary" onClick={virtualpay}>
-        가상결제하기
-      </Button>
-    </Container>
+        
+    </div>
   );
 }

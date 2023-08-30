@@ -19,6 +19,7 @@ import LoverProfile from "../../components/profile/LoverCard";
 import ProfileImageUploadPopUp from "../../components/profile/ProfileImageUpLoadPopUp";
 import Link from "next/link";
 import TestButton from "../../components/profile/TestButton";
+
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
 export default function UserInfo() {
@@ -46,23 +47,56 @@ export default function UserInfo() {
 
     try {
       const authToken = session.user.id;
+      const nickName = session.user.name;
 
       // 1. 프로필 이미지 업로드
       const formData = new FormData();
-      formData.append("image", imageFile);
+      formData.append("file", imageFile);
 
-      // 2. 서버 응답을 받아서 페이지 데이터 업데이트 등의 작업 수행
-      const updatedUserData = updateUserResponse.data;
-      console.log("Updated user data:", updatedUserData);
+      const response = await axios.post(
+        API_URL + `/users/info/updateProfileImage/${nickName}`, formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type' : 'multipart/form-data',
+          },
+        }
+      );
 
-      // 필요한 경우 userInfo 상태 업데이트
-      setUserInfo(updatedUserData);
+      let updatedImageUrl;
+      let responseUpdate;
 
-      // 팝업 닫기
-      handleCloseUploadPopup();
-    } catch (error) {
-      console.error(
-        "Error uploading image or updating profile:",
+      if (response.status === 200) {
+          // 업로드한 이미지 URL을 사용 -> userInfo를 Put 요청으로 업데이트
+          updatedImageUrl = response.data; // 새 이미지 url
+
+          responseUpdate = await axios.put(
+          API_URL + `/users/info/updateProfileImage/${nickName}`,
+          { profileImage: updatedImageUrl},   // 새 이미지 URL 포함
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            'Content-Type':'application/json',
+            },
+          },
+        )
+      };
+
+      if (responseUpdate && responseUpdate.status === 200) { 
+        // 프로필 이미지 업데이트 후 서버 응답 데이터로 useInfo.profileImage 속성값 업데이트
+        console.log("responseUpdate for update: ", responseUpdate);
+        const updatedUserInfo = {
+          ...userInfo,
+          profileImage: updatedImageUrl, 
+        };
+        // 필요한 경우 userInfo 상태 업데이트
+        setUserInfo(updatedUserInfo);
+        // 팝업 닫기
+        handleCloseUploadPopup();
+        } 
+      } catch (error) {
+       console.error(
+         "Error uploading image or updating profile:",
         error.message
       );
     }

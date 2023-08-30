@@ -63,7 +63,8 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
         <button
           key={star}
           type="button"
-          className={`text-2xl ${star <= value ? "text-yellow-400" : "text-gray-300"
+          className={`text-lg ${
+            star <= value ? "text-yellow-400" : "text-gray-300"
           }`}
           onClick={() => setFormData((prev) => ({ ...prev, [name]: star }))}
         >
@@ -74,11 +75,10 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="recommend-form-container bg-white p-4 rounded-lg shadow-md"
-    >
-      <h2 className="text-center text-xl font-semibold mb-4">선호하는 음식점 유형</h2>
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg shadow-md">
+      <h2 className="text-center text-xl font-semibold mb-4">
+        선호하는 음식점 유형
+      </h2>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">
           음식 종류
@@ -122,7 +122,9 @@ const RecommendForm: React.FC<RecommendFormProps> = ({ onSubmit }) => {
         {renderStars("storeCondition", formData.storeCondition)}
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">친절함</label>
+        <label className="block text-sm font-medium text-gray-700">
+          친절함
+        </label>
         {renderStars("kindness", formData.kindness)}
       </div>
       <div className="mb-4">
