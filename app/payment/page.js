@@ -46,9 +46,9 @@ export default function Payment() {
       total_amount: 0,
       vat_amount: 0,
       tax_free_amount: 0,
-      approval_url: "http://localhost:8082/api/v1/payment/success",
-      fail_url: "http://localhost:8082/api/v1/payment/fail",
-      cancel_url: "http://localhost:8082/api/v1/payment/cancel",
+      approval_url: process.env.NEXT_PUBLIC_KAKAO_PAY_APPROVE_URL,
+      fail_url: process.env.NEXT_PUBLIC_KAKAO_PAY_FAILURE_URL,
+      cancel_url: process.env.NEXT_PUBLIC_KAKAO_PAY_CANCEL_URL,
     },
     couponInfo: {
       couponCode: "",
@@ -119,7 +119,7 @@ export default function Payment() {
   const postKakaopay = async () => {
     try {
       const authToken = session.user.id; // 세션에서 토큰 가져오기
-      const response = await axios.post(API_URL + "/payment/ready", payinfo, {
+      const response = await axios.post(API_URL + "/payment/ready", config, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
