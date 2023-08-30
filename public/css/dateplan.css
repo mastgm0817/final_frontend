@@ -2,42 +2,93 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.kakao-map-container {
+  flex: 1;
+  height: 685px;
+  /* margin-bottom: 20px; */
+  position: relative; /* Add relative positioning */
+}
+
+#map {
+  width: 100%;
+  height: 100%; /* Adjust the map height as needed */
+  z-index: 1;
+}
+
+.course-container {
+  position: absolute;
+  width: 15rem;
+  top: 48%; /* Position it at the vertical center of the container */
+  left: -18%; /* Position it at the horizontal center of the container */
+  transform: translate(-50%, -50%); /* Adjust for centering */
+  z-index: 10;
+}
+
+.course-button {
+  position: absolute;
+  width: 15rem;
+  top: 35.5rem;
+  left: 9rem;
+  transform: translateX(-50%);
+  display: flex; /* Use flexbox to arrange buttons horizontally */
+  gap: 10px; /* Add some space between buttons */
+  z-index: 10;
+}
+
 .result-container {
   position: absolute;
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.form-container {
-  position: absolute;
-  bottom: 2rem; /* Adjust this value as needed */
-  right: -22rem; /* Adjust this value as needed */
-  width: 42.5rem;
-  padding: 1px;
-  margin-top: 30px;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
+  width: 18rem;
+  top: 49%; /* Position it at the vertical center of the container */
+  right: -19rem; /* Adjust the value as needed */
+  transform: translateY(-50%); /* Adjust for centering */
   z-index: 2;
+  background-color: white; /* Add background color */
+  padding: 1rem; /* Add padding */
+  border-radius: 4px; /* Add border radius for a nice look */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow */
+  font-size: 11px;
 }
 
-.recommend-form-container {
+.recommend-type-dropdown {
   position: absolute;
-  bottom: -4rem;
-  right: 46rem;
-  width: 12rem;
-  padding: 5px;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  z-index: 2;
-  background-color: #ffffff;
+  width: 20rem;
+  top: 0.5rem;
+  right: 52.5rem;
+  z-index: 5;
 }
 
-.kakao-map-container {
-  position: relative;
-  overflow: hidden;
-  height: calc(100% - 2rem); /* Adjust this value to leave space for the form container */
-  width: 100%;
-  margin-bottom: 2rem; /* Add margin to separate the form and map */
-  background-color: #ffffff;
+
+
+/* RandomRecommendForm, RandomRecommendResult.tsx css */
+/* .random-recommend-form-container{
+
 }
+ */
+
+
+.random-course-container{
+  position: absolute;
+  width: 15rem;
+  top: 17%; /* Position it at the vertical center of the container */
+  left: -18%; /* Position it at the horizontal center of the container */
+  transform: translate(-50%, -50%); /* Adjust for centering */
+  z-index: 4;
+  
+}
+
+.random-result-container {
+  position: absolute;
+  width: 18rem;
+  top: 2%; /* Position it at the vertical center of the container */
+  right: -19rem; /* Adjust the value as needed */
+  background-color: white;
+  z-index: 5;
+  padding: 1rem; /* Add padding */
+  border-radius: 4px; /* Add border radius for a nice look */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow */
+  font-size: 11px;
+  overflow-y: auto; /* Add vertical scrollbar when content exceeds container height */
+  max-height: 650px; /* Adjust the value as needed, considering the header and footer heights */
+}
+
+
