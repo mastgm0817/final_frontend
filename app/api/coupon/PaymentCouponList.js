@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_URL;
 import "./../../../public/css/coupon.css";
 import Skeleton from "./../../../components/coupon/Skeleton";
 
-const CouponApi = () => {
+const CouponApi = ({hideImageOnProfile}) => {
   const { data: session } = useSession(); // 세션 데이터 가져오기
   const [user, setUser] = useState(null);
   const [discountType, setDiscountType] = useState(null);
@@ -35,12 +35,15 @@ const CouponApi = () => {
     fetchUser();
   }, [session]);
 
+
+ 
+  
   const settings = {
     dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    infinite: false,
+    speed: 400,
+    slidesToShow: 2,
+    slidesToScroll: 2,
   };
 
   return (
@@ -53,9 +56,11 @@ const CouponApi = () => {
 
           {isLoadingCoupon && <Skeleton />}
           {!isLoadingCoupon && 
+          <>
+            
             <Slider {...settings}>
             {user.couponList.map((coupon) => (
-              <div key={coupon.id} className="">
+              <div key={coupon.id} className="ml-0">
                 <CouponInfo
                   key={coupon.id}
                   code={coupon.code}
@@ -64,11 +69,13 @@ const CouponApi = () => {
                   discountValue={coupon.discountValue}
                   assignedAt={coupon.assignedAt}
                   endAt={coupon.endAt}
+                  hideImageOnProfile={hideImageOnProfile}
                 />
               </div>
             ))}
           </Slider>
-          }
+          </>
+          }<br/>
         </div>
       )}
     </div>

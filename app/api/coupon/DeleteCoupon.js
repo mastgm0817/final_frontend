@@ -4,8 +4,7 @@ import { useSession } from "next-auth/react";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
-export default function DeleteCoupon() {
-  const [cpid, setCpid] = useState("");
+export default function DeleteCoupon({ cpid,onSuccess }) {
   const { data: session } = useSession();
 
   const deleteCoupon = async () => {
@@ -30,6 +29,7 @@ export default function DeleteCoupon() {
 
       if (response.status === 200) {
         alert("쿠폰이 삭제되었습니다.");
+        onSuccess();
       }
     } catch (error) {
       console.error("Error deleting coupon", error);
@@ -39,13 +39,7 @@ export default function DeleteCoupon() {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="삭제할 쿠폰의 cpid"
-        value={cpid}
-        onChange={(e) => setCpid(e.target.value)}
-      />
-      <button onClick={deleteCoupon}>쿠폰 삭제</button>
+      <button  className="hover:underline focus:outline-none text-sm text-red-500" onClick={deleteCoupon}>쿠폰 삭제</button>
     </div>
   );
 }

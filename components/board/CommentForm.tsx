@@ -13,8 +13,8 @@ const defaultComment: Comment = {
     const commentMethod=props.method;
     const { data: session } = useSession();
     const [newComment, setNewComment] = useState<Comment>({ ...props.comment });
-    newComment.nickName=props.nickName;
-    // console.log("댓글작성자:"+newComment.nickName);
+    newComment.nickName=session?.user.name;
+
     return (
       <div className="flex flex-col mt-4 space-y-4 w-11/12">
         <form className="flex flex-col space-y-2">

@@ -24,10 +24,16 @@ export const handleUsageCheckButtonClick = async (session) => {
 
     if (response.status === 200) {
       if (response.data.message === "무제한 이용권") {
-        alert("무제한 이용자");
+        return true;
       } else {
-        alert("무료 이용 횟수: " + response.data.remainingClicks);
+        if (response.data.remainingClicks > 0) {
+          return true;
+        } else {
+          return false;
+        }
       }
+    } else {
+      return false;
     }
   } catch (error) {
     if (error.response) {

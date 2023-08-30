@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import Sidebar from '../../../components/admin/Sidebar';
 import CouponManager from "../../../components/admin/CouponManager";

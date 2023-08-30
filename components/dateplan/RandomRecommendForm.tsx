@@ -25,12 +25,18 @@ const RandomRecommendForm: React.FC<RandomRecommendFormProps> = ({
 
   const handleRandomSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const canProceed = await handleUsageCheckButtonClick(session);
+
+    if (!canProceed) {
+      alert("서비스를 이용할 수 없습니다.");
+      return;
+    }
+
     const formData: RandomRecommendFormData = {
       selected_region: selectedRegion,
     };
 
     onSubmit(formData, selectedRegion);
-    await handleUsageCheckButtonClick(session);
   };
 
   return (

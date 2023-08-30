@@ -5,12 +5,13 @@ import SendData from "../../api/board/SendData";
 import { ISODateString } from "next-auth";
 
 import Loading from "../../../components/board/Loading";
-// import BoardDetail from "../../../components/board/BoardDetail";
+import CommentRequest from "../../../types/commentrequest";
 import WriteBoard from "../../../components/board/WriteBoard";
 
 
 const defaultBoard: Board = {
   bid: 0,
+  uid: "",
   nickName: " ",
   btitle: " ",
   bcontent: " ",
@@ -40,6 +41,9 @@ import Comment from '../../../types/comment';
 import CommentForm from "../../../components/board/CommentForm";
 import MenuButton from "../../../components/board/MenuButton";
 import './../../../public/css/board.css';
+import { Session } from "inspector";
+import { SourceTextModule } from "vm";
+import BoardRequest from "../../../types/boardrequest";
 
 
 const defaultComment: Comment = {
@@ -96,11 +100,14 @@ function BoardDetail(props: any) {
     async function CreateComment(newComment:Comment, bid:Number){
       const isConfirmed = window.confirm("댓글을 등록할까요?");
       if (!isConfirmed) {return;}
-      console.log(newComment);
+      const newCommentRequest:CommentRequest={
+        comment:newComment,
+        uid:session?.user.id
+      }
       await SendData(
         "POST",
         `/boards/${bid}/comments`,
-        newComment,
+        newCommentRequest,
         "create comment"
       );
       ToggleAddComment();
@@ -114,7 +121,7 @@ function BoardDetail(props: any) {
       await SendData(
         "DELETE",
         `/boards/${bid}/comments/${cid}`,
-        null,
+        session?.user.id,
         "delete comment"
       );
       fetchData();
@@ -122,11 +129,15 @@ function BoardDetail(props: any) {
     async function UpdateComment(updatedComment: Comment, bid: any) {
       const cid = updatedComment.cid;
       const isConfirmed = window.confirm("댓글을 이대로 수정할까요?");
+      const UpdateCommentRequest:CommentRequest={
+        comment:updatedComment,
+        uid:session?.user.id
+      }
       if (!isConfirmed) {return;}
       await SendData(
         "PUT",
         `/boards/${bid}/comments/${cid}/update`,
-        updatedComment,
+        UpdateCommentRequest,
         "update comment"
       );
       ToggleUpdateComment();
@@ -272,6 +283,7 @@ interface pageProps {
 }
 
 const Page: FC<pageProps> = ({ params }, props: any) => {
+  const { data: session } = useSession();
   const [boards, setBoards] = useState<Board[] | any>([]);
   const [UpdateFormClass, setUpdateFormClass] = useState<string | null>(null);
   const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false);
@@ -279,6 +291,10 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [commentListShow, setCommentListShow] = useState<boolean>(false);
   // const [isNextExist, setisNextExist]=
+
+  useEffect(() => {
+    setSelectedBoard(defaultBoard);
+  }, [params.findingMethod, params.findStr]);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -326,18 +342,33 @@ const Page: FC<pageProps> = ({ params }, props: any) => {
     }
   }
   async function UpdateBoard(UpdateBoard: Board) {
+    const upadateRequest:BoardRequest={
+      board:UpdateBoard,
+      uid:session?.user.id
+    }
     setUpdateFormClass("formOff");
     UpdateBoard.bupdatedAt = new Date().toISOString();
-    await SendData("PUT", `/boards/${UpdateBoard.bid}`, UpdateBoard, "update");
+
+    await SendData("PUT", `/boards/${UpdateBoard.bid}`, upadateRequest, "update");
     setSelectedBoard(defaultBoard);
     fetchData();
   }
   async function DeleteBoard(board: Board) {
     const isConfirmed = window.confirm("게시글을 삭제할까요?");
     if (!isConfirmed) {return;}
-    await SendData("DELETE", `/boards/${board.bid}`, board, "delete");
-    fetchData();
-  }
+    try {
+        const response = await SendData("DELETE", `/boards/${board.bid}`,session?.user.id , "delete");
+        fetchData();
+        if (response.status === 400) {  // HTTP 400는 Bad Request를 의미합니다.
+            const errorData = await response.data;  // 에러 메시지를 텍스트로 받습니다.
+            alert(`오류: ${errorData}`);
+        }
+    } catch (error) {
+        console.error("Error during the delete request:", error);
+        alert("An error occurred while deleting the board. Please try again later.");
+    }
+}
+
   function handelUpdateXButton() {
     setSelectedBoard(defaultBoard);
     setUpdateFormClass("formOff");
