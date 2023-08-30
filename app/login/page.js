@@ -1,17 +1,7 @@
 "use client";
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button, Container, Typography } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 
@@ -39,15 +29,14 @@ export default function SignInSide() {
                 <LockOutlinedIcon />
                 </div>
                 <h1 className="text-2xl mt-3 text-center font-bold mb-5">로그인</h1>
-                <form className="w-full" onSubmit={handleLoginBtn}>
-                    <input className="border w-full p-2 rounded-md mb-3" type="email" name="email" placeholder="이메일" required />
-                    <input className="border w-full p-2 rounded-md mb-3" type="password" name="password" placeholder="비밀번호" required />
+                <form className="items-center px-10" onSubmit={handleLoginBtn}>
+                    <input className="border w-full p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" type="email" name="email" placeholder="이메일" required />
+                    <input className="border w-full p-2 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-pink-500" type="password" name="password" placeholder="비밀번호" required />
                     <div className="flex justify-between items-center mb-4">
                         <label className="flex items-center">
                             <input type="checkbox" className="form-checkbox mr-2" />
                             아이디 저장
                         </label>
-                        <a href="#" className="text-sm text-pink-500">비밀번호 찾기</a>
                     </div>
                     <button className="w-full bg-pink-500 text-white p-3 rounded-md mb-4">로그인</button>
                 </form>
@@ -63,7 +52,7 @@ export default function SignInSide() {
                     </button>
                 </div>
                 <div className="mt-5 flex justify-end">
-                    <a href="/signup" className="text-pink-500 text-sm">회원가입</a>
+                    <a href="/signup" className="text-pink-500 text-sm px-10">회원가입</a>
                 </div>
             </div>
         </div>
