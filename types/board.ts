@@ -4,7 +4,8 @@ import Comment from "./comment";
 
 type Board = {
   bid: Key;
-  nickName: string;
+  uid: string;
+  nickName: any;
   btitle: string;
   bcontent: string;
   bcreatedAt: ISODateString;

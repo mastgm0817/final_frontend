@@ -12,7 +12,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
-function CouponInfo({ title }) {
+function CouponList({ title, children }) {
   return (
     <>
       <Box sx={{ minWidth: 275 }}>
@@ -22,6 +22,7 @@ function CouponInfo({ title }) {
               <Typography sx={{ fontSize: 14 }} color="#f783ac" gutterBottom>
                 {title}
               </Typography>
+              {children}
             </CardContent>
           </React.Fragment>
         </Card>
@@ -30,4 +31,4 @@ function CouponInfo({ title }) {
   );
 }
 
-export default CouponInfo;
+export default CouponList;
