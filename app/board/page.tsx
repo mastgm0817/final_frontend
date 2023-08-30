@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Board from "../../types/board";
+import BoardRequest from "../../types/boardrequest";
 import WriteBoard from "../../components/board/WriteBoard";
 import SendData from "../api/board/SendData";
 import Page from "./[pagenum]/pagenum";
@@ -13,6 +14,7 @@ import { GlassIcon, SortIcon, XMark } from "./../../components/icons";
 
 const defaultBoard: Board = {
   bid: 0,
+  uid:"",
   nickName: "",
   btitle: "",
   bcontent: "",
@@ -23,9 +25,6 @@ const defaultBoard: Board = {
   brecommendations: 0,
   commentList:[]
 };
-
-
-
 
 const findingMethods = [
   {id: 1,name: '닉네임'},
@@ -127,8 +126,12 @@ function Logined(props: any): any {
     }
 }
   async function CreateBoard(newBoard: Board) {
-    newBoard.nickName = `${session ? session.user?.name : null}`;
-    await SendData("POST", `/boards`,newBoard,"create");
+    const newBoardRequest:BoardRequest={
+      board:newBoard,
+      uid:session?.user.id
+    }
+    newBoard.nickName = session?.user.name;
+    await SendData("POST", `/boards`,newBoardRequest,"create");
     ToggleAddForm();
     initiallizeSearchParams();
     fetchData();
