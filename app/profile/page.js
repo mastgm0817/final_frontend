@@ -14,7 +14,6 @@ import Container from "@mui/material/Container";
 import ModeIcon from "@mui/icons-material/Mode";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CardProfile from "../../components/profile/ProfileCard";
-import CouponInfo from "../../components/profile/CouponInfo";
 import Datelist from "../../components/profile/Datelist";
 import CouponList from "../../components/profile/CouponList";
 import CouponApi from "./../api/coupon/PaymentCouponList";
@@ -242,12 +241,10 @@ export default function UserInfo() {
               <br />
               <LoverProfile title="연인 정보" buttonText2="헤어지기" />
               <br />
-              <CouponInfo title="쿠폰정보" />
-              <br />
-              <Datelist title="데이트북" />
               <CouponList title="쿠폰정보">
                 <CouponApi hideImageOnProfile={true} />
               </CouponList>
+              <Datelist title="데이트북" />
               <br />
               <Button onClick={deleteUser}>회원탈퇴</Button>
             </Container>
