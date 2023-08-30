@@ -44,7 +44,6 @@ const KakaoMap: React.FC = () => {
       const predictionResult = await predict(formData, token);
       setResult(predictionResult);
       handleShowMarkers(0);
-      
     } catch (error) {
       console.error("Error while predicting:", error);
     }
@@ -86,10 +85,6 @@ const KakaoMap: React.FC = () => {
   }, [dispatch]);
   const [showMarkers, setShowMarkers] = useState(false); // 마커 보여줄지 말지 결정하는 state
 
-  const handleShowMarkers = (index: number) => {
-    setShowMarkers(true);
-    setCourseIndex(index);
-  };
   const OFFSET = 0.0001; // 적절한 값을 선택하세요.
   const [courseIndex, setCourseIndex] = useState<number>(0);
   // 현재 표시할 코스의 인덱스를 저장하는 state
@@ -134,30 +129,45 @@ const KakaoMap: React.FC = () => {
       courseIndex !== null &&
       result.length > courseIndex
     ) {
+      // 레스토랑 예측 결과 배열 가져오기
       const restaurantPredictions = result[courseIndex].restaurant_prediction;
 
-      // 이전에 생성된 마커들을 지도에서 제거합니다.
+      // 이전에 생성된 마커 및 라인 제거 및 초기화
       markers.forEach((marker) => marker.setMap(null));
-      // 이전에 그려진 라인을 지도에서 제거합니다.
       if (line) {
         line.setMap(null);
         setLine(null);
       }
-      // 마커의 좌표 배열을 초기화합니다.
       setMarkerPositions([]);
 
       const newMarkers: any[] = [];
-      // 마커 생성 로직에서
-      restaurantPredictions.forEach((restaurant: any, index: number) => {
+      const path: any[] = [];
+
+      if (userPosition) {
+        path.push(
+          new window.kakao.maps.LatLng(
+            userPosition.coords.latitude,
+            userPosition.coords.longitude
+          )
+        );
+      }
+
+      restaurantPredictions.forEach((restaurant: any, index: any) => {
         if (restaurant.latitude && restaurant.longitude) {
           const restaurantPosition = new window.kakao.maps.LatLng(
             restaurant.latitude + OFFSET * index,
             restaurant.longitude + OFFSET * index
           );
+
+          if (userPosition) {
+            path.push(restaurantPosition);
+          }
+
           const restaurantMarker = new window.kakao.maps.Marker({
             position: restaurantPosition,
           });
 
+          // 인포윈도우와 마커 이벤트 리스너 설정
           // 인포윈도우를 생성합니다.
           const infowindowContent = `<div style="width:200px; padding:10px; font-size:14px;">${restaurant.사업장명} (${restaurant.업태구분명})</div>`;
           const infowindow = new window.kakao.maps.InfoWindow({
@@ -207,7 +217,7 @@ const KakaoMap: React.FC = () => {
               );
             }
           );
-          // 좌표를 배열에 저장
+
           setMarkerPositions((prevPositions) => [
             ...prevPositions,
             restaurantPosition,
@@ -217,6 +227,9 @@ const KakaoMap: React.FC = () => {
         }
       });
 
+      // 사용자 위치와 마커 위치로 경로 그리기 함수 호출
+      handleShowRoute(path);
+
       setMarkers(newMarkers);
     } else if (markers.length > 0) {
       markers.forEach((marker) => marker.setMap(null));
@@ -224,18 +237,11 @@ const KakaoMap: React.FC = () => {
     }
   }, [result, map, showMarkers, courseIndex]);
 
-  const handleShowRoute = () => {
-    if (userPosition) {
-      const userLatLng = new window.kakao.maps.LatLng(
-        userPosition.coords.latitude,
-        userPosition.coords.longitude
-      );
-
-      // 사용자의 좌표와 나머지 마커의 좌표들을 결합
-      const path = [userLatLng, ...markerPositions];
-
+  const handleShowRoute = (path: any[]) => {
+    // any 대신에 카카오 맵 LatLng 객체 타입을 지정할 수 있으면 더 좋습니다.
+    if (userPosition && path.length > 1) {
       const polyline = new window.kakao.maps.Polyline({
-        path: path, // 결합된 경로로 변경
+        path: path,
         strokeWeight: 3,
         strokeColor: "#db4040",
         strokeOpacity: 1,
@@ -243,31 +249,28 @@ const KakaoMap: React.FC = () => {
       });
 
       polyline.setMap(map);
-
-      // 상태에 현재 그려진 라인을 저장한다.
       setLine(polyline);
     }
   };
 
+  const handleShowMarkers = (courseIndex: any) => {
+    setShowMarkers(true);
+    setCourseIndex(courseIndex);
+  };
+
   return (
     <div className="flex justify-center items-center">
-    <div className="form-container top-2 left-2 p-4 w-80 mx-auto mt-12">
-      <RecommendForm onSubmit={handleSubmitForm} />
-      {[0, 1, 2].map((courseIndex) => (
-        <button
-          key={courseIndex}
-          onClick={() => handleShowMarkers(courseIndex)}
-          className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
-        >
-          코스 {courseIndex + 1}
-        </button>
-      ))}
-      <button
-        onClick={handleShowRoute}
-        className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
-      >
-        경로 보기
-      </button>
+      <div className="form-container top-2 left-2 p-4 w-80 mx-auto mt-12">
+        <RecommendForm onSubmit={handleSubmitForm} />
+        {[0, 1, 2].map((courseIndex) => (
+          <button
+            key={courseIndex}
+            onClick={() => handleShowMarkers(courseIndex)}
+            className="block px-2 py-1 mt-2 bg-pink-500 text-white rounded-md hover:bg-pink-600"
+          >
+            코스 {courseIndex + 1}
+          </button>
+        ))}
       </div>
       <div
         className="kakao-map-container"
