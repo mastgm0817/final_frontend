@@ -133,41 +133,56 @@ const KakaoMap: React.FC = () => {
   // 마커 좌표를 저장할 배열
 
   useEffect(() => {
-    if (
-      showMarkers &&
-      map &&
-      Array.isArray(result) &&
-      courseIndex !== null &&
-      result.length > courseIndex
+    // 기존 마커와 라인 제거
+    markers.forEach((marker) => marker.setMap(null));
+    if (line) {
+      line.setMap(null);
+      setLine(null);
+    }
+    setMarkers([]);
+
+    if (selectedRecommendType === "region" && result?.random) {
+      // 지역구 선택 기반 랜덤 코스 추천 결과 처리
+      const newMarkers: any[] = [];
+
+      result.random.forEach((restaurant: any) => {
+        if (restaurant.latitude && restaurant.longitude) {
+          const position = new window.kakao.maps.LatLng(restaurant.latitude, restaurant.longitude);
+          const marker = new window.kakao.maps.Marker({
+            position: position,
+            map: map
+          });
+          newMarkers.push(marker);
+        }
+      });
+
+      setMarkers(newMarkers);
+    } else if (
+        showMarkers &&
+        map &&
+        Array.isArray(result) &&
+        courseIndex !== null &&
+        result.length > courseIndex
     ) {
-      // 레스토랑 예측 결과 배열 가져오기
+      // 위치 기반 데이트 코스 추천 결과 처리
       const restaurantPredictions = result[courseIndex].restaurant_prediction;
-
-      // 이전에 생성된 마커 및 라인 제거 및 초기화
-      markers.forEach((marker) => marker.setMap(null));
-      if (line) {
-        line.setMap(null);
-        setLine(null);
-      }
-      setMarkerPositions([]);
-
       const newMarkers: any[] = [];
       const path: any[] = [];
 
       if (userPosition) {
         path.push(
-          new window.kakao.maps.LatLng(
-            userPosition.coords.latitude,
-            userPosition.coords.longitude
-          )
+            new window.kakao.maps.LatLng(
+                userPosition.coords.latitude,
+                userPosition.coords.longitude
+            )
         );
       }
 
       restaurantPredictions.forEach((restaurant: any, index: any) => {
         if (restaurant.latitude && restaurant.longitude) {
           const restaurantPosition = new window.kakao.maps.LatLng(
-            restaurant.latitude + OFFSET * index,
-            restaurant.longitude + OFFSET * index
+              restaurant.latitude + OFFSET * index,
+              restaurant.longitude + OFFSET * index
           );
 
           if (userPosition) {
@@ -246,8 +261,7 @@ const KakaoMap: React.FC = () => {
       markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
     }
-  }, [result, map, showMarkers, courseIndex]);
-
+  }, [result, map, showMarkers, courseIndex, selectedRecommendType]);
   const handleShowRoute = (path: any[]) => {
     // any 대신에 카카오 맵 LatLng 객체 타입을 지정할 수 있으면 더 좋습니다.
     if (userPosition && path.length > 1) {
@@ -287,6 +301,34 @@ const KakaoMap: React.FC = () => {
 
   const maxCourseIndex =
     result && result.length >= 3 ? 2 : result ? result.length - 1 : -1;
+
+  // useEffect(() => {
+  //   // 기존 마커와 라인 제거
+  //   markers.forEach((marker) => marker.setMap(null));
+  //   if (line) {
+  //     line.setMap(null);
+  //     setLine(null);
+  //   }
+  //   setMarkers([]);
+  //
+  //   // 지역구 선택 기반 랜덤 코스 추천 결과 처리
+  //   if (selectedRecommendType === "region" && result && result.random) {
+  //     const newMarkers = [];
+  //
+  //     result.random.forEach((restaurant) => {
+  //       if (restaurant.latitude && restaurant.longitude) {
+  //         const position = new window.kakao.maps.LatLng(restaurant.latitude, restaurant.longitude);
+  //         const marker = new window.kakao.maps.Marker({
+  //           position: position,
+  //           map: map
+  //         });
+  //         newMarkers.push(marker);
+  //       }
+  //     });
+  //
+  //     setMarkers(newMarkers);
+  //   }
+  // }, [result, map, selectedRecommendType]);
 
   return (
     <div className="kakao-map-container">
