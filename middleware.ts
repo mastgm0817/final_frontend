@@ -6,9 +6,8 @@ import axios from "axios";
 // import { getServerSession } from "next-auth/next";
 
 export default withAuth(async function middleware(request: NextRequest) {
- 
+  return NextResponse.redirect(new URL("/login", request.url));
 });
-
 
 export const config = {
   matcher: [
@@ -18,5 +17,6 @@ export const config = {
     "/price/:path*",
     "/payment/:path*",
     "/admin/:path*",
+    "/inquiry/:path*",
   ],
 };
