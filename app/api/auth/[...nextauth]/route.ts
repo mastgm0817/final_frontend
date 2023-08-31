@@ -37,7 +37,6 @@ const handler = NextAuth({
       },
       async authorize(credentials, req) {
         // 서버에 요청을 보내 사용자 인증
-        console.log(credentials);
         if (!credentials) {
           return null;
         }
@@ -56,12 +55,9 @@ const handler = NextAuth({
         );
 
         const user = await res.json();
-        console.log("user데이터" + user.nickName);
 
         // 토큰이 유효하면 사용자 반환
         if (user) {
-          console.log("user 값 반환" + user);
-          console.log("user 값 반환: " + JSON.stringify(user));
           return user;
         }
 
@@ -112,7 +108,6 @@ const handler = NextAuth({
 
           // 상태 코드가 404인 경우, 회원가입 페이지로 리다이렉트
           if (loginRes.status === 404) {
-            console.log("account info: ", JSON.stringify(account, null, 2));
             const loginRes = await fetch(
               process.env.NEXT_PUBLIC_URL + `/users/join`,
               {
@@ -142,11 +137,8 @@ const handler = NextAuth({
           if (loginRes.status !== 404) {
             console.error(loginRes.body);
           }
-          console.log("이거나오면 안됨");
           return loginRes.ok;
         } catch (error) {
-          console.error("토큰 발급실패", error);
-
           return false;
         }
       }
@@ -180,7 +172,6 @@ const handler = NextAuth({
       if (token.nickName != null) session.user.name = token.nickName as string;
       if (token.userRole != null)
         session.user.userRole = token.userRole as string;
-      // console.log("token", token);
       return session;
     },
   },

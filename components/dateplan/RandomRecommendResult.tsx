@@ -64,8 +64,6 @@ const RandomRecommendResult: React.FC<RandomRecommendResultProps> = ({
       results: filteredResults,
     };
 
-    console.log(payload.results);
-
     try {
       const response = await axios.post(API_URL + "/randomWishlist", payload, {
         headers: {
