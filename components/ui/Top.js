@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import Weather from "../util/CurrentWeather";
+import Head from "next/head";
 
 const pages = ["Dateplan", "Board", "Inquiry"];
 const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
@@ -108,45 +109,68 @@ export function LogoutedRightSideNav() {
 
 export default function Top() {
   return (
-    <div className="custom-container">
-      <AppBar
-        sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }}
-        position="static"
-      >
-        <Toolbar
-          sx={{
-            justifyContent: "space-between",
-            paddingLeft: "15%",
-            paddingRight: "15%",
-          }}
+    <>
+      <Head>
+        <title>러부스트 Luvoost - 완벽한 데이트 코스 찾기</title>
+        <meta
+          name="description"
+          content="러부스트 Luvoost에서 사랑하는 연인과 완벽한 데이트를 계획해보세요."
+        />
+        <meta
+          name="keywords"
+          content="데이트, 연인, 커플, 로맨틱, 러부스트, Luvoost"
+        />
+        <meta
+          property="og:title"
+          content="러부스트 Luvoost - 사랑하는 연인과의 완벽한 데이트 코스"
+        />
+        <meta
+          property="og:description"
+          content="참신하고 아름다운 데이트 아이디어를 러부스트 Luvoost에서 찾아보세요. 여기서 당신의 이상적인 데이트를 계획해보세요."
+        />
+        <meta property="og:image" content="URL_OF_YOUR_IMAGE_HERE" />
+      </Head>
+
+      <div className="custom-container">
+        <AppBar
+          sx={{ bgcolor: "rgba(255, 255, 255, 0.6)", width: "100%" }}
+          position="static"
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Link href="/" passHref>
-              <Image
-                src="./image/logo-text.png"
-                alt="Logo"
-                width={90}
-                height={40}
-              />
-            </Link>
-            <Weather />
-          </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {pages.map((page) => (
-              <Link key={page} href={"/" + page.toLowerCase()} passHref>
-                <Button
-                  color="inherit"
-                  sx={{ color: "#f783ac", marginLeft: 2 }}
-                >
-                  {page}
-                </Button>
+          <Toolbar
+            sx={{
+              justifyContent: "space-between",
+              paddingLeft: "15%",
+              paddingRight: "15%",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Link href="/" passHref>
+                <Image
+                  src="./image/logo-text.png"
+                  alt="Logo"
+                  width={90}
+                  height={40}
+                />
               </Link>
-            ))}
-            <LogoutedRightSideNav />
-            <LoginedRightSideNav />
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+              <Weather />
+            </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {pages.map((page) => (
+                <Link key={page} href={"/" + page.toLowerCase()} passHref>
+                  <Button
+                    color="inherit"
+                    sx={{ color: "#f783ac", marginLeft: 2 }}
+                  >
+                    {page}
+                  </Button>
+                </Link>
+              ))}
+              <LogoutedRightSideNav />
+              <LoginedRightSideNav />
+            </div>
+          </Toolbar>
+        </AppBar>
+      </div>
+    </>
   );
 }

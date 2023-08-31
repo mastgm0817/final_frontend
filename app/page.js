@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Banner from "./../components/util/Banner";
 import CalendarView from "./../components/calendar/CalendarView";
+import Head from "next/head";
 
 export default function Home() {
   return (
@@ -11,12 +12,12 @@ export default function Home() {
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="fluid">
-        <Box mt={14} mb={14}>
+          <Box mt={14} mb={14}>
             <Banner />
           </Box>
         </Container>
         <Container maxWidth="fluid">
-          <CalendarView/>
+          <CalendarView />
         </Container>
       </React.Fragment>
     </>
