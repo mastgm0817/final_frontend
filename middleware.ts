@@ -5,9 +5,7 @@ import axios from "axios";
 // import { getSession } from "next-auth/react";
 // import { getServerSession } from "next-auth/next";
 
-export default withAuth(async function middleware(request: NextRequest) {
-  return NextResponse.redirect(new URL("/login", request.url));
-});
+export default withAuth(async function middleware(request: NextRequest) {});
 
 export const config = {
   matcher: [
