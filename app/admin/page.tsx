@@ -1,5 +1,5 @@
-import React from 'react';
-import Sidebar from '../../components/admin/Sidebar';
+import React from "react";
+import Sidebar from "../../components/admin/Sidebar";
 
 const App: React.FC = () => {
   return (

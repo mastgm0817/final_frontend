@@ -20,7 +20,6 @@ export const handleUsageCheckButtonClick = async (session) => {
         },
       }
     );
-    console.log(response.data);
 
     if (response.status === 200) {
       if (response.data.message === "무제한 이용권") {

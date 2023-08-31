@@ -86,7 +86,6 @@ export default function UserInfo() {
 
       if (responseUpdate && responseUpdate.status === 200) {
         // 프로필 이미지 업데이트 후 서버 응답 데이터로 useInfo.profileImage 속성값 업데이트
-        console.log("responseUpdate for update: ", responseUpdate);
         const updatedUserInfo = {
           ...userInfo,
           profileImage: updatedImageUrl,
@@ -125,12 +124,10 @@ export default function UserInfo() {
   // session 데이터
   useEffect(() => {
     async function fetchUserInfo() {
-      // console.log(session);
       if (session) {
         try {
           const nickName = session.user.name;
           const authToken = session.user.id;
-          // console.log(authToken);
 
           const response = await axios.get(
             API_URL + `/users/info/${nickName}`,

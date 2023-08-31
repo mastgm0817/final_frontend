@@ -1,17 +1,29 @@
-import * as React from 'react';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import Button from '@mui/material/Button';
-import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { Avatar, CardContent, CardActions, TextField, Card, Alert } from "@mui/material"
-import { TransitionProps } from '@mui/material/transitions';
-import Top from '../ui/Top';
+import * as React from "react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import Button from "@mui/material/Button";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import {
+  Avatar,
+  CardContent,
+  CardActions,
+  TextField,
+  Card,
+  Alert,
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import Top from "../ui/Top";
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
 
@@ -27,7 +39,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -84,7 +96,7 @@ export default function SearchLover() {
   };
 
   const handleEnterKeyPress = (event: any) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleSearchButtonClick();
     }
   };
@@ -133,19 +145,19 @@ export default function SearchLover() {
         if (response.status === 200) {
           // 클라이언트 내의 상태 업데이트
           setUserInfo(response.data);
-          console.log(response.data);
-          console.log("Lover saved successfully");
           SearchClickClose();
           handleClose();
-        };
+        }
       } catch (error: any) {
         // 오류 처리
         if (error.response && error.response.status == 400) {
           SearchClickClose();
           handleClose();
-          setErrorMessage("연인 정보가 이미 존재합니다. 헤어짐을 선택 후 다시 시도해주세요.");
+          setErrorMessage(
+            "연인 정보가 이미 존재합니다. 헤어짐을 선택 후 다시 시도해주세요."
+          );
         } else {
-          console.error('Error saving lover', error);
+          console.error("Error saving lover", error);
         }
       }
     }
@@ -163,7 +175,7 @@ export default function SearchLover() {
         TransitionComponent={Transition}
       >
         <Top />
-        <AppBar sx={{ position: 'relative', backgroundColor: "#f783ac" }}>
+        <AppBar sx={{ position: "relative", backgroundColor: "#f783ac" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -182,7 +194,15 @@ export default function SearchLover() {
           </Toolbar>
         </AppBar>
         {/* 연인 검색 */}
-        <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <Card
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="#f783ac">
               연인의 별명을 입력하세요.
@@ -204,40 +224,65 @@ export default function SearchLover() {
           </CardActions>
         </Card>
         {/* 검색 결과 표시 영역 */}
-        {LoverInfo && (<>
-          <Dialog open={reopen}>
-            <DialogTitle sx={{ fontFamily: 'Helvetica', fontSize: '27pt', color: "#f783ac" }}>연인 정보</DialogTitle>
-            <DialogContent sx={{ width: 500, height: 400, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Avatar
-                alt="Lover profileImage"
-                src={LoverInfo.profileImage}
-                sx={{ width: 300, height: 300, backgroundColor: "#f783ac", alignSelf: 'center', mt: 1.7 }}
+        {LoverInfo && (
+          <>
+            <Dialog open={reopen}>
+              <DialogTitle
+                sx={{
+                  fontFamily: "Helvetica",
+                  fontSize: "27pt",
+                  color: "#f783ac",
+                }}
+              >
+                연인 정보
+              </DialogTitle>
+              <DialogContent
+                sx={{
+                  width: 500,
+                  height: 400,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar
+                  alt="Lover profileImage"
+                  src={LoverInfo.profileImage}
+                  sx={{
+                    width: 300,
+                    height: 300,
+                    backgroundColor: "#f783ac",
+                    alignSelf: "center",
+                    mt: 1.7,
+                  }}
+                />
+              </DialogContent>
+              <TextField
+                id="연인 닉네임"
+                value={LoverInfo.nickName}
+                InputProps={{ readOnly: true }} // 읽기 전용으로 설정
+                variant="standard"
+                sx={{ display: "flex", ml: 2, mr: 2 }}
               />
-            </DialogContent>
-            <TextField
-              id="연인 닉네임"
-              value={LoverInfo.nickName}
-              InputProps={{ readOnly: true }} // 읽기 전용으로 설정
-              variant="standard"
-              sx={{ display: 'flex', ml: 2, mr: 2 }}
-            />
-            <br />
-            <TextField
-              id="standard-basic"
-              value={LoverInfo.email}
-              InputProps={{ readOnly: true }} // 읽기 전용으로 설정
-              variant="standard"
-              sx={{ display: 'flex', ml: 2, mr: 2 }}
-            />
-            <DialogActions>
-              <Button color="primary" onClick={SearchClickClose}>
-                취소
-              </Button>
-              <Button color="primary" onClick={handleSaveLover}>
-                저장
-              </Button>
-            </DialogActions>
-          </Dialog> </>)}
+              <br />
+              <TextField
+                id="standard-basic"
+                value={LoverInfo.email}
+                InputProps={{ readOnly: true }} // 읽기 전용으로 설정
+                variant="standard"
+                sx={{ display: "flex", ml: 2, mr: 2 }}
+              />
+              <DialogActions>
+                <Button color="primary" onClick={SearchClickClose}>
+                  취소
+                </Button>
+                <Button color="primary" onClick={handleSaveLover}>
+                  저장
+                </Button>
+              </DialogActions>
+            </Dialog>{" "}
+          </>
+        )}
       </Dialog>
       {errorMessage && <Alert severity="warning">{errorMessage}</Alert>}
     </div>

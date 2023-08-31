@@ -15,7 +15,6 @@ const CALLBACKURL = process.env.NEXT_PUBLIC_CALLBACKURL;
 export function LoginedRightSideNav() {
   const session = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  console.log(session);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

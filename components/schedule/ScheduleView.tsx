@@ -26,7 +26,6 @@ const ScheduleView: React.FC<ScheduleProps> = ({
 }) => {
   const session = useSession();
   const sessionToken = session.data?.user.id;
-  // console.log(sessionToken); * 토큰 확인 코드
   const [inputNickName, setInputNickName] = useState("");
   const [inputDate, setInputDate] = useState("");
   const [inputSchedule, setInputSchedule] = useState("");
@@ -92,7 +91,6 @@ const ScheduleView: React.FC<ScheduleProps> = ({
           requestDTO,
           sessionToken
         );
-        console.log(response);
         loadSchedules();
         setUpdateScheduleId(null);
         setUpdatedDate("");
@@ -113,7 +111,6 @@ const ScheduleView: React.FC<ScheduleProps> = ({
           shared,
           sessionToken
         );
-        console.log(response);
         // Reload schedules after successful deletion
         loadSchedules();
       } catch (error) {
@@ -158,7 +155,6 @@ const ScheduleView: React.FC<ScheduleProps> = ({
           requestDTO,
           sessionToken
         );
-        console.log(response);
         // 등록 후, 새로운 일정 목록을 불러옴
         loadSchedules();
         // 입력 필드 초기화

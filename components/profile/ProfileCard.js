@@ -85,7 +85,6 @@ function CardProfile({ title, buttonText }) {
           setUpdateMessage("닉네임 수정에 실패했습니다.");
         }
       } catch (error) {
-        console.error("닉네임 수정 중 에러 발생:", error);
         setUpdateMessage("닉네임 수정 중 에러 발생");
       }
     }

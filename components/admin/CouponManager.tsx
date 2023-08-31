@@ -81,8 +81,6 @@ export default function CouponManager() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Submitting with coupon object: ", coupon); // 1번 디버깅 코드
-
     try {
       const couponNum = couponCount;
       const authToken = session.data?.user.id;
@@ -97,7 +95,6 @@ export default function CouponManager() {
           },
         }
       );
-      console.log("Coupon created:", response.data);
       setCoupons([...coupons, ...response.data]);
       alert("Coupon Created Successfully");
     } catch (error) {
@@ -114,10 +111,9 @@ export default function CouponManager() {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      console.log(response.data);
       setCoupons(response.data);
     } catch (error) {
-      console.error('Error fetching coupons:', error);
+      console.error("Error fetching coupons:", error);
     }
   }, [session?.data?.user?.id]);
 
@@ -137,7 +133,6 @@ export default function CouponManager() {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newDiscountValue = Number(e.target.value);
-    console.log("Setting discountValue to: ", newDiscountValue);
     setCoupon({ ...coupon, discountValue: newDiscountValue });
   };
 
@@ -220,7 +215,9 @@ export default function CouponManager() {
         {Object.entries(groupedCoupons).map(([content, coupons]) => (
           <div
             key={content}
-            className={`coupon-group mt-6 border-t pt-4 ${expandedGroup === content ? 'open' : ''}`}
+            className={`coupon-group mt-6 border-t pt-4 ${
+              expandedGroup === content ? "open" : ""
+            }`}
           >
             <strong
               className="text-xl mb-2 block cursor-pointer"
@@ -239,53 +236,58 @@ export default function CouponManager() {
                 <div className="col-span-1 text-gray-600">할당</div>
               </div>
             )}
-            {expandedGroup === content && coupons.map((item) => (
-              <div
-                key={item.cpid}
-                className="coupon-details grid grid-cols-5 gap-4 mt-2"
-              >
-                <div className="col-span-1">{item.discountType}</div>
-                <div className="col-span-1">{item.code}</div>
-                <div className="col-span-1">{item.userName}</div>
-                <div className="col-span-1">
-                  <div className="text-gray-800">
-                    생성일: {new Date(item.createdAt).toLocaleDateString()}
+            {expandedGroup === content &&
+              coupons.map((item) => (
+                <div
+                  key={item.cpid}
+                  className="coupon-details grid grid-cols-5 gap-4 mt-2"
+                >
+                  <div className="col-span-1">{item.discountType}</div>
+                  <div className="col-span-1">{item.code}</div>
+                  <div className="col-span-1">{item.userName}</div>
+                  <div className="col-span-1">
+                    <div className="text-gray-800">
+                      생성일: {new Date(item.createdAt).toLocaleDateString()}
+                    </div>
+                    <div className="text-gray-800">
+                      수정일: {new Date(item.updatedAt).toLocaleDateString()}
+                    </div>
+                    <div className="text-gray-800">
+                      만료일: {new Date(item.endAt).toLocaleDateString()}
+                    </div>
                   </div>
-                  <div className="text-gray-800">
-                    수정일: {new Date(item.updatedAt).toLocaleDateString()}
-                  </div>
-                  <div className="text-gray-800">
-                    만료일: {new Date(item.endAt).toLocaleDateString()}
+                  <div className="col-span-1">
+                    {item.userName ? (
+                      // If userName exists, show nothing in the assign column.
+                      <></>
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          className="w-20"
+                          placeholder="nickName"
+                          value={nickNames[item.cpid] || ""}
+                          onChange={(e) =>
+                            setNickNames({
+                              ...nickNames,
+                              [item.cpid]: e.target.value,
+                            })
+                          }
+                        />
+                        <button
+                          className="hover:underline focus:outline-none text-m text-blue-500"
+                          onClick={() =>
+                            assignCoupon(item.cpid, nickNames[item.cpid])
+                          }
+                        >
+                          할당하기
+                        </button>
+                      </>
+                    )}
+                    <DeleteCoupon cpid={item.cpid} onSuccess={fetchCoupons} />
                   </div>
                 </div>
-                <div className="col-span-1">
-                  {item.userName ? (
-                    // If userName exists, show nothing in the assign column.
-                    <></>
-                  ) : (
-                    <>
-                      <input
-                        type="text"
-                        className="w-20"
-                        placeholder="nickName"
-                        value={nickNames[item.cpid] || ''}
-                        onChange={e => setNickNames({
-                          ...nickNames,
-                          [item.cpid]: e.target.value
-                        })}
-                      />
-                      <button
-                        className="hover:underline focus:outline-none text-m text-blue-500"
-                        onClick={() => assignCoupon(item.cpid, nickNames[item.cpid])}
-                      >
-                        할당하기
-                      </button>
-                    </>
-                  )}
-                  <DeleteCoupon cpid={item.cpid} onSuccess={fetchCoupons} />
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         ))}
       </div>

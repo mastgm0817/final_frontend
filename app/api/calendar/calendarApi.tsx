@@ -2,7 +2,6 @@ import axios from "axios";
 import { getSession } from "next-auth/react";
 import DateProps from "../../../types/calendar";
 
-
 interface ScheduleProps {
   nickName: string;
   date: string;
@@ -25,7 +24,7 @@ const CalendarApi = {
   getAllScheduleByName: async (nickName: any, token: any) => {
     try {
       // const response = await axios.get(`${API_URL}/${nickName}`, {
-        const response = await axios.get(`${API_URL}/${nickName}`, {
+      const response = await axios.get(`${API_URL}/${nickName}`, {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: `Bearer ${token}`,
@@ -43,16 +42,12 @@ const CalendarApi = {
     token: any
   ) => {
     try {
-      // console.log("API 호출 URL:", `${API_URL}/${nickName}`);
-      // console.log("요청 데이터:", requestDTO);
-
       const response = await axios.post(`${API_URL}/${nickName}`, requestDTO, {
         headers: {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log("응답 데이터:", response.data);
       return response.data;
     } catch (error) {
       throw error;

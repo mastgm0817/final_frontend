@@ -63,7 +63,6 @@ function Datelist({ title }) {
     try {
       // 삭제할 데이트 코스의 정보
       const targetCourse = chunkedWishlist[courseIndex];
-      console.log(JSON.stringify(targetCourse, null, 2));
 
       // 백엔드와 통신
       await axios.post(
