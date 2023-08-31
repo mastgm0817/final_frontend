@@ -137,7 +137,6 @@ export default function UserInfo() {
               },
             }
           );
-          console.log(response.data);
 
           setUserInfo(response.data);
         } catch (error) {
