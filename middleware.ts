@@ -5,7 +5,18 @@ import axios from "axios";
 // import { getSession } from "next-auth/react";
 // import { getServerSession } from "next-auth/next";
 
-export default withAuth(async function middleware(request: NextRequest) {});
+export default withAuth(
+  // `withAuth` augments your `Request` with the user's token.
+  function middleware(req) {
+    console.log(req.nextauth.token);
+  }
+  //   ,
+  //   {
+  //     callbacks: {
+  //       authorized: ({ token }) => token?.role === "Normal",
+  //     },
+  //   }
+);
 
 export const config = {
   matcher: [
